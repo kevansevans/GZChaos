@@ -1,0 +1,29 @@
+Class P_EventHandler : StaticEventHandler
+{
+	double effectTimer;
+	double timer;
+
+	override void OnRegister()
+	{
+		console.printf('Let the Pandemonium begin!');
+		
+		effectTimer = 1050;
+		timer = 0;
+	}
+	
+	override void WorldTick()
+	{
+		++timer;
+		if (effectTimer - timer <= 0)
+		{
+			timer = 0;
+		}
+	}
+	
+	override void RenderOverlay(RenderEvent event)
+	{
+		double ratio = timer / effectTimer;
+		double width = ratio * double(Screen.getWidth());
+		Screen.DrawThickLine(0, 5, width, 5, 20, Color("00CC00"));
+	}
+}

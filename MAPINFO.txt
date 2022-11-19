@@ -1,0 +1,4 @@
+GameInfo
+{
+	AddEventHandlers = "P_EventHandler"
+}
