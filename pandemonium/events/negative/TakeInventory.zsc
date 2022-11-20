@@ -1,0 +1,30 @@
+Class P_TakeAllKeysAway : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("takeitem:redcard:true");
+		EventHandler.SendNetworkEvent("takeitem:bluecard:true");
+		EventHandler.SendNetworkEvent("takeitem:yellowcard:true");
+		EventHandler.SendNetworkEvent("takeitem:redskull:true");
+		EventHandler.SendNetworkEvent("takeitem:blueskull:true");
+		EventHandler.SendNetworkEvent("takeitem:yellowskull:true");
+	}
+	
+	override void closeFunc()
+	{
+		EventHandler.SendNetworkEvent("restoreitem:redcard:true");
+		EventHandler.SendNetworkEvent("restoreitem:bluecard:true");
+		EventHandler.SendNetworkEvent("restoreitem:yellowcard:true");
+		EventHandler.SendNetworkEvent("restoreitem:redskull:true");
+		EventHandler.SendNetworkEvent("restoreitem:blueskull:true");
+		EventHandler.SendNetworkEvent("restoreitem:yellowskull:true");
+	}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_TakeAllKeysAway');
+		event.duration = 35 * 90;
+		event.type = E_Timed;
+		return event;
+	}
+}

@@ -2,13 +2,25 @@ Class P_EventHandler : StaticEventHandler
 {
 	double effectTimer;
 	double timer;
+	
+	PlayerPawn player;
+	
+	P_EventList list;
+	Array<P_Event> activeEffects;
+	
+	Array<String> criticals;
 
 	override void OnRegister()
 	{
 		console.printf('Let the Pandemonium begin!');
 		
-		effectTimer = 1050;
+		effectTimer = 35 * 5;
 		timer = 0;
+		
+		list = P_EventList.create();
+		
+		activeEffects.clear();
+		criticals.clear();
 	}
 	
 	override void WorldTick()
@@ -17,7 +29,36 @@ Class P_EventHandler : StaticEventHandler
 		if (effectTimer - timer <= 0)
 		{
 			timer = 0;
+			
+			addEffectToActive();
 		}
+		
+		for (int i = 0; i < activeEffects.size(); ++i)
+		{
+			if (!activeEffects[i].activated) activeEffects[i].eventFunc();
+			if (activeEffects[i].type == E_Instant) activeEffects[i].activated = true;
+			activeEffects[i].life += 1;
+			if (activeEffects[i].life > activeEffects[i].duration)
+			{
+				returnEffect(activeEffects[i]);
+			}
+		}
+	}
+	
+	void addEffectToActive()
+	{
+		P_Event effect = list.getEffect();
+		activeEffects.push(effect);
+	}
+	
+	void returnEffect(P_Event _effect)
+	{
+		P_Event effect = _effect;
+		int place = activeEffects.find(effect);
+		activeEffects.delete(place);
+		activeEffects.shrinkToFit();
+		effect.closeFunc();
+		effect.destroy();
 	}
 	
 	override void RenderOverlay(RenderEvent event)
@@ -25,5 +66,82 @@ Class P_EventHandler : StaticEventHandler
 		double ratio = timer / effectTimer;
 		double width = ratio * double(Screen.getWidth());
 		Screen.DrawThickLine(0, 5, width, 5, 20, Color("00CC00"));
+		
+		if (activeEffects.size() > 0)
+		{
+			int yOffset = 30;
+			for (int i = 0; i < activeEffects.size(); ++i)
+			{
+				P_Event effect = activeEffects[i];
+				if (activeEffects[i].type == E_Timed)
+				{
+					double ratio = 1 - (double(effect.life) / double(effect.duration));
+					Screen.DrawThickLine((Screen.getWidth() - 20) - (200 * ratio), yOffset, Screen.getWidth() - 20, yOffset, 10, color("FF0000"));
+				}
+				yOffset += 20;
+			}
+		}
+	}
+	
+	override void NetworkProcess(ConsoleEvent event)
+	{
+		console.printf('' .. event.name);
+	
+		let player = players[event.Player].mo;
+	
+		Array<string> command;
+		event.name.Split (command, ":");
+		
+		switch (name(command[0]))
+		{
+			case 'giveitem':
+				player.GiveInventory(command[1], 1);
+				break;
+			case 'giveweapon':
+				if (!player.countInv(command[1]))
+				{
+					player.giveInventory(command[1], 1);
+				}
+				player.A_SelectWeapon(command[1]);
+				break;
+			case 'takeitem':
+				if (player.countInv(command[1]))
+				{
+					player.takeInventory(command[1], 1);
+					if (command[2])
+					{
+						criticals.push(command[1]);
+					}
+				}
+				break;
+			case 'restoreitem':
+				if (command[2])
+				{
+					if (criticals.find(command[1]) < criticals.size())
+					{
+						int pos = criticals.find(command[1]);
+						player.giveInventory(command[1], 1);
+						criticals.delete(pos);
+					}
+				}
+				else
+				{
+					player.giveInventory(command[1], 1);
+				}
+				break;
+			case 'modifyplayer':
+				switch (name(command[1]))
+				{
+					case 'teleportsector':
+						int secIndex = command[2].toInt();
+						let c = level.Sectors[secIndex].centerspot;
+						Vector3 loc = (c.x, c.y, level.sectors[secIndex].floorplane.ZAtPoint(c));
+						player.setOrigin(loc, false);
+						player.angle = random(0, 360);
+						Actor.spawn('TeleportFog', loc);
+						break;
+				}
+				break;
+		}
 	}
 }

@@ -1,0 +1,33 @@
+Class P_TeleportPlayer : P_Event
+{
+	override void eventFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		
+		while (true)
+		{
+			int rng = random(0, level.Sectors.size() - 1);
+			let c = level.Sectors[rng].centerspot;
+			if (level.IsPointInLevel((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c))))
+			{
+				double ceilheight = level.Sectors[rng].ceilingplane.ZAtPoint(c);
+				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
+				if (ceilheight - floorheight > 64)
+				{
+					EventHandler.sendNetworkEvent('modifyplayer:teleportsector:' .. rng);
+					break;
+				}
+			}
+		}
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_TeleportPlayer');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}

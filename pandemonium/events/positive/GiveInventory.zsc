@@ -1,0 +1,71 @@
+Class P_GiveMegasphere : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveitem:Megasphere");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveMegaSphere');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GiveLightAmp : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveitem:Infrared");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveLightAmp');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GiveRadSuit : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveitem:RadSuit");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveRadSuit');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GiveInvulnerabilitySphere : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveitem:InvulnerabilitySphere");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveInvulnerabilitySphere');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}

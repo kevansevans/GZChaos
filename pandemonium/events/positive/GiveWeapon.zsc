@@ -1,0 +1,125 @@
+Class P_GivePistol : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveweapon:Pistol");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GivePistol');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GiveShotgun : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveweapon:shotgun");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveShotgun');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GiveSuperShotgun : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveweapon:SuperShotgun");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveSuperShotgun');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GiveChaingun : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveweapon:Chaingun");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveChaingun');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GiveRocketLauncher : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveweapon:RocketLauncher");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveRocketLauncher');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GivePlasmaRifle : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveweapon:PlasmaRifle");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GivePlasmaRifle');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_GiveBFG9000 : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("giveweapon:BFG9000");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_GiveBFG9000');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}

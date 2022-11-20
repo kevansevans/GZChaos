@@ -1,0 +1,14 @@
+Class P_DoNothing : P_Event
+{
+	override void eventFunc(){}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_DoNothing');
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}

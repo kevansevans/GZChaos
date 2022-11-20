@@ -1,0 +1,106 @@
+Class P_Event abstract
+{
+	Name eventname;
+	Int duration;
+	Int life;
+	Bool activated;
+	E_EventType type;
+	abstract void eventFunc();
+	abstract void closeFunc();
+}
+
+enum E_EventType
+{
+	E_Instant,
+	E_Timed,
+	E_Permnanent
+}
+
+Class P_EventList
+{
+	static P_EventList create()
+	{
+		P_EventList list = new('P_EventList');
+		list.cachedEffects.clear();
+		return list;
+	}
+	
+	Array<Int> cachedEffects;
+	
+	P_Event getEffect()
+	{
+		int event = -1;
+		
+		while (true)
+		{
+			event = random(0, E_NumEvents - 1);
+			if (cachedEffects.size() == 0) break;
+			if (cachedEffects.find(event) == cachedEffects.size()) break;
+		}
+		
+		cachedEffects.push(event);
+		
+		if (cachedEffects.size() > 10) {
+			cachedEffects.delete(0);
+			cachedEffects.shrinkToFit();
+		}
+	
+		switch (event)
+		{
+			//negative events
+			case E_TakeAllKeysAway:
+				return P_TakeAllKeysAway.create();
+			//neutral events
+			case E_TeleportPlayer:
+				return P_TeleportPlayer.create();
+			//positive events
+			case E_GiveMegaSphere:
+				return P_GiveMegaSphere.create();
+			case E_GiveLightAmp:
+				return P_GiveLightAmp.create();
+			case E_GiveRadSuit:
+				return P_GiveRadSuit.create();
+			case E_GiveInvulnerabilitySphere:
+				return P_GiveInvulnerabilitySphere.create();
+			case E_GivePistol:
+				return P_GivePistol.create();
+			case E_GiveShotgun:
+				return P_GiveShotgun.create();
+			case E_GiveSuperShotgun:
+				return P_GiveSuperShotgun.create();
+			case E_GiveChaingun:
+				return P_GiveChaingun.create();
+			case E_GiveRocketLauncher:
+				return P_GiveRocketLauncher.create();
+			case E_GivePlasmaRifle:
+				return P_GivePlasmaRifle.create();
+			case E_GiveBFG9000:
+				return P_GiveBFG9000.create();
+		}
+		
+		console.printf('Missing event case! Investigate: ' .. event);
+		return P_DoNothing.create();
+	}
+}
+
+enum E_Event
+{
+	//negative
+	E_TakeAllKeysAway,
+	//neutral
+	E_TeleportPlayer,
+	//positive
+	E_GiveMegaSphere,
+	E_GiveLightAmp,
+	E_GiveRadSuit,
+	E_GiveInvulnerabilitySphere,
+	E_GivePistol,
+	E_GiveShotgun,
+	E_GiveSuperShotgun,
+	E_GiveChaingun,
+	E_GiveRocketLauncher,
+	E_GivePlasmaRifle,
+	E_GiveBFG9000,
+	//Number of Events
+	E_NumEvents
+}
