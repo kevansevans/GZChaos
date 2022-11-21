@@ -90,17 +90,17 @@ Class P_EventHandler : StaticEventHandler
 		
 		if (activeEffects.size() > 0)
 		{
-			int yOffset = 30;
+			int yOffset = 150;
 			for (int i = 0; i < activeEffects.size(); ++i)
 			{
 				P_Event effect = activeEffects[i];
 				if (activeEffects[i].type == E_Timed)
 				{
 					double ratio = 1 - (double(effect.life) / double(effect.duration));
-					Screen.DrawThickLine((Screen.getWidth() - 20) - (200 * ratio), yOffset, Screen.getWidth() - 20, yOffset, 10, color("FF0000"));
+					Screen.DrawThickLine(20, yOffset, 20 + (200 * ratio), yOffset, 10, color("FF0000"));
 				}
-				Screen.DrawText(BIGFONT, Font.CR_WHITE, Screen.getWidth() - 20 - (effect.eventname.length() * 16), yoffset += 10, effect.eventname);
-				yOffset += 20;
+				Screen.DrawText(BIGFONT, Font.CR_White, 20, (yoffset - 20), effect.eventname);
+				yOffset += 30;
 			}
 		}
 	}
@@ -244,12 +244,108 @@ Class P_EventHandler : StaticEventHandler
 				{
 					case 'lava':
 						player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
+						player.cursector.damageType = 'slime';
+						player.cursector.damageinterval = 35;
+						player.cursector.damageamount = 20;
 						break;
 					case 'nukage':
 						player.cursector.setTexture(0, TexMan.CheckForTexture("NUKAGE1"));
+						player.cursector.damageType = 'slime';
+						player.cursector.damageinterval = 35;
+						player.cursector.damageamount =  10;
 						break;
 					case 'slime':
 						player.cursector.setTexture(0, TexMan.CheckForTexture("SLIME01"));
+						player.cursector.damageType = 'slime';
+						player.cursector.damageInterval = 35;
+						player.cursector.damageamount = 5;
+						break;
+					case 'newmap':
+						for (int se = 0; se < level.sectors.size(); ++se)
+						{
+							if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+							{
+								level.sectors[se].setTexture(0, TexMan.CheckForTexture("FLOOR0_1"));
+							}
+							if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+							{
+								level.sectors[se].setTexture(1, TexMan.CheckForTexture("CEIL1_1"));
+							}
+							level.sectors[se].lightlevel = 192;
+						}
+						break;
+					case 'fireblu':
+						for (int se = 0; se < level.sectors.size(); ++se)
+						{
+							if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+							{
+								level.sectors[se].setTexture(0, TexMan.CheckForTexture("FIREBLU1"));
+							}
+							if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+							{
+								level.sectors[se].setTexture(1, TexMan.CheckForTexture("FIREBLU1"));
+							}
+							level.sectors[se].lightlevel = 192;
+						}
+				}
+				break;
+			case 'changewall':
+				switch(name(command[1]))
+				{
+					case 'newmap':
+						for (int si = 0; si < level.sides.size(); ++si)
+						{
+							side sidedef = level.sides[si];
+							TextureID newtex = TexMan.checkForTexture("STARTAN2");
+						
+							for (int wall = 0; wall < 3; ++wall)
+							{
+								TextureID walltex = sidedef.GetTexture(wall);
+								if (walltex)
+								{
+									string wallname = TexMan.getName(walltex);
+									if (wallname == "DOORTRAK")
+									{
+										sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
+									}
+									else
+									{
+										if (wallname == "EXITDOOR" || wallname == "TEKBRON2") continue;
+										wallname.truncate(4);
+										if (wallname == "DOOR") continue;
+										wallname.truncate(3);
+										if (wallname == "BIG" || wallname == "SPC") continue;
+										wallname.truncate(2);
+										if (wallname == "SW") continue;
+									}
+									sidedef.setTexture(wall, newtex);
+								}
+							}
+						}
+						break;
+					case 'fireblu':
+						for (int si = 0; si < level.sides.size(); ++si)
+						{
+							side sidedef = level.sides[si];
+							TextureID newtex = TexMan.checkForTexture("FIREBLU1");
+						
+							for (int wall = 0; wall < 3; ++wall)
+							{
+								TextureID walltex = sidedef.GetTexture(wall);
+								if (walltex)
+								{
+									string wallname = TexMan.getName(walltex);
+									if (wallname == "EXITDOOR" || wallname == "TEKBRON2") continue;
+									wallname.truncate(4);
+									if (wallname == "DOOR") continue;
+									wallname.truncate(3);
+									if (wallname == "BIG" || wallname == "SPC") continue;
+									wallname.truncate(2);
+									if (wallname == "SW") continue;
+									sidedef.setTexture(wall, newtex);
+								}
+							}
+						}
 						break;
 				}
 				break;

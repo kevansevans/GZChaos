@@ -1,0 +1,47 @@
+Class P_SetAllWallsToStartan : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.sendNetworkEvent('changewall:newmap');
+		EventHandler.sendNetworkEvent('changefloor:newmap');
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+
+	static P_Event create()
+	{
+		P_Event event = new('P_SetAllWallsToStartan');
+		event.eventname = "MyFirstMap.wad";
+		event.duration = 35 * 90;
+		event.type = E_PerLevel;
+		return event;
+	}
+}
+
+Class P_SetAllWallsToFireblu : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.sendNetworkEvent('changewall:fireblu');
+		EventHandler.sendNetworkEvent('changefloor:fireblu');
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+
+	static P_Event create()
+	{
+		P_Event event = new('P_SetAllWallsToFireblu');
+		event.eventname = "Everyone's favorite texture";
+		event.duration = 35 * 90;
+		event.type = E_PerLevel;
+		return event;
+	}
+}

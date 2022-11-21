@@ -14,7 +14,7 @@ Class P_DoubleTimerDuration : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_DoubleTimerDuration');
-		event.eventname = "1/2 Speed Timer";
+		event.eventname = "1/2 timer speed";
 		event.duration = 35 * 60;
 		event.type = E_Timed;
 		return event;
@@ -37,7 +37,7 @@ Class P_HalfTimerDuration : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_HalfTimerDuration');
-		event.eventname = "2x Speed Timer";
+		event.eventname = "2x timer speed";
 		event.duration = 35 * 60;
 		event.type = E_Timed;
 		return event;
@@ -60,7 +60,7 @@ Class P_QuarterTimerDuration : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_QuarterTimerDuration');
-		event.eventname = "4x Speed Timer";
+		event.eventname = "4x timer speed";
 		event.duration = 35 * 60;
 		event.type = E_Timed;
 		return event;

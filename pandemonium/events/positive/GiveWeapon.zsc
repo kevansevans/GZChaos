@@ -10,7 +10,7 @@ Class P_GivePistol : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GivePistol');
-		event.eventname = "Pea shooter";
+		event.eventname = "Force switch to Pistol";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -29,7 +29,7 @@ Class P_GiveShotgun : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveShotgun');
-		event.eventname = "Workhorse";
+		event.eventname = "Force switch to shotgun";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -48,7 +48,7 @@ Class P_GiveSuperShotgun : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveSuperShotgun');
-		event.eventname = "Bigger work horse";
+		event.eventname = "Force switch to super shotgun";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -67,7 +67,7 @@ Class P_GiveChaingun : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveChaingun');
-		event.eventname = "Chaingun cha-cha";
+		event.eventname = "Force switch to chaingun";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -86,7 +86,7 @@ Class P_GiveRocketLauncher : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveRocketLauncher');
-		event.eventname = "Boom Boom";
+		event.eventname = "Force switch to rocket launcher";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -105,7 +105,7 @@ Class P_GivePlasmaRifle : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GivePlasmaRifle');
-		event.eventname = "Hot plasma in your area!";
+		event.eventname = "Force switch to plasma rifle";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -124,7 +124,7 @@ Class P_GiveBFG9000 : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveBFG9000');
-		event.eventname = "BFG9000";
+		event.eventname = "Force switch to BFG9000";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;

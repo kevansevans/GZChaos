@@ -10,7 +10,7 @@ Class P_GiveMegasphere : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveMegaSphere');
-		event.eventname = "Give Megasphere";
+		event.eventname = "Give megasphere";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -29,7 +29,7 @@ Class P_GiveLightAmp : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveLightAmp');
-		event.eventname = "I can see clearly now";
+		event.eventname = "Give light amp";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -48,7 +48,7 @@ Class P_GiveRadSuit : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveRadSuit');
-		event.eventname = "These boots were made for walking";
+		event.eventname = "Give rad suit";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
@@ -67,7 +67,7 @@ Class P_GiveInvulnerabilitySphere : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveInvulnerabilitySphere');
-		event.eventname = "Invulnerability";
+		event.eventname = "Give invulnerability";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
