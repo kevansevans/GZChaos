@@ -1,9 +1,7 @@
-Class P_TeleportPlayer : P_Event
+Class P_SpawnGreatGodImp : P_Event
 {
 	override void eventFunc()
 	{
-		PlayerPawn player = players[consoleplayer].mo;
-		
 		while (true)
 		{
 			int rng = random(0, level.Sectors.size() - 1);
@@ -14,21 +12,25 @@ Class P_TeleportPlayer : P_Event
 				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
 				if (ceilheight - floorheight > 64)
 				{
-					EventHandler.sendNetworkEvent('modifyplayer:teleportsector:' .. rng);
+					EventHandler.SendNetworkEvent("spawn:greatgodimp:" .. rng);
+					activated = true;
 					break;
 				}
 			}
 		}
 	}
 	
-	override void closeFunc() {}
+	override void closeFunc() 
+	{
+		EventHandler.SendNetworkEvent("delete:greatgodimp");
+	}
 	
 	static P_Event create()
 	{
-		P_Event event = new('P_TeleportPlayer');
-		event.eventname = "Teleport to random sector";
-		event.duration = 35 * 90;
-		event.type = E_Instant;
+		P_Event event = new('P_SpawnGreatGodImp');
+		event.eventname = "The Great God Imp";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
 		return event;
 	}
 }

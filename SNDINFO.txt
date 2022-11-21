@@ -1,0 +1,3 @@
+SkyMayBe/BFGDeath "Sounds/SkyMayBe_BFGDeath"
+SkyMayBe/GreatGodImpSee "Sounds/SkyMayBe_GreatGodImpSee"
+SkyMayBe/ThereIsNoEscape "Sounds/SkyMayBe_ThereIsNoEscape"

@@ -4,29 +4,50 @@ Class P_EventHandler : StaticEventHandler
 	double timer;
 	
 	PlayerPawn player;
+	PlayerInfo infoplayer;
 	
 	P_EventList list;
 	Array<P_Event> activeEffects;
 	
 	Array<String> criticals;
+	
+	double prevForwardMove1;
+	double prevForwardMove2;
+	double prevSideMove1;
+	double prevSideMove2;
 
 	override void OnRegister()
 	{
-		console.printf('Let the Pandemonium begin!');
-		
-		effectTimer = 35 * 5;
-		timer = 0;
+		console.printf('Let the Chaos begin!');
 		
 		list = P_EventList.create();
+		console.printf('Loading in ' .. E_NumEvents .. ' events!');
+		
+		timer = 0;
 		
 		activeEffects.clear();
 		criticals.clear();
 	}
 	
+	override void PlayerEntered(PlayerEvent event)
+	{
+		if (activeEffects.size())
+		{
+			for (int i = 0; i < activeEffects.size(); ++i)
+			{
+				P_Event event = activeEffects[i];
+				if (event.type == E_PerLevel || event.type == E_Instant)
+				{
+					removeEffect(event);
+				}
+			}
+		}
+	}
+	
 	override void WorldTick()
 	{
 		++timer;
-		if (effectTimer - timer <= 0)
+		if (list.timeLimit() - timer <= 0)
 		{
 			timer = 0;
 			
@@ -38,9 +59,9 @@ Class P_EventHandler : StaticEventHandler
 			if (!activeEffects[i].activated) activeEffects[i].eventFunc();
 			if (activeEffects[i].type == E_Instant) activeEffects[i].activated = true;
 			activeEffects[i].life += 1;
-			if (activeEffects[i].life > activeEffects[i].duration)
+			if (activeEffects[i].life > activeEffects[i].duration && activeEffects[i].type != E_PerLevel)
 			{
-				returnEffect(activeEffects[i]);
+				removeEffect(activeEffects[i]);
 			}
 		}
 	}
@@ -51,7 +72,7 @@ Class P_EventHandler : StaticEventHandler
 		activeEffects.push(effect);
 	}
 	
-	void returnEffect(P_Event _effect)
+	void removeEffect(P_Event _effect)
 	{
 		P_Event effect = _effect;
 		int place = activeEffects.find(effect);
@@ -63,7 +84,7 @@ Class P_EventHandler : StaticEventHandler
 	
 	override void RenderOverlay(RenderEvent event)
 	{
-		double ratio = timer / effectTimer;
+		double ratio = timer / list.timeLimit();
 		double width = ratio * double(Screen.getWidth());
 		Screen.DrawThickLine(0, 5, width, 5, 20, Color("00CC00"));
 		
@@ -78,16 +99,24 @@ Class P_EventHandler : StaticEventHandler
 					double ratio = 1 - (double(effect.life) / double(effect.duration));
 					Screen.DrawThickLine((Screen.getWidth() - 20) - (200 * ratio), yOffset, Screen.getWidth() - 20, yOffset, 10, color("FF0000"));
 				}
+				Screen.DrawText(BIGFONT, Font.CR_WHITE, Screen.getWidth() - 20 - (effect.eventname.length() * 16), yoffset += 10, effect.eventname);
 				yOffset += 20;
 			}
 		}
 	}
 	
+	int sectorIndex;
+	Vector2 sectorCenter;
+	Vector3 tempPos;
+	Actor actorPointer;
+	
 	override void NetworkProcess(ConsoleEvent event)
 	{
-		console.printf('' .. event.name);
-	
-		let player = players[event.Player].mo;
+		infoplayer = players[event.Player];
+		player = infoplayer.mo;
+		
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
 	
 		Array<string> command;
 		event.name.Split (command, ":");
@@ -133,12 +162,133 @@ Class P_EventHandler : StaticEventHandler
 				switch (name(command[1]))
 				{
 					case 'teleportsector':
-						int secIndex = command[2].toInt();
-						let c = level.Sectors[secIndex].centerspot;
-						Vector3 loc = (c.x, c.y, level.sectors[secIndex].floorplane.ZAtPoint(c));
-						player.setOrigin(loc, false);
+						sectorIndex = command[2].toInt();
+						sectorCenter = level.Sectors[sectorIndex].centerspot;
+						tempPos = (sectorCenter.x, sectorCenter.y, level.sectors[sectorIndex].floorplane.ZAtPoint(sectorCenter));
+						player.setOrigin(tempPos, false);
 						player.angle = random(0, 360);
-						Actor.spawn('TeleportFog', loc);
+						Actor.spawn('TeleportFog', tempPos);
+						break;
+				}
+				break;
+			case 'replaceall':
+				
+				while ( (mo = Actor(it.Next ())) )
+				{
+					if (mo is command[1] && !(mo is command[2]))
+					{
+						Actor.spawn(command[2], mo.pos);
+						mo.destroy();
+					}
+					
+				}
+			case 'visual':
+				switch (name(command[1]))
+				{
+					case 'widemonsters':
+				
+						while ( (mo = Actor(it.Next ())) )
+						{
+							if (mo.bIsMonster)
+							{
+								mo.scale.x = command[2].toDouble();
+							}
+						}
+						break;
+					case 'tallmonsters':
+				
+						while ( (mo = Actor(it.Next ())) )
+						{
+							if (mo.bIsMonster)
+							{
+								mo.scale.y = command[2].toDouble();
+							}
+						}
+						break;
+					case 'spinning':
+						while ( (mo = Actor(it.Next ())) )
+						{
+							if (mo.bIsMonster)
+							{
+								mo.angle += 45;
+							}
+						}
+						break;
+				}
+				break;
+			case 'spawn':
+				sectorIndex = command[2].toInt();
+				sectorCenter = level.Sectors[sectorIndex].centerspot;
+				tempPos = (sectorCenter.x, sectorCenter.y, level.sectors[sectorIndex].floorplane.ZAtPoint(sectorCenter));
+				actorPointer = Actor.spawn(command[1], tempPos);
+				break;
+			case 'spawnfriendly':
+				sectorIndex = command[2].toInt();
+				sectorCenter = level.Sectors[sectorIndex].centerspot;
+				tempPos = (sectorCenter.x, sectorCenter.y, level.sectors[sectorIndex].floorplane.ZAtPoint(sectorCenter));
+				actorPointer = Actor.spawn(command[1], tempPos);
+				actorPointer.bFriendly = true;
+				break;
+			case 'delete':
+				while ( (mo = Actor(it.Next ())) )
+				{
+					if (mo is 'greatgodimp')
+					{
+						mo.destroy();
+						break;
+					}
+				}
+				break;
+			case 'changefloor':
+				switch (name(command[1]))
+				{
+					case 'lava':
+						player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
+						break;
+					case 'nukage':
+						player.cursector.setTexture(0, TexMan.CheckForTexture("NUKAGE1"));
+						break;
+					case 'slime':
+						player.cursector.setTexture(0, TexMan.CheckForTexture("SLIME01"));
+						break;
+				}
+				break;
+			case 'disable':
+				switch (name(command[1]))
+				{
+					case 'forwardbackward':
+						prevForwardMove1 = player.forwardMove1;
+						prevForwardMove2 = player.forwardMove2;
+						player.forwardmove1 = player.forwardmove2 = 0.0;
+						break;
+					case 'strafing':
+						prevSideMove1 = player.SideMove1;
+						prevSideMove2 = player.SideMove2;
+						player.Sidemove1 = player.Sidemove2 = 0.0;
+						break;
+				}
+				break;
+			case 'enable':
+				switch (name(command[1]))
+				{
+					case 'forwardbackward':
+						player.forwardMove1 = prevForwardMove1;
+						player.forwardMove2 = prevForwardMove2;
+						break;
+					case 'strafing':
+						player.sideMove1 = prevForwardMove1;
+						player.sideMove2 = prevsideMove2;
+						break;
+				}
+				break;
+			case 'meta':
+				switch (name(command[1]))
+				{
+					case 'speedup':
+						list.timemodifier /= command[2].toDouble();
+						break;
+					case 'slowdown':
+						list.timemodifier *= command[2].toDouble();
 						break;
 				}
 				break;

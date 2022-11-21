@@ -10,7 +10,8 @@ Class P_GivePistol : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GivePistol');
-		event.duration = 35 * 90;
+		event.eventname = "Pea shooter";
+		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
 	}
@@ -28,7 +29,8 @@ Class P_GiveShotgun : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveShotgun');
-		event.duration = 35 * 90;
+		event.eventname = "Workhorse";
+		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
 	}
@@ -46,7 +48,8 @@ Class P_GiveSuperShotgun : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveSuperShotgun');
-		event.duration = 35 * 90;
+		event.eventname = "Bigger work horse";
+		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
 	}
@@ -64,7 +67,8 @@ Class P_GiveChaingun : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveChaingun');
-		event.duration = 35 * 90;
+		event.eventname = "Chaingun cha-cha";
+		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
 	}
@@ -82,7 +86,8 @@ Class P_GiveRocketLauncher : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveRocketLauncher');
-		event.duration = 35 * 90;
+		event.eventname = "Boom Boom";
+		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
 	}
@@ -100,7 +105,8 @@ Class P_GivePlasmaRifle : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GivePlasmaRifle');
-		event.duration = 35 * 90;
+		event.eventname = "Hot plasma in your area!";
+		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
 	}
@@ -118,7 +124,8 @@ Class P_GiveBFG9000 : P_Event
 	static P_Event create()
 	{
 		P_Event event = new('P_GiveBFG9000');
-		event.duration = 35 * 90;
+		event.eventname = "BFG9000";
+		event.duration = 35 * 15;
 		event.type = E_Instant;
 		return event;
 	}

@@ -1,0 +1,43 @@
+Class GreatGodImp : DoomImp
+{
+	Default
+	{
+		+NoClip;
+		+NoDamage;
+		PainChance 0;
+		Speed 4;
+		SeeSound "SkyMayBe/GreatGodImpSee";
+		ActiveSound "SkyMayBe/ThereIsNoEscape";
+		Obituary "%o was smitten like the non-believer they were...";
+	}
+	
+	States
+	{
+		Melee:
+		Missile:
+			TROO EF 8 A_FaceTarget;
+			TROO G 6 A_GodAttack;
+			Goto See;
+	}
+	
+	Action Void A_GodAttack()
+	{
+		A_CustomComboAttack("GodBall", 32, 3 * random(1, 8), "imp/melee");
+	}
+}
+
+Class GodBall : DoomImpBall
+{
+	Default
+	{
+		DeathSound "SkyMayBe/BFGDeath";
+	}
+	States
+	{
+		Death:
+			BFE1 AB 8 Bright;
+			BFE1 C 8 Bright A_BFGSpray;
+			BFE1 DEF 8 Bright;
+			Stop;
+	}
+}

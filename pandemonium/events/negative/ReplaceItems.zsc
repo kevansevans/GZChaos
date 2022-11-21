@@ -1,0 +1,18 @@
+Class P_ReplaceHealthWithBonuses : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("replaceall:health:healthbonus");
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_ReplaceHealthWithBonuses');
+		event.eventname = "Health Famine";
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}

@@ -1,0 +1,68 @@
+Class P_DoubleTimerDuration : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("meta:slowdown:2");
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		EventHandler.SendNetworkEvent("meta:speedup:2");
+	}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_DoubleTimerDuration');
+		event.eventname = "1/2 Speed Timer";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class P_HalfTimerDuration : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("meta:speedup:2");
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		EventHandler.SendNetworkEvent("meta:slowdown:2");
+	}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_HalfTimerDuration');
+		event.eventname = "2x Speed Timer";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class P_QuarterTimerDuration : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.SendNetworkEvent("meta:speedup:4");
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		EventHandler.SendNetworkEvent("meta:slowdown:4");
+	}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_QuarterTimerDuration');
+		event.eventname = "4x Speed Timer";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}

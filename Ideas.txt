@@ -1,0 +1,7 @@
+Temporarily turn all enemies into explosive barrels
+Detonate all barrels on map
+Suicide
+ignite
+launch player up
+change players speed
+The floor is Lava (change player sector)

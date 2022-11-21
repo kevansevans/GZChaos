@@ -1,0 +1,65 @@
+Class P_TheFloorIsLava : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.sendNetworkEvent('changefloor:lava');
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_TheFloorIsLava');
+		event.eventname = "The floor is lava!";
+		event.duration = 35 * 10;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_TheFloorIsNukage : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.sendNetworkEvent('changefloor:nukage');
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_TheFloorIsNukage');
+		event.eventname = "The floor is Nukage!";
+		event.duration = 35 * 10;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_TheFloorIsSludge : P_Event
+{
+	override void eventFunc()
+	{
+		EventHandler.sendNetworkEvent('changefloor:slime');
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_TheFloorIsSludge');
+		event.eventname = "The floor is sludge!";
+		event.duration = 35 * 10;
+		event.type = E_Instant;
+		return event;
+	}
+}

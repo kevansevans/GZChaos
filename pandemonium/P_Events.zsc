@@ -1,6 +1,6 @@
 Class P_Event abstract
 {
-	Name eventname;
+	String eventname;
 	Int duration;
 	Int life;
 	Bool activated;
@@ -13,6 +13,7 @@ enum E_EventType
 {
 	E_Instant,
 	E_Timed,
+	E_PerLevel,
 	E_Permnanent
 }
 
@@ -21,8 +22,16 @@ Class P_EventList
 	static P_EventList create()
 	{
 		P_EventList list = new('P_EventList');
+		list.timemodifier = 1.0;
 		list.cachedEffects.clear();
 		return list;
+	}
+	
+	double timemodifier;
+	
+	int timeLimit()
+	{
+		return int(Max(35 * 30 * timemodifier, 35 * 1));
 	}
 	
 	Array<Int> cachedEffects;
@@ -35,12 +44,21 @@ Class P_EventList
 		{
 			event = random(0, E_NumEvents - 1);
 			if (cachedEffects.size() == 0) break;
+			switch (event)
+			{
+				case E_HalfTimerDuration:
+					if (cachedEffects.find(E_QuarterTimerDuration) != cachedEffects.size()) continue;
+					break;
+				case E_QuarterTimerDuration:
+					if (cachedEffects.find(E_HalfTimerDuration) != cachedEffects.size()) continue;
+					break;
+			}
 			if (cachedEffects.find(event) == cachedEffects.size()) break;
 		}
 		
 		cachedEffects.push(event);
 		
-		if (cachedEffects.size() > 10) {
+		if (cachedEffects.size() > 20) {
 			cachedEffects.delete(0);
 			cachedEffects.shrinkToFit();
 		}
@@ -50,9 +68,31 @@ Class P_EventList
 			//negative events
 			case E_TakeAllKeysAway:
 				return P_TakeAllKeysAway.create();
+			case E_ReplaceHealthWithBonuses:
+				return P_ReplaceHealthWithBonuses.create();
+			case E_SpawnGreatGodImp:
+				return P_SpawnGreatGodImp.create();
+			case E_TheFloorIsLava:
+				return P_TheFloorIsLava.create();
+			case E_TheFloorIsNukage:
+				return P_TheFloorIsNukage.create();
+			case E_TheFloorIsSludge:
+				return P_TheFloorIsSludge.create();
+			case E_DisableForwardBackwards:
+				return P_DisableForwardBackwards.create();
+			case E_DisableStrafingMovement:
+				return P_DisableStrafingMovement.create();
 			//neutral events
 			case E_TeleportPlayer:
 				return P_TeleportPlayer.create();
+			case E_Nothing:
+				return P_DoNothing.create();
+			case E_DoubleTimerDuration:
+				return P_DoubleTimerDuration.create();
+			case E_HalfTimerDuration:
+				return P_HalfTimerDuration.create();
+			case E_QuarterTimerDuration:
+				return P_QuarterTimerDuration.create();
 			//positive events
 			case E_GiveMegaSphere:
 				return P_GiveMegaSphere.create();
@@ -76,6 +116,15 @@ Class P_EventList
 				return P_GivePlasmaRifle.create();
 			case E_GiveBFG9000:
 				return P_GiveBFG9000.create();
+			case E_SpawnFriendlyGreatGodImp:
+				return P_SpawnFriendlyGreatGodImp.create();
+			//Silly
+			case E_WideMonsters:
+				return P_WideMonsters.create();
+			case E_TallMonsters:
+				return P_TallMonsters.create();
+			case E_SpinningMonsters:
+				return P_SpinningMonsters.create();
 		}
 		
 		console.printf('Missing event case! Investigate: ' .. event);
@@ -85,11 +134,28 @@ Class P_EventList
 
 enum E_Event
 {
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//negative
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	E_TakeAllKeysAway,
+	E_ReplaceHealthWithBonuses,
+	E_SpawnGreatGodImp,
+	E_TheFloorIsLava,
+	E_TheFloorIsNukage,
+	E_TheFloorIsSludge,
+	E_DisableForwardBackwards,
+	E_DisableStrafingMovement,
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//neutral
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	E_TeleportPlayer,
+	E_Nothing,
+	E_DoubleTimerDuration,
+	E_HalfTimerDuration,
+	E_QuarterTimerDuration,
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//positive
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	E_GiveMegaSphere,
 	E_GiveLightAmp,
 	E_GiveRadSuit,
@@ -101,6 +167,15 @@ enum E_Event
 	E_GiveRocketLauncher,
 	E_GivePlasmaRifle,
 	E_GiveBFG9000,
+	E_SpawnFriendlyGreatGodImp,
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//silly
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	E_WideMonsters,
+	E_TallMonsters,
+	E_SpinningMonsters,
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Number of Events
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	E_NumEvents
 }
