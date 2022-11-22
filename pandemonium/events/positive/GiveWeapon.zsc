@@ -2,7 +2,7 @@ Class P_GivePistol : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveweapon:Pistol");
+		giveAndSwitchTo("Pistol");
 	}
 	
 	override void closeFunc() {}
@@ -21,7 +21,7 @@ Class P_GiveShotgun : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveweapon:shotgun");
+		giveAndSwitchTo("shotgun");
 	}
 	
 	override void closeFunc() {}
@@ -40,7 +40,7 @@ Class P_GiveSuperShotgun : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveweapon:SuperShotgun");
+		giveAndSwitchTo("SuperShotgun");
 	}
 	
 	override void closeFunc() {}
@@ -59,7 +59,7 @@ Class P_GiveChaingun : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveweapon:Chaingun");
+		giveAndSwitchTo("Chaingun");
 	}
 	
 	override void closeFunc() {}
@@ -78,7 +78,7 @@ Class P_GiveRocketLauncher : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveweapon:RocketLauncher");
+		giveAndSwitchTo("RocketLauncher");
 	}
 	
 	override void closeFunc() {}
@@ -97,7 +97,7 @@ Class P_GivePlasmaRifle : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveweapon:PlasmaRifle");
+		giveAndSwitchTo("PlasmaRifle");
 	}
 	
 	override void closeFunc() {}
@@ -116,7 +116,7 @@ Class P_GiveBFG9000 : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveweapon:BFG9000");
+		giveAndSwitchTo("BFG9000");
 	}
 	
 	override void closeFunc() {}

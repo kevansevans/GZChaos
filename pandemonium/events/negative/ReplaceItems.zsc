@@ -2,7 +2,18 @@ Class P_ReplaceHealthWithBonuses : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("replaceall:health:healthbonus");
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "health" && !(mo is 'healthbonus'))
+			{
+				let item = Actor.spawn('healthbonus', mo.pos);
+				mo.destroy();
+			}
+		}
+		
 	}
 	
 	override void closeFunc() {}
@@ -11,6 +22,35 @@ Class P_ReplaceHealthWithBonuses : P_Event
 	{
 		P_Event event = new('P_ReplaceHealthWithBonuses');
 		event.eventname = "Health Famine";
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class P_ReplaceMedikitWithStimpack : P_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "medikit")
+			{
+				let item = Actor.spawn('stimpack', mo.pos);
+				mo.destroy();
+			}
+		}
+	}
+	
+	override void closeFunc() {}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_ReplaceMedikitWithStimpack');
+		event.eventname = "Health Recession";
 		event.duration = 35 * 90;
 		event.type = E_Instant;
 		return event;

@@ -2,8 +2,41 @@ Class P_SetAllWallsToStartan : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.sendNetworkEvent('changewall:newmap');
-		EventHandler.sendNetworkEvent('changefloor:newmap');
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+			TextureID newtex = TexMan.checkForTexture("STARTAN2");
+		
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					string wallname = TexMan.getName(walltex);
+					if (wallname == "DOORTRAK")
+					{
+						sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
+					}
+					else
+					{
+						if (!checkIfReplaceable(wallname)) continue;
+					}
+					sidedef.setTexture(wall, newtex);
+				}
+			}
+		}
+		for (int se = 0; se < level.sectors.size(); ++se)
+		{
+			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+			{
+				level.sectors[se].setTexture(0, TexMan.CheckForTexture("FLOOR0_1"));
+			}
+			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			{
+				level.sectors[se].setTexture(1, TexMan.CheckForTexture("CEIL1_1"));
+			}
+			level.sectors[se].lightlevel = 192;
+		}
 		activated = true;
 	}
 	
@@ -26,8 +59,35 @@ Class P_SetAllWallsToFireblu : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.sendNetworkEvent('changewall:fireblu');
-		EventHandler.sendNetworkEvent('changefloor:fireblu');
+		TextureID newtex = TexMan.checkForTexture("FIREBLU1");
+		level.ChangeSky(newtex, TexMan.checkForTexture(''));
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+		
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+					sidedef.setTexture(wall, newtex);
+				}
+			}
+		}
+		for (int se = 0; se < level.sectors.size(); ++se)
+		{
+			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+			{
+				level.sectors[se].setTexture(0, newtex);
+			}
+			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			{
+				level.sectors[se].setTexture(1, newtex);
+			}
+			level.sectors[se].lightlevel = 192;
+		}
+		
 		activated = true;
 	}
 	

@@ -2,7 +2,7 @@ Class P_GiveMegasphere : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveitem:Megasphere");
+		givePlayerItem('Megasphere');
 	}
 	
 	override void closeFunc() {}
@@ -21,7 +21,7 @@ Class P_GiveLightAmp : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveitem:Infrared");
+		givePlayerItem('Infrared');
 	}
 	
 	override void closeFunc() {}
@@ -40,7 +40,7 @@ Class P_GiveRadSuit : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveitem:RadSuit");
+		givePlayerItem('RadSuit');
 	}
 	
 	override void closeFunc() {}
@@ -59,7 +59,7 @@ Class P_GiveInvulnerabilitySphere : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("giveitem:InvulnerabilitySphere");
+		givePlayerItem('InvulnerabilitySphere');
 	}
 	
 	override void closeFunc() {}

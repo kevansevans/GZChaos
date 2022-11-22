@@ -1,5 +1,7 @@
 Class P_SpawnGreatGodImp : P_Event
 {
+	Actor impy;
+
 	override void eventFunc()
 	{
 		while (true)
@@ -12,7 +14,7 @@ Class P_SpawnGreatGodImp : P_Event
 				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
 				if (ceilheight - floorheight > 64)
 				{
-					EventHandler.SendNetworkEvent("spawn:greatgodimp:" .. rng);
+					impy = Actor.spawn('greatgodimp', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
 					activated = true;
 					break;
 				}
@@ -22,7 +24,7 @@ Class P_SpawnGreatGodImp : P_Event
 	
 	override void closeFunc() 
 	{
-		EventHandler.SendNetworkEvent("delete:greatgodimp");
+		impy.destroy();
 	}
 	
 	static P_Event create()

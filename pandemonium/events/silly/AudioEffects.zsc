@@ -1,0 +1,22 @@
+Class P_SetMusicToRUNNNN : P_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.S_ChangeMusic('D_RUNNNN');
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static P_Event create()
+	{
+		P_Event event = new('P_SetMusicToRUNNNN');
+		event.eventname = "D_RUNNNN";
+		event.duration = 35 * 90;
+		event.type = E_PerLevel;
+		return event;
+	}
+}

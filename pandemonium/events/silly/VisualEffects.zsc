@@ -2,12 +2,30 @@ Class P_WideMonsters : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("visual:widemonsters:5");
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.x = 5;
+			}
+		}
 	}
 	
 	override void closeFunc() 
 	{
-		EventHandler.SendNetworkEvent("visual:widemonsters:1");
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.x = 1;
+			}
+		}
 	}
 	
 	static P_Event create()
@@ -24,12 +42,30 @@ Class P_TallMonsters : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("visual:tallmonsters:7");
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.y = 7;
+			}
+		}
 	}
 	
 	override void closeFunc() 
 	{
-		EventHandler.SendNetworkEvent("visual:tallmonsters:1");
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.y = 1;
+			}
+		}
 	}
 	
 	static P_Event create()
@@ -46,7 +82,16 @@ Class P_SpinningMonsters : P_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("visual:spinning");
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.A_SetAngle(mo.angle + 45);
+			}
+		}
 	}
 	
 	override void closeFunc() 

@@ -1,23 +1,4 @@
-Class P_Event abstract
-{
-	String eventname;
-	Int duration;
-	Int life;
-	Bool activated;
-	E_EventType type;
-	abstract void eventFunc();
-	abstract void closeFunc();
-}
-
-enum E_EventType
-{
-	E_Instant,
-	E_Timed,
-	E_PerLevel,
-	E_Permnanent
-}
-
-Class P_EventList
+Class P_EventList play
 {
 	static P_EventList create()
 	{
@@ -38,6 +19,7 @@ Class P_EventList
 	
 	P_Event getEffect()
 	{
+		return P_TakeAllKeysAway.create();
 		int event = -1;
 		
 		while (true)
@@ -72,6 +54,8 @@ Class P_EventList
 				return P_TakeAllKeysAway.create();
 			case E_ReplaceHealthWithBonuses:
 				return P_ReplaceHealthWithBonuses.create();
+			case E_ReplaceMedikitWithStimpack:
+				return P_ReplaceMedikitWithStimpack.create();
 			case E_SpawnGreatGodImp:
 				return P_SpawnGreatGodImp.create();
 			case E_TheFloorIsLava:
@@ -84,10 +68,8 @@ Class P_EventList
 				return P_DisableForwardBackwards.create();
 			case E_DisableStrafingMovement:
 				return P_DisableStrafingMovement.create();
-			case E_SetAllWallsToStartan:
-				return P_SetAllWallsToStartan.create();
-			case E_SetAllWallsToFireblu:
-				return P_SetAllWallsToFireblu.create();
+			case E_ShrinkPickups:
+				return P_ShrinkPickups.create();
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			//neutral events
 			////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +83,10 @@ Class P_EventList
 				return P_HalfTimerDuration.create();
 			case E_QuarterTimerDuration:
 				return P_QuarterTimerDuration.create();
+			case E_SetAllWallsToStartan:
+				return P_SetAllWallsToStartan.create();
+			case E_SetAllWallsToFireblu:
+				return P_SetAllWallsToFireblu.create();
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			//positive events
 			////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,11 +123,21 @@ Class P_EventList
 				return P_TallMonsters.create();
 			case E_SpinningMonsters:
 				return P_SpinningMonsters.create();
+			case E_SetMusicToRUNNNN:
+				return P_SetMusicToRUNNNN.create();
 		}
 		
 		console.printf('Missing event case! Investigate: ' .. event);
 		return P_DoNothing.create();
 	}
+}
+
+enum E_EventType
+{
+	E_Instant,
+	E_Timed,
+	E_PerLevel,
+	E_Permnanent
 }
 
 enum E_Event
@@ -151,14 +147,14 @@ enum E_Event
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	E_TakeAllKeysAway,
 	E_ReplaceHealthWithBonuses,
+	E_ReplaceMedikitWithStimpack,
 	E_SpawnGreatGodImp,
 	E_TheFloorIsLava,
 	E_TheFloorIsNukage,
 	E_TheFloorIsSludge,
 	E_DisableForwardBackwards,
 	E_DisableStrafingMovement,
-	E_SetAllWallsToStartan,
-	E_SetAllWallsToFireblu,
+	E_ShrinkPickups,
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//neutral
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,6 +163,8 @@ enum E_Event
 	E_DoubleTimerDuration,
 	E_HalfTimerDuration,
 	E_QuarterTimerDuration,
+	E_SetAllWallsToStartan,
+	E_SetAllWallsToFireblu,
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//positive
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,8 +186,74 @@ enum E_Event
 	E_WideMonsters,
 	E_TallMonsters,
 	E_SpinningMonsters,
+	E_SetMusicToRUNNNN,
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Number of Events
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	E_NumEvents
+}
+
+Class P_Event abstract play
+{
+	String eventname;
+	Int duration;
+	Int life;
+	Bool activated;
+	E_EventType type;
+	abstract void eventFunc();
+	abstract void closeFunc();
+	
+	void givePlayerItem(string _item)
+	{
+		let player = players[consoleplayer].mo;
+		let item = Actor.spawn(_item);
+		item.touch(player);
+	}
+	
+	void giveAndSwitchTo(string _weapon)
+	{
+		let player = players[consoleplayer].mo;
+		if (!player.countInv(_weapon))
+		{
+			let item = Actor.spawn(_weapon);
+			item.touch(player);
+		}
+		player.A_SelectWeapon(_weapon);
+	}
+	
+	bool checkIfReplaceable(String _textureName)
+	{
+		string texname = _texturename;
+		switch (name(texname))
+		{
+			case 'BIGDOOR1':
+			case 'BIGDOOR2':
+			case 'BIGDOOR3':
+			case 'BIGDOOR4':
+			case 'BIGDOOR6':
+			case 'BIGDOOR7':
+			case 'DOOR1':
+			case 'DOOR3':
+			case 'DOORBLU':
+			case 'DOORBLU2':
+			case 'DOORRED':
+			case 'DOORRED2':
+			case 'DOORTRAK':
+			case 'DOORYEL':
+			case 'DOORYEL2':
+			case 'EXITDOOR':
+			case 'SPCDOOR1':
+			case 'SPCDOOR2':
+			case 'SPCDOOR3':
+			case 'SPCDOOR4':
+			case 'TEKBRON1':
+			case 'TEKBRON2':
+				return false;
+		}
+		
+		texname.truncate(2);
+		if (texname == "SW") return false;
+		
+		return true;
+	}
 }

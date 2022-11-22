@@ -12,7 +12,9 @@ Class P_SpawnFriendlyGreatGodImp : P_Event
 				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
 				if (ceilheight - floorheight > 64)
 				{
-					EventHandler.SendNetworkEvent("spawnfriendly:greatgodimp:" .. rng);
+					let friend = Actor.spawn('greatgodimp', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
+					friend.bFriendly = true;
+					friend.bIsMonster = false;
 					activated = true;
 					break;
 				}

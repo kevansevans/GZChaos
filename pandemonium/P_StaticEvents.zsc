@@ -15,6 +15,8 @@ Class P_EventHandler : StaticEventHandler
 	double prevForwardMove2;
 	double prevSideMove1;
 	double prevSideMove2;
+	
+	int timelimit;
 
 	override void OnRegister()
 	{
@@ -47,6 +49,7 @@ Class P_EventHandler : StaticEventHandler
 	override void WorldTick()
 	{
 		++timer;
+		timelimit = list.timelimit();
 		if (list.timeLimit() - timer <= 0)
 		{
 			timer = 0;
@@ -84,7 +87,7 @@ Class P_EventHandler : StaticEventHandler
 	
 	override void RenderOverlay(RenderEvent event)
 	{
-		double ratio = timer / list.timeLimit();
+		double ratio = timer / timeLimit;
 		double width = ratio * double(Screen.getWidth());
 		Screen.DrawThickLine(0, 5, width, 5, 20, Color("00CC00"));
 		
@@ -123,260 +126,6 @@ Class P_EventHandler : StaticEventHandler
 		
 		switch (name(command[0]))
 		{
-			case 'giveitem':
-				player.GiveInventory(command[1], 1);
-				break;
-			case 'giveweapon':
-				if (!player.countInv(command[1]))
-				{
-					player.giveInventory(command[1], 1);
-				}
-				player.A_SelectWeapon(command[1]);
-				break;
-			case 'takeitem':
-				if (player.countInv(command[1]))
-				{
-					player.takeInventory(command[1], 1);
-					if (command[2])
-					{
-						criticals.push(command[1]);
-					}
-				}
-				break;
-			case 'restoreitem':
-				if (command[2])
-				{
-					if (criticals.find(command[1]) < criticals.size())
-					{
-						int pos = criticals.find(command[1]);
-						player.giveInventory(command[1], 1);
-						criticals.delete(pos);
-					}
-				}
-				else
-				{
-					player.giveInventory(command[1], 1);
-				}
-				break;
-			case 'modifyplayer':
-				switch (name(command[1]))
-				{
-					case 'teleportsector':
-						sectorIndex = command[2].toInt();
-						sectorCenter = level.Sectors[sectorIndex].centerspot;
-						tempPos = (sectorCenter.x, sectorCenter.y, level.sectors[sectorIndex].floorplane.ZAtPoint(sectorCenter));
-						player.setOrigin(tempPos, false);
-						player.angle = random(0, 360);
-						Actor.spawn('TeleportFog', tempPos);
-						break;
-				}
-				break;
-			case 'replaceall':
-				
-				while ( (mo = Actor(it.Next ())) )
-				{
-					if (mo is command[1] && !(mo is command[2]))
-					{
-						Actor.spawn(command[2], mo.pos);
-						mo.destroy();
-					}
-					
-				}
-			case 'visual':
-				switch (name(command[1]))
-				{
-					case 'widemonsters':
-				
-						while ( (mo = Actor(it.Next ())) )
-						{
-							if (mo.bIsMonster)
-							{
-								mo.scale.x = command[2].toDouble();
-							}
-						}
-						break;
-					case 'tallmonsters':
-				
-						while ( (mo = Actor(it.Next ())) )
-						{
-							if (mo.bIsMonster)
-							{
-								mo.scale.y = command[2].toDouble();
-							}
-						}
-						break;
-					case 'spinning':
-						while ( (mo = Actor(it.Next ())) )
-						{
-							if (mo.bIsMonster)
-							{
-								mo.angle += 45;
-							}
-						}
-						break;
-				}
-				break;
-			case 'spawn':
-				sectorIndex = command[2].toInt();
-				sectorCenter = level.Sectors[sectorIndex].centerspot;
-				tempPos = (sectorCenter.x, sectorCenter.y, level.sectors[sectorIndex].floorplane.ZAtPoint(sectorCenter));
-				actorPointer = Actor.spawn(command[1], tempPos);
-				break;
-			case 'spawnfriendly':
-				sectorIndex = command[2].toInt();
-				sectorCenter = level.Sectors[sectorIndex].centerspot;
-				tempPos = (sectorCenter.x, sectorCenter.y, level.sectors[sectorIndex].floorplane.ZAtPoint(sectorCenter));
-				actorPointer = Actor.spawn(command[1], tempPos);
-				actorPointer.bFriendly = true;
-				break;
-			case 'delete':
-				while ( (mo = Actor(it.Next ())) )
-				{
-					if (mo is 'greatgodimp')
-					{
-						mo.destroy();
-						break;
-					}
-				}
-				break;
-			case 'changefloor':
-				switch (name(command[1]))
-				{
-					case 'lava':
-						player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
-						player.cursector.damageType = 'slime';
-						player.cursector.damageinterval = 35;
-						player.cursector.damageamount = 20;
-						break;
-					case 'nukage':
-						player.cursector.setTexture(0, TexMan.CheckForTexture("NUKAGE1"));
-						player.cursector.damageType = 'slime';
-						player.cursector.damageinterval = 35;
-						player.cursector.damageamount =  10;
-						break;
-					case 'slime':
-						player.cursector.setTexture(0, TexMan.CheckForTexture("SLIME01"));
-						player.cursector.damageType = 'slime';
-						player.cursector.damageInterval = 35;
-						player.cursector.damageamount = 5;
-						break;
-					case 'newmap':
-						for (int se = 0; se < level.sectors.size(); ++se)
-						{
-							if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
-							{
-								level.sectors[se].setTexture(0, TexMan.CheckForTexture("FLOOR0_1"));
-							}
-							if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
-							{
-								level.sectors[se].setTexture(1, TexMan.CheckForTexture("CEIL1_1"));
-							}
-							level.sectors[se].lightlevel = 192;
-						}
-						break;
-					case 'fireblu':
-						for (int se = 0; se < level.sectors.size(); ++se)
-						{
-							if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
-							{
-								level.sectors[se].setTexture(0, TexMan.CheckForTexture("FIREBLU1"));
-							}
-							if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
-							{
-								level.sectors[se].setTexture(1, TexMan.CheckForTexture("FIREBLU1"));
-							}
-							level.sectors[se].lightlevel = 192;
-						}
-				}
-				break;
-			case 'changewall':
-				switch(name(command[1]))
-				{
-					case 'newmap':
-						for (int si = 0; si < level.sides.size(); ++si)
-						{
-							side sidedef = level.sides[si];
-							TextureID newtex = TexMan.checkForTexture("STARTAN2");
-						
-							for (int wall = 0; wall < 3; ++wall)
-							{
-								TextureID walltex = sidedef.GetTexture(wall);
-								if (walltex)
-								{
-									string wallname = TexMan.getName(walltex);
-									if (wallname == "DOORTRAK")
-									{
-										sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
-									}
-									else
-									{
-										if (wallname == "EXITDOOR" || wallname == "TEKBRON2") continue;
-										wallname.truncate(4);
-										if (wallname == "DOOR") continue;
-										wallname.truncate(3);
-										if (wallname == "BIG" || wallname == "SPC") continue;
-										wallname.truncate(2);
-										if (wallname == "SW") continue;
-									}
-									sidedef.setTexture(wall, newtex);
-								}
-							}
-						}
-						break;
-					case 'fireblu':
-						for (int si = 0; si < level.sides.size(); ++si)
-						{
-							side sidedef = level.sides[si];
-							TextureID newtex = TexMan.checkForTexture("FIREBLU1");
-						
-							for (int wall = 0; wall < 3; ++wall)
-							{
-								TextureID walltex = sidedef.GetTexture(wall);
-								if (walltex)
-								{
-									string wallname = TexMan.getName(walltex);
-									if (wallname == "EXITDOOR" || wallname == "TEKBRON2") continue;
-									wallname.truncate(4);
-									if (wallname == "DOOR") continue;
-									wallname.truncate(3);
-									if (wallname == "BIG" || wallname == "SPC") continue;
-									wallname.truncate(2);
-									if (wallname == "SW") continue;
-									sidedef.setTexture(wall, newtex);
-								}
-							}
-						}
-						break;
-				}
-				break;
-			case 'disable':
-				switch (name(command[1]))
-				{
-					case 'forwardbackward':
-						prevForwardMove1 = player.forwardMove1;
-						prevForwardMove2 = player.forwardMove2;
-						player.forwardmove1 = player.forwardmove2 = 0.0;
-						break;
-					case 'strafing':
-						prevSideMove1 = player.SideMove1;
-						prevSideMove2 = player.SideMove2;
-						player.Sidemove1 = player.Sidemove2 = 0.0;
-						break;
-				}
-				break;
-			case 'enable':
-				switch (name(command[1]))
-				{
-					case 'forwardbackward':
-						player.forwardMove1 = prevForwardMove1;
-						player.forwardMove2 = prevForwardMove2;
-						break;
-					case 'strafing':
-						player.sideMove1 = prevForwardMove1;
-						player.sideMove2 = prevsideMove2;
-						break;
-				}
-				break;
 			case 'meta':
 				switch (name(command[1]))
 				{
@@ -388,6 +137,8 @@ Class P_EventHandler : StaticEventHandler
 						break;
 				}
 				break;
+			default:
+				console.printf('Fix me! ' .. event.name);
 		}
 	}
 }
