@@ -3,3 +3,6 @@ Detonate all barrels on map
 Suicide
 ignite
 launch player up
+Anechoic chamber: All line defs block sound
+echo chamber: All line derfs pass sound
+short sighted demons: All lines block sight

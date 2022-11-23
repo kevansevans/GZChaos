@@ -1,4 +1,4 @@
-Class P_WideMonsters : P_Event
+Class TUC_WideMonsters : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -28,9 +28,9 @@ Class P_WideMonsters : P_Event
 		}
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_WideMonsters');
+		TUC_Event event = new('TUC_WideMonsters');
 		event.eventname = "Wide Monsters";
 		event.duration = 35 * 90;
 		event.type = E_Timed;
@@ -38,7 +38,7 @@ Class P_WideMonsters : P_Event
 	}
 }
 
-Class P_TallMonsters : P_Event
+Class TUC_TallMonsters : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -68,9 +68,9 @@ Class P_TallMonsters : P_Event
 		}
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_TallMonsters');
+		TUC_Event event = new('TUC_TallMonsters');
 		event.eventname = "Tall Monsters";
 		event.duration = 35 * 90;
 		event.type = E_Timed;
@@ -78,7 +78,7 @@ Class P_TallMonsters : P_Event
 	}
 }
 
-Class P_SpinningMonsters : P_Event
+Class TUC_SpinningMonsters : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -99,12 +99,47 @@ Class P_SpinningMonsters : P_Event
 
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_SpinningMonsters');
+		TUC_Event event = new('TUC_SpinningMonsters');
 		event.eventname = "Speeeeeeeen!";
 		event.duration = 35 * 30;
 		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_MisalignAllTextures : TUC_Event
+{
+	override void eventFunc()
+	{
+		for (int i = 0; i < level.sides.size(); ++i)
+		{
+			int rng = random(0, 5);
+			if (rng != 5) continue;
+			side sidedef = level.sides[i];
+			for (int j = 0; j < 3; ++j)
+			{
+				if (sidedef.getTexture(j))
+				{
+					double x = sidedef.getTextureXOffset(j);
+					double y = sidedef.getTextureXOffset(j);
+					sidedef.setTextureXOffset(j, x + random(-4, 4));
+					sidedef.setTextureYOffset(j, y + random(-4, 4));
+				}
+			}
+		}
+		activated = true;
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_MisalignAllTextures');
+		event.eventname = "I forgot to align my textures...";
+		event.duration = 35 * 30;
+		event.type = E_PerLevel;
 		return event;
 	}
 }

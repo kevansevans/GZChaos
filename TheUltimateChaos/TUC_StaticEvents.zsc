@@ -1,4 +1,4 @@
-Class P_EventHandler : StaticEventHandler
+Class TUC_EventHandler : StaticEventHandler
 {
 	double effectTimer;
 	double timer;
@@ -6,8 +6,8 @@ Class P_EventHandler : StaticEventHandler
 	PlayerPawn player;
 	PlayerInfo infoplayer;
 	
-	P_EventList list;
-	Array<P_Event> activeEffects;
+	TUC_EventList list;
+	Array<TUC_Event> activeEffects;
 	
 	Array<String> criticals;
 	
@@ -22,7 +22,7 @@ Class P_EventHandler : StaticEventHandler
 	{
 		console.printf('Let the Chaos begin!');
 		
-		list = P_EventList.create();
+		list = TUC_EventList.create();
 		console.printf('Loading in ' .. E_NumEvents .. ' events!');
 		
 		timer = 0;
@@ -37,7 +37,7 @@ Class P_EventHandler : StaticEventHandler
 		{
 			for (int i = 0; i < activeEffects.size(); ++i)
 			{
-				P_Event event = activeEffects[i];
+				TUC_Event event = activeEffects[i];
 				if (event.type == E_PerLevel || event.type == E_Instant)
 				{
 					removeEffect(event);
@@ -71,13 +71,13 @@ Class P_EventHandler : StaticEventHandler
 	
 	void addEffectToActive()
 	{
-		P_Event effect = list.getEffect();
+		TUC_Event effect = list.getEffect();
 		activeEffects.push(effect);
 	}
 	
-	void removeEffect(P_Event _effect)
+	void removeEffect(TUC_Event _effect)
 	{
-		P_Event effect = _effect;
+		TUC_Event effect = _effect;
 		int place = activeEffects.find(effect);
 		activeEffects.delete(place);
 		activeEffects.shrinkToFit();
@@ -96,14 +96,14 @@ Class P_EventHandler : StaticEventHandler
 			int yOffset = 150;
 			for (int i = 0; i < activeEffects.size(); ++i)
 			{
-				P_Event effect = activeEffects[i];
+				TUC_Event effect = activeEffects[i];
 				if (activeEffects[i].type == E_Timed)
 				{
 					double ratio = 1 - (double(effect.life) / double(effect.duration));
 					Screen.DrawThickLine(20, yOffset, 20 + (200 * ratio), yOffset, 10, color("FF0000"));
 				}
 				Screen.DrawText(BIGFONT, Font.CR_White, 20, (yoffset - 20), effect.eventname);
-				yOffset += 30;
+				yOffset += 60;
 			}
 		}
 	}

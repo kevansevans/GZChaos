@@ -1,4 +1,4 @@
-Class P_SetAllWallsToStartan : P_Event
+Class TUC_SetAllWallsToStartan : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -45,9 +45,9 @@ Class P_SetAllWallsToStartan : P_Event
 	
 	}
 
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_SetAllWallsToStartan');
+		TUC_Event event = new('TUC_SetAllWallsToStartan');
 		event.eventname = "MyFirstMap.wad";
 		event.duration = 35 * 90;
 		event.type = E_PerLevel;
@@ -55,7 +55,7 @@ Class P_SetAllWallsToStartan : P_Event
 	}
 }
 
-Class P_SetAllWallsToFireblu : P_Event
+Class TUC_SetAllWallsToFireblu : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -96,12 +96,74 @@ Class P_SetAllWallsToFireblu : P_Event
 	
 	}
 
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_SetAllWallsToFireblu');
+		TUC_Event event = new('TUC_SetAllWallsToFireblu');
 		event.eventname = "Everyone's favorite texture";
 		event.duration = 35 * 90;
 		event.type = E_PerLevel;
+		return event;
+	}
+}
+
+Class TUC_ShuffleKeyTextures : TUC_Event
+{
+	override void eventFunc()
+	{
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+	
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				int rng = random(0, 1);
+				if (rng == 1) continue;
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					string texname = TexMan.getName(walltex);
+					texname.truncate(4);
+					if (texname != "DOOR") continue;
+					else
+					{
+						switch (name(TexMan.getName(walltex)))
+						{
+							case 'DOORBLU':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORRED2'));
+								break;
+							case 'DOORRED2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORYEL'));
+								break;
+							case 'DOORYEL':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORBLU2'));
+								break;
+							case 'DOORBLU2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORRED'));
+								break;
+							case 'DOORRED':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORYEL2'));
+								break;
+							case 'DOORYEL2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORBLU'));
+								break;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ShuffleKeyTextures');
+		event.eventname = "Shuffle key color textures";
+		event.duration = 35 * 5;
+		event.type = E_Timed;
 		return event;
 	}
 }

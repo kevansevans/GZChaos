@@ -1,8 +1,8 @@
-Class P_EventList play
+Class TUC_EventList play
 {
-	static P_EventList create()
+	static TUC_EventList create()
 	{
-		P_EventList list = new('P_EventList');
+		TUC_EventList list = new('TUC_EventList');
 		list.timemodifier = 1.0;
 		list.cachedEffects.clear();
 		return list;
@@ -17,9 +17,8 @@ Class P_EventList play
 	
 	Array<Int> cachedEffects;
 	
-	P_Event getEffect()
+	TUC_Event getEffect()
 	{
-		return P_TakeAllKeysAway.create();
 		int event = -1;
 		
 		while (true)
@@ -51,84 +50,94 @@ Class P_EventList play
 			//negative events
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			case E_TakeAllKeysAway:
-				return P_TakeAllKeysAway.create();
+				return TUC_TakeAllKeysAway.create();
 			case E_ReplaceHealthWithBonuses:
-				return P_ReplaceHealthWithBonuses.create();
+				return TUC_ReplaceHealthWithBonuses.create();
 			case E_ReplaceMedikitWithStimpack:
-				return P_ReplaceMedikitWithStimpack.create();
+				return TUC_ReplaceMedikitWithStimpack.create();
 			case E_SpawnGreatGodImp:
-				return P_SpawnGreatGodImp.create();
+				return TUC_SpawnGreatGodImp.create();
 			case E_TheFloorIsLava:
-				return P_TheFloorIsLava.create();
+				return TUC_TheFloorIsLava.create();
 			case E_TheFloorIsNukage:
-				return P_TheFloorIsNukage.create();
+				return TUC_TheFloorIsNukage.create();
 			case E_TheFloorIsSludge:
-				return P_TheFloorIsSludge.create();
+				return TUC_TheFloorIsSludge.create();
 			case E_DisableForwardBackwards:
-				return P_DisableForwardBackwards.create();
+				return TUC_DisableForwardBackwards.create();
 			case E_DisableStrafingMovement:
-				return P_DisableStrafingMovement.create();
+				return TUC_DisableStrafingMovement.create();
 			case E_ShrinkPickups:
-				return P_ShrinkPickups.create();
+				return TUC_ShrinkPickups.create();
+			case E_GameEndPlayer:
+				if (random(1, 100) == 100) return TUC_GameEndPlayer.create();
+				else return TUC_FakeGameEndPlayer.create();
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			//neutral events
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			case E_TeleportPlayer:
-				return P_TeleportPlayer.create();
+				return TUC_TeleportPlayer.create();
 			case E_Nothing:
-				return P_DoNothing.create();
+				return TUC_DoNothing.create();
 			case E_DoubleTimerDuration:
-				return P_DoubleTimerDuration.create();
+				return TUC_DoubleTimerDuration.create();
 			case E_HalfTimerDuration:
-				return P_HalfTimerDuration.create();
+				return TUC_HalfTimerDuration.create();
 			case E_QuarterTimerDuration:
-				return P_QuarterTimerDuration.create();
+				return TUC_QuarterTimerDuration.create();
 			case E_SetAllWallsToStartan:
-				return P_SetAllWallsToStartan.create();
+				return TUC_SetAllWallsToStartan.create();
 			case E_SetAllWallsToFireblu:
-				return P_SetAllWallsToFireblu.create();
+				return TUC_SetAllWallsToFireblu.create();
+			case E_ShuffleKeyTextures:
+				return TUC_ShuffleKeyTextures.create();
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			//positive events
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			case E_GiveMegaSphere:
-				return P_GiveMegaSphere.create();
+				return TUC_GiveMegaSphere.create();
 			case E_GiveLightAmp:
-				return P_GiveLightAmp.create();
+				return TUC_GiveLightAmp.create();
 			case E_GiveRadSuit:
-				return P_GiveRadSuit.create();
+				return TUC_GiveRadSuit.create();
 			case E_GiveInvulnerabilitySphere:
-				return P_GiveInvulnerabilitySphere.create();
+				return TUC_GiveInvulnerabilitySphere.create();
 			case E_GivePistol:
-				return P_GivePistol.create();
+				return TUC_GivePistol.create();
 			case E_GiveShotgun:
-				return P_GiveShotgun.create();
+				return TUC_GiveShotgun.create();
 			case E_GiveSuperShotgun:
-				return P_GiveSuperShotgun.create();
+				return TUC_GiveSuperShotgun.create();
 			case E_GiveChaingun:
-				return P_GiveChaingun.create();
+				return TUC_GiveChaingun.create();
 			case E_GiveRocketLauncher:
-				return P_GiveRocketLauncher.create();
+				return TUC_GiveRocketLauncher.create();
 			case E_GivePlasmaRifle:
-				return P_GivePlasmaRifle.create();
+				return TUC_GivePlasmaRifle.create();
 			case E_GiveBFG9000:
-				return P_GiveBFG9000.create();
+				return TUC_GiveBFG9000.create();
 			case E_SpawnFriendlyGreatGodImp:
-				return P_SpawnFriendlyGreatGodImp.create();
+				return TUC_SpawnFriendlyGreatGodImp.create();
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			//Silly
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			case E_WideMonsters:
-				return P_WideMonsters.create();
+				return TUC_WideMonsters.create();
 			case E_TallMonsters:
-				return P_TallMonsters.create();
+				return TUC_TallMonsters.create();
 			case E_SpinningMonsters:
-				return P_SpinningMonsters.create();
+				return TUC_SpinningMonsters.create();
 			case E_SetMusicToRUNNNN:
-				return P_SetMusicToRUNNNN.create();
+				return TUC_SetMusicToRUNNNN.create();
+			case E_MisalignAllTextures:
+				return TUC_MisalignAllTextures.create();
+			case E_FakeGameEndPlayer:
+				if (random(1, 100) == 100) return TUC_GameEndPlayer.create();
+				else return TUC_FakeGameEndPlayer.create();
 		}
 		
 		console.printf('Missing event case! Investigate: ' .. event);
-		return P_DoNothing.create();
+		return TUC_DoNothing.create();
 	}
 }
 
@@ -137,6 +146,7 @@ enum E_EventType
 	E_Instant,
 	E_Timed,
 	E_PerLevel,
+	E_HiddenTimer,
 	E_Permnanent
 }
 
@@ -155,6 +165,7 @@ enum E_Event
 	E_DisableForwardBackwards,
 	E_DisableStrafingMovement,
 	E_ShrinkPickups,
+	E_GameEndPlayer,
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//neutral
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,6 +176,7 @@ enum E_Event
 	E_QuarterTimerDuration,
 	E_SetAllWallsToStartan,
 	E_SetAllWallsToFireblu,
+	E_ShuffleKeyTextures,
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//positive
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -187,13 +199,15 @@ enum E_Event
 	E_TallMonsters,
 	E_SpinningMonsters,
 	E_SetMusicToRUNNNN,
+	E_MisalignAllTextures,
+	E_FakeGameEndPlayer,
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Number of Events
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	E_NumEvents
 }
 
-Class P_Event abstract play
+Class TUC_Event abstract play
 {
 	String eventname;
 	Int duration;

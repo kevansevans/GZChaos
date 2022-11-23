@@ -1,4 +1,4 @@
-Class P_SetMusicToRUNNNN : P_Event
+Class TUC_SetMusicToRUNNNN : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -11,9 +11,9 @@ Class P_SetMusicToRUNNNN : P_Event
 	
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_SetMusicToRUNNNN');
+		TUC_Event event = new('TUC_SetMusicToRUNNNN');
 		event.eventname = "D_RUNNNN";
 		event.duration = 35 * 90;
 		event.type = E_PerLevel;

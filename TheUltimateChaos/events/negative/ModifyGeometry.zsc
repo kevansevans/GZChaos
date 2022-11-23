@@ -1,4 +1,4 @@
-Class P_TheFloorIsLava : P_Event
+Class TUC_TheFloorIsLava : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -14,9 +14,9 @@ Class P_TheFloorIsLava : P_Event
 	
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_TheFloorIsLava');
+		TUC_Event event = new('TUC_TheFloorIsLava');
 		event.eventname = "The floor is lava!";
 		event.duration = 35 * 10;
 		event.type = E_Instant;
@@ -24,7 +24,7 @@ Class P_TheFloorIsLava : P_Event
 	}
 }
 
-Class P_TheFloorIsNukage : P_Event
+Class TUC_TheFloorIsNukage : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -40,9 +40,9 @@ Class P_TheFloorIsNukage : P_Event
 	
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_TheFloorIsNukage');
+		TUC_Event event = new('TUC_TheFloorIsNukage');
 		event.eventname = "The floor is Nukage!";
 		event.duration = 35 * 10;
 		event.type = E_Instant;
@@ -50,7 +50,7 @@ Class P_TheFloorIsNukage : P_Event
 	}
 }
 
-Class P_TheFloorIsSludge : P_Event
+Class TUC_TheFloorIsSludge : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -66,9 +66,9 @@ Class P_TheFloorIsSludge : P_Event
 	
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_TheFloorIsSludge');
+		TUC_Event event = new('TUC_TheFloorIsSludge');
 		event.eventname = "The floor is sludge!";
 		event.duration = 35 * 10;
 		event.type = E_Instant;

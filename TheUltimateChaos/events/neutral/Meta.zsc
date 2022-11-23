@@ -1,4 +1,4 @@
-Class P_DoubleTimerDuration : P_Event
+Class TUC_DoubleTimerDuration : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -11,9 +11,9 @@ Class P_DoubleTimerDuration : P_Event
 		EventHandler.SendNetworkEvent("meta:speedup:2");
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_DoubleTimerDuration');
+		TUC_Event event = new('TUC_DoubleTimerDuration');
 		event.eventname = "1/2 timer speed";
 		event.duration = 35 * 60 * 5;
 		event.type = E_Timed;
@@ -21,7 +21,7 @@ Class P_DoubleTimerDuration : P_Event
 	}
 }
 
-Class P_HalfTimerDuration : P_Event
+Class TUC_HalfTimerDuration : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -34,9 +34,9 @@ Class P_HalfTimerDuration : P_Event
 		EventHandler.SendNetworkEvent("meta:slowdown:2");
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_HalfTimerDuration');
+		TUC_Event event = new('TUC_HalfTimerDuration');
 		event.eventname = "2x timer speed";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -44,7 +44,7 @@ Class P_HalfTimerDuration : P_Event
 	}
 }
 
-Class P_QuarterTimerDuration : P_Event
+Class TUC_QuarterTimerDuration : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -57,9 +57,9 @@ Class P_QuarterTimerDuration : P_Event
 		EventHandler.SendNetworkEvent("meta:slowdown:4");
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_QuarterTimerDuration');
+		TUC_Event event = new('TUC_QuarterTimerDuration');
 		event.eventname = "4x timer speed";
 		event.duration = 35 * 60 * 2;
 		event.type = E_Timed;

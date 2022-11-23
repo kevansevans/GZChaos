@@ -1,4 +1,4 @@
-Class P_TakeAllKeysAway : P_Event
+Class TUC_TakeAllKeysAway : TUC_Event
 {
 	Array<String> keys;
 
@@ -33,13 +33,13 @@ Class P_TakeAllKeysAway : P_Event
 		}
 	}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_TakeAllKeysAway event = new('P_TakeAllKeysAway');
+		TUC_TakeAllKeysAway event = new('TUC_TakeAllKeysAway');
 		event.eventname = "Can't find my keys!";
 		event.duration = 35 * 90;
 		event.type = E_Timed;
 		event.keys.clear();
-		return P_Event(event);
+		return TUC_Event(event);
 	}
 }

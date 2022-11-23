@@ -1,4 +1,4 @@
-Class P_GiveMegasphere : P_Event
+Class TUC_GiveMegasphere : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -7,9 +7,9 @@ Class P_GiveMegasphere : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveMegaSphere');
+		TUC_Event event = new('TUC_GiveMegaSphere');
 		event.eventname = "Give megasphere";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -17,7 +17,7 @@ Class P_GiveMegasphere : P_Event
 	}
 }
 
-Class P_GiveLightAmp : P_Event
+Class TUC_GiveLightAmp : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -26,9 +26,9 @@ Class P_GiveLightAmp : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveLightAmp');
+		TUC_Event event = new('TUC_GiveLightAmp');
 		event.eventname = "Give light amp";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -36,7 +36,7 @@ Class P_GiveLightAmp : P_Event
 	}
 }
 
-Class P_GiveRadSuit : P_Event
+Class TUC_GiveRadSuit : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -45,9 +45,9 @@ Class P_GiveRadSuit : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveRadSuit');
+		TUC_Event event = new('TUC_GiveRadSuit');
 		event.eventname = "Give rad suit";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -55,7 +55,7 @@ Class P_GiveRadSuit : P_Event
 	}
 }
 
-Class P_GiveInvulnerabilitySphere : P_Event
+Class TUC_GiveInvulnerabilitySphere : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -64,9 +64,9 @@ Class P_GiveInvulnerabilitySphere : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveInvulnerabilitySphere');
+		TUC_Event event = new('TUC_GiveInvulnerabilitySphere');
 		event.eventname = "Give invulnerability";
 		event.duration = 35 * 15;
 		event.type = E_Instant;

@@ -1,4 +1,4 @@
-Class P_ReplaceHealthWithBonuses : P_Event
+Class TUC_ReplaceHealthWithBonuses : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -18,9 +18,9 @@ Class P_ReplaceHealthWithBonuses : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_ReplaceHealthWithBonuses');
+		TUC_Event event = new('TUC_ReplaceHealthWithBonuses');
 		event.eventname = "Health Famine";
 		event.duration = 35 * 90;
 		event.type = E_Instant;
@@ -28,7 +28,7 @@ Class P_ReplaceHealthWithBonuses : P_Event
 	}
 }
 
-Class P_ReplaceMedikitWithStimpack : P_Event
+Class TUC_ReplaceMedikitWithStimpack : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -47,9 +47,9 @@ Class P_ReplaceMedikitWithStimpack : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_ReplaceMedikitWithStimpack');
+		TUC_Event event = new('TUC_ReplaceMedikitWithStimpack');
 		event.eventname = "Health Recession";
 		event.duration = 35 * 90;
 		event.type = E_Instant;

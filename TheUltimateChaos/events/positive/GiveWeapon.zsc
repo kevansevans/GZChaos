@@ -1,4 +1,4 @@
-Class P_GivePistol : P_Event
+Class TUC_GivePistol : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -7,9 +7,9 @@ Class P_GivePistol : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GivePistol');
+		TUC_Event event = new('TUC_GivePistol');
 		event.eventname = "Force switch to Pistol";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -17,7 +17,7 @@ Class P_GivePistol : P_Event
 	}
 }
 
-Class P_GiveShotgun : P_Event
+Class TUC_GiveShotgun : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -26,9 +26,9 @@ Class P_GiveShotgun : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveShotgun');
+		TUC_Event event = new('TUC_GiveShotgun');
 		event.eventname = "Force switch to shotgun";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -36,7 +36,7 @@ Class P_GiveShotgun : P_Event
 	}
 }
 
-Class P_GiveSuperShotgun : P_Event
+Class TUC_GiveSuperShotgun : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -45,9 +45,9 @@ Class P_GiveSuperShotgun : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveSuperShotgun');
+		TUC_Event event = new('TUC_GiveSuperShotgun');
 		event.eventname = "Force switch to super shotgun";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -55,7 +55,7 @@ Class P_GiveSuperShotgun : P_Event
 	}
 }
 
-Class P_GiveChaingun : P_Event
+Class TUC_GiveChaingun : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -64,9 +64,9 @@ Class P_GiveChaingun : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveChaingun');
+		TUC_Event event = new('TUC_GiveChaingun');
 		event.eventname = "Force switch to chaingun";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -74,7 +74,7 @@ Class P_GiveChaingun : P_Event
 	}
 }
 
-Class P_GiveRocketLauncher : P_Event
+Class TUC_GiveRocketLauncher : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -83,9 +83,9 @@ Class P_GiveRocketLauncher : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveRocketLauncher');
+		TUC_Event event = new('TUC_GiveRocketLauncher');
 		event.eventname = "Force switch to rocket launcher";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -93,7 +93,7 @@ Class P_GiveRocketLauncher : P_Event
 	}
 }
 
-Class P_GivePlasmaRifle : P_Event
+Class TUC_GivePlasmaRifle : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -102,9 +102,9 @@ Class P_GivePlasmaRifle : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GivePlasmaRifle');
+		TUC_Event event = new('TUC_GivePlasmaRifle');
 		event.eventname = "Force switch to plasma rifle";
 		event.duration = 35 * 15;
 		event.type = E_Instant;
@@ -112,7 +112,7 @@ Class P_GivePlasmaRifle : P_Event
 	}
 }
 
-Class P_GiveBFG9000 : P_Event
+Class TUC_GiveBFG9000 : TUC_Event
 {
 	override void eventFunc()
 	{
@@ -121,9 +121,9 @@ Class P_GiveBFG9000 : P_Event
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_GiveBFG9000');
+		TUC_Event event = new('TUC_GiveBFG9000');
 		event.eventname = "Force switch to BFG9000";
 		event.duration = 35 * 15;
 		event.type = E_Instant;

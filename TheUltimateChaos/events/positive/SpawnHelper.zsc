@@ -1,9 +1,7 @@
-Class P_TeleportPlayer : P_Event
+Class TUC_SpawnFriendlyGreatGodImp : TUC_Event
 {
 	override void eventFunc()
 	{
-		PlayerPawn player = players[consoleplayer].mo;
-		
 		while (true)
 		{
 			int rng = random(0, level.Sectors.size() - 1);
@@ -14,22 +12,27 @@ Class P_TeleportPlayer : P_Event
 				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
 				if (ceilheight - floorheight > 64)
 				{
-					Player.SetOrigin((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)), false);
-					Actor.spawn('TeleportFog', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
+					let friend = Actor.spawn('greatgodimp', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
+					friend.bFriendly = true;
+					friend.bIsMonster = false;
+					activated = true;
 					break;
 				}
 			}
 		}
 	}
 	
-	override void closeFunc() {}
-	
-	static P_Event create()
+	override void closeFunc() 
 	{
-		P_Event event = new('P_TeleportPlayer');
-		event.eventname = "Teleport to random sector";
+		
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SpawnFriendlyGreatGodImp');
+		event.eventname = "Thou hast been blessed!";
 		event.duration = 35 * 90;
-		event.type = E_Instant;
+		event.type = E_PerLevel;
 		return event;
 	}
 }

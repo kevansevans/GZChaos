@@ -1,12 +1,12 @@
-Class P_DoNothing : P_Event
+Class TUC_DoNothing : TUC_Event
 {
 	override void eventFunc(){}
 	
 	override void closeFunc() {}
 	
-	static P_Event create()
+	static TUC_Event create()
 	{
-		P_Event event = new('P_DoNothing');
+		TUC_Event event = new('TUC_DoNothing');
 		event.eventname = "Nothing.";
 		event.duration = 35 * 90;
 		event.type = E_Instant;
