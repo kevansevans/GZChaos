@@ -2,16 +2,21 @@ Class TUC_DisableForwardBackwards : TUC_Event
 {
 	double f1_move;
 	double f2_move;
+	
+	bool set;
 
 	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
 		
-		f1_move = player.forwardMove1;
-		f2_move = player.forwardMove2;
+		if (!set)
+		{
+			f1_move = player.forwardMove1;
+			f2_move = player.forwardMove2;
+			set = true;
+		}
 		
 		player.forwardMove1 = player.forwardMove2 = 0;
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -36,16 +41,21 @@ Class TUC_DisableStrafingMovement : TUC_Event
 {
 	double s1_move;
 	double s2_move;
+	
+	bool set;
 
 	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
 		
-		s1_move = player.sideMove1;
-		s2_move = player.sideMove2;
+		if (!set)
+		{
+			s1_move = player.sideMove1;
+			s2_move = player.sideMove2;
+			set = true;
+		}
 		
 		player.sideMove1 = player.sideMove2 = 0;
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -125,6 +135,10 @@ Class TUC_GameEndPlayer : TUC_Event
 		{
 			player.A_Explode(999, 64);
 		}
+		else
+		{
+			Player.A_SetMugshotState("Ouch");
+		}
 	}
 	
 	override void closeFunc()
@@ -138,6 +152,26 @@ Class TUC_GameEndPlayer : TUC_Event
 		TUC_GameEndPlayer(event).startframe = gametic;
 		event.eventname = "Player commits suicide";
 		event.duration = 35 * 90;
+		event.type = E_HiddenTimer;
+		return event;
+	}
+}
+
+Class TUC_RestartLevel : TUC_Event
+{
+	override void eventFunc()
+	{
+		level.changeLevel(level.mapname);
+		activated = true;
+	}
+	
+	override void closeFunc(){}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_RestartLevel');
+		event.eventname = "Restart level";
+		event.duration = 35 * 20;
 		event.type = E_HiddenTimer;
 		return event;
 	}

@@ -11,7 +11,11 @@ Class TUC_FakeGameEndPlayer : TUC_Event
 			player.A_PlayerScream();
 			screm = true;
 		}
-		if (gametic - startframe >= 35 * 3)
+		if (gametic - startframe <= 35 * 1)
+		{
+			Player.A_SetMugshotState("Ouch");
+		}
+		else if (gametic - startframe >= 35 * 3)
 		{
 			eventname = "Fake suicide";
 			activated = true;

@@ -50,7 +50,7 @@ Class TUC_SetAllWallsToStartan : TUC_Event
 		TUC_Event event = new('TUC_SetAllWallsToStartan');
 		event.eventname = "MyFirstMap.wad";
 		event.duration = 35 * 90;
-		event.type = E_PerLevel;
+		event.type = E_Instant;
 		return event;
 	}
 }
@@ -101,7 +101,7 @@ Class TUC_SetAllWallsToFireblu : TUC_Event
 		TUC_Event event = new('TUC_SetAllWallsToFireblu');
 		event.eventname = "Everyone's favorite texture";
 		event.duration = 35 * 90;
-		event.type = E_PerLevel;
+		event.type = E_Instant;
 		return event;
 	}
 }
@@ -130,19 +130,19 @@ Class TUC_ShuffleKeyTextures : TUC_Event
 						{
 							case 'DOORBLU':
 								sidedef.setTexture(wall, TexMan.checkForTexture('DOORRED2'));
-								break;
+								if (random(1, 10) != 10) break;
 							case 'DOORRED2':
 								sidedef.setTexture(wall, TexMan.checkForTexture('DOORYEL'));
-								break;
+								if (random(1, 10) != 10) break;
 							case 'DOORYEL':
 								sidedef.setTexture(wall, TexMan.checkForTexture('DOORBLU2'));
-								break;
+								if (random(1, 10) != 10) break;
 							case 'DOORBLU2':
 								sidedef.setTexture(wall, TexMan.checkForTexture('DOORRED'));
-								break;
+								if (random(1, 10) != 10) break;
 							case 'DOORRED':
 								sidedef.setTexture(wall, TexMan.checkForTexture('DOORYEL2'));
-								break;
+								if (random(1, 10) != 10) break;
 							case 'DOORYEL2':
 								sidedef.setTexture(wall, TexMan.checkForTexture('DOORBLU'));
 								break;

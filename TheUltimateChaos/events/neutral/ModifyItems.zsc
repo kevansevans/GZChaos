@@ -1,0 +1,58 @@
+Class TUC_ShuffleItemsAround : TUC_Event
+{
+	override void eventFunc()
+	{
+		vector3 lastpos;
+		Array<Inventory> items;
+	
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		items.clear();
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "Inventory")
+			{
+				if (Inventory(mo).owner) continue;
+				items.push(Inventory(mo));
+			}
+		}
+		
+		if (items.size() == 0)
+		{
+			activated = true;
+			return;
+		}
+		
+		for (int i = 0; i < items.size(); ++i)
+		{
+			int index_a = -1;
+			int index_b = -1;
+		
+			while (index_a == index_b)
+			{
+				index_a = random(0, items.size() - 1);
+				index_b = random(0, items.size() - 1);
+			}
+			
+			vector3 pos_a = items[index_a].pos;
+			vector3 pos_b = items[index_b].pos;
+			
+			items[index_a].setOrigin(pos_b, false);
+			items[index_b].setOrigin(pos_a, false);
+		}
+		
+	}
+	
+	override void closeFunc() {}
+
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ShuffleItemsAround');
+		event.eventname = "ShuffleItems";
+		event.duration = 35 * 5;
+		event.type = E_Timed;
+		return event;
+	}
+}

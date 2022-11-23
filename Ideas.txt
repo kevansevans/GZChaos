@@ -1,6 +1,5 @@
 Temporarily turn all enemies into explosive barrels
 Detonate all barrels on map
-Suicide
 ignite
 launch player up
 Anechoic chamber: All line defs block sound
