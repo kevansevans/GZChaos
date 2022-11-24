@@ -1,0 +1,160 @@
+Class TUC_ShuffleItemsAround : TUC_Event
+{
+	override void eventFunc()
+	{
+		vector3 lastpos;
+		Array<Inventory> items;
+	
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		items.clear();
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "Inventory")
+			{
+				if (mo is "key") continue;
+				if (Inventory(mo).owner) continue;
+				items.push(Inventory(mo));
+			}
+		}
+		
+		if (items.size() == 0)
+		{
+			activated = true;
+			return;
+		}
+		
+		for (int i = 0; i < items.size(); ++i)
+		{
+			int index_a = -1;
+			int index_b = -1;
+		
+			while (index_a == index_b)
+			{
+				index_a = random(0, items.size() - 1);
+				index_b = random(0, items.size() - 1);
+			}
+			
+			vector3 pos_a = items[index_a].pos;
+			vector3 pos_b = items[index_b].pos;
+			
+			items[index_a].setOrigin(pos_b, false);
+			items[index_b].setOrigin(pos_a, false);
+		}
+		
+	}
+	
+	override void closeFunc() {}
+
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ShuffleItemsAround');
+		event.eventname = "Shuffle Items";
+		event.duration = 35 * 5;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_ShrinkPickups : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ( (mo = Actor(it.Next ())) )
+		{
+			if (mo is 'inventory')
+			{
+				mo.scale.x = 0.1;
+				mo.scale.y = 0.1;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ( (mo = Actor(it.Next ())) )
+		{
+			if (mo is 'inventory')
+			{
+				mo.scale.x = 1;
+				mo.scale.y = 1;
+			}
+		}
+	}
+	
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ShrinkPickups');
+		event.eventname = "What is this? A pickup for ants?";
+		event.duration = 35 * 3 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_ReplaceHealthWithBonuses : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "health" && !(mo is 'healthbonus'))
+			{
+				let item = Actor.spawn('healthbonus', mo.pos);
+				mo.destroy();
+			}
+		}
+		
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ReplaceHealthWithBonuses');
+		event.eventname = "Health Famine";
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_ReplaceMedikitWithStimpack : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "medikit")
+			{
+				let item = Actor.spawn('stimpack', mo.pos);
+				mo.destroy();
+			}
+		}
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ReplaceMedikitWithStimpack');
+		event.eventname = "Health Recession";
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}

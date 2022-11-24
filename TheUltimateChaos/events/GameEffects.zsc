@@ -1,0 +1,39 @@
+Class TUC_RestartLevel : TUC_Event
+{
+	bool restart;
+
+	override void eventFunc()
+	{
+		restart = true;
+		if (life == duration - 1)
+		{
+			int rng = random(1, 5);
+			if (rng != 3)
+			{
+				type = E_HiddenTimer;
+				life = 0;
+				duration = 35 * 15;
+				eventname = "Fake level restart";
+				restart = false;
+				activated = true;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		if (restart)
+		{
+			level.changeLevel(level.mapname);
+		}
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_RestartLevel');
+		event.eventname = "Exit and restart level";
+		event.duration = 35 * 10;
+		event.type = E_Timed;
+		return event;
+	}
+}

@@ -1,0 +1,419 @@
+Class TUC_AnkleBiterEnemies : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.x /= 3;
+				mo.scale.y /= 3;
+				mo.A_SetSize(mo.height / 3, mo.radius / 3, false);
+			}
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc() 
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.x = 1;
+				mo.scale.y = 1;
+				mo.A_SetSize(mo.height * 3, mo.radius * 3, false);
+			}
+		}
+	}
+
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_AnkleBiterEnemies');
+		event.eventname = "Ankle Biters";
+		event.duration = 35 * 60 * 2;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_WideMonsters : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.x = 5;
+			}
+		}
+	}
+	
+	override void closeFunc() 
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.x = 1;
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_WideMonsters');
+		event.eventname = "Wide Monsters";
+		event.duration = 35 * 90;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_TallMonsters : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.y = 7;
+			}
+		}
+	}
+	
+	override void closeFunc() 
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.y = 1;
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_TallMonsters');
+		event.eventname = "Tall Monsters";
+		event.duration = 35 * 90;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_SpinningMonsters : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.A_SetAngle(mo.angle + 45);
+			}
+		}
+	}
+	
+	override void closeFunc() 
+	{
+
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SpinningMonsters');
+		event.eventname = "Speeeeeeeen!";
+		event.duration = 35 * 90;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_SpawnFriendlyGreatGodImp : TUC_Event
+{
+	override void eventFunc()
+	{
+		while (true)
+		{
+			int rng = random(0, level.Sectors.size() - 1);
+			let c = level.Sectors[rng].centerspot;
+			if (level.IsPointInLevel((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c))))
+			{
+				double ceilheight = level.Sectors[rng].ceilingplane.ZAtPoint(c);
+				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
+				if (ceilheight - floorheight > 64)
+				{
+					let friend = Actor.spawn('greatgodimp', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
+					friend.bFriendly = true;
+					friend.bIsMonster = false;
+					activated = true;
+					break;
+				}
+			}
+		}
+	}
+	
+	override void closeFunc() 
+	{
+		
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SpawnFriendlyGreatGodImp');
+		event.eventname = "Thou hast been blessed!";
+		event.duration = 35 * 90;
+		event.type = E_PerLevel;
+		return event;
+	}
+}
+
+Class TUC_StatueEnemies : TUC_Event
+{
+	Array<Actor> pushables;
+	Array<Actor> inactive;
+	
+	bool set;
+
+	override void eventFunc()
+	{
+		if (!set)
+		{
+			pushables.clear();
+			inactive.clear();
+			set = true;
+		}
+	
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				if (mo.bPushable) pushables.push(mo);
+				if (mo.bDormant) inactive.push(mo);
+				mo.bPushable = true;
+				mo.bShootable = false;
+				mo.tics = -1;
+			}
+		}
+		
+		PlayerInfo player = players[consoleplayer];
+		player.mo.bNoTarget = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.bPushable = false;
+				mo.bShootable = true;
+				mo.tics = 1;
+			}
+		}
+		
+		for (int i = 0; i < pushables.size(); ++i)
+		{
+			if (!pushables[i]) continue;
+			pushables[i].bPushable = true;
+		}
+		
+		for (int j = 0; j < inactive.size(); ++j)
+		{
+			if(!inactive[j]) continue;
+			inactive[j].bDormant = true;
+		}
+		
+		PlayerInfo player = players[consoleplayer];
+		player.mo.bNoTarget = false;
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_StatueEnemies');
+		event.eventname = "Statue enemies";
+		event.duration = 35 * 30;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_NightmareMonsters : TUC_Event
+{
+	Array<Actor> prestealth;
+	bool set;
+	
+	override void eventFunc()
+	{
+		if (!set)
+		{
+			prestealth.clear();
+			set = true;
+		}
+		
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				if (mo.bStealth) prestealth.push(mo);
+				else mo.bStealth = true;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				if (prestealth.find(mo) == prestealth.size())
+				{
+					mo.bStealth = false;
+				}
+			}
+		}
+	}
+	
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_NightmareMonsters');
+		event.eventname = "Stealth Monsters";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_NightmareRespawns : TUC_Event
+{
+	array<actor> preRespawn;
+	bool set;
+	
+	override void eventFunc()
+	{
+		if (!set)
+		{
+			preRespawn.clear();
+			set = true;
+		}
+		
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				if (mo.bAlwaysRespawn) preRespawn.push(mo);
+				else mo.bAlwaysRespawn = true;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.bAlwaysRespawn = false;
+			}
+		}
+		
+		for (int i = 0; i < preRespawn.size(); ++i)
+		{
+			if (!preRespawn[i]) continue;
+			preRespawn[i].bAlwaysRespawn = true;
+		}
+	}
+	
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_NightmareRespawns');
+		event.eventname = "Respawning monsters";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_SpawnGreatGodImp : TUC_Event
+{
+	Actor impy;
+
+	override void eventFunc()
+	{
+		while (true)
+		{
+			int rng = random(0, level.Sectors.size() - 1);
+			let c = level.Sectors[rng].centerspot;
+			if (level.IsPointInLevel((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c))))
+			{
+				double ceilheight = level.Sectors[rng].ceilingplane.ZAtPoint(c);
+				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
+				if (ceilheight - floorheight > 64)
+				{
+					impy = Actor.spawn('greatgodimp', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
+					activated = true;
+					break;
+				}
+			}
+		}
+	}
+	
+	override void closeFunc() 
+	{
+		if (impy) impy.destroy();
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SpawnGreatGodImp');
+		event.eventname = "The Great God Imp";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}

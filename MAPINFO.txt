@@ -1,4 +1,5 @@
 GameInfo
 {
 	AddEventHandlers = "TUC_EventHandler"
+	AddEventHandlers = "TUC_EntropyMaintainer"
 }

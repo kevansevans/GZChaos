@@ -1,0 +1,92 @@
+Class TUC_SetMusicToCursedMidi : TUC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+	
+		int rng = random(0, E_NumSongs - 1);
+		switch (rng)
+		{
+			case E_RUNNNN:
+				player.S_ChangeMusic('D_RUNNNN');
+				eventname = eventname .. " - D_RUNNNN";
+				break;
+			case E_DURGEN:
+				player.S_ChangeMusic('DRGNFRCE');
+				eventname = eventname .. " - TRO DA FER AN DA FWAMES";
+				break;
+			case E_MEGALO:
+				player.S_ChangeMusic('MEGALODOOMIA');
+				eventname = eventname .. " - Megalodoomia";
+				break;
+			case E_VENFLOW:
+				player.S_ChangeMusic('EVENFLOW');
+				eventname = eventname .. " - Evenflow (Pearl Jam)";
+				break;
+			case E_SKRILLEX:
+				player.S_ChangeMusic('SKRILLEX');
+				eventname = eventname .. " - Scary Monsters and Nice Sprites (Skrillex)";
+				break;
+		}
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SetMusicToCursedMidi');
+		event.eventname = "Cursed music";
+		event.duration = 35 * 30;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+enum E_Music
+{
+	E_RUNNNN,
+	E_DURGEN,
+	E_MEGALO,
+	E_VENFLOW,
+	E_SKRILLEX,
+	E_NumSongs
+}
+
+Class TUC_PlayCreeperHiss : TUC_Event
+{
+	bool set;
+	int ticcount;
+
+	override void eventFunc()
+	{
+		if (!set)
+		{
+			let player = players[consoleplayer].mo;
+			player.A_StartSound("creeper/hiss", CHAN_AUTO, 0, 1, ATTN_NONE);
+			ticcount = gametic;
+			set = true;
+		}
+		if (gametic - ticcount > 35 * 3)
+		{
+			eventname = "Creeper, aw man!";
+			activated = true;
+		}
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_PlayCreeperHiss');
+		event.eventname = "";
+		event.duration = 35 * 15;
+		event.type = E_HiddenTimer;
+		return event;
+	}
+}

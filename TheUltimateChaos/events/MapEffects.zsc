@@ -1,0 +1,361 @@
+Class TUC_ClearAutoMap : TUC_Event
+{
+	override void eventFunc()
+	{
+		for (int i = 0; i < level.lines.size(); ++i)
+		{
+			level.lines[i].flags &= ~(Line.ML_MAPPED);
+		}
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ClearAutoMap');
+		event.eventname = "Clear Auto Map";
+		event.duration = 35 * 30;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_BrokenBSPRendering : TUC_Event
+{
+	Array<line> lines;
+
+	override void eventFunc()
+	{
+		
+		if (!lines.size())
+		{
+			lines.clear();
+			for (int i = 0; i < level.lines.size(); ++i)
+			{
+				line linedef = level.lines[i];
+				if (linedef.flags & line.ML_TWOSIDED)
+				{
+					linedef.flags &= ~(line.ML_TWOSIDED);
+					continue;
+				}
+				else lines.push(linedef);
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		for (int i = 0; i < level.lines.size(); ++i)
+		{
+			line linedef = level.lines[i];
+			if (lines.find(linedef) == lines.size())
+			{
+				linedef.flags |= line.ML_TWOSIDED;
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_BrokenBSPRendering');
+		event.eventname = "BSP Corruption";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_TheFloorIsLava : TUC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
+		player.cursector.damageType = 'slime';
+		player.cursector.damageinterval = 35;
+		player.cursector.damageamount = 20;
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_TheFloorIsLava');
+		event.eventname = "The floor is lava!";
+		event.duration = 35 * 10;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_TheFloorIsNukage : TUC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.cursector.setTexture(0, TexMan.CheckForTexture("NUKAGE1"));
+		player.cursector.damageType = 'slime';
+		player.cursector.damageinterval = 35;
+		player.cursector.damageamount = 10;
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_TheFloorIsNukage');
+		event.eventname = "The floor is Nukage!";
+		event.duration = 35 * 10;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_TheFloorIsSludge : TUC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.cursector.setTexture(0, TexMan.CheckForTexture("SLIME01"));
+		player.cursector.damageType = 'slime';
+		player.cursector.damageinterval = 35;
+		player.cursector.damageamount = 5;
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_TheFloorIsSludge');
+		event.eventname = "The floor is sludge!";
+		event.duration = 35 * 10;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_SetAllWallsToStartan : TUC_Event
+{
+	override void eventFunc()
+	{
+	
+		TextureID walltex = TexMan.checkForTexture("STARTAN2");
+	
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+		
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				TextureID curtex = sidedef.GetTexture(wall);
+				if (curtex)
+				{
+					string wallname = TexMan.getName(curtex);
+					if (wallname == "DOORTRAK")
+					{
+						sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
+					}
+					else
+					{
+						if (!checkIfReplaceable(wallname)) continue;
+					}
+					sidedef.setTexture(wall, walltex);
+				}
+			}
+		}
+		
+		TextureID floortex = TexMan.CheckForTexture("FLOOR0_1");
+		TextureID ceiltex = TexMan.CheckForTexture("CEIL1_1");
+		
+		for (int se = 0; se < level.sectors.size(); ++se)
+		{
+			string orgFloorText = TexMan.getName(level.sectors[se].getTexture(0));
+			if (orgFloorText != "F_SKY1" && checkIfReplaceable(orgFloorText))
+			{
+				level.sectors[se].setTexture(0, floortex);
+			}
+			string orgCeilText = TexMan.getName(level.sectors[se].getTexture(1));
+			if (orgCeilText != "F_SKY1" && checkIfReplaceable(orgCeilText))
+			{
+				level.sectors[se].setTexture(1, ceiltex);
+			}
+			level.sectors[se].lightlevel = 192;
+		}
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SetAllWallsToStartan');
+		event.eventname = "MyFirstMap.wad";
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_SetAllWallsToFireblu : TUC_Event
+{
+	override void eventFunc()
+	{
+		TextureID newtex = TexMan.checkForTexture("FIREBLU1");
+		
+		level.ChangeSky(newtex, TexMan.checkForTexture(''));
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+		
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+					sidedef.setTexture(wall, newtex);
+				}
+			}
+		}
+		for (int se = 0; se < level.sectors.size(); ++se)
+		{
+			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+			{
+				level.sectors[se].setTexture(0, newtex);
+			}
+			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			{
+				level.sectors[se].setTexture(1, newtex);
+			}
+			level.sectors[se].lightlevel = 192;
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SetAllWallsToFireblu');
+		event.eventname = "Everyone's favorite texture";
+		event.duration = 35 * 90;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_ShuffleKeyTextures : TUC_Event
+{
+	override void eventFunc()
+	{
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+	
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				int rng = random(0, 1);
+				if (rng == 1) continue;
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					string texname = TexMan.getName(walltex);
+					texname.truncate(4);
+					if (texname != "DOOR") continue;
+					else
+					{
+						switch (name(TexMan.getName(walltex)))
+						{
+							case 'DOORBLU':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORRED2'));
+								if (random(1, 10) != 10) break;
+							case 'DOORRED2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORYEL'));
+								if (random(1, 10) != 10) break;
+							case 'DOORYEL':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORBLU2'));
+								if (random(1, 10) != 10) break;
+							case 'DOORBLU2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORRED'));
+								if (random(1, 10) != 10) break;
+							case 'DOORRED':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORYEL2'));
+								if (random(1, 10) != 10) break;
+							case 'DOORYEL2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORBLU'));
+								break;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ShuffleKeyTextures');
+		event.eventname = "Shuffle key color textures";
+		event.duration = 35 * 5;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_MisalignAllTextures : TUC_Event
+{
+	override void eventFunc()
+	{
+		for (int i = 0; i < level.sides.size(); ++i)
+		{
+			int rng = random(0, 5);
+			if (rng != 5) continue;
+			side sidedef = level.sides[i];
+			for (int j = 0; j < 3; ++j)
+			{
+				if (sidedef.getTexture(j))
+				{
+					double x = sidedef.getTextureXOffset(j);
+					double y = sidedef.getTextureXOffset(j);
+					sidedef.setTextureXOffset(j, x + random(-4, 4));
+					sidedef.setTextureYOffset(j, y + random(-4, 4));
+				}
+			}
+		}
+		activated = true;
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_MisalignAllTextures');
+		event.eventname = "I forgot to align my textures...";
+		event.duration = 35 * 30;
+		event.type = E_PerLevel;
+		return event;
+	}
+}

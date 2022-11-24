@@ -7,7 +7,6 @@ Class TUC_EventHandler : StaticEventHandler
 	PlayerInfo infoplayer;
 	
 	TUC_EventList list;
-	Array<TUC_Event> activeEffects;
 	
 	Array<String> criticals;
 	
@@ -17,27 +16,64 @@ Class TUC_EventHandler : StaticEventHandler
 	double prevSideMove2;
 	
 	int timelimit;
+	EffectInventory effects;
+	
+	bool uiIsHidden;
 
 	override void OnRegister()
 	{
 		console.printf('Let the Chaos begin!');
 		
 		list = TUC_EventList.create();
-		console.printf('Loading in ' .. E_NumEvents .. ' events!');
+		console.printf('Loading in ' .. (E_NumEvents) .. ' events!');
 		
 		timer = 0;
 		
-		activeEffects.clear();
 		criticals.clear();
+	}
+	
+	void getPlayerInfo()
+	{
+		infoplayer = players[consoleplayer];
+		player = infoplayer.mo;
+	}
+	
+	void getEffects()
+	{
+		if (!player) getPlayerInfo();
+		
+		for (inventory item = player.inv; item != null; item = item.inv)
+		{	
+			if (item is "EffectInventory")
+			{
+				effects = EffectInventory(item);
+				return;
+			}
+		}
+	
+		player.giveInventory('EffectInventory', 1);
+		for (inventory item = player.inv; item != null; item = item.inv)
+		{	
+			if (item is "EffectInventory")
+			{
+				effects = EffectInventory(item);
+				effects.events.clear();
+				break;
+			}
+		}
 	}
 	
 	override void PlayerEntered(PlayerEvent event)
 	{
-		if (activeEffects.size())
+		getPlayerInfo();
+		
+		getEffects();
+	
+		if (effects.events.size())
 		{
-			for (int i = 0; i < activeEffects.size(); ++i)
+			for (int i = 0; i < effects.events.size(); ++i)
 			{
-				TUC_Event event = activeEffects[i];
+				TUC_Event event = effects.events[i];
 				if (event.type == E_PerLevel || event.type == E_Instant)
 				{
 					removeEffect(event);
@@ -57,53 +93,91 @@ Class TUC_EventHandler : StaticEventHandler
 			addEffectToActive();
 		}
 		
-		for (int i = 0; i < activeEffects.size(); ++i)
-		{
-			if (!activeEffects[i].activated) activeEffects[i].eventFunc();
-			if (activeEffects[i].type == E_Instant) activeEffects[i].activated = true;
-			activeEffects[i].life += 1;
-			if (activeEffects[i].life > activeEffects[i].duration && activeEffects[i].type != E_PerLevel)
+		if (!player) getPlayerInfo();
+		
+		if (!effects) getEffects();
+		
+		for (inventory item = player.inv; item != null; item = item.inv)
+		{	
+			if (item is "EffectInventory")
 			{
-				removeEffect(activeEffects[i]);
+				effects = EffectInventory(item);
+				break;
 			}
+		}
+			
+		if (player.health > 0)
+		{
+			for (int i = 0; i < effects.events.size(); ++i)
+			{
+				if (!effects.events[i].activated) effects.events[i].eventFunc();
+				if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
+				effects.events[i].life += 1;
+				if (effects.events[i].life > effects.events[i].duration && effects.events[i].type != E_PerLevel)
+				{
+					removeEffect(effects.events[i]);
+				}
+			}	
 		}
 	}
 	
-	void addEffectToActive()
+	void addEffectToActive(int _ignore = -1)
 	{
-		TUC_Event effect = list.getEffect();
-		activeEffects.push(effect);
+		TUC_Event effect = list.getEffect(_ignore);
+		effects.events.push(effect);
 	}
 	
 	void removeEffect(TUC_Event _effect)
 	{
 		TUC_Event effect = _effect;
-		int place = activeEffects.find(effect);
-		activeEffects.delete(place);
-		activeEffects.shrinkToFit();
 		effect.closeFunc();
+		int place = effects.events.find(effect);
+		effects.events.delete(place);
+		effects.events.shrinkToFit();
 		effect.destroy();
+	}
+	
+	override void RenderUnderlay(RenderEvent event)
+	{
+		drawScreen();
 	}
 	
 	override void RenderOverlay(RenderEvent event)
 	{
-		double ratio = timer / timeLimit;
-		double width = ratio * double(Screen.getWidth());
-		Screen.DrawThickLine(0, 5, width, 5, 20, Color("00CC00"));
+		//drawScreen();
+	}
+	
+	ui void drawScreen()
+	{
+		if (!player) return;
 		
-		if (activeEffects.size() > 0)
+		if (player.health > 0)
 		{
-			int yOffset = 150;
-			for (int i = 0; i < activeEffects.size(); ++i)
+			if (!uiIsHidden)
 			{
-				TUC_Event effect = activeEffects[i];
-				if (activeEffects[i].type == E_Timed)
+				double ratio = timer / timeLimit;
+				double width = ratio * double(Screen.getWidth());
+				Screen.DrawThickLine(0, 5, width, 5, 10, Color("00CC00"));
+			}
+			
+			if (!effects) return;
+		
+			if (effects.events.size() > 0)
+			{
+				int yOffset = 150;
+				for (int i = 0; i < effects.events.size(); ++i)
 				{
-					double ratio = 1 - (double(effect.life) / double(effect.duration));
-					Screen.DrawThickLine(20, yOffset, 20 + (200 * ratio), yOffset, 10, color("FF0000"));
+					if (uiIsHidden && !(effects.events[i] is "TUC_HideTimerAndEffects")) continue;
+				
+					TUC_Event effect = effects.events[i];
+					Screen.DrawText(BIGFONT, Font.CR_White, 20, (yoffset - 20), effect.eventname, DTA_ScaleX, 1.5, DTA_ScaleY, 1.5);
+					if (effects.events[i].type == E_Timed)
+					{
+						double ratio = 1 - (double(effect.life) / double(effect.duration));
+						Screen.DrawThickLine(20, yOffset += 10, 20 + (200 * ratio), yOffset, 10, color("FF0000"), 255);
+					}
+					yOffset += 60;
 				}
-				Screen.DrawText(BIGFONT, Font.CR_White, 20, (yoffset - 20), effect.eventname);
-				yOffset += 60;
 			}
 		}
 	}
@@ -135,10 +209,25 @@ Class TUC_EventHandler : StaticEventHandler
 					case 'slowdown':
 						list.timemodifier *= command[2].toDouble();
 						break;
+					case 'hideeverything':
+						uiIsHidden = true;
+						break;
+					case 'showeverything':
+						uiIsHidden = false;
+						break;
 				}
 				break;
-			default:
-				console.printf('Fix me! ' .. event.name);
+			case 'rolleffect':
+				addEffectToActive(E_RollExtraEffects);
+				break;
 		}
+	}
+}
+
+Class TUC_EntropyMaintainer : EventHandler
+{
+	override void WorldTick()
+	{
+		if (gametic % 35 == 0) random(1, 100);
 	}
 }

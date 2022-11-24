@@ -1,0 +1,373 @@
+Class TUC_InventorySickness : TUC_Event
+{
+	override void eventFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		player.bPickup = false;
+		
+		let item = player.inv;
+		actor newitem;
+		
+		for (inventory item = player.inv; item != null; item = item.inv)
+		{
+			if (item is "EffectInventory") continue;
+			else
+			{
+				Vector3 newpos = player.pos;
+				newpos.z += 20;
+				if (item is "weapon")
+				{
+					let gun = weapon(item);
+					if (gun.ammo1)
+					{
+						if (player.countInv(gun.ammo1.getClassName()))
+						{
+							string ammotype = gun.ammo1.getClassName();
+							newitem = Actor.spawn(ammotype, newpos);
+							player.takeInventory(gun.ammo1.getClassName(), inventory(newitem).amount);
+							break;
+						}
+					}
+					if (gun.ammo2)
+					{
+						if (player.countInv(gun.ammo2.getClassName()))
+						{
+							string ammotype = gun.ammo2.getClassName();
+							newitem = Actor.spawn(ammotype, newpos);
+							player.takeInventory(gun.ammo2.getClassName(), inventory(newitem).amount);
+							break;
+						}
+					}
+					string guntype = item.getClassName();
+					newitem = Actor.spawn(guntype, newpos);
+					player.takeInventory(guntype, 1);
+					break;
+				}
+				if (item is "key")
+				{
+					string keytype = item.getClassName();
+					newitem = Actor.spawn(keytype, newpos);
+					player.takeInventory(keytype, 1);
+					break;
+				}
+			}
+		}
+		
+		if (newitem)
+		{
+			newitem.thrust(5 + random(0, 10), player.angle + random(-15, 15));
+		}
+		
+	}
+	
+	override void closeFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		player.bPickup = true;
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_InventorySickness');
+		event.eventname = "Inventory sickness";
+		event.duration = 35 * 10;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_TakeAllKeysAway : TUC_Event
+{
+	Array<String> keys;
+
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		
+		for (inventory item = player.inv; item != null; item = item.inv)
+		{
+			if (item is "key")
+			{
+				keys.push(item.getClassName());
+			}
+		}
+		
+		for (int i = 0; i < keys.size(); ++i)
+		{
+			player.takeInventory(keys[i], 1);
+		}
+	}
+	
+	override void closeFunc()
+	{
+		if (keys.size())
+		{
+			let player = players[consoleplayer].mo;
+			
+			for (int i = 0; i < keys.size(); ++i)
+			{
+				player.giveInventory(keys[i], 1);
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_TakeAllKeysAway event = new('TUC_TakeAllKeysAway');
+		event.eventname = "Can't find my keys!";
+		event.duration = 35 * 90;
+		event.type = E_Timed;
+		event.keys.clear();
+		return TUC_Event(event);
+	}
+}
+
+Class TUC_GiveMegasphere : TUC_Event
+{
+	override void eventFunc()
+	{
+		givePlayerItem('Megasphere');
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveMegaSphere');
+		event.eventname = "Give megasphere";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GiveLightAmp : TUC_Event
+{
+	override void eventFunc()
+	{
+		givePlayerItem('Infrared');
+		activated = true;
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveLightAmp');
+		event.eventname = "Give light amp";
+		event.duration = 35 * 120;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_GiveRadSuit : TUC_Event
+{
+	override void eventFunc()
+	{
+		givePlayerItem('RadSuit');
+		activated = true;
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveRadSuit');
+		event.eventname = "Give rad suit";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_GiveInvulnerabilitySphere : TUC_Event
+{
+	override void eventFunc()
+	{
+		givePlayerItem('InvulnerabilitySphere');
+		activated = true;
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveInvulnerabilitySphere');
+		event.eventname = "Give invulnerability";
+		event.duration = 35 * 30;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_GiveHealthBonus : TUC_Event
+{
+	override void eventFunc()
+	{
+		givePlayerItem('HealthBonus');
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveHealthBonus');
+		event.eventname = "Give single health bonus";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GiveArmorBonus : TUC_Event
+{
+	override void eventFunc()
+	{
+		givePlayerItem('ArmorBonus');
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveArmorBonus');
+		event.eventname = "Give single armor bonus";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GivePistol : TUC_Event
+{
+	override void eventFunc()
+	{
+		giveAndSwitchTo("Pistol");
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GivePistol');
+		event.eventname = "Force switch to Pistol";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GiveShotgun : TUC_Event
+{
+	override void eventFunc()
+	{
+		giveAndSwitchTo("shotgun");
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveShotgun');
+		event.eventname = "Force switch to shotgun";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GiveSuperShotgun : TUC_Event
+{
+	override void eventFunc()
+	{
+		giveAndSwitchTo("SuperShotgun");
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveSuperShotgun');
+		event.eventname = "Force switch to super shotgun";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GiveChaingun : TUC_Event
+{
+	override void eventFunc()
+	{
+		giveAndSwitchTo("Chaingun");
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveChaingun');
+		event.eventname = "Force switch to chaingun";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GiveRocketLauncher : TUC_Event
+{
+	override void eventFunc()
+	{
+		giveAndSwitchTo("RocketLauncher");
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveRocketLauncher');
+		event.eventname = "Force switch to rocket launcher";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GivePlasmaRifle : TUC_Event
+{
+	override void eventFunc()
+	{
+		giveAndSwitchTo("PlasmaRifle");
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GivePlasmaRifle');
+		event.eventname = "Force switch to plasma rifle";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_GiveBFG9000 : TUC_Event
+{
+	override void eventFunc()
+	{
+		giveAndSwitchTo("BFG9000");
+	}
+	
+	override void closeFunc() {}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_GiveBFG9000');
+		event.eventname = "Force switch to BFG9000";
+		event.duration = 35 * 15;
+		event.type = E_Instant;
+		return event;
+	}
+}

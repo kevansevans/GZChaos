@@ -8,7 +8,10 @@ Class TUC_EventList play
 		return list;
 	}
 	
+	bool debug;
 	double timemodifier;
+	
+	EffectInventory effects;
 	
 	int timeLimit()
 	{
@@ -17,13 +20,28 @@ Class TUC_EventList play
 	
 	Array<Int> cachedEffects;
 	
-	TUC_Event getEffect()
+	TUC_Event getEffect(int _ignore = -1)
 	{
 		int event = -1;
+		
+		if (!effects)
+		{
+			let player = players[consoleplayer].mo;
+			
+			for (inventory item = player.inv; item != null; item = item.inv)
+			{	
+				if (item is "EffectInventory")
+				{
+					effects = EffectInventory(item);
+					break;
+				}
+			}
+		}
 		
 		while (true)
 		{
 			event = random(0, E_NumEvents - 1);
+			if (event == _ignore) continue;
 			if (cachedEffects.size() == 0) break;
 			switch (event)
 			{
@@ -33,8 +51,31 @@ Class TUC_EventList play
 				case E_QuarterTimerDuration:
 					if (cachedEffects.find(E_HalfTimerDuration) != cachedEffects.size()) continue;
 					break;
+				case E_DisableForwardBackwards:
+					if (cachedEffects.find(E_DisableStrafingMovement) != cachedEffects.size()) continue;
+					break;
+				case E_DisableStrafingMovement:
+					if (cachedEffects.find(E_DisableForwardBackwards) != cachedEffects.size()) continue;
+					break;
 			}
 			if (cachedEffects.find(event) == cachedEffects.size()) break;
+		}
+		
+		TUC_Event selectedevent;
+		
+		while (true)
+		{
+			selectedevent = getEvent(event);
+			for (int i = 0; i < effects.events.size(); ++i)
+			{
+				console.printf(selectedevent.getClassName());
+				console.printf(effects.events[i].getClassName());
+				if (selectedevent.getClassName() == effects.events[i].getClassName())
+				{
+					continue;
+				}
+			}
+			break;
 		}
 		
 		cachedEffects.push(event);
@@ -43,12 +84,15 @@ Class TUC_EventList play
 			cachedEffects.delete(0);
 			cachedEffects.shrinkToFit();
 		}
+		
+		if (!selectedevent) return TUC_DoNothing.create();
+		else return selectedevent;
+	}
 	
-		switch (event)
+	TUC_Event getEvent(int _input)
+	{
+		switch (_input)
 		{
-			////////////////////////////////////////////////////////////////////////////////////////////////////
-			//negative events
-			////////////////////////////////////////////////////////////////////////////////////////////////////
 			case E_TakeAllKeysAway:
 				return TUC_TakeAllKeysAway.create();
 			case E_ReplaceHealthWithBonuses:
@@ -67,16 +111,25 @@ Class TUC_EventList play
 				return TUC_DisableForwardBackwards.create();
 			case E_DisableStrafingMovement:
 				return TUC_DisableStrafingMovement.create();
+			case E_InvertPlayerMovement:
+				return TUC_InvertPlayerMovement.create();
 			case E_ShrinkPickups:
 				return TUC_ShrinkPickups.create();
 			case E_GameEndPlayer:
-				if (random(1, 100) == 100) return TUC_GameEndPlayer.create();
+				if (random(1, 10) == 5) return TUC_GameEndPlayer.create();
 				else return TUC_FakeGameEndPlayer.create();
 			case E_RestartLevel:
 				return TUC_RestartLevel.create();
-			////////////////////////////////////////////////////////////////////////////////////////////////////
-			//neutral events
-			////////////////////////////////////////////////////////////////////////////////////////////////////
+			case E_CantStopFiring:
+				return TUC_CantStopFiring.create();
+			case E_NightmareMonsters:
+				return TUC_NightmareMonsters.create();
+			case E_NightmareRespawns:
+				return TUC_NightmareRespawns.create();
+			case E_SuperIcePhysics:
+				return TUC_SuperIcePhysics.create();
+			case E_FallDamage:
+				return TUC_FallDamage.create();
 			case E_TeleportPlayer:
 				return TUC_TeleportPlayer.create();
 			case E_Nothing:
@@ -95,9 +148,8 @@ Class TUC_EventList play
 				return TUC_ShuffleKeyTextures.create();
 			case E_ShuffleItemsAround:
 				return TUC_ShuffleItemsAround.create();
-			////////////////////////////////////////////////////////////////////////////////////////////////////
-			//positive events
-			////////////////////////////////////////////////////////////////////////////////////////////////////
+			case E_RollExtraEffects:
+				return TUC_RollExtraEffects.create();
 			case E_GiveMegaSphere:
 				return TUC_GiveMegaSphere.create();
 			case E_GiveLightAmp:
@@ -122,25 +174,47 @@ Class TUC_EventList play
 				return TUC_GiveBFG9000.create();
 			case E_SpawnFriendlyGreatGodImp:
 				return TUC_SpawnFriendlyGreatGodImp.create();
-			////////////////////////////////////////////////////////////////////////////////////////////////////
-			//Silly
-			////////////////////////////////////////////////////////////////////////////////////////////////////
+			case E_GiveHealthBonus:
+				return TUC_GiveHealthBonus.create();
+			case E_GiveArmorBonus:
+				return TUC_GiveArmorBonus.create();
+			case E_StatueEnemies:
+				return TUC_StatueEnemies.create();
 			case E_WideMonsters:
 				return TUC_WideMonsters.create();
 			case E_TallMonsters:
 				return TUC_TallMonsters.create();
 			case E_SpinningMonsters:
 				return TUC_SpinningMonsters.create();
-			case E_SetMusicToRUNNNN:
-				return TUC_SetMusicToRUNNNN.create();
 			case E_MisalignAllTextures:
 				return TUC_MisalignAllTextures.create();
 			case E_FakeGameEndPlayer:
-				if (random(1, 100) == 100) return TUC_GameEndPlayer.create();
+				if (random(1, 10) == 5) return TUC_GameEndPlayer.create();
 				else return TUC_FakeGameEndPlayer.create();
+			case E_PlayCreeperHiss:
+				return TUC_PlayCreeperHiss.create();
+			case E_SetMusicToCursedMidi:
+				return TUC_SetMusicToCursedMidi.create();
+			case E_AnkleBiterEnemies:
+				return TUC_AnkleBiterEnemies.create();
+			case E_InventorySickness:
+				return TUC_InventorySickness.create();
+			case E_LeftJoyconDrift:	
+				return TUC_LeftJoyconDrift.create();
+			case E_RightJoyconDrift:
+				return TUC_RightJoyconDrift.create();
+			case E_BrokenBSPRendering:
+				return TUC_BrokenBSPRendering.create();
+			case E_ScardeyItems:
+				return TUC_ScardeyItems.create();
+			case E_ClearAutoMap:
+				return TUC_ClearAutoMap.create();
+			case E_HideTimerAndEffects:
+				return TUC_HideTimerAndEffects.create();
+			case E_ResetEffectTimers:
+				return TUC_ResetEffectTimers.create();
 		}
 		
-		console.printf('Missing event case! Investigate: ' .. event);
 		return TUC_DoNothing.create();
 	}
 }
@@ -156,9 +230,6 @@ enum E_EventType
 
 enum E_Event
 {
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	//negative
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 	E_TakeAllKeysAway,
 	E_ReplaceHealthWithBonuses,
 	E_ReplaceMedikitWithStimpack,
@@ -168,12 +239,15 @@ enum E_Event
 	E_TheFloorIsSludge,
 	E_DisableForwardBackwards,
 	E_DisableStrafingMovement,
+	E_InvertPlayerMovement,
 	E_ShrinkPickups,
 	E_GameEndPlayer,
 	E_RestartLevel,
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	//neutral
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	E_CantStopFiring,
+	E_NightmareMonsters,
+	E_NightmareRespawns,
+	E_SuperIcePhysics,
+	E_FallDamage,
 	E_TeleportPlayer,
 	E_Nothing,
 	E_DoubleTimerDuration,
@@ -183,9 +257,7 @@ enum E_Event
 	E_SetAllWallsToFireblu,
 	E_ShuffleKeyTextures,
 	E_ShuffleItemsAround,
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	//positive
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	E_RollExtraEffects,
 	E_GiveMegaSphere,
 	E_GiveLightAmp,
 	E_GiveRadSuit,
@@ -198,18 +270,25 @@ enum E_Event
 	E_GivePlasmaRifle,
 	E_GiveBFG9000,
 	E_SpawnFriendlyGreatGodImp,
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	//silly
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	E_GiveHealthBonus,
+	E_GiveArmorBonus,
+	E_StatueEnemies,
 	E_WideMonsters,
 	E_TallMonsters,
 	E_SpinningMonsters,
-	E_SetMusicToRUNNNN,
 	E_MisalignAllTextures,
 	E_FakeGameEndPlayer,
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	//Number of Events
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	E_SetMusicToCursedMidi,
+	E_PlayCreeperHiss,
+	E_AnkleBiterEnemies,
+	E_InventorySickness,
+	E_LeftJoyconDrift,
+	E_RightJoyconDrift,
+	E_BrokenBSPRendering,
+	E_ScardeyItems,
+	E_ClearAutoMap,
+	E_HideTimerAndEffects,
+	E_ResetEffectTimers,
 	E_NumEvents
 }
 
@@ -268,6 +347,10 @@ Class TUC_Event abstract play
 			case 'SPCDOOR4':
 			case 'TEKBRON1':
 			case 'TEKBRON2':
+			case 'GATE1':
+			case 'GATE2':
+			case 'GATE3':
+			case 'GATE4':
 				return false;
 		}
 		
@@ -276,4 +359,9 @@ Class TUC_Event abstract play
 		
 		return true;
 	}
+}
+
+Class EffectInventory : Inventory
+{
+	Array<TUC_Event> events;
 }
