@@ -1,3 +1,85 @@
+Class TUC_StartRecording : TUC_Event
+{
+	//stupid gzdoom not letting me use vector3's in an array
+	Array<Double> posx;
+	Array<Double> posy;
+	Array<Double> posz;
+	Array<Double> angles;
+	
+	int st;
+
+	override void eventFunc()
+	{
+		if (!posx.size())
+		{
+			posx.clear();
+			posy.clear();
+			posz.clear();
+			angles.clear();
+			st = 0;
+		}
+		
+		PlayerPawn player = players[consoleplayer].mo;
+		
+		switch (st)
+		{
+			case 0:
+			
+				Vector3 checkpoint = player.pos;
+				Double checkangle = player.angle;
+				
+				posx.push(checkpoint.x);
+				posy.push(checkpoint.y);
+				posz.push(checkpoint.z);
+				
+				angles.push(checkangle);
+				
+				if (life == duration - 1)
+				{
+					st = 1;
+					life = 0;
+					eventname = "<< Rewinding";
+				}
+				break;
+			case 1:
+			
+				int index = posx.size() - 1;
+				
+				player.setOrigin((posx[index], posy[index], posz[index]), true);
+				player.angle = angles[index];
+				
+				posx.delete(index);
+				posy.delete(index);
+				posz.delete(index);
+				
+				angles.delete(index);
+				
+				posx.shrinkToFit();
+				posy.shrinkToFit();
+				posz.shrinkToFit();
+				
+				angles.shrinkToFit();
+				
+				break;
+		}
+	}
+		
+	override void closeFunc()
+	{
+	
+	}
+	
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_StartRecording');
+		event.eventname = "Recording";
+		event.duration = 35 * 15;
+		event.type = E_Timed;
+		event.deleteme = true;
+		return event;
+	}
+}
+
 Class TUC_ScardeyItems : TUC_Event
 {
 	override void eventFunc()
@@ -47,10 +129,13 @@ Class TUC_RightJoyconDrift : TUC_Event
 		double xspeed = cos(angle) * drift;
 		double yspeed = sin(angle) * drift;
 		
-		player.mo.angle += (xspeed / 10);
-		player.mo.pitch += (yspeed / 10);
+		if (player.cmd.pitch == 0 && player.cmd.yaw == 0)
+		{
+			player.mo.angle += (xspeed / 1000);
+			if (!player.centering) player.mo.pitch += (yspeed / 1000);
 		
-		player.mo.MovePlayer();
+			player.mo.CheckPitch();
+		}
 	}
 	
 	override void closeFunc()
@@ -61,7 +146,7 @@ Class TUC_RightJoyconDrift : TUC_Event
 	Static TUC_Event create()
 	{
 		TUC_Event event = new('TUC_RightJoyconDrift');
-		TUC_RightJoyconDrift(event).drift = random(-5, 5);
+		TUC_RightJoyconDrift(event).drift = random(400, 600);
 		TUC_RightJoyconDrift(event).angle = random(0, 359);
 		event.eventname = "Right Joycon drift";
 		event.duration = 35 * 60 * 2;
@@ -79,12 +164,11 @@ Class TUC_LeftJoyconDrift : TUC_Event
 	{
 		PlayerInfo player = players[consoleplayer];
 		double xspeed = cos(angle) * drift;
-		double yspeed = sin(angle) * drift;
 		
-		player.cmd.forwardmove = int(yspeed);
-		player.cmd.sidemove = int(xspeed);
-		
-		player.mo.MovePlayer();
+		if (player.cmd.forwardmove == 0 && player.cmd.sidemove == 0)
+		{
+			player.mo.thrust(xspeed / 2000, (xspeed / 2000) + player.mo.angle);
+		}
 	}
 	
 	override void closeFunc()
@@ -242,6 +326,7 @@ Class TUC_GameEndPlayer : TUC_Event
 		if (gametic - startframe >= 35 * 1)
 		{
 			player.A_Explode(999, 64);
+			activated = true;
 		}
 		else
 		{
@@ -346,7 +431,7 @@ Class TUC_SuperIcePhysics : TUC_Event
 	Static TUC_Event create()
 	{
 		TUC_Event event = new('TUC_SuperIcePhysics');
-		event.eventname = "Super Ice Physics";
+		event.eventname = "Disabled player friction";
 		event.duration = (35 * 60 * 2) + (35 * 30);
 		event.type = E_Timed;
 		return event;

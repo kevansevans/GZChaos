@@ -54,7 +54,7 @@ Class TUC_HideTimerAndEffects : TUC_Event
 	{
 		TUC_Event event = new('TUC_HideTimerAndEffects');
 		event.eventname = "Hidden timer and effects";
-		event.duration = 35 * 60 * 5;
+		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
 		return event;
 	}

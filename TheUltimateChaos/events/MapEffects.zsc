@@ -1,3 +1,143 @@
+Class TUC_SuperSecretsEverywhere : TUC_Event
+{
+	override void eventFunc()
+	{
+		for (int i = 0; i < level.sectors.size(); ++i)
+		{
+			sector sec = level.sectors[i];
+			sec.flags |= Sector.SECF_SECRET;
+		}
+		
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "Inventory")
+			{
+				mo.bCountSecret = true;
+			}
+			
+		}
+	}
+	
+	override void closeFunc()
+	{}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SuperSecretsEverywhere');
+		event.eventname = "Everything is a secret";
+		event.duration = 35 * 60;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
+Class TUC_IncreasedSectorFriction : TUC_Event
+{
+	Array<Sector> applied;
+	int factor;
+	
+	override void eventFunc()
+	{
+		if (!applied.size()) 
+		{
+			applied.clear();
+			factor = random(2, 10);
+			eventname = factor .. "x sector friction";
+		}
+		
+		for (int i = 0; i < level.sectors.size(); ++i)
+		{
+			sector sec = level.sectors[i];
+			
+			if (applied.size() == 0 || applied.find(sec) == applied.size())
+			{
+				sec.friction /= factor;
+				sec.flags |= Sector.SECF_FRICTION;
+				applied.push(sec);
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		for (int i = 0; i < applied.size(); ++i)
+		{
+			if (!applied[i]) continue;
+			
+			sector sec = applied[i];
+			
+			sec.friction *= factor;
+			sec.flags &= ~(Sector.SECF_FRICTION);
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_IncreasedSectorFriction');
+		event.eventname = "Increased Sector Friction";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+/*Class TUC_TheVomitorium : TUC_Event
+{
+	Array<line> lines;
+
+	override void eventFunc()
+	{
+		lines.clear();
+		
+		PlayerPawn player = players[consoleplayer].mo;
+		
+		for (int i = 0; i < level.lines.size(); ++i)
+		{
+			line linedef = level.lines[i];
+			
+			if (linedef.special != 0)
+			{
+				lines.push(linedef);
+				continue;
+			}
+			
+			scroll_wall(0, random(-16,16),random(-16,16),0,7);
+			
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		for (int i = 0; i < level.lines.size(); ++i)
+		{
+			line linedef = level.lines[i];
+			if (lines.find(linedef) != lines.size())
+			{
+				linedef.special = 0;
+				linedef.args[0] = 0;
+				linedef.args[1] = 0;
+				linedef.args[2] = 0;
+				linedef.args[3] = 0;
+				linedef.args[4] = 0;
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_TheVomitorium');
+		event.eventname = "The Vomitorium";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}*/
+
 Class TUC_ClearAutoMap : TUC_Event
 {
 	override void eventFunc()
@@ -329,11 +469,16 @@ Class TUC_MisalignAllTextures : TUC_Event
 {
 	override void eventFunc()
 	{
+		int odds = random(1, 10);
+		double amount = (double(odds) / 10) * 100;
+		eventname = "I forgot to align " .. int(amount) .. "% of my textures";
+		
 		for (int i = 0; i < level.sides.size(); ++i)
 		{
-			int rng = random(0, 5);
-			if (rng != 5) continue;
+			int rng = random(1, 10);
+			if (rng > odds) continue;
 			side sidedef = level.sides[i];
+			
 			for (int j = 0; j < 3; ++j)
 			{
 				if (sidedef.getTexture(j))
@@ -353,7 +498,7 @@ Class TUC_MisalignAllTextures : TUC_Event
 	static TUC_Event create()
 	{
 		TUC_Event event = new('TUC_MisalignAllTextures');
-		event.eventname = "I forgot to align my textures...";
+		event.eventname = "Misalign textures";
 		event.duration = 35 * 30;
 		event.type = E_PerLevel;
 		return event;

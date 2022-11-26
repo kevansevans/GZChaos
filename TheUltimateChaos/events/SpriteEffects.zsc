@@ -1,0 +1,186 @@
+Class TUC_SuperNintendoDoom : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.bSpriteAngle = true;
+				mo.spriteAngle = 180;
+			}	
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.bSpriteAngle = false;
+			}	
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SuperNintendoDoom');
+		event.eventname = "Doom for the SNES";
+		event.duration = 35 * 60 * 2;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_SpinningMonsters : TUC_Event
+{
+	array<Actor> rolled;
+	int factor;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		if (!rolled.size()) 
+		{
+			rolled.clear();
+			factor = random(-15, 15);
+		}
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				if (mo.bRollSprite) rolled.push(mo);
+			}
+		}
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				if (!mo.bRollSprite && rolled.find(mo) == rolled.size())
+				{
+					mo.bRollSprite = true;
+					mo.bRollCenter = true;
+				}
+				mo.roll += factor;
+			}
+		}
+	}
+	
+	override void closeFunc() 
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				if (!mo.bRollSprite && rolled.find(mo) == rolled.size())
+				{
+					mo.bRollSprite = false;
+				}
+				mo.roll = 0;
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SpinningMonsters');
+		event.eventname = "On a roll";
+		event.duration = 35 * 60 * 2;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_WideMonsters : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.x = 5;
+			}
+		}
+	}
+	
+	override void closeFunc() 
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.x = 1;
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_WideMonsters');
+		event.eventname = "Wide Monster sprites";
+		event.duration = 35 * 90;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_TallMonsters : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.y = 7;
+			}
+		}
+	}
+	
+	override void closeFunc() 
+	{
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.scale.y = 1;
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_TallMonsters');
+		event.eventname = "Tall Monster sprites";
+		event.duration = 35 * 90;
+		event.type = E_Timed;
+		return event;
+	}
+}

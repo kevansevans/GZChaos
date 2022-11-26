@@ -1,0 +1,77 @@
+Class TUC_DuplicatingBarrels : TUC_Event
+{
+	Array<ExplosiveBarrel> barrels;
+	Array<Int> parents;
+	int lowend;
+
+	override void eventFunc()
+	{
+		if (gametic % 35 == 0)
+		{
+			barrels.clear();
+			parents.clear();
+		
+			ThinkerIterator it = ThinkerIterator.Create("Actor");
+			Actor mo;
+	
+			while ((mo = Actor(it.Next ())))
+			{
+				if (mo is "ExplosiveBarrel")
+				{
+					barrels.push(ExplosiveBarrel(mo));
+				}
+			}
+			
+			int upperend = lowend + random(1, 5);
+			upperend = min(upperend, barrels.size());
+			
+			while (parents.size() != upperend)
+			{
+				int rng = random(0, upperend);
+				if (parents.find(rng) != parents.size()) continue;
+				else parents.push(rng);
+			}
+			
+			lowend = upperend;
+			
+			for (int i = 0; i < parents.size(); ++i)
+			{
+				let chosen = barrels[i];
+				
+				Vector3 newPosA = chosen.pos;
+				Vector3 newPosB = chosen.pos;
+				
+				newPosA.x += (cos(gametic + 15) * 32);
+				newPosA.y += (sin(gametic - 15) * 32);
+				
+				newPosB.x += (cos(-gametic + 15) * 32);
+				newPosB.y += (sin(-gametic - 15) * 32);
+				
+				let childA = Actor.spawn("ExplosiveBarrel", newPosA);
+				let childB = Actor.spawn("ExplosiveBarrel", newPosB);
+				
+				childA.bPushable = true;
+				childB.bPushable = true;
+				
+				int angle = random(0, 359);
+				
+				childA.thrust(15, angle + 15);
+				childB.thrust(15, angle - 15);
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_DuplicatingBarrels');
+		event.eventname = "Barrels duplicate like rabbits";
+		event.duration = 35 * 30;
+		event.type = E_Timed;
+		return event;
+	}
+}

@@ -20,9 +20,13 @@ Class TUC_EventList play
 	
 	Array<Int> cachedEffects;
 	
+	bool set;
+	
 	TUC_Event getEffect(int _ignore = -1)
 	{
 		int event = -1;
+		
+		return TUC_LeftJoyconDrift.create();
 		
 		if (!effects)
 		{
@@ -38,11 +42,21 @@ Class TUC_EventList play
 			}
 		}
 		
+		TUC_Event selectedevent;
+		bool restart;
+		
 		while (true)
 		{
+		
 			event = random(0, E_NumEvents - 1);
+			
 			if (event == _ignore) continue;
+			if (event == E_OUCH && random(1, 10) != 10) continue;
+			
+			selectedevent = getEvent(event);
+			
 			if (cachedEffects.size() == 0) break;
+			
 			switch (event)
 			{
 				case E_HalfTimerDuration:
@@ -58,23 +72,20 @@ Class TUC_EventList play
 					if (cachedEffects.find(E_DisableForwardBackwards) != cachedEffects.size()) continue;
 					break;
 			}
-			if (cachedEffects.find(event) == cachedEffects.size()) break;
-		}
-		
-		TUC_Event selectedevent;
-		
-		while (true)
-		{
-			selectedevent = getEvent(event);
+			
+			if (cachedEffects.find(event) != cachedEffects.size()) continue;
+			
+			restart = false;
+			
 			for (int i = 0; i < effects.events.size(); ++i)
 			{
-				console.printf(selectedevent.getClassName());
-				console.printf(effects.events[i].getClassName());
 				if (selectedevent.getClassName() == effects.events[i].getClassName())
 				{
-					continue;
+					restart = true;
 				}
 			}
+			
+			if (restart) continue;
 			break;
 		}
 		
@@ -156,8 +167,16 @@ Class TUC_EventList play
 				return TUC_GiveLightAmp.create();
 			case E_GiveRadSuit:
 				return TUC_GiveRadSuit.create();
+			case E_GiveSoulsphere:
+				return TUC_GiveSoulsphere.create();
+			case E_GiveBlurSphere:
+				return TUC_GiveBlurSphere.create();
 			case E_GiveInvulnerabilitySphere:
 				return TUC_GiveInvulnerabilitySphere.create();
+			case E_GiveBerserk:
+				return TUC_GiveBerserk.create();
+			case E_GiveChainsaw:
+				return TUC_GiveChainsaw.create();
 			case E_GivePistol:
 				return TUC_GivePistol.create();
 			case E_GiveShotgun:
@@ -213,6 +232,32 @@ Class TUC_EventList play
 				return TUC_HideTimerAndEffects.create();
 			case E_ResetEffectTimers:
 				return TUC_ResetEffectTimers.create();
+			case E_FrictionlessEnemies:
+				return TUC_FrictionlessEnemies.create();
+			case E_DuplicatePickups:
+				return TUC_DuplicatePickups.create();
+			case E_DuplicatingBarrels:
+				return TUC_DuplicatingBarrels.create();
+			case E_FakeLagCrash:
+				return TUC_FakeLagCrash.create();
+			case E_OUCH:
+				return TUC_OUCH.create();
+			case E_IncreasedSectorFriction:
+				return TUC_IncreasedSectorFriction.create();
+			case E_SuperSecretsEverywhere:
+				return TUC_SuperSecretsEverywhere.create();
+			case E_SuperNintendoDoom:
+				return TUC_SuperNintendoDoom.create();
+			case E_SeekerProjectiles:
+				return TUC_SeekerProjectiles.create();
+			case E_FastWeapons:
+				return TUC_FastWeapons.create();
+			case E_NegativeFastWeapons:
+				return TUC_NegativeFastWeapons.create();
+			case E_RandomWeaponFrameDuration:
+				return TUC_RandomWeaponFrameDuration.create();
+			case E_StartRecording:
+				return TUC_StartRecording.create();
 		}
 		
 		return TUC_DoNothing.create();
@@ -262,6 +307,7 @@ enum E_Event
 	E_GiveLightAmp,
 	E_GiveRadSuit,
 	E_GiveInvulnerabilitySphere,
+	E_GiveChainsaw,
 	E_GivePistol,
 	E_GiveShotgun,
 	E_GiveSuperShotgun,
@@ -269,9 +315,12 @@ enum E_Event
 	E_GiveRocketLauncher,
 	E_GivePlasmaRifle,
 	E_GiveBFG9000,
+	E_GiveBerserk,
 	E_SpawnFriendlyGreatGodImp,
 	E_GiveHealthBonus,
 	E_GiveArmorBonus,
+	E_GiveSoulsphere,
+	E_GiveBlurSphere,
 	E_StatueEnemies,
 	E_WideMonsters,
 	E_TallMonsters,
@@ -289,6 +338,19 @@ enum E_Event
 	E_ClearAutoMap,
 	E_HideTimerAndEffects,
 	E_ResetEffectTimers,
+	E_FrictionlessEnemies,
+	E_DuplicatePickups,
+	E_DuplicatingBarrels,
+	E_FakeLagCrash,
+	E_OUCH,
+	E_IncreasedSectorFriction,
+	E_SuperSecretsEverywhere,
+	E_SuperNintendoDoom,
+	E_SeekerProjectiles,
+	E_FastWeapons,
+	E_NegativeFastWeapons,
+	E_RandomWeaponFrameDuration,
+	E_StartRecording,
 	E_NumEvents
 }
 
@@ -298,6 +360,7 @@ Class TUC_Event abstract play
 	Int duration;
 	Int life;
 	Bool activated;
+	Bool deleteme;
 	E_EventType type;
 	abstract void eventFunc();
 	abstract void closeFunc();

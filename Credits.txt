@@ -1,4 +1,4 @@
-In general, many thanks to the Hellforge crew for joining me along in the VC's
+In general, many thanks to the Mad Hellforge crew for joining me along in the VC's
 I streamed development on, pitching their ideas, their feedback, and their
 frustrated enjoyment as they play tested. Thanks guys!
 
@@ -15,3 +15,7 @@ Shakar
 	- Testing
 Proverbial
 	- Testing
+Warren
+	- Testing
+Marisa Kirisame
+	- OUCH_M ZScript and related files. Used with permission.
