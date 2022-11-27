@@ -54,6 +54,8 @@ Class TUC_NegativeFastWeapons : TUC_Event
 	{
 		PlayerInfo player = players[consoleplayer];
 		
+		if (!player) return;
+		
 		if (player.psprites.CurState != prevState)
 		{
 			prevState = player.psprites.CurState;

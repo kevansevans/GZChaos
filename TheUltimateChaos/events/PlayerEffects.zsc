@@ -194,6 +194,22 @@ Class TUC_DisableForwardBackwards : TUC_Event
 	double f2_move;
 	
 	bool set;
+	
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			if (event is "TUC_DisableStrafingMovement") return false;
+		}
+		
+		return result;
+	}
 
 	override void eventFunc()
 	{
@@ -233,6 +249,22 @@ Class TUC_DisableStrafingMovement : TUC_Event
 	double s2_move;
 	
 	bool set;
+	
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			if (event is "TUC_DisableForwardBackwards") return false;
+		}
+		
+		return result;
+	}
 
 	override void eventFunc()
 	{

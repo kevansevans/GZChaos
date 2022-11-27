@@ -18,7 +18,7 @@ Class TUC_EventList play
 		return int(Max(35 * 30 * timemodifier, 35 * 1));
 	}
 	
-	Array<Int> cachedEffects;
+	Array<String> cachedEffects;
 	
 	bool set;
 	
@@ -34,48 +34,20 @@ Class TUC_EventList play
 		
 		while (true)
 		{
-			event = random(0, E_NumEvents - 1);
-			
-			if (event == _ignore) continue;
-			if (event == E_OUCH && random(1, 10) != 10) continue;
+			event = random(E_DoubleTimerDuration, E_QuarterTimerDuration);
 			
 			selectedevent = getEvent(event);
 			
-			if (cachedEffects.size() == 0) break;
+			if (!selectedEvent.verify()) continue;
 			
-			switch (event)
-			{
-				case E_HalfTimerDuration:
-					if (cachedEffects.find(E_QuarterTimerDuration) != cachedEffects.size()) continue;
-					break;
-				case E_QuarterTimerDuration:
-					if (cachedEffects.find(E_HalfTimerDuration) != cachedEffects.size()) continue;
-					break;
-				case E_DisableForwardBackwards:
-					if (cachedEffects.find(E_DisableStrafingMovement) != cachedEffects.size()) continue;
-					break;
-				case E_DisableStrafingMovement:
-					if (cachedEffects.find(E_DisableForwardBackwards) != cachedEffects.size()) continue;
-					break;
-			}
+			String classname = selectedevent.getClassName();
+			if (cachedEffects.find(classname) != cachedEffects.size()) continue;
 			
-			if (cachedEffects.find(event) != cachedEffects.size()) continue;
-			
-			restart = false;
-			
-			for (int i = 0; i < effects.events.size(); ++i)
-			{
-				if (selectedevent.getClassName() == effects.events[i].getClassName())
-				{
-					restart = true;
-				}
-			}
-			
-			if (restart) continue;
 			break;
 		}
 		
-		cachedEffects.push(event);
+		String classname = selectedevent.getClassName();
+		cachedEffects.push(classname);
 		
 		if (cachedEffects.size() > 20) {
 			cachedEffects.delete(0);
@@ -381,6 +353,20 @@ Class TUC_Event abstract play
 	virtual void eventFunc(){}
 	virtual void closeFunc(){}
 	virtual void spawnFunc(Actor mo){}
+	
+	virtual bool verify()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			if (event is self.getClassName()) return false;
+		}
+		
+		return true;
+	}
 	
 	void givePlayerItem(string _item)
 	{

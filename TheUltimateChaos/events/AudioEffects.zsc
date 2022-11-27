@@ -80,7 +80,7 @@ Class TUC_FakeNotification : TUC_Event
 	static TUC_Event create()
 	{
 		TUC_Event event = new('TUC_FakeNotification');
-		event.eventname = "Nothing";
+		event.eventname = "Nothing.";
 		event.duration = 35 * 60;
 		event.type = E_HiddenTimer;
 		return event;

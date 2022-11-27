@@ -100,12 +100,15 @@ Class TUC_EventHandler : StaticEventHandler
 		{
 			for (int i = 0; i < effects.events.size(); ++i)
 			{
-				if (!effects.events[i].activated) effects.events[i].eventFunc();
-				if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
-				effects.events[i].life += 1;
-				if (effects.events[i].life > effects.events[i].duration && effects.events[i].type != E_PerLevel)
+				if (player.health > 0)
 				{
-					removeEffect(effects.events[i]);
+					if (!effects.events[i].activated) effects.events[i].eventFunc();
+					if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
+					effects.events[i].life += 1;
+					if (effects.events[i].life > effects.events[i].duration && effects.events[i].type != E_PerLevel)
+					{
+						removeEffect(effects.events[i]);
+					}
 				}
 			}	
 		}
@@ -153,33 +156,29 @@ Class TUC_EventHandler : StaticEventHandler
 	{
 		if (!player) return;
 		
-		if (player.health > 0)
+		if (!uiIsHidden)
 		{
-			if (!uiIsHidden)
-			{
-				double ratio = timer / timeLimit;
-				double width = ratio * double(Screen.getWidth());
-				Screen.DrawThickLine(0, 5, width, 5, 10, Color("00CC00"));
-			}
-			
-			if (!effects) return;
+			double ratio = timer / timeLimit;
+			double width = ratio * double(Screen.getWidth());
+			Screen.DrawThickLine(0, 5, width, 5, 10, Color("00CC00"));
+		}
 		
-			if (effects.events.size() > 0)
+		if (!effects) return;
+		if (effects.events.size() > 0)
+		{
+			int yOffset = 150;
+			for (int i = 0; i < effects.events.size(); ++i)
 			{
-				int yOffset = 150;
-				for (int i = 0; i < effects.events.size(); ++i)
+				if (uiIsHidden && !(effects.events[i] is "TUC_HideTimerAndEffects")) continue;
+			
+				TUC_Event effect = effects.events[i];
+				Screen.DrawText(BIGFONT, Font.CR_White, 20, (yoffset - 20), effect.eventname, DTA_ScaleX, 1.5, DTA_ScaleY, 1.5);
+				if (effects.events[i].type == E_Timed)
 				{
-					if (uiIsHidden && !(effects.events[i] is "TUC_HideTimerAndEffects")) continue;
-				
-					TUC_Event effect = effects.events[i];
-					Screen.DrawText(BIGFONT, Font.CR_White, 20, (yoffset - 20), effect.eventname, DTA_ScaleX, 1.5, DTA_ScaleY, 1.5);
-					if (effects.events[i].type == E_Timed)
-					{
-						double ratio = 1 - (double(effect.life) / double(effect.duration));
-						Screen.DrawThickLine(20, yOffset += 10, 20 + (200 * ratio), yOffset, 10, color("FF0000"), 255);
-					}
-					yOffset += 60;
+					double ratio = 1 - (double(effect.life) / double(effect.duration));
+					Screen.DrawThickLine(20, yOffset += 10, 20 + (200 * ratio), yOffset, 10, color("FF0000"), 255);
 				}
+				yOffset += 60;
 			}
 		}
 	}
