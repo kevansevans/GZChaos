@@ -34,7 +34,7 @@ Class TUC_EventList play
 		
 		while (true)
 		{
-			event = random(E_DoubleTimerDuration, E_QuarterTimerDuration);
+			event = random(0, E_NumEvents - 1);
 			
 			selectedevent = getEvent(event);
 			

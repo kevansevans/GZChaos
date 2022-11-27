@@ -201,7 +201,7 @@ Class TUC_RollExtraEffects : TUC_Event
 	static TUC_Event create()
 	{
 		TUC_Event event = new('TUC_RollExtraEffects');
-		TUC_RollExtraEffects(event).bonuseffects = random(3, 8);
+		TUC_RollExtraEffects(event).bonuseffects = random(2, 5);
 		event.eventname = "Roll " .. TUC_RollExtraEffects(event).bonuseffects .. " extra effects";
 		event.duration = 35 * 60;
 		event.type = E_HiddenTimer;

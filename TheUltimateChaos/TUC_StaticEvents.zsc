@@ -74,18 +74,23 @@ Class TUC_EventHandler : StaticEventHandler
 	
 	override void WorldTick()
 	{
-		++timer;
+		if (!player) getPlayerInfo();
+		
+		if (!effects) getEffects();
+		
+		if (player.health > 0)
+		{
+			++timer;
+		}
+		
 		timelimit = list.timelimit();
+		
 		if (list.timeLimit() - timer <= 0)
 		{
 			timer = 0;
 			
 			addEffectToActive();
 		}
-		
-		if (!player) getPlayerInfo();
-		
-		if (!effects) getEffects();
 		
 		for (inventory item = player.inv; item != null; item = item.inv)
 		{	
@@ -183,11 +188,6 @@ Class TUC_EventHandler : StaticEventHandler
 		}
 	}
 	
-	int sectorIndex;
-	Vector2 sectorCenter;
-	Vector3 tempPos;
-	Actor actorPointer;
-	
 	override void NetworkProcess(ConsoleEvent event)
 	{
 		infoplayer = players[event.Player];
@@ -225,10 +225,24 @@ Class TUC_EventHandler : StaticEventHandler
 	}
 }
 
-Class TUC_EntropyMaintainer : EventHandler
+/*
+* This event handler ensures that RNG calls remain as chaotic at all times.
+* While	the above event handler's RNG does not reset, this adds just an extra
+* dash of unpredictability.
+*/
+Class TUC_EntropyMaintainer : StaticEventHandler
 {
+	int entropy;
+	override void onRegister()
+	{
+		entropy = random(1, 35);
+	}
 	override void WorldTick()
 	{
-		if (gametic % 35 == 0) random(1, 100);
+		if (gametic % entropy == 0) 
+		{
+			random(1, 100);
+			entropy = random(1, 35);
+		}
 	}
 }
