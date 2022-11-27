@@ -6,3 +6,7 @@ Anechoic chamber: All line defs block sound
 echo chamber: All line derfs pass sound
 short sighted demons: All lines block sight
 all monsters can fly
+
+Spastic monsters (give them random tics)
+
+Turret monsters (all monsters hold their ground and start rapid firing) <- Not viable just yet

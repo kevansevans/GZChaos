@@ -1,3 +1,47 @@
+Class TUC_DiscoSkybox : TUC_Event
+{
+	TextureID originalSky;
+	Array<String> textures;
+	int interval;
+	override void eventFunc()
+	{
+		if (!originalSky) {
+		
+			originalSky = level.skytexture1;
+			textures.clear();
+			
+			interval = random(1, 10);
+		
+			for (int i = 0; i < Wads.getNumLumps(); ++i)
+			{
+				TextureID _locTexture = TexMan.checkForTexture(Wads.getLumpName(i));
+				String texturename = TexMan.getName(_locTexture);
+				
+				if (texturename)
+				{
+					textures.push(texturename);
+				}
+			}
+		}
+		
+		if (gametic % interval == 0)
+		{
+			interval = random(1, 10);
+			int index = random(0, textures.size() - 1);
+			level.changeSky(TexMan.checkForTexture(textures[index]), TexMan.checkForTexture(''));
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_DiscoSkybox');
+		event.eventname = "Disco Skybox";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class TUC_SuperSecretsEverywhere : TUC_Event
 {
 	override void eventFunc()
@@ -293,9 +337,13 @@ Class TUC_SetAllWallsToStartan : TUC_Event
 	
 		TextureID walltex = TexMan.checkForTexture("STARTAN2");
 	
+		level.ChangeSky(TexMan.checkForTexture("SKY1"), TexMan.checkForTexture(''));
+	
 		for (int si = 0; si < level.sides.size(); ++si)
 		{
 			side sidedef = level.sides[si];
+			
+			sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
 		
 			for (int wall = 0; wall < 3; ++wall)
 			{
@@ -303,14 +351,8 @@ Class TUC_SetAllWallsToStartan : TUC_Event
 				if (curtex)
 				{
 					string wallname = TexMan.getName(curtex);
-					if (wallname == "DOORTRAK")
-					{
-						sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
-					}
-					else
-					{
-						if (!checkIfReplaceable(wallname)) continue;
-					}
+					
+					if (wallname != "DOORTRAK" && !checkIfReplaceable(wallname)) continue;
 					sidedef.setTexture(wall, walltex);
 				}
 			}

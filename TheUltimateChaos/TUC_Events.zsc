@@ -26,28 +26,14 @@ Class TUC_EventList play
 	{
 		int event = -1;
 		
-		return TUC_LeftJoyconDrift.create();
-		
-		if (!effects)
-		{
-			let player = players[consoleplayer].mo;
-			
-			for (inventory item = player.inv; item != null; item = item.inv)
-			{	
-				if (item is "EffectInventory")
-				{
-					effects = EffectInventory(item);
-					break;
-				}
-			}
-		}
+		PlayerPawn player = players[consoleplayer].mo;
+		effects = EffectInventory(player.findInventory("EffectInventory"));
 		
 		TUC_Event selectedevent;
 		bool restart;
 		
 		while (true)
 		{
-		
 			event = random(0, E_NumEvents - 1);
 			
 			if (event == _ignore) continue;
@@ -210,8 +196,8 @@ Class TUC_EventList play
 			case E_FakeGameEndPlayer:
 				if (random(1, 10) == 5) return TUC_GameEndPlayer.create();
 				else return TUC_FakeGameEndPlayer.create();
-			case E_PlayCreeperHiss:
-				return TUC_PlayCreeperHiss.create();
+			case E_FakeNotification:
+				return TUC_FakeNotification.create();
 			case E_SetMusicToCursedMidi:
 				return TUC_SetMusicToCursedMidi.create();
 			case E_AnkleBiterEnemies:
@@ -258,6 +244,26 @@ Class TUC_EventList play
 				return TUC_RandomWeaponFrameDuration.create();
 			case E_StartRecording:
 				return TUC_StartRecording.create();
+			case E_CacodemonHitscanners:
+				return TUC_CacodemonHitscanners.create();
+			case E_ArachnotronGrowthSpurt:
+				return TUC_ArachnotronGrowthSpurt.create();
+			case E_ExplodingBulletPuffs:
+				return TUC_ExplodingBulletPuffs.create();
+			case E_DiscoSkybox:
+				return TUC_DiscoSkybox.create();
+			case E_AllMonstersWakeUp:
+				return TUC_AllMonstersWakeUp.create();
+			case E_ParanoidOfBarrels:
+				return TUC_ParanoidOfBarrels.create();
+			case E_SlowProjectiles:
+				return TUC_SlowProjectiles.create();
+			case E_ExtraSlowProjectiles:
+				return TUC_ExtraSlowProjectiles.create();
+			case E_PainfullySlowProjectiles:
+				return TUC_PainfullySlowProjectiles.create();
+			case E_FastProjectiles:
+				return TUC_FastProjectiles.create();
 		}
 		
 		return TUC_DoNothing.create();
@@ -328,7 +334,6 @@ enum E_Event
 	E_MisalignAllTextures,
 	E_FakeGameEndPlayer,
 	E_SetMusicToCursedMidi,
-	E_PlayCreeperHiss,
 	E_AnkleBiterEnemies,
 	E_InventorySickness,
 	E_LeftJoyconDrift,
@@ -351,6 +356,17 @@ enum E_Event
 	E_NegativeFastWeapons,
 	E_RandomWeaponFrameDuration,
 	E_StartRecording,
+	E_CacodemonHitscanners,
+	E_ArachnotronGrowthSpurt,
+	E_ExplodingBulletPuffs,
+	E_DiscoSkybox,
+	E_AllMonstersWakeUp,
+	E_ParanoidOfBarrels,
+	E_FakeNotification,
+	E_SlowProjectiles,
+	E_ExtraSlowProjectiles,
+	E_PainfullySlowProjectiles,
+	E_FastProjectiles,
 	E_NumEvents
 }
 
@@ -362,8 +378,9 @@ Class TUC_Event abstract play
 	Bool activated;
 	Bool deleteme;
 	E_EventType type;
-	abstract void eventFunc();
-	abstract void closeFunc();
+	virtual void eventFunc(){}
+	virtual void closeFunc(){}
+	virtual void spawnFunc(Actor mo){}
 	
 	void givePlayerItem(string _item)
 	{

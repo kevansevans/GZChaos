@@ -1,3 +1,168 @@
+Class TUC_FastProjectiles : TUC_Event
+{
+
+	override void spawnFunc(Actor mo)
+	{
+		mo.A_ScaleVelocity(1.5);
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_FastProjectiles');
+		event.eventname = "Fast projectiles";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+
+}
+
+
+Class TUC_SlowProjectiles : TUC_Event
+{
+
+	override void spawnFunc(Actor mo)
+	{
+		mo.A_ScaleVelocity(0.5);
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_SlowProjectiles');
+		event.eventname = "Slow projectiles";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+
+}
+
+Class TUC_ExtraSlowProjectiles : TUC_Event
+{
+
+	override void spawnFunc(Actor mo)
+	{
+		mo.A_ScaleVelocity(0.25);
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ExtraSlowProjectiles');
+		event.eventname = "Slower projectiles";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+
+}
+
+Class TUC_PainfullySlowProjectiles : TUC_Event
+{
+
+	override void spawnFunc(Actor mo)
+	{
+		mo.A_ScaleVelocity(0.01);
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_PainfullySlowProjectiles');
+		event.eventname = "Painfully Slow projectiles";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+
+}
+
+Class TUC_DisableGravity : TUC_Event
+{
+	bool set;
+	
+	Array<Actor> flying;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		PlayerInfo infoplayer = players[consoleplayer];
+		PlayerPawn player = infoplayer.mo;
+		
+		infoplayer.cheats |= CF_FLY;
+		player.bFly = true;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "playerPawn")) mo.A_SetGravity(0.0);
+			if (!set) {
+				mo.vel.z = FRandom(0.1, 0.9);
+				if (mo.bIsMonster)
+				{
+					if (mo.bFloat) mo.giveInventory('TUC_CanAlreadyFly', 1);
+					mo.bFloat = true;
+					mo.bNoGravity = true;
+				}
+			}
+		}
+		
+		set = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		PlayerInfo infoplayer = players[consoleplayer];
+		PlayerPawn player = infoplayer.mo;
+		
+		infoplayer.cheats &= ~(CF_FLY);
+		player.bFly = false;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.A_SetGravity(1);
+			if (!mo.countInv('TUC_CanAlreadyFly'))
+			{
+				mo.bFloat = false;
+				mo.bNoGravity = false;
+			}
+		}
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_DisableGravity');
+		event.eventname = "Everything ignores gravity";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_CanAlreadyFly : Inventory {}
+
+Class TUC_ExplodingBulletPuffs : TUC_Event
+{
+	override void spawnFunc(Actor mo)
+	{
+		if (mo is "BulletPuff")
+		{
+			mo.A_Explode(32, 128, 0);
+		}
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ExplodingBulletPuffs');
+		event.eventname = "All bullet puffs explode";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class TUC_SeekerProjectiles : TUC_Event
 {
 	override void eventFunc()

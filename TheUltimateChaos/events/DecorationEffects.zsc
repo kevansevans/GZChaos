@@ -1,3 +1,43 @@
+Class TUC_ParanoidOfBarrels : TUC_Event
+{
+	override void eventFunc()
+	{
+		if (gametic % 4 == 0)
+		{
+			ThinkerIterator it = ThinkerIterator.create("Actor");
+			Actor mo;
+		
+			PlayerPawn player = players[consoleplayer].mo;
+		
+			while (mo = Actor(it.next()))
+			{
+				if (mo is "ExplosiveBarrel")
+				{
+					mo.target = player;
+					mo.speed = 1;
+					if (!player.isVisible(mo, false))
+					{
+						mo.A_Chase();
+						if (mo.distance3D(player) <= 64)
+						{
+							mo.A_DamageSelf(999);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ParanoidOfBarrels');
+		event.eventname = "Did that barrel just move?";
+		event.duration = 35 * 60 * 5;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class TUC_DuplicatingBarrels : TUC_Event
 {
 	Array<ExplosiveBarrel> barrels;

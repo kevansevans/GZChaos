@@ -55,37 +55,33 @@ enum E_Music
 	E_NumSongs
 }
 
-Class TUC_PlayCreeperHiss : TUC_Event
+Class TUC_FakeNotification : TUC_Event
 {
 	bool set;
 	int ticcount;
-
+	int interval;
 	override void eventFunc()
 	{
 		if (!set)
 		{
-			let player = players[consoleplayer].mo;
-			player.A_StartSound("creeper/hiss", CHAN_AUTO, 0, 1, ATTN_NONE);
 			ticcount = gametic;
+			interval = random(5, 10);
 			set = true;
 		}
-		if (gametic - ticcount > 35 * 3)
+		if (gametic - ticcount > 35 * interval)
 		{
-			eventname = "Creeper, aw man!";
+			let player = players[consoleplayer].mo;
+			player.A_StartSound("disc/ord", CHAN_AUTO, 0, 1, ATTN_NONE);
+			eventname = "Nothing?";
 			activated = true;
 		}
 	}
 	
-	override void closeFunc()
-	{
-	
-	}
-	
 	static TUC_Event create()
 	{
-		TUC_Event event = new('TUC_PlayCreeperHiss');
-		event.eventname = "";
-		event.duration = 35 * 15;
+		TUC_Event event = new('TUC_FakeNotification');
+		event.eventname = "Nothing";
+		event.duration = 35 * 60;
 		event.type = E_HiddenTimer;
 		return event;
 	}

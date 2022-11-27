@@ -2,7 +2,7 @@ SkyMayBe/BFGDeath "Sounds/SkyMayBe_BFGDeath"
 SkyMayBe/GreatGodImpSee "Sounds/SkyMayBe_GreatGodImpSee"
 SkyMayBe/ThereIsNoEscape "Sounds/SkyMayBe_ThereIsNoEscape"
 
-creeper/hiss "Sounds/creeper.ogg"
+disc/ord "Sounds/DISCORD.ogg"
 
 ouch/dspdiehi	DSPDIEHI
 $pitchshift	ouch/dspdiehi	6

@@ -19,6 +19,7 @@ Class TUC_EventHandler : StaticEventHandler
 	EffectInventory effects;
 	
 	bool uiIsHidden;
+	bool cacoHitscan;
 
 	override void OnRegister()
 	{
@@ -42,25 +43,12 @@ Class TUC_EventHandler : StaticEventHandler
 	{
 		if (!player) getPlayerInfo();
 		
-		for (inventory item = player.inv; item != null; item = item.inv)
-		{	
-			if (item is "EffectInventory")
-			{
-				effects = EffectInventory(item);
-				return;
-			}
+		if (!player.countInv("EffectInventory"))
+		{
+			player.giveInventory('EffectInventory', 1);
 		}
-	
-		player.giveInventory('EffectInventory', 1);
-		for (inventory item = player.inv; item != null; item = item.inv)
-		{	
-			if (item is "EffectInventory")
-			{
-				effects = EffectInventory(item);
-				effects.events.clear();
-				break;
-			}
-		}
+		
+		effects = EffectInventory(player.findInventory("EffectInventory"));
 	}
 	
 	override void PlayerEntered(PlayerEvent event)
@@ -120,6 +108,18 @@ Class TUC_EventHandler : StaticEventHandler
 					removeEffect(effects.events[i]);
 				}
 			}	
+		}
+	}
+	
+	override void worldThingSpawned(WorldEvent _event)
+	{
+		if (!player) getPlayerInfo();
+		if (!effects) getEffects();
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			event.spawnFunc(_event.thing);
 		}
 	}
 	
