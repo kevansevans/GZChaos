@@ -2,6 +2,16 @@ SkyMayBe/BFGDeath "Sounds/SkyMayBe_BFGDeath"
 SkyMayBe/GreatGodImpSee "Sounds/SkyMayBe_GreatGodImpSee"
 SkyMayBe/ThereIsNoEscape "Sounds/SkyMayBe_ThereIsNoEscape"
 
+$RANDOM poot/poot { poot1 poot2 poot3 poot4 poot5 poot6 poot7 poot8}
+poot1	poot1
+poot2	poot2
+poot3	poot3
+poot4	poot4
+poot5	poot5
+poot6	poot6
+poot7	poot7
+poot8	poot8
+
 disc/ord "Sounds/DISCORD.ogg"
 
 ouch/dspdiehi	DSPDIEHI

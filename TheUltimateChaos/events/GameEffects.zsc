@@ -1,3 +1,220 @@
+Class TUC_JupiterGravity : TUC_Event
+{
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			if (event is "TUC_MoonGravity") return false;
+		}
+		
+		return result;
+	}
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.A_SetGravity(10);
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.A_SetGravity(1);
+		}
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_JupiterGravity');
+		event.eventname = "Jupiter Gravity";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_MoonGravity : TUC_Event
+{
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			if (event is "TUC_JupiterGravity") return false;
+		}
+		
+		return result;
+	}
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.A_LowGravity();
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.A_SetGravity(1);
+		}
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_MoonGravity');
+		event.eventname = "Moon Gravity";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_FartingMonsters : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster && mo.health > 0)
+			{
+				double zfloor = mo.getZAt();
+				if (zfloor != mo.pos.z) continue;
+				if ((gametic + random(0, 35)) % 35 == 0)
+				{
+					if (!random(0, 5)) continue;
+				
+					double angle = random(0, 359);
+					Double xspeed = cos(angle) * 5;
+					Double yspeed = sin(angle) * 5;
+					
+					mo.vel.x = xspeed;
+					mo.vel.y = yspeed;
+					mo.vel.z = 15 + random(-5, 5);
+					
+					mo.A_StartSound("poot/poot", CHAN_AUTO);
+				}
+			}
+		}
+	}
+	
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_FartingMonsters');
+		event.eventname = "Farting Monsters";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_FartingItems : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "inventory")
+			{
+				if (Inventory(mo).owner) continue;
+				double zfloor = mo.getZAt();
+				if (zfloor != mo.pos.z) continue;
+				if ((gametic + random(0, 35)) % 35 == 0)
+				{
+					if (!random(0, 5)) continue;
+				
+					double angle = random(0, 359);
+					Double xspeed = cos(angle) * 5;
+					Double yspeed = sin(angle) * 5;
+					
+					mo.vel.x = xspeed;
+					mo.vel.y = yspeed;
+					mo.vel.z = 15 + random(-5, 5);
+					
+					mo.A_StartSound("poot/poot", CHAN_AUTO);
+				}
+			}
+		}
+	}
+	
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_FartingItems');
+		event.eventname = "Hoping mad items";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_FartingPlayer : TUC_Event
+{
+	override void eventFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		
+		double zfloor = player.getZAt();
+		if (zfloor != player.pos.z) return;
+		if ((gametic + random(0, 35)) % 35 == 0)
+		{
+			if (!random(0, 5)) return;
+		
+			double angle = random(0, 359);
+			Double xspeed = cos(angle) * 5;
+			Double yspeed = sin(angle) * 5;
+			
+			player.vel.x = xspeed;
+			player.vel.y = yspeed;
+			player.vel.z = 15 + random(-5, 5);
+			
+			player.A_StartSound("poot/poot", CHAN_AUTO);
+		}
+	}
+	
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_FartingPlayer');
+		event.eventname = "Farting player";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class TUC_FastProjectiles : TUC_Event
 {
 
@@ -347,23 +564,30 @@ Class TUC_OUCH : TUC_EVENT
 
 Class TUC_FakeLagCrash : TUC_Event
 {
+	int spawn;
+	int delay;
+
 	override void eventFunc()
 	{
-		string music = level.music;
-		
-		let player = players[consoleplayer].mo;
-		player.S_ChangeMusic("");
-	
-							//50 Million
-		for (int i = 0; i < 50000000; ++i)
+		if (life > delay)
 		{
-			let thingy = TUC_FakeLagCrash.create();
-			thingy.destroy();
+			string music = level.music;
+			
+			let player = players[consoleplayer].mo;
+			player.S_ChangeMusic("");
+			
+							//50 Million
+			for (int i = 0; i < 50000000; ++i)
+			{
+				let thingy = TUC_FakeLagCrash.create();
+				thingy.destroy();
+			}
+		
+			player.S_ChangeMusic(music);
+		
+			eventname = "Fake crash";
+			activated = true;
 		}
-		
-		player.S_ChangeMusic(music);
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -374,9 +598,11 @@ Class TUC_FakeLagCrash : TUC_Event
 	Static TUC_Event create()
 	{
 		TUC_Event event = new('TUC_FakeLagCrash');
-		event.eventname = "Fake crash";
-		event.duration = 35 * 30;
-		event.type = E_Instant;
+		TUC_FakeLagCrash(event).spawn = gametic;
+		TUC_FakeLagCrash(event).delay = 35 * random(5, 10);
+		event.eventname = "Nothing.";
+		event.duration = 35 * 60;
+		event.type = E_HiddenTimer;
 		return event;
 	}
 }

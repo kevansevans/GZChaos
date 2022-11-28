@@ -236,6 +236,16 @@ Class TUC_EventList play
 				return TUC_PainfullySlowProjectiles.create();
 			case E_FastProjectiles:
 				return TUC_FastProjectiles.create();
+			case E_FartingPlayer:
+				return TUC_FartingPlayer.create();
+			case E_FartingMonsters:
+				return TUC_FartingMonsters.create();
+			case E_FartingItems:
+				return TUC_FartingItems.create();
+			case E_MoonGravity:
+				return TUC_MoonGravity.create();
+			case E_JupiterGravity:
+				return TUC_JupiterGravity.create();
 		}
 		
 		return TUC_DoNothing.create();
@@ -339,6 +349,11 @@ enum E_Event
 	E_ExtraSlowProjectiles,
 	E_PainfullySlowProjectiles,
 	E_FastProjectiles,
+	E_FartingPlayer,
+	E_FartingMonsters,
+	E_FartingItems,
+	E_MoonGravity,
+	E_JupiterGravity,
 	E_NumEvents
 }
 
@@ -354,6 +369,8 @@ Class TUC_Event abstract play
 	virtual void closeFunc(){}
 	virtual void spawnFunc(Actor mo){}
 	
+	//Prevents same effectsw from stacking, and can be used to prevent certain
+	//effects from creating bad combinations.
 	virtual bool verify()
 	{
 		PlayerPawn player = players[consoleplayer].mo;

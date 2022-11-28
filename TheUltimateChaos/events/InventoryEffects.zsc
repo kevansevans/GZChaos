@@ -1,25 +1,3 @@
-Class TUC_HugeWeaponKnockback : TUC_Event
-{
-	override void eventFunc()
-	{
-	
-	}
-	
-	override void closeFunc()
-	{
-		
-	}
-	
-	static TUC_Event create()
-	{
-		TUC_Event event = new('TUC_HugeWeaponKnockback');
-		event.eventname = "Massive weapon knockback";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
-	}
-}
-
 Class TUC_FastWeapons : TUC_Event
 {
 	override void eventFunc()
@@ -127,7 +105,7 @@ Class TUC_InventorySickness : TUC_Event
 		
 		for (inventory item = player.inv; item != null; item = item.inv)
 		{
-			if (item is "EffectInventory") continue;
+			if (item is "EffectInventory" || item is "Fist") continue;
 			else
 			{
 				Vector3 newpos = player.pos;
