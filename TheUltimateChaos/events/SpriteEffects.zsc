@@ -1,3 +1,85 @@
+Class TUC_TallWeaponSprites : TUC_Event
+{
+	override void eventFunc()
+	{
+		PlayerInfo player = players[consoleplayer];
+		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			sprite.scale.Y = def.WeaponScaleY * 3;
+			sprite.scale.X = def.WeaponScaleX * 0.5;
+			sprite.VAlign = PSPA_BOTTOM;
+			sprite.HAlign = PSPA_CENTER;
+		}
+		
+	}
+	
+	override void closeFunc()
+	{
+		PlayerInfo player = players[consoleplayer];
+		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			sprite.scale.y = def.WeaponScaleY;
+			sprite.scale.x = def.WeaponScaleX;
+			sprite.VAlign = PSPA_TOP;
+			sprite.HAlign = PSPA_Left;
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_TallWeaponSprites');
+		event.eventname = "Tall and thin weapon sprites";
+		event.duration = 35 * 60 * 2;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_WideWeaponSprites : TUC_Event
+{
+	override void eventFunc()
+	{
+		PlayerInfo player = players[consoleplayer];
+		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			sprite.scale.x = def.WeaponScaleX * 4;
+			sprite.scale.Y = def.WeaponScaleY * 0.5;
+			sprite.HAlign = PSPA_CENTER;
+			sprite.VAlign = PSPA_BOTTOM;
+		}
+		
+	}
+	
+	override void closeFunc()
+	{
+		PlayerInfo player = players[consoleplayer];
+		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			sprite.scale.x = def.WeaponScaleX;
+			sprite.scale.y = def.WeaponScaleX;
+			sprite.HAlign = PSPA_Left;
+			sprite.VAlign = PSPA_TOP;
+		}
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_WideWeaponSprites');
+		event.eventname = "Wide and stout weapon sprites";
+		event.duration = 35 * 60 * 2;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class TUC_SuperNintendoDoom : TUC_Event
 {
 	override void eventFunc()
@@ -41,7 +123,6 @@ Class TUC_SuperNintendoDoom : TUC_Event
 
 Class TUC_SpinningMonsters : TUC_Event
 {
-	array<Actor> rolled;
 	int factor;
 
 	override void eventFunc()
@@ -49,29 +130,17 @@ Class TUC_SpinningMonsters : TUC_Event
 		ThinkerIterator it = ThinkerIterator.Create("Actor");
 		Actor mo;
 		
-		if (!rolled.size()) 
+		while (!factor) 
 		{
-			rolled.clear();
 			factor = random(-15, 15);
-		}
-	
-		while ((mo = Actor(it.Next ())))
-		{
-			if (mo.bIsMonster)
-			{
-				if (mo.bRollSprite) rolled.push(mo);
-			}
 		}
 		
 		while ((mo = Actor(it.Next ())))
 		{
 			if (mo.bIsMonster)
 			{
-				if (!mo.bRollSprite && rolled.find(mo) == rolled.size())
-				{
-					mo.bRollSprite = true;
-					mo.bRollCenter = true;
-				}
+				mo.bRollSprite = true;
+				mo.bRollCenter = true;
 				mo.roll += factor;
 			}
 		}
@@ -86,11 +155,11 @@ Class TUC_SpinningMonsters : TUC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				if (!mo.bRollSprite && rolled.find(mo) == rolled.size())
-				{
-					mo.bRollSprite = false;
-				}
-				mo.roll = 0;
+				let def = getDefaultByType(mo.getClass());
+				
+				mo.bRollSprite = def.bRollSprite;
+				mo.bRollCenter = def.bRollCenter;
+				mo.roll = def.roll;
 			}
 		}
 	}

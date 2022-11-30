@@ -60,6 +60,7 @@ Class TUC_FakeNotification : TUC_Event
 	bool set;
 	int ticcount;
 	int interval;
+	
 	override void eventFunc()
 	{
 		if (!set)

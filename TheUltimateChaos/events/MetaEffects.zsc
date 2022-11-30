@@ -1,3 +1,29 @@
+Class TUC_AutoPong : TUC_Event
+{
+	override void eventFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		player.giveInventory('TUC_PongToken', 1);
+	}
+	
+	override void closeFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		player.takeInventory('TUC_PongToken', 1);
+	}
+	
+	static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_AutoPong');
+		event.eventname = "Pong";
+		event.duration = 35 * 60 * 5;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_PongToken : Inventory {}
+
 Class TUC_ResetEffectTimers : TUC_Event
 {
 	override void eventFunc()
@@ -32,7 +58,7 @@ Class TUC_ResetEffectTimers : TUC_Event
 	{
 		TUC_Event event = new('TUC_ResetEffectTimers');
 		event.eventname = "Reset effect timers";
-		event.duration = 35 * 30;
+		event.duration = 35 * 60;
 		event.type = E_Instant;
 		return event;
 	}

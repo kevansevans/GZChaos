@@ -1,3 +1,67 @@
+Class TUC_DoubleRunning : TUC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove1 = def.forwardMove1 * 4;
+		player.forwardMove2 = def.forwardMove2 * 2;
+		player.sideMove1 = def.sideMove1 * 4;
+		player.sideMove2 = def.sideMove2 * 2;
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove1 = def.forwardMove1;
+		player.forwardMove2 = def.forwardMove2;
+		player.sideMove1 = def.sideMove1;
+		player.sideMove2 = def.sideMove2;
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_DoubleRunning');
+		event.eventname = "Give it the gas!";
+		event.duration = 35 * 60 * 20;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_DisableRunning : TUC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove2 = def.forwardMove2 / 2;
+		player.sideMove2 = def.sideMove2 / 2;
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove2 = def.forwardMove2;
+		player.sideMove2 = def.sideMove2;
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_DisableRunning');
+		event.eventname = "No need to rush";
+		event.duration = 35 * 60 * 20;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class TUC_StartRecording : TUC_Event
 {
 	//stupid gzdoom not letting me use vector3's in an array
@@ -190,11 +254,6 @@ Class TUC_LeftJoyconDrift : TUC_Event
 
 Class TUC_DisableForwardBackwards : TUC_Event
 {
-	double f1_move;
-	double f2_move;
-	
-	bool set;
-	
 	override bool verify()
 	{
 		bool result = Super.verify();
@@ -214,23 +273,16 @@ Class TUC_DisableForwardBackwards : TUC_Event
 	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
-		
-		if (!set)
-		{
-			f1_move = player.forwardMove1;
-			f2_move = player.forwardMove2;
-			set = true;
-		}
-		
 		player.forwardMove1 = player.forwardMove2 = 0;
 	}
 	
 	override void closeFunc()
 	{
 		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
 		
-		player.forwardMove1 = f1_move;
-		player.forwardMove2 = f2_move;
+		player.forwardMove1 = def.ForwardMove1;
+		player.forwardMove2 = def.ForwardMove2;
 	}
 	
 	Static TUC_Event create()
@@ -245,11 +297,6 @@ Class TUC_DisableForwardBackwards : TUC_Event
 
 Class TUC_DisableStrafingMovement : TUC_Event
 {
-	double s1_move;
-	double s2_move;
-	
-	bool set;
-	
 	override bool verify()
 	{
 		bool result = Super.verify();
@@ -269,23 +316,16 @@ Class TUC_DisableStrafingMovement : TUC_Event
 	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
-		
-		if (!set)
-		{
-			s1_move = player.sideMove1;
-			s2_move = player.sideMove2;
-			set = true;
-		}
-		
 		player.sideMove1 = player.sideMove2 = 0;
 	}
 	
 	override void closeFunc()
 	{
 		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
 		
-		player.sideMove1 = s1_move;
-		player.sideMove2 = s2_move;
+		player.sideMove1 = def.sideMove1;
+		player.sideMove2 = def.sideMove2;
 	}
 	
 	Static TUC_Event create()
@@ -300,36 +340,26 @@ Class TUC_DisableStrafingMovement : TUC_Event
 
 Class TUC_InvertPlayerMovement : TUC_Event
 {
-	double f1_move;
-	double f2_move;
-	double s1_move;
-	double s2_move;
-
 	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
 
-		f1_move = player.forwardMove1;
-		f2_move = player.forwardMove2;
-		s1_move = player.sideMove1;
-		s2_move = player.sideMove2;
-
-		player.forwardMove1 *= -1;
-		player.forwardMove2 *= -1;
-		player.sideMove1 *= -1;
-		player.sideMove2 *= -1;
-		
-		activated = true;
+		player.forwardMove1 = def.forwardMove1 * -1;
+		player.forwardMove2 = def.forwardMove2 * -1;
+		player.sideMove1 = def.sideMove1 * -1;
+		player.sideMove2 = def.sideMove2 * -1;
 	}
 	
 	override void closeFunc()
 	{
 		let player = players[consoleplayer].mo;
-		
-		player.forwardMove1 = f1_move;
-		player.forwardMove2 = f2_move;
-		player.sideMove1 = s1_move;
-		player.sideMove2 = s2_move;
+		let def = getDefaultByType(player.getClass());
+
+		player.forwardMove1 = def.forwardMove1;
+		player.forwardMove2 = def.forwardMove2;
+		player.sideMove1 = def.sideMove1;
+		player.sideMove2 = def.sideMove2;
 	}
 	
 	Static TUC_Event create()

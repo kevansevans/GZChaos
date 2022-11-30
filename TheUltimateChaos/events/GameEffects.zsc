@@ -1,3 +1,131 @@
+Class TUC_ShuffleAmmoTypes : TUC_Event
+{
+	override void eventFunc()
+	{
+		Array<Class<Ammo> > types;
+		
+		PlayerPawn player = players[consoleplayer].mo;
+		WeaponSlots weapons = players[consoleplayer].weapons;
+		
+		for (int slot = 0; slot < 10; ++slot)
+		{
+			int numWeaps = weapons.slotSize(slot);
+			
+			if (numWeaps == 0) continue;
+			
+			for (int index = 0; index < numWeaps; ++index)
+			{
+				Class<weapon> gun = weapons.getWeapon(slot, index);
+				
+				let def = getDefaultByType(gun);
+				
+				if (def.ammoType1) types.push(def.ammoType1);
+				if (def.ammoType2) types.push(def.ammoType2);
+			}
+		}
+		
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "weapon" && Inventory(mo).owner is "PlayerPawn")
+			{
+				let gun = Weapon(mo);
+				
+				if (gun.AmmoType1)
+				{
+					while (true)
+					{
+						let selected = types[random(0, types.size() - 1)];
+						if (selected is gun.AmmoType1) continue;
+						
+						gun.AmmoType1 = (Class<Ammo>)(selected);
+						gun.Ammo1 = Ammo(player.FindInventory(selected));
+						
+						break;
+					}
+				}
+			
+				if (gun.AmmoType2)
+				{
+					while (true)
+					{
+						let selected = types[random(0, types.size())];
+						if (selected is gun.AmmoType2) continue;
+					
+						gun.AmmoType2 = (Class<Ammo>)(selected);
+						gun.Ammo2 = Ammo(player.FindInventory(selected));
+						break;
+					}
+				}
+			}
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "weapon" && Inventory(mo).owner is "PlayerPawn")
+			{
+				let gun = Weapon(mo);
+				let def = getDefaultByType(gun.getClass());
+				
+				if (gun.ammoType1)
+				{
+					gun.ammoType1 = def.ammoType1;
+					gun.ammo1 = Ammo(Player.findInventory(gun.ammoType1.getClassName()));
+				}
+				
+				if (gun.ammoType2)
+				{
+					gun.ammoType2 = def.ammoType2;
+					gun.ammo2 = Ammo(Player.findInventory(gun.ammoType2.getClassName()));
+				}
+			}
+		}
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_ShuffleAmmoTypes');
+		event.eventname = "Shuffled ammo pool";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class TUC_LimpProjectiles : TUC_Event
+{
+	override void spawnFunc(Actor mo)
+	{
+		if (mo.bMissile)
+		{
+			if (!(mo.target is "PlayerPawn"))
+			{
+				mo.bNoGravity = false;
+			}
+		}
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_LimpProjectiles');
+		event.eventname = "Limp enemy projectiles";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class TUC_JupiterGravity : TUC_Event
 {
 	override bool verify()
@@ -111,7 +239,7 @@ Class TUC_FartingMonsters : TUC_Event
 			{
 				double zfloor = mo.getZAt();
 				if (zfloor != mo.pos.z) continue;
-				if ((gametic + random(0, 35)) % 35 == 0)
+				if ((gametic + random(0, 35)) % (35 * 2) == 0)
 				{
 					if (!random(0, 5)) continue;
 				
@@ -153,7 +281,7 @@ Class TUC_FartingItems : TUC_Event
 				if (Inventory(mo).owner) continue;
 				double zfloor = mo.getZAt();
 				if (zfloor != mo.pos.z) continue;
-				if ((gametic + random(0, 35)) % 35 == 0)
+				if ((gametic + random(0, 35)) % (35 * 2) == 0)
 				{
 					if (!random(0, 5)) continue;
 				
@@ -174,7 +302,7 @@ Class TUC_FartingItems : TUC_Event
 	Static TUC_Event create()
 	{
 		TUC_Event event = new('TUC_FartingItems');
-		event.eventname = "Hoping mad items";
+		event.eventname = "Farting items";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
 		return event;
@@ -189,7 +317,7 @@ Class TUC_FartingPlayer : TUC_Event
 		
 		double zfloor = player.getZAt();
 		if (zfloor != player.pos.z) return;
-		if ((gametic + random(0, 35)) % 35 == 0)
+		if ((gametic + random(0, 35)) % (35 * 2) == 0)
 		{
 			if (!random(0, 5)) return;
 		
@@ -428,8 +556,30 @@ Class TUC_SeekerProjectiles : TUC_Event
 Class TUC_OUCH : TUC_EVENT
 {
 	bool set;
+	
+	override bool verify()
+	{
+		if (random(0, 10))
+		{
+			return false;
+		}
+	
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			if (event is "TUC_SetAllWallsToStartan") return false;
+			if (event is "TUC_SetAllWallsToFireblu") return false;
+		}
+		
+		return result;
+	}
 
-	//This code is borrowed from Marisa Kirasame's OUCH_M mod
+	//This code is borrowed from Marisa Kirasame's OUCH_M mod, used with permission
 	override void eventFunc()
 	{
 		if (!set)
@@ -558,6 +708,7 @@ Class TUC_OUCH : TUC_EVENT
 		event.eventname = "OUCH";
 		event.duration = 35 * 60 * 9999;
 		event.type = E_PerLevel;
+		event.deleteme = true;
 		return event;
 	}
 }
@@ -576,11 +727,11 @@ Class TUC_FakeLagCrash : TUC_Event
 			let player = players[consoleplayer].mo;
 			player.S_ChangeMusic("");
 			
-							//50 Million
-			for (int i = 0; i < 50000000; ++i)
+							//30 Million
+			for (int i = 0; i < 30000000; ++i)
 			{
-				let thingy = TUC_FakeLagCrash.create();
-				thingy.destroy();
+				let idiot = new('thinker');
+				idiot.destroy();
 			}
 		
 			player.S_ChangeMusic(music);

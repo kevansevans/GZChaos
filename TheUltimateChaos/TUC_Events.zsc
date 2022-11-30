@@ -133,24 +133,8 @@ Class TUC_EventList play
 				return TUC_GiveInvulnerabilitySphere.create();
 			case E_GiveBerserk:
 				return TUC_GiveBerserk.create();
-			case E_GiveChainsaw:
-				return TUC_GiveChainsaw.create();
-			case E_GivePistol:
-				return TUC_GivePistol.create();
-			case E_GiveShotgun:
-				return TUC_GiveShotgun.create();
-			case E_GiveSuperShotgun:
-				return TUC_GiveSuperShotgun.create();
-			case E_GiveChaingun:
-				return TUC_GiveChaingun.create();
-			case E_GiveRocketLauncher:
-				return TUC_GiveRocketLauncher.create();
-			case E_GivePlasmaRifle:
-				return TUC_GivePlasmaRifle.create();
-			case E_GiveBFG9000:
-				return TUC_GiveBFG9000.create();
-			case E_SpawnFriendlyGreatGodImp:
-				return TUC_SpawnFriendlyGreatGodImp.create();
+			Case E_GiveRandomWeapon:
+				return TUC_GiveRandomWeapon.create();
 			case E_GiveHealthBonus:
 				return TUC_GiveHealthBonus.create();
 			case E_GiveArmorBonus:
@@ -246,10 +230,40 @@ Class TUC_EventList play
 				return TUC_MoonGravity.create();
 			case E_JupiterGravity:
 				return TUC_JupiterGravity.create();
+			case E_LimpProjectiles:
+				return TUC_LimpProjectiles.create();
+			case E_ShuffleAmmoTypes:
+				return TUC_ShuffleAmmoTypes.create();
+			case E_InverseFlyingRules:
+				return TUC_InverseFlyingRules.create();
+			case E_InfiniteAmmo:
+				return TUC_InfiniteAmmo.create();
+			case E_DoubleAmmo:
+				return TUC_DoubleAmmo.create();
+			case E_AutoPong:
+				return TUC_AutoPong.create();
+			Case E_TallWeaponSprites:
+				return TUC_TallWeaponSprites.create();
+			case E_WideWeaponSprites:
+				return TUC_WideWeaponSprites.create();
 		}
 		
 		return TUC_DoNothing.create();
 	}
+}
+
+enum E_GameType
+{
+	GAME_Any	 = 0,
+	GAME_Doom	 = 1,
+	GAME_Heretic = 2,
+	GAME_Hexen	 = 4,
+	GAME_Strife	 = 8,
+	GAME_Chex	 = 16,
+
+	GAME_Raven			= GAME_Heretic|GAME_Hexen,
+	GAME_DoomChex		= GAME_Doom|GAME_Chex,
+	GAME_DoomStrifeChex	= GAME_Doom|GAME_Strife|GAME_Chex
 }
 
 enum E_EventType
@@ -295,16 +309,8 @@ enum E_Event
 	E_GiveLightAmp,
 	E_GiveRadSuit,
 	E_GiveInvulnerabilitySphere,
-	E_GiveChainsaw,
-	E_GivePistol,
-	E_GiveShotgun,
-	E_GiveSuperShotgun,
-	E_GiveChaingun,
-	E_GiveRocketLauncher,
-	E_GivePlasmaRifle,
-	E_GiveBFG9000,
+	E_GiveRandomWeapon,
 	E_GiveBerserk,
-	E_SpawnFriendlyGreatGodImp,
 	E_GiveHealthBonus,
 	E_GiveArmorBonus,
 	E_GiveSoulsphere,
@@ -354,6 +360,14 @@ enum E_Event
 	E_FartingItems,
 	E_MoonGravity,
 	E_JupiterGravity,
+	E_ShuffleAmmoTypes,
+	E_LimpProjectiles,
+	E_InverseFlyingRules,
+	E_InfiniteAmmo,
+	E_DoubleAmmo,
+	E_AutoPong,
+	E_TallWeaponSprites,
+	E_WideWeaponSprites,
 	E_NumEvents
 }
 

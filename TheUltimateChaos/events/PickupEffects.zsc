@@ -128,8 +128,10 @@ Class TUC_ShrinkPickups : TUC_Event
 		{
 			if (mo is 'inventory')
 			{
-				mo.scale.x = 1;
-				mo.scale.y = 1;
+				let def = getDefaultByType(mo.getClass());
+			
+				mo.scale.x = def.scale.x;
+				mo.scale.y = def.scale.y;
 			}
 		}
 	}

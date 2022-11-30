@@ -1,6 +1,14 @@
+This is a mod by kevansevans.
+
+For a full effect list, please visit:
+https://docs.google.com/spreadsheets/d/1_FarIhm3LaaHUOmkqm36kB92V1AFhplkZiHTHMG_oPE/edit?usp=sharing
+
 In general, many thanks to the Mad Hellforge crew for joining me along in the VC's
 I streamed development on, pitching their ideas, their feedback, and their
 frustrated enjoyment as they play tested. Thanks guys!
+
+Thank you to the many helpful people over in the ZDoom discord that helped me
+with my many problems I had while I was making this.
 
 Doug The Eagle
 	- Great God Imp and whatever sound effects they grabbed

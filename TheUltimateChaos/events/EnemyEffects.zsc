@@ -1,3 +1,47 @@
+Class TUC_InverseFlyingRules : TUC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = getDefaultByType(mo.getClass());
+				mo.bFloat = !def.bFloat;
+				mo.bNoGravity = !def.bNoGravity;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = getDefaultByType(mo.getClass());
+				mo.bFloat = def.bFloat;
+				mo.bNoGravity = def.bNoGravity;
+			}
+		}
+	}
+
+	Static TUC_Event create()
+	{
+		TUC_Event event = new('TUC_InverseFlyingRules');
+		event.eventname = "Inverted flying rules";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class TUC_AllMonstersWakeUp : TUC_Event
 {
 	override void eventFunc()
@@ -14,6 +58,7 @@ Class TUC_AllMonstersWakeUp : TUC_Event
 				mo.target = player;
 				mo.lastheard = player;
 				mo.bAmbush = false;
+				mo.A_damageSelf(0);
 			}
 		}
 	}
@@ -86,12 +131,8 @@ Class TUC_CacodemonHitscanners : TUC_Event
 
 Class TUC_FrictionlessEnemies : TUC_Event
 {
-	Array<Actor> pre;
-
 	override void eventFunc()
 	{
-		if (!pre.size()) pre.clear();
-		
 		ThinkerIterator it = ThinkerIterator.Create("Actor");
 		Actor mo;
 	
@@ -99,12 +140,6 @@ Class TUC_FrictionlessEnemies : TUC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				if (mo.bNoFriction)
-				{
-					pre.push(mo);
-					continue;
-				}
-			
 				mo.bNoFriction = true;
 				mo.bPushable = true;
 				mo.bSlidesOnWalls = true;
@@ -121,10 +156,11 @@ Class TUC_FrictionlessEnemies : TUC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				if (pre.find(mo) == pre.size()) continue;
-				mo.bNoFriction = false;
-				mo.bPushable = false;
-				mo.bSlidesOnWalls = false;
+				let def = GetDefaultByType(mo.getClass());
+			
+				mo.bNoFriction = def.bNoFriction;
+				mo.bPushable = def.bPushable;
+				mo.bSlidesOnWalls = def.bSlidesOnWalls;
 			}
 		}
 	}
@@ -168,9 +204,11 @@ Class TUC_AnkleBiterEnemies : TUC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				mo.scale.x = 1;
-				mo.scale.y = 1;
-				mo.A_SetSize(mo.height * 3, mo.radius * 3, false);
+				let def = GetDefaultByType(mo.getClass());
+			
+				mo.scale.x = def.scale.x;
+				mo.scale.y = def.scale.y;
+				mo.A_SetSize(def.radius, def.height, false);
 			}
 		}
 	}
@@ -185,61 +223,10 @@ Class TUC_AnkleBiterEnemies : TUC_Event
 	}
 }
 
-Class TUC_SpawnFriendlyGreatGodImp : TUC_Event
-{
-	override void eventFunc()
-	{
-		while (true)
-		{
-			int rng = random(0, level.Sectors.size() - 1);
-			let c = level.Sectors[rng].centerspot;
-			if (level.IsPointInLevel((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c))))
-			{
-				double ceilheight = level.Sectors[rng].ceilingplane.ZAtPoint(c);
-				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
-				if (ceilheight - floorheight > 64)
-				{
-					let friend = Actor.spawn('greatgodimp', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
-					friend.bFriendly = true;
-					friend.bIsMonster = false;
-					activated = true;
-					break;
-				}
-			}
-		}
-	}
-	
-	override void closeFunc() 
-	{
-		
-	}
-	
-	static TUC_Event create()
-	{
-		TUC_Event event = new('TUC_SpawnFriendlyGreatGodImp');
-		event.eventname = "Thou hast been blessed!";
-		event.duration = 35 * 90;
-		event.type = E_PerLevel;
-		return event;
-	}
-}
-
 Class TUC_StatueEnemies : TUC_Event
 {
-	Array<Actor> pushables;
-	Array<Actor> inactive;
-	
-	bool set;
-
 	override void eventFunc()
 	{
-		if (!set)
-		{
-			pushables.clear();
-			inactive.clear();
-			set = true;
-		}
-	
 		ThinkerIterator it = ThinkerIterator.Create("Actor");
 		Actor mo;
 	
@@ -247,8 +234,6 @@ Class TUC_StatueEnemies : TUC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				if (mo.bPushable) pushables.push(mo);
-				if (mo.bDormant) inactive.push(mo);
 				mo.bPushable = true;
 				mo.bShootable = false;
 				mo.tics = -1;
@@ -268,22 +253,12 @@ Class TUC_StatueEnemies : TUC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				mo.bPushable = false;
-				mo.bShootable = true;
+				let def = GetDefaultByType(mo.getClass());
+				
+				mo.bPushable = def.bPushable;
+				mo.bShootable = def.bShootable;
 				mo.tics = 1;
 			}
-		}
-		
-		for (int i = 0; i < pushables.size(); ++i)
-		{
-			if (!pushables[i]) continue;
-			pushables[i].bPushable = true;
-		}
-		
-		for (int j = 0; j < inactive.size(); ++j)
-		{
-			if(!inactive[j]) continue;
-			inactive[j].bDormant = true;
 		}
 		
 		PlayerInfo player = players[consoleplayer];
@@ -342,17 +317,18 @@ Class TUC_NightmareMonsters : TUC_Event
 
 Class TUC_NightmareRespawns : TUC_Event
 {
-	array<actor> preRespawn;
-	bool set;
+
+	override bool verify()
+	{
+		bool result = Super.verify();
+		
+		if (G_SkillPropertyInt(SKILLP_ACSReturn) == 4) return false;
+		
+		return result;
+	}
 	
 	override void eventFunc()
 	{
-		if (!set)
-		{
-			preRespawn.clear();
-			set = true;
-		}
-		
 		ThinkerIterator it = ThinkerIterator.Create("Actor");
 		Actor mo;
 	
@@ -360,8 +336,7 @@ Class TUC_NightmareRespawns : TUC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				if (mo.bAlwaysRespawn) preRespawn.push(mo);
-				else mo.bAlwaysRespawn = true;
+				mo.bAlwaysRespawn = true;
 			}
 		}
 	}
@@ -375,14 +350,10 @@ Class TUC_NightmareRespawns : TUC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				mo.bAlwaysRespawn = false;
+				let def = GetDefaultByType(mo.getClass());
+			
+				mo.bAlwaysRespawn = def.bAlwaysRespawn;
 			}
-		}
-		
-		for (int i = 0; i < preRespawn.size(); ++i)
-		{
-			if (!preRespawn[i]) continue;
-			preRespawn[i].bAlwaysRespawn = true;
 		}
 	}
 	
@@ -402,6 +373,8 @@ Class TUC_SpawnGreatGodImp : TUC_Event
 
 	override void eventFunc()
 	{
+		let player = players[consoleplayer].mo;
+	
 		while (true)
 		{
 			int rng = random(0, level.Sectors.size() - 1);
@@ -413,6 +386,8 @@ Class TUC_SpawnGreatGodImp : TUC_Event
 				if (ceilheight - floorheight > 64)
 				{
 					impy = Actor.spawn('greatgodimp', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
+					impy.target = player;
+					impy.A_damageSelf(0);
 					activated = true;
 					break;
 				}

@@ -2,6 +2,9 @@ SkyMayBe/BFGDeath "Sounds/SkyMayBe_BFGDeath"
 SkyMayBe/GreatGodImpSee "Sounds/SkyMayBe_GreatGodImpSee"
 SkyMayBe/ThereIsNoEscape "Sounds/SkyMayBe_ThereIsNoEscape"
 
+pong/paddle "sounds/PADDBOOP.ogg"
+pong/wall "sounds/WALLBOOP.ogg"
+
 $RANDOM poot/poot { poot1 poot2 poot3 poot4 poot5 poot6 poot7 poot8}
 poot1	poot1
 poot2	poot2

@@ -332,9 +332,25 @@ Class TUC_TheFloorIsSludge : TUC_Event
 
 Class TUC_SetAllWallsToStartan : TUC_Event
 {
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			if (event is "TUC_SetAllWallsToFireblu") return false;
+			if (event is "TUC_OUCH") return false;
+		}
+		
+		return result;
+	}
+
 	override void eventFunc()
 	{
-	
 		TextureID walltex = TexMan.checkForTexture("STARTAN2");
 	
 		level.ChangeSky(TexMan.checkForTexture("SKY1"), TexMan.checkForTexture(''));
@@ -387,7 +403,8 @@ Class TUC_SetAllWallsToStartan : TUC_Event
 	{
 		TUC_Event event = new('TUC_SetAllWallsToStartan');
 		event.eventname = "MyFirstMap.wad";
-		event.duration = 35 * 90;
+		event.duration = 35 * 60 * 99999;
+		event.deleteme = true;
 		event.type = E_Instant;
 		return event;
 	}
@@ -395,6 +412,23 @@ Class TUC_SetAllWallsToStartan : TUC_Event
 
 Class TUC_SetAllWallsToFireblu : TUC_Event
 {
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			TUC_Event event = effects.events[i];
+			if (event is "TUC_SetAllWallsToStartan") return false;
+			if (event is "TUC_OUCH") return false;
+		}
+		
+		return result;
+	}
+
 	override void eventFunc()
 	{
 		TextureID newtex = TexMan.checkForTexture("FIREBLU1");
@@ -439,7 +473,8 @@ Class TUC_SetAllWallsToFireblu : TUC_Event
 	{
 		TUC_Event event = new('TUC_SetAllWallsToFireblu');
 		event.eventname = "Everyone's favorite texture";
-		event.duration = 35 * 90;
+		event.duration = 35 * 60 * 99999;
+		event.deleteme = true;
 		event.type = E_Instant;
 		return event;
 	}

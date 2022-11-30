@@ -4,6 +4,10 @@ Class GreatGodImp : DoomImp
 	{
 		+NoClip;
 		+NoDamage;
+		+Boss;
+		-IsMonster;
+		-CountKill;
+		+NoBLood;
 		PainChance 0;
 		Speed 4;
 		SeeSound "SkyMayBe/GreatGodImpSee";
