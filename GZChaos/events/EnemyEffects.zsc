@@ -1,4 +1,4 @@
-Class TUC_InverseFlyingRules : TUC_Event
+Class GZC_InverseFlyingRules : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -32,9 +32,9 @@ Class TUC_InverseFlyingRules : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_InverseFlyingRules');
+		GZC_Event event = new('GZC_InverseFlyingRules');
 		event.eventname = "Inverted flying rules";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -42,7 +42,7 @@ Class TUC_InverseFlyingRules : TUC_Event
 	}
 }
 
-Class TUC_AllMonstersWakeUp : TUC_Event
+Class GZC_AllMonstersWakeUp : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -63,9 +63,9 @@ Class TUC_AllMonstersWakeUp : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_AllMonstersWakeUp');
+		GZC_Event event = new('GZC_AllMonstersWakeUp');
 		event.eventname = "All monsters wake up";
 		event.duration = 35 * 60;
 		event.type = E_Instant;
@@ -73,7 +73,7 @@ Class TUC_AllMonstersWakeUp : TUC_Event
 	}
 }
 
-Class TUC_ArachnotronGrowthSpurt : TUC_Event
+Class GZC_ArachnotronGrowthSpurt : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -92,9 +92,9 @@ Class TUC_ArachnotronGrowthSpurt : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ArachnotronGrowthSpurt');
+		GZC_Event event = new('GZC_ArachnotronGrowthSpurt');
 		event.eventname = "Arachnotron Growth Spurt";
 		event.duration = 35 * 60;
 		event.type = E_Instant;
@@ -102,7 +102,7 @@ Class TUC_ArachnotronGrowthSpurt : TUC_Event
 	}
 }
 
-Class TUC_CacodemonHitscanners : TUC_Event
+Class GZC_CacodemonHitscanners : GZC_Event
 {
 
 	override void spawnFunc(Actor mo)
@@ -119,9 +119,9 @@ Class TUC_CacodemonHitscanners : TUC_Event
 		}
 	}
 	
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_CacodemonHitscanners');
+		GZC_Event event = new('GZC_CacodemonHitscanners');
 		event.eventname = "Shotgun Cacodemons";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -129,7 +129,7 @@ Class TUC_CacodemonHitscanners : TUC_Event
 	}
 }
 
-Class TUC_FrictionlessEnemies : TUC_Event
+Class GZC_FrictionlessEnemies : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -165,9 +165,9 @@ Class TUC_FrictionlessEnemies : TUC_Event
 		}
 	}
 	
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_FrictionlessEnemies');
+		GZC_Event event = new('GZC_FrictionlessEnemies');
 		event.eventname = "Enemies have no friction";
 		event.duration = (35 * 60 * 2) + (35 * 30);
 		event.type = E_Timed;
@@ -175,7 +175,7 @@ Class TUC_FrictionlessEnemies : TUC_Event
 	}
 }
 
-Class TUC_AnkleBiterEnemies : TUC_Event
+Class GZC_AnkleBiterEnemies : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -213,9 +213,9 @@ Class TUC_AnkleBiterEnemies : TUC_Event
 		}
 	}
 
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_AnkleBiterEnemies');
+		GZC_Event event = new('GZC_AnkleBiterEnemies');
 		event.eventname = "Ankle Biters";
 		event.duration = 35 * 60 * 2;
 		event.type = E_Timed;
@@ -223,7 +223,7 @@ Class TUC_AnkleBiterEnemies : TUC_Event
 	}
 }
 
-Class TUC_StatueEnemies : TUC_Event
+Class GZC_StatueEnemies : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -265,9 +265,9 @@ Class TUC_StatueEnemies : TUC_Event
 		player.mo.bNoTarget = false;
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_StatueEnemies');
+		GZC_Event event = new('GZC_StatueEnemies');
 		event.eventname = "Statue enemies";
 		event.duration = 35 * 30;
 		event.type = E_Timed;
@@ -275,7 +275,7 @@ Class TUC_StatueEnemies : TUC_Event
 	}
 }
 
-Class TUC_NightmareMonsters : TUC_Event
+Class GZC_NightmareMonsters : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -305,9 +305,9 @@ Class TUC_NightmareMonsters : TUC_Event
 		}
 	}
 	
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_NightmareMonsters');
+		GZC_Event event = new('GZC_NightmareMonsters');
 		event.eventname = "Stealth Monsters";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -315,7 +315,7 @@ Class TUC_NightmareMonsters : TUC_Event
 	}
 }
 
-Class TUC_NightmareRespawns : TUC_Event
+Class GZC_NightmareRespawns : GZC_Event
 {
 
 	override bool verify()
@@ -357,9 +357,9 @@ Class TUC_NightmareRespawns : TUC_Event
 		}
 	}
 	
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_NightmareRespawns');
+		GZC_Event event = new('GZC_NightmareRespawns');
 		event.eventname = "Respawning monsters";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -367,7 +367,7 @@ Class TUC_NightmareRespawns : TUC_Event
 	}
 }
 
-Class TUC_SpawnGreatGodImp : TUC_Event
+Class GZC_SpawnGreatGodImp : GZC_Event
 {
 	Actor impy;
 
@@ -400,9 +400,9 @@ Class TUC_SpawnGreatGodImp : TUC_Event
 		if (impy) impy.destroy();
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_SpawnGreatGodImp');
+		GZC_Event event = new('GZC_SpawnGreatGodImp');
 		event.eventname = "The Great God Imp";
 		event.duration = 35 * 60;
 		event.type = E_Timed;

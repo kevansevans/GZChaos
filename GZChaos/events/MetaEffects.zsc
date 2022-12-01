@@ -1,20 +1,74 @@
-Class TUC_AutoPong : TUC_Event
+Class GZC_PortraitMode : GZC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.giveInventory('GZC_PortraitModeToken', 1);
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.takeInventory('GZC_PortraitModeToken', 1);
+	}
+	
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_PortraitMode');
+		event.eventname = "Portrait mode";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+class GZC_PortraitModeToken : inventory {}
+
+Class GZC_SuperHot : GZC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.giveInventory('GZC_SuperHotToken', 1);
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.takeInventory('GZC_SuperHotToken', 1);
+	}
+	
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_SuperHot');
+		event.eventname = "SUPER HOT";
+		event.duration = 35 * 30;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class GZC_SuperHotToken : Inventory {}
+
+Class GZC_AutoPong : GZC_Event
 {
 	override void eventFunc()
 	{
 		PlayerPawn player = players[consoleplayer].mo;
-		player.giveInventory('TUC_PongToken', 1);
+		player.giveInventory('GZC_PongToken', 1);
 	}
 	
 	override void closeFunc()
 	{
 		PlayerPawn player = players[consoleplayer].mo;
-		player.takeInventory('TUC_PongToken', 1);
+		player.takeInventory('GZC_PongToken', 1);
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_AutoPong');
+		GZC_Event event = new('GZC_AutoPong');
 		event.eventname = "Pong";
 		event.duration = 35 * 60 * 5;
 		event.type = E_Timed;
@@ -22,9 +76,9 @@ Class TUC_AutoPong : TUC_Event
 	}
 }
 
-Class TUC_PongToken : Inventory {}
+Class GZC_PongToken : Inventory {}
 
-Class TUC_ResetEffectTimers : TUC_Event
+Class GZC_ResetEffectTimers : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -54,9 +108,9 @@ Class TUC_ResetEffectTimers : TUC_Event
 		
 	}
 
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ResetEffectTimers');
+		GZC_Event event = new('GZC_ResetEffectTimers');
 		event.eventname = "Reset effect timers";
 		event.duration = 35 * 60;
 		event.type = E_Instant;
@@ -64,7 +118,7 @@ Class TUC_ResetEffectTimers : TUC_Event
 	}
 }
 
-Class TUC_HideTimerAndEffects : TUC_Event
+Class GZC_HideTimerAndEffects : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -76,9 +130,9 @@ Class TUC_HideTimerAndEffects : TUC_Event
 		EventHandler.SendNetworkEvent("meta:showeverything");
 	}
 
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_HideTimerAndEffects');
+		GZC_Event event = new('GZC_HideTimerAndEffects');
 		event.eventname = "Hidden timer and effects";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -86,7 +140,7 @@ Class TUC_HideTimerAndEffects : TUC_Event
 	}
 }
 
-Class TUC_DoubleTimerDuration : TUC_Event
+Class GZC_DoubleTimerDuration : GZC_Event
 {
 	override bool verify()
 	{
@@ -97,9 +151,9 @@ Class TUC_DoubleTimerDuration : TUC_Event
 		
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
-			TUC_Event event = effects.events[i];
-			if (event is "TUC_QuarterTimerDuration") return false;
-			if (event is "TUC_HalfTimerDuration") return false;
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_QuarterTimerDuration") return false;
+			if (event is "GZC_HalfTimerDuration") return false;
 		}
 		
 		return result;
@@ -116,9 +170,9 @@ Class TUC_DoubleTimerDuration : TUC_Event
 		EventHandler.SendNetworkEvent("meta:speedup:2");
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_DoubleTimerDuration');
+		GZC_Event event = new('GZC_DoubleTimerDuration');
 		event.eventname = "1/2 timer speed";
 		event.duration = 35 * 60 * 5;
 		event.type = E_Timed;
@@ -126,7 +180,7 @@ Class TUC_DoubleTimerDuration : TUC_Event
 	}
 }
 
-Class TUC_HalfTimerDuration : TUC_Event
+Class GZC_HalfTimerDuration : GZC_Event
 {
 	override bool verify()
 	{
@@ -137,9 +191,9 @@ Class TUC_HalfTimerDuration : TUC_Event
 		
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
-			TUC_Event event = effects.events[i];
-			if (event is "TUC_DoubleTimerDuration") return false;
-			if (event is "TUC_QuarterTimerDuration") return false;
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_DoubleTimerDuration") return false;
+			if (event is "GZC_QuarterTimerDuration") return false;
 		}
 		
 		return result;
@@ -156,9 +210,9 @@ Class TUC_HalfTimerDuration : TUC_Event
 		EventHandler.SendNetworkEvent("meta:slowdown:2");
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_HalfTimerDuration');
+		GZC_Event event = new('GZC_HalfTimerDuration');
 		event.eventname = "2x timer speed";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -166,7 +220,7 @@ Class TUC_HalfTimerDuration : TUC_Event
 	}
 }
 
-Class TUC_QuarterTimerDuration : TUC_Event
+Class GZC_QuarterTimerDuration : GZC_Event
 {
 	override bool verify()
 	{
@@ -177,9 +231,9 @@ Class TUC_QuarterTimerDuration : TUC_Event
 		
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
-			TUC_Event event = effects.events[i];
-			if (event is "TUC_DoubleTimerDuration") return false;
-			if (event is "TUC_HalfTimerDuration") return false;
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_DoubleTimerDuration") return false;
+			if (event is "GZC_HalfTimerDuration") return false;
 		}
 		
 		return result;
@@ -196,9 +250,9 @@ Class TUC_QuarterTimerDuration : TUC_Event
 		EventHandler.SendNetworkEvent("meta:slowdown:4");
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_QuarterTimerDuration');
+		GZC_Event event = new('GZC_QuarterTimerDuration');
 		event.eventname = "4x timer speed";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -206,7 +260,7 @@ Class TUC_QuarterTimerDuration : TUC_Event
 	}
 }
 
-Class TUC_RollExtraEffects : TUC_Event
+Class GZC_RollExtraEffects : GZC_Event
 {
 	int bonuseffects;
 
@@ -224,26 +278,26 @@ Class TUC_RollExtraEffects : TUC_Event
 		
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_RollExtraEffects');
-		TUC_RollExtraEffects(event).bonuseffects = random(2, 5);
-		event.eventname = "Roll " .. TUC_RollExtraEffects(event).bonuseffects .. " extra effects";
+		GZC_Event event = new('GZC_RollExtraEffects');
+		GZC_RollExtraEffects(event).bonuseffects = random(2, 5);
+		event.eventname = "Roll " .. GZC_RollExtraEffects(event).bonuseffects .. " extra effects";
 		event.duration = 35 * 60;
 		event.type = E_HiddenTimer;
 		return event;
 	}
 }
 
-Class TUC_DoNothing : TUC_Event
+Class GZC_DoNothing : GZC_Event
 {
 	override void eventFunc(){}
 	
 	override void closeFunc() {}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_DoNothing');
+		GZC_Event event = new('GZC_DoNothing');
 		event.eventname = "Nothing.";
 		event.duration = 35 * 60;
 		event.type = E_Instant;

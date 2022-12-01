@@ -1,14 +1,12 @@
-Class TUC_EventHandler : StaticEventHandler
+Class GZC_EventHandler : StaticEventHandler
 {
 	double effectTimer;
 	double timer;
 	
-	bool pong;
-	
 	PlayerPawn player;
 	PlayerInfo infoplayer;
 	
-	TUC_EventList list;
+	GZC_EventList list;
 	
 	Array<String> criticals;
 	
@@ -21,13 +19,14 @@ Class TUC_EventHandler : StaticEventHandler
 	EffectInventory effects;
 	
 	bool uiIsHidden;
-	bool cacoHitscan;
+	bool pong;
+	bool superhot;
 
 	override void OnRegister()
 	{
 		console.printf('Let the Chaos begin!');
 		
-		list = TUC_EventList.create();
+		list = GZC_EventList.create();
 		console.printf('Loading in ' .. (E_NumEvents) .. ' events!');
 		
 		timer = 0;
@@ -65,7 +64,7 @@ Class TUC_EventHandler : StaticEventHandler
 		{
 			for (int i = 0; i < effects.events.size(); ++i)
 			{
-				TUC_Event event = effects.events[i];
+				GZC_Event event = effects.events[i];
 				if (event.type == E_PerLevel || event.type == E_Instant || effects.events[i].deleteme)
 				{
 					removeEffect(event);
@@ -80,20 +79,6 @@ Class TUC_EventHandler : StaticEventHandler
 		
 		if (!effects) getEffects();
 		
-		if (player.health > 0)
-		{
-			++timer;
-		}
-		
-		timelimit = list.timelimit();
-		
-		if (list.timeLimit() - timer <= 0)
-		{
-			timer = 0;
-			
-			addEffectToActive();
-		}
-		
 		for (inventory item = player.inv; item != null; item = item.inv)
 		{	
 			if (item is "EffectInventory")
@@ -105,23 +90,47 @@ Class TUC_EventHandler : StaticEventHandler
 			
 		if (player.health > 0)
 		{
-			for (int i = 0; i < effects.events.size(); ++i)
+			
+			if (!player.countInv('GZC_SuperHotToken'))
 			{
-				if (player.health > 0)
-				{
-					if (!effects.events[i].activated) effects.events[i].eventFunc();
-					if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
-					effects.events[i].life += 1;
-					if (effects.events[i].life > effects.events[i].duration && effects.events[i].type != E_PerLevel)
-					{
-						removeEffect(effects.events[i]);
-					}
-				}
-			}	
+				performModTic();
+			}
+			else
+			{
+				performTimeScale();
+			}
 		}
 		
-		pong = player.countInv('TUC_PongToken');
+		pong = player.countInv('GZC_PongToken');
 		if (pong) runPong();
+	}
+	
+	void performModTic()
+	{
+		++timer;
+		
+		timelimit = list.timelimit();
+		
+		if (list.timeLimit() - timer <= 0)
+		{
+			timer = 0;
+			
+			addEffectToActive();
+		}
+	
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			if (player.health > 0)
+			{
+				if (!effects.events[i].activated) effects.events[i].eventFunc();
+				if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
+				effects.events[i].life += 1;
+				if (effects.events[i].life > effects.events[i].duration && effects.events[i].type != E_PerLevel)
+				{
+					removeEffect(effects.events[i]);
+				}
+			}
+		}	
 	}
 	
 	override void worldThingSpawned(WorldEvent _event)
@@ -131,20 +140,20 @@ Class TUC_EventHandler : StaticEventHandler
 		
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
-			TUC_Event event = effects.events[i];
+			GZC_Event event = effects.events[i];
 			event.spawnFunc(_event.thing);
 		}
 	}
 	
 	void addEffectToActive(int _ignore = -1)
 	{
-		TUC_Event effect = list.getEffect(_ignore);
+		GZC_Event effect = list.getEffect(_ignore);
 		effects.events.push(effect);
 	}
 	
-	void removeEffect(TUC_Event _effect)
+	void removeEffect(GZC_Event _effect)
 	{
-		TUC_Event effect = _effect;
+		GZC_Event effect = _effect;
 		effect.closeFunc();
 		int place = effects.events.find(effect);
 		effects.events.delete(place);
@@ -154,7 +163,63 @@ Class TUC_EventHandler : StaticEventHandler
 	
 	override void RenderUnderlay(RenderEvent event)
 	{
-		drawScreen();
+		if (!uiIsHidden)
+		{
+			double ratio = timer / timeLimit;
+			double width = ratio * double(Screen.getWidth());
+			Screen.DrawThickLine(0, 5, width, 5, 10, Color("00CC00"));
+		}
+	}
+	
+	ThinkerIterator it;
+	double mytics;
+	int myticsint;
+	
+	void performTimeScale()
+	{
+		double playerspeed = sqrt((player.vel.x * player.vel.x) + (player.vel.y * player.vel.y) + (player.vel.z * player.vel.z));
+		double ticdelta = min(1, playerspeed / 20);
+
+		mytics += ticdelta;
+
+		int catchup = (int(mytics) - int(myticsint)) - 1;
+
+		if (!it)
+			it = ThinkerIterator.Create("Actor", Thinker.STAT_DEFAULT);
+		else
+			it.Reinit();
+	
+		bool tickmod = false;
+
+		actor mo;
+		while (mo = Actor(it.Next()))
+		{
+			if (mo.isFrozen()) break;
+
+			if ((catchup < 0))
+			{
+				if (mo.tics > 0 && mo.freezetics < 1) mo.freezetics = 1;
+			}
+			else
+			{
+				tickmod = true;
+			}
+			
+			int thiscatchup = catchup;
+			while (thiscatchup-- > 0)
+			{
+				if (mo.tics > 0)
+				{
+					mo.Tick();
+				}
+			}
+		}
+		
+		if (tickmod) {
+			performModTic();
+		}
+		
+		myticsint += catchup + 1;
 	}
 	
 	bool ponginit;
@@ -297,7 +362,15 @@ Class TUC_EventHandler : StaticEventHandler
 	
 	override void RenderOverlay(RenderEvent event)
 	{
-		//drawScreen();
+		if (player.countInv("GZC_PortraitModeToken"))
+		{
+			double ratio = Screen.getHeight() * (9.0 / 16.0);
+			
+			Screen.drawThickLine(0, 0, (Screen.getWidth() / 2) - (ratio / 2), 0, Screen.getHeight() * 2 + 40, Color("000000"));
+			Screen.drawThickLine((Screen.getWidth() / 2) + (ratio / 2), 0, Screen.getWidth(), 0, Screen.getHeight() * 2 + 40, Color("000000"));
+		}
+		
+		drawScreen();
 		
 		if (pong)
 		{
@@ -317,22 +390,15 @@ Class TUC_EventHandler : StaticEventHandler
 	{
 		if (!player) return;
 		
-		if (!uiIsHidden)
-		{
-			double ratio = timer / timeLimit;
-			double width = ratio * double(Screen.getWidth());
-			Screen.DrawThickLine(0, 5, width, 5, 10, Color("00CC00"));
-		}
-		
 		if (!effects) return;
 		if (effects.events.size() > 0)
 		{
 			int yOffset = 150;
 			for (int i = 0; i < effects.events.size(); ++i)
 			{
-				if (uiIsHidden && !(effects.events[i] is "TUC_HideTimerAndEffects")) continue;
+				if (uiIsHidden && !(effects.events[i] is "GZC_HideTimerAndEffects")) continue;
 			
-				TUC_Event effect = effects.events[i];
+				GZC_Event effect = effects.events[i];
 				Screen.DrawText(BIGFONT, Font.CR_White, 20, (yoffset - 20), effect.eventname, DTA_ScaleX, 1.5, DTA_ScaleY, 1.5);
 				if (effects.events[i].type == E_Timed)
 				{
@@ -390,10 +456,10 @@ Class TUC_EventHandler : StaticEventHandler
 
 /*
 * This event handler ensures that RNG calls remain as chaotic at all times.
-* While	the above event handler's RNG does not reset, this adds just an extra
-* dash of unpredictability.
+* While	the above event handler's RNG does not reset, this event below
+* adds just an extra dash of unpredictability.
 */
-Class TUC_EntropyMaintainer : StaticEventHandler
+Class GZC_EntropyMaintainer : StaticEventHandler
 {
 	int entropy;
 	override void onRegister()
@@ -406,6 +472,18 @@ Class TUC_EntropyMaintainer : StaticEventHandler
 		{
 			random(1, 100);
 			entropy = random(1, 35);
+		}
+	}
+	override void newGame()
+	{
+		int rand = random(1, 10);
+		for (int i = 0; i < rand; ++i)
+		{
+			int rand2 = random(1, 10);
+			for (int i = 0; i < rand2; ++i)
+			{
+				int rand3 = random(1, 10);
+			}
 		}
 	}
 }

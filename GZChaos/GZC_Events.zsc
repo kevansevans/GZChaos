@@ -1,8 +1,8 @@
-Class TUC_EventList play
+Class GZC_EventList play
 {
-	static TUC_EventList create()
+	static GZC_EventList create()
 	{
-		TUC_EventList list = new('TUC_EventList');
+		GZC_EventList list = new('GZC_EventList');
 		list.timemodifier = 1.0;
 		list.cachedEffects.clear();
 		return list;
@@ -22,14 +22,14 @@ Class TUC_EventList play
 	
 	bool set;
 	
-	TUC_Event getEffect(int _ignore = -1)
+	GZC_Event getEffect(int _ignore = -1)
 	{
 		int event = -1;
 		
 		PlayerPawn player = players[consoleplayer].mo;
 		effects = EffectInventory(player.findInventory("EffectInventory"));
 		
-		TUC_Event selectedevent;
+		GZC_Event selectedevent;
 		bool restart;
 		
 		while (true)
@@ -54,201 +54,213 @@ Class TUC_EventList play
 			cachedEffects.shrinkToFit();
 		}
 		
-		if (!selectedevent) return TUC_DoNothing.create();
+		if (!selectedevent) return GZC_DoNothing.create();
 		else return selectedevent;
 	}
 	
-	TUC_Event getEvent(int _input)
+	GZC_Event getEvent(int _input)
 	{
 		switch (_input)
 		{
 			case E_TakeAllKeysAway:
-				return TUC_TakeAllKeysAway.create();
+				return GZC_TakeAllKeysAway.create();
 			case E_ReplaceHealthWithBonuses:
-				return TUC_ReplaceHealthWithBonuses.create();
+				return GZC_ReplaceHealthWithBonuses.create();
 			case E_ReplaceMedikitWithStimpack:
-				return TUC_ReplaceMedikitWithStimpack.create();
+				return GZC_ReplaceMedikitWithStimpack.create();
 			case E_SpawnGreatGodImp:
-				return TUC_SpawnGreatGodImp.create();
+				return GZC_SpawnGreatGodImp.create();
 			case E_TheFloorIsLava:
-				return TUC_TheFloorIsLava.create();
+				return GZC_TheFloorIsLava.create();
 			case E_TheFloorIsNukage:
-				return TUC_TheFloorIsNukage.create();
+				return GZC_TheFloorIsNukage.create();
 			case E_TheFloorIsSludge:
-				return TUC_TheFloorIsSludge.create();
+				return GZC_TheFloorIsSludge.create();
 			case E_DisableForwardBackwards:
-				return TUC_DisableForwardBackwards.create();
+				return GZC_DisableForwardBackwards.create();
 			case E_DisableStrafingMovement:
-				return TUC_DisableStrafingMovement.create();
+				return GZC_DisableStrafingMovement.create();
 			case E_InvertPlayerMovement:
-				return TUC_InvertPlayerMovement.create();
+				return GZC_InvertPlayerMovement.create();
 			case E_ShrinkPickups:
-				return TUC_ShrinkPickups.create();
+				return GZC_ShrinkPickups.create();
 			case E_GameEndPlayer:
-				if (random(1, 10) == 5) return TUC_GameEndPlayer.create();
-				else return TUC_FakeGameEndPlayer.create();
+				if (random(1, 10) == 5) return GZC_GameEndPlayer.create();
+				else return GZC_FakeGameEndPlayer.create();
 			case E_RestartLevel:
-				return TUC_RestartLevel.create();
+				return GZC_RestartLevel.create();
 			case E_CantStopFiring:
-				return TUC_CantStopFiring.create();
+				return GZC_CantStopFiring.create();
 			case E_NightmareMonsters:
-				return TUC_NightmareMonsters.create();
+				return GZC_NightmareMonsters.create();
 			case E_NightmareRespawns:
-				return TUC_NightmareRespawns.create();
+				return GZC_NightmareRespawns.create();
 			case E_SuperIcePhysics:
-				return TUC_SuperIcePhysics.create();
+				return GZC_SuperIcePhysics.create();
 			case E_FallDamage:
-				return TUC_FallDamage.create();
+				return GZC_FallDamage.create();
 			case E_TeleportPlayer:
-				return TUC_TeleportPlayer.create();
+				return GZC_TeleportPlayer.create();
 			case E_Nothing:
-				return TUC_DoNothing.create();
+				return GZC_DoNothing.create();
 			case E_DoubleTimerDuration:
-				return TUC_DoubleTimerDuration.create();
+				return GZC_DoubleTimerDuration.create();
 			case E_HalfTimerDuration:
-				return TUC_HalfTimerDuration.create();
+				return GZC_HalfTimerDuration.create();
 			case E_QuarterTimerDuration:
-				return TUC_QuarterTimerDuration.create();
+				return GZC_QuarterTimerDuration.create();
 			case E_SetAllWallsToStartan:
-				return TUC_SetAllWallsToStartan.create();
+				return GZC_SetAllWallsToStartan.create();
 			case E_SetAllWallsToFireblu:
-				return TUC_SetAllWallsToFireblu.create();
+				return GZC_SetAllWallsToFireblu.create();
 			case E_ShuffleKeyTextures:
-				return TUC_ShuffleKeyTextures.create();
+				return GZC_ShuffleKeyTextures.create();
 			case E_ShuffleItemsAround:
-				return TUC_ShuffleItemsAround.create();
+				return GZC_ShuffleItemsAround.create();
 			case E_RollExtraEffects:
-				return TUC_RollExtraEffects.create();
+				return GZC_RollExtraEffects.create();
 			case E_GiveMegaSphere:
-				return TUC_GiveMegaSphere.create();
+				return GZC_GiveMegaSphere.create();
 			case E_GiveLightAmp:
-				return TUC_GiveLightAmp.create();
+				return GZC_GiveLightAmp.create();
 			case E_GiveRadSuit:
-				return TUC_GiveRadSuit.create();
+				return GZC_GiveRadSuit.create();
 			case E_GiveSoulsphere:
-				return TUC_GiveSoulsphere.create();
+				return GZC_GiveSoulsphere.create();
 			case E_GiveBlurSphere:
-				return TUC_GiveBlurSphere.create();
+				return GZC_GiveBlurSphere.create();
 			case E_GiveInvulnerabilitySphere:
-				return TUC_GiveInvulnerabilitySphere.create();
+				return GZC_GiveInvulnerabilitySphere.create();
 			case E_GiveBerserk:
-				return TUC_GiveBerserk.create();
+				return GZC_GiveBerserk.create();
 			Case E_GiveRandomWeapon:
-				return TUC_GiveRandomWeapon.create();
+				return GZC_GiveRandomWeapon.create();
 			case E_GiveHealthBonus:
-				return TUC_GiveHealthBonus.create();
+				return GZC_GiveHealthBonus.create();
 			case E_GiveArmorBonus:
-				return TUC_GiveArmorBonus.create();
+				return GZC_GiveArmorBonus.create();
 			case E_StatueEnemies:
-				return TUC_StatueEnemies.create();
+				return GZC_StatueEnemies.create();
 			case E_WideMonsters:
-				return TUC_WideMonsters.create();
+				return GZC_WideMonsters.create();
 			case E_TallMonsters:
-				return TUC_TallMonsters.create();
+				return GZC_TallMonsters.create();
 			case E_SpinningMonsters:
-				return TUC_SpinningMonsters.create();
+				return GZC_SpinningMonsters.create();
 			case E_MisalignAllTextures:
-				return TUC_MisalignAllTextures.create();
+				return GZC_MisalignAllTextures.create();
 			case E_FakeGameEndPlayer:
-				if (random(1, 10) == 5) return TUC_GameEndPlayer.create();
-				else return TUC_FakeGameEndPlayer.create();
+				if (random(1, 10) == 5) return GZC_GameEndPlayer.create();
+				else return GZC_FakeGameEndPlayer.create();
 			case E_FakeNotification:
-				return TUC_FakeNotification.create();
+				return GZC_FakeNotification.create();
 			case E_SetMusicToCursedMidi:
-				return TUC_SetMusicToCursedMidi.create();
+				return GZC_SetMusicToCursedMidi.create();
 			case E_AnkleBiterEnemies:
-				return TUC_AnkleBiterEnemies.create();
+				return GZC_AnkleBiterEnemies.create();
 			case E_InventorySickness:
-				return TUC_InventorySickness.create();
+				return GZC_InventorySickness.create();
 			case E_LeftJoyconDrift:	
-				return TUC_LeftJoyconDrift.create();
+				return GZC_LeftJoyconDrift.create();
 			case E_RightJoyconDrift:
-				return TUC_RightJoyconDrift.create();
+				return GZC_RightJoyconDrift.create();
 			case E_BrokenBSPRendering:
-				return TUC_BrokenBSPRendering.create();
+				return GZC_BrokenBSPRendering.create();
 			case E_ScardeyItems:
-				return TUC_ScardeyItems.create();
+				return GZC_ScardeyItems.create();
 			case E_ClearAutoMap:
-				return TUC_ClearAutoMap.create();
+				return GZC_ClearAutoMap.create();
 			case E_HideTimerAndEffects:
-				return TUC_HideTimerAndEffects.create();
+				return GZC_HideTimerAndEffects.create();
 			case E_ResetEffectTimers:
-				return TUC_ResetEffectTimers.create();
+				return GZC_ResetEffectTimers.create();
 			case E_FrictionlessEnemies:
-				return TUC_FrictionlessEnemies.create();
+				return GZC_FrictionlessEnemies.create();
 			case E_DuplicatePickups:
-				return TUC_DuplicatePickups.create();
+				return GZC_DuplicatePickups.create();
 			case E_DuplicatingBarrels:
-				return TUC_DuplicatingBarrels.create();
+				return GZC_DuplicatingBarrels.create();
 			case E_FakeLagCrash:
-				return TUC_FakeLagCrash.create();
+				return GZC_FakeLagCrash.create();
 			case E_OUCH:
-				return TUC_OUCH.create();
+				return GZC_OUCH.create();
 			case E_IncreasedSectorFriction:
-				return TUC_IncreasedSectorFriction.create();
+				return GZC_IncreasedSectorFriction.create();
 			case E_SuperSecretsEverywhere:
-				return TUC_SuperSecretsEverywhere.create();
+				return GZC_SuperSecretsEverywhere.create();
 			case E_SuperNintendoDoom:
-				return TUC_SuperNintendoDoom.create();
+				return GZC_SuperNintendoDoom.create();
 			case E_SeekerProjectiles:
-				return TUC_SeekerProjectiles.create();
+				return GZC_SeekerProjectiles.create();
 			case E_FastWeapons:
-				return TUC_FastWeapons.create();
+				return GZC_FastWeapons.create();
 			case E_NegativeFastWeapons:
-				return TUC_NegativeFastWeapons.create();
+				return GZC_NegativeFastWeapons.create();
 			case E_RandomWeaponFrameDuration:
-				return TUC_RandomWeaponFrameDuration.create();
+				return GZC_RandomWeaponFrameDuration.create();
 			case E_StartRecording:
-				return TUC_StartRecording.create();
+				return GZC_StartRecording.create();
 			case E_CacodemonHitscanners:
-				return TUC_CacodemonHitscanners.create();
+				return GZC_CacodemonHitscanners.create();
 			case E_ArachnotronGrowthSpurt:
-				return TUC_ArachnotronGrowthSpurt.create();
+				return GZC_ArachnotronGrowthSpurt.create();
 			case E_ExplodingBulletPuffs:
-				return TUC_ExplodingBulletPuffs.create();
+				return GZC_ExplodingBulletPuffs.create();
 			case E_DiscoSkybox:
-				return TUC_DiscoSkybox.create();
+				return GZC_DiscoSkybox.create();
 			case E_AllMonstersWakeUp:
-				return TUC_AllMonstersWakeUp.create();
+				return GZC_AllMonstersWakeUp.create();
 			case E_ParanoidOfBarrels:
-				return TUC_ParanoidOfBarrels.create();
+				return GZC_ParanoidOfBarrels.create();
 			case E_SlowProjectiles:
-				return TUC_SlowProjectiles.create();
+				return GZC_SlowProjectiles.create();
 			case E_ExtraSlowProjectiles:
-				return TUC_ExtraSlowProjectiles.create();
+				return GZC_ExtraSlowProjectiles.create();
 			case E_PainfullySlowProjectiles:
-				return TUC_PainfullySlowProjectiles.create();
+				return GZC_PainfullySlowProjectiles.create();
 			case E_FastProjectiles:
-				return TUC_FastProjectiles.create();
+				return GZC_FastProjectiles.create();
 			case E_FartingPlayer:
-				return TUC_FartingPlayer.create();
+				return GZC_FartingPlayer.create();
 			case E_FartingMonsters:
-				return TUC_FartingMonsters.create();
+				return GZC_FartingMonsters.create();
 			case E_FartingItems:
-				return TUC_FartingItems.create();
+				return GZC_FartingItems.create();
 			case E_MoonGravity:
-				return TUC_MoonGravity.create();
+				return GZC_MoonGravity.create();
 			case E_JupiterGravity:
-				return TUC_JupiterGravity.create();
+				return GZC_JupiterGravity.create();
 			case E_LimpProjectiles:
-				return TUC_LimpProjectiles.create();
+				return GZC_LimpProjectiles.create();
 			case E_ShuffleAmmoTypes:
-				return TUC_ShuffleAmmoTypes.create();
+				return GZC_ShuffleAmmoTypes.create();
 			case E_InverseFlyingRules:
-				return TUC_InverseFlyingRules.create();
+				return GZC_InverseFlyingRules.create();
 			case E_InfiniteAmmo:
-				return TUC_InfiniteAmmo.create();
+				return GZC_InfiniteAmmo.create();
 			case E_DoubleAmmo:
-				return TUC_DoubleAmmo.create();
+				return GZC_DoubleAmmo.create();
 			case E_AutoPong:
-				return TUC_AutoPong.create();
+				return GZC_AutoPong.create();
 			Case E_TallWeaponSprites:
-				return TUC_TallWeaponSprites.create();
+				return GZC_TallWeaponSprites.create();
 			case E_WideWeaponSprites:
-				return TUC_WideWeaponSprites.create();
+				return GZC_WideWeaponSprites.create();
+			case E_DoubleRunning:
+				return GZC_DoubleRunning.create();
+			case E_DisableRunning:
+				return GZC_DisableRunning.create();
+			case E_SuperHot:
+				return GZC_SuperHot.create();
+			case E_PortraitMode:
+				return GZC_PortraitMode.create();
+			case E_SetAllWallsToNoFlat:
+				return GZC_SetAllWallsToNoFlat.create();
+			case E_SetAllWallsToISuck:
+				return GZC_SetAllWallsToISuck.create();
 		}
 		
-		return TUC_DoNothing.create();
+		return GZC_DoNothing.create();
 	}
 }
 
@@ -368,10 +380,16 @@ enum E_Event
 	E_AutoPong,
 	E_TallWeaponSprites,
 	E_WideWeaponSprites,
+	E_DoubleRunning,
+	E_DisableRunning,
+	E_SuperHot,
+	E_PortraitMode,
+	E_SetAllWallsToNoFlat,
+	E_SetAllWallsToISuck,
 	E_NumEvents
 }
 
-Class TUC_Event abstract play
+Class GZC_Event abstract play
 {
 	String eventname;
 	Int duration;
@@ -392,7 +410,7 @@ Class TUC_Event abstract play
 		
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
-			TUC_Event event = effects.events[i];
+			GZC_Event event = effects.events[i];
 			if (event is self.getClassName()) return false;
 		}
 		
@@ -460,5 +478,5 @@ Class TUC_Event abstract play
 
 Class EffectInventory : Inventory
 {
-	Array<TUC_Event> events;
+	Array<GZC_Event> events;
 }

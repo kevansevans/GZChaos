@@ -1,4 +1,4 @@
-Class TUC_DuplicatePickups : TUC_Event
+Class GZC_DuplicatePickups : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -32,9 +32,9 @@ Class TUC_DuplicatePickups : TUC_Event
 		
 	}
 
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_DuplicatePickups');
+		GZC_Event event = new('GZC_DuplicatePickups');
 		event.eventname = "Duplicate all items";
 		event.duration = 35 * 30;
 		event.type = E_Instant;
@@ -42,7 +42,7 @@ Class TUC_DuplicatePickups : TUC_Event
 	}
 }
 
-Class TUC_ShuffleItemsAround : TUC_Event
+Class GZC_ShuffleItemsAround : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -92,9 +92,9 @@ Class TUC_ShuffleItemsAround : TUC_Event
 	
 	override void closeFunc() {}
 
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ShuffleItemsAround');
+		GZC_Event event = new('GZC_ShuffleItemsAround');
 		event.eventname = "Shuffle Items";
 		event.duration = 35 * 5;
 		event.type = E_Timed;
@@ -102,7 +102,7 @@ Class TUC_ShuffleItemsAround : TUC_Event
 	}
 }
 
-Class TUC_ShrinkPickups : TUC_Event
+Class GZC_ShrinkPickups : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -136,9 +136,9 @@ Class TUC_ShrinkPickups : TUC_Event
 		}
 	}
 	
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ShrinkPickups');
+		GZC_Event event = new('GZC_ShrinkPickups');
 		event.eventname = "What is this? A pickup for ants?";
 		event.duration = 35 * 3 * 60;
 		event.type = E_Timed;
@@ -146,7 +146,7 @@ Class TUC_ShrinkPickups : TUC_Event
 	}
 }
 
-Class TUC_ReplaceHealthWithBonuses : TUC_Event
+Class GZC_ReplaceHealthWithBonuses : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -166,9 +166,9 @@ Class TUC_ReplaceHealthWithBonuses : TUC_Event
 	
 	override void closeFunc() {}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ReplaceHealthWithBonuses');
+		GZC_Event event = new('GZC_ReplaceHealthWithBonuses');
 		event.eventname = "Health Famine";
 		event.duration = 35 * 90;
 		event.type = E_Instant;
@@ -176,7 +176,7 @@ Class TUC_ReplaceHealthWithBonuses : TUC_Event
 	}
 }
 
-Class TUC_ReplaceMedikitWithStimpack : TUC_Event
+Class GZC_ReplaceMedikitWithStimpack : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -195,9 +195,9 @@ Class TUC_ReplaceMedikitWithStimpack : TUC_Event
 	
 	override void closeFunc() {}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ReplaceMedikitWithStimpack');
+		GZC_Event event = new('GZC_ReplaceMedikitWithStimpack');
 		event.eventname = "Health Recession";
 		event.duration = 35 * 90;
 		event.type = E_Instant;

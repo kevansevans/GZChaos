@@ -1,4 +1,4 @@
-Class TUC_SetMusicToCursedMidi : TUC_Event
+Class GZC_SetMusicToCursedMidi : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -35,9 +35,9 @@ Class TUC_SetMusicToCursedMidi : TUC_Event
 	
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_SetMusicToCursedMidi');
+		GZC_Event event = new('GZC_SetMusicToCursedMidi');
 		event.eventname = "Cursed music";
 		event.duration = 35 * 30;
 		event.type = E_Instant;
@@ -55,7 +55,7 @@ enum E_Music
 	E_NumSongs
 }
 
-Class TUC_FakeNotification : TUC_Event
+Class GZC_FakeNotification : GZC_Event
 {
 	bool set;
 	int ticcount;
@@ -78,9 +78,9 @@ Class TUC_FakeNotification : TUC_Event
 		}
 	}
 	
-	static TUC_Event create()
+	static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_FakeNotification');
+		GZC_Event event = new('GZC_FakeNotification');
 		event.eventname = "Nothing.";
 		event.duration = 35 * 60;
 		event.type = E_HiddenTimer;

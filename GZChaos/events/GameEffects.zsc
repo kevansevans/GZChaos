@@ -1,4 +1,4 @@
-Class TUC_ShuffleAmmoTypes : TUC_Event
+Class GZC_ShuffleAmmoTypes : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -93,9 +93,9 @@ Class TUC_ShuffleAmmoTypes : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ShuffleAmmoTypes');
+		GZC_Event event = new('GZC_ShuffleAmmoTypes');
 		event.eventname = "Shuffled ammo pool";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -103,7 +103,7 @@ Class TUC_ShuffleAmmoTypes : TUC_Event
 	}
 }
 
-Class TUC_LimpProjectiles : TUC_Event
+Class GZC_LimpProjectiles : GZC_Event
 {
 	override void spawnFunc(Actor mo)
 	{
@@ -116,9 +116,9 @@ Class TUC_LimpProjectiles : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_LimpProjectiles');
+		GZC_Event event = new('GZC_LimpProjectiles');
 		event.eventname = "Limp enemy projectiles";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -126,7 +126,7 @@ Class TUC_LimpProjectiles : TUC_Event
 	}
 }
 
-Class TUC_JupiterGravity : TUC_Event
+Class GZC_JupiterGravity : GZC_Event
 {
 	override bool verify()
 	{
@@ -137,8 +137,8 @@ Class TUC_JupiterGravity : TUC_Event
 		
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
-			TUC_Event event = effects.events[i];
-			if (event is "TUC_MoonGravity") return false;
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_MoonGravity") return false;
 		}
 		
 		return result;
@@ -166,9 +166,9 @@ Class TUC_JupiterGravity : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_JupiterGravity');
+		GZC_Event event = new('GZC_JupiterGravity');
 		event.eventname = "Jupiter Gravity";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -176,7 +176,7 @@ Class TUC_JupiterGravity : TUC_Event
 	}
 }
 
-Class TUC_MoonGravity : TUC_Event
+Class GZC_MoonGravity : GZC_Event
 {
 	override bool verify()
 	{
@@ -187,8 +187,8 @@ Class TUC_MoonGravity : TUC_Event
 		
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
-			TUC_Event event = effects.events[i];
-			if (event is "TUC_JupiterGravity") return false;
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_JupiterGravity") return false;
 		}
 		
 		return result;
@@ -216,9 +216,9 @@ Class TUC_MoonGravity : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_MoonGravity');
+		GZC_Event event = new('GZC_MoonGravity');
 		event.eventname = "Moon Gravity";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -226,7 +226,7 @@ Class TUC_MoonGravity : TUC_Event
 	}
 }
 
-Class TUC_FartingMonsters : TUC_Event
+Class GZC_FartingMonsters : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -257,9 +257,9 @@ Class TUC_FartingMonsters : TUC_Event
 		}
 	}
 	
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_FartingMonsters');
+		GZC_Event event = new('GZC_FartingMonsters');
 		event.eventname = "Farting Monsters";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -267,7 +267,7 @@ Class TUC_FartingMonsters : TUC_Event
 	}
 }
 
-Class TUC_FartingItems : TUC_Event
+Class GZC_FartingItems : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -299,9 +299,9 @@ Class TUC_FartingItems : TUC_Event
 		}
 	}
 	
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_FartingItems');
+		GZC_Event event = new('GZC_FartingItems');
 		event.eventname = "Farting items";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -309,7 +309,7 @@ Class TUC_FartingItems : TUC_Event
 	}
 }
 
-Class TUC_FartingPlayer : TUC_Event
+Class GZC_FartingPlayer : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -333,9 +333,9 @@ Class TUC_FartingPlayer : TUC_Event
 		}
 	}
 	
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_FartingPlayer');
+		GZC_Event event = new('GZC_FartingPlayer');
 		event.eventname = "Farting player";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -343,7 +343,7 @@ Class TUC_FartingPlayer : TUC_Event
 	}
 }
 
-Class TUC_FastProjectiles : TUC_Event
+Class GZC_FastProjectiles : GZC_Event
 {
 
 	override void spawnFunc(Actor mo)
@@ -351,9 +351,9 @@ Class TUC_FastProjectiles : TUC_Event
 		mo.A_ScaleVelocity(1.5);
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_FastProjectiles');
+		GZC_Event event = new('GZC_FastProjectiles');
 		event.eventname = "Fast projectiles";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -363,7 +363,7 @@ Class TUC_FastProjectiles : TUC_Event
 }
 
 
-Class TUC_SlowProjectiles : TUC_Event
+Class GZC_SlowProjectiles : GZC_Event
 {
 
 	override void spawnFunc(Actor mo)
@@ -371,9 +371,9 @@ Class TUC_SlowProjectiles : TUC_Event
 		mo.A_ScaleVelocity(0.5);
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_SlowProjectiles');
+		GZC_Event event = new('GZC_SlowProjectiles');
 		event.eventname = "Slow projectiles";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -382,7 +382,7 @@ Class TUC_SlowProjectiles : TUC_Event
 
 }
 
-Class TUC_ExtraSlowProjectiles : TUC_Event
+Class GZC_ExtraSlowProjectiles : GZC_Event
 {
 
 	override void spawnFunc(Actor mo)
@@ -390,9 +390,9 @@ Class TUC_ExtraSlowProjectiles : TUC_Event
 		mo.A_ScaleVelocity(0.25);
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ExtraSlowProjectiles');
+		GZC_Event event = new('GZC_ExtraSlowProjectiles');
 		event.eventname = "Slower projectiles";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -401,7 +401,7 @@ Class TUC_ExtraSlowProjectiles : TUC_Event
 
 }
 
-Class TUC_PainfullySlowProjectiles : TUC_Event
+Class GZC_PainfullySlowProjectiles : GZC_Event
 {
 
 	override void spawnFunc(Actor mo)
@@ -409,9 +409,9 @@ Class TUC_PainfullySlowProjectiles : TUC_Event
 		mo.A_ScaleVelocity(0.01);
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_PainfullySlowProjectiles');
+		GZC_Event event = new('GZC_PainfullySlowProjectiles');
 		event.eventname = "Painfully Slow projectiles";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -420,7 +420,7 @@ Class TUC_PainfullySlowProjectiles : TUC_Event
 
 }
 
-Class TUC_DisableGravity : TUC_Event
+Class GZC_DisableGravity : GZC_Event
 {
 	bool set;
 	
@@ -444,7 +444,7 @@ Class TUC_DisableGravity : TUC_Event
 				mo.vel.z = FRandom(0.1, 0.9);
 				if (mo.bIsMonster)
 				{
-					if (mo.bFloat) mo.giveInventory('TUC_CanAlreadyFly', 1);
+					if (mo.bFloat) mo.giveInventory('GZC_CanAlreadyFly', 1);
 					mo.bFloat = true;
 					mo.bNoGravity = true;
 				}
@@ -468,7 +468,7 @@ Class TUC_DisableGravity : TUC_Event
 		while (mo = Actor(it.next()))
 		{
 			mo.A_SetGravity(1);
-			if (!mo.countInv('TUC_CanAlreadyFly'))
+			if (!mo.countInv('GZC_CanAlreadyFly'))
 			{
 				mo.bFloat = false;
 				mo.bNoGravity = false;
@@ -476,9 +476,9 @@ Class TUC_DisableGravity : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_DisableGravity');
+		GZC_Event event = new('GZC_DisableGravity');
 		event.eventname = "Everything ignores gravity";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -486,9 +486,9 @@ Class TUC_DisableGravity : TUC_Event
 	}
 }
 
-Class TUC_CanAlreadyFly : Inventory {}
+Class GZC_CanAlreadyFly : Inventory {}
 
-Class TUC_ExplodingBulletPuffs : TUC_Event
+Class GZC_ExplodingBulletPuffs : GZC_Event
 {
 	override void spawnFunc(Actor mo)
 	{
@@ -498,9 +498,9 @@ Class TUC_ExplodingBulletPuffs : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_ExplodingBulletPuffs');
+		GZC_Event event = new('GZC_ExplodingBulletPuffs');
 		event.eventname = "All bullet puffs explode";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -508,7 +508,7 @@ Class TUC_ExplodingBulletPuffs : TUC_Event
 	}
 }
 
-Class TUC_SeekerProjectiles : TUC_Event
+Class GZC_SeekerProjectiles : GZC_Event
 {
 	override void eventFunc()
 	{
@@ -543,9 +543,9 @@ Class TUC_SeekerProjectiles : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_SeekerProjectiles');
+		GZC_Event event = new('GZC_SeekerProjectiles');
 		event.eventname = "All projectiles seek player";
 		event.duration = 35 * 60 * 3;
 		event.type = E_Timed;
@@ -553,7 +553,7 @@ Class TUC_SeekerProjectiles : TUC_Event
 	}
 }
 
-Class TUC_OUCH : TUC_EVENT
+Class GZC_OUCH : GZC_EVENT
 {
 	bool set;
 	
@@ -571,9 +571,9 @@ Class TUC_OUCH : TUC_EVENT
 		
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
-			TUC_Event event = effects.events[i];
-			if (event is "TUC_SetAllWallsToStartan") return false;
-			if (event is "TUC_SetAllWallsToFireblu") return false;
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_SetAllWallsToStartan") return false;
+			if (event is "GZC_SetAllWallsToFireblu") return false;
 		}
 		
 		return result;
@@ -702,9 +702,9 @@ Class TUC_OUCH : TUC_EVENT
 	
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_OUCH');
+		GZC_Event event = new('GZC_OUCH');
 		event.eventname = "OUCH";
 		event.duration = 35 * 60 * 9999;
 		event.type = E_PerLevel;
@@ -713,7 +713,7 @@ Class TUC_OUCH : TUC_EVENT
 	}
 }
 
-Class TUC_FakeLagCrash : TUC_Event
+Class GZC_FakeLagCrash : GZC_Event
 {
 	int spawn;
 	int delay;
@@ -746,11 +746,11 @@ Class TUC_FakeLagCrash : TUC_Event
 	
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_FakeLagCrash');
-		TUC_FakeLagCrash(event).spawn = gametic;
-		TUC_FakeLagCrash(event).delay = 35 * random(5, 10);
+		GZC_Event event = new('GZC_FakeLagCrash');
+		GZC_FakeLagCrash(event).spawn = gametic;
+		GZC_FakeLagCrash(event).delay = 35 * random(5, 10);
 		event.eventname = "Nothing.";
 		event.duration = 35 * 60;
 		event.type = E_HiddenTimer;
@@ -758,7 +758,7 @@ Class TUC_FakeLagCrash : TUC_Event
 	}
 }
 
-Class TUC_RestartLevel : TUC_Event
+Class GZC_RestartLevel : GZC_Event
 {
 	bool restart;
 
@@ -788,9 +788,9 @@ Class TUC_RestartLevel : TUC_Event
 		}
 	}
 
-	Static TUC_Event create()
+	Static GZC_Event create()
 	{
-		TUC_Event event = new('TUC_RestartLevel');
+		GZC_Event event = new('GZC_RestartLevel');
 		event.eventname = "Exit and restart level";
 		event.duration = 35 * 10;
 		event.type = E_Timed;

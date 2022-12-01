@@ -28,3 +28,5 @@ Warren
 	- Testing
 Marisa Kirisame
 	- OUCH_M ZScript and related files. Used with permission.
+Rachael
+	- Enemy tic code slowdown: https://github.com/madame-rachelle/FloatTime
