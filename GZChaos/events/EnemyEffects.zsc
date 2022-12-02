@@ -143,6 +143,7 @@ Class GZC_FrictionlessEnemies : GZC_Event
 				mo.bNoFriction = true;
 				mo.bPushable = true;
 				mo.bSlidesOnWalls = true;
+				mo.pushFactor = 0.9;
 			}	
 		}
 	}
@@ -161,6 +162,7 @@ Class GZC_FrictionlessEnemies : GZC_Event
 				mo.bNoFriction = def.bNoFriction;
 				mo.bPushable = def.bPushable;
 				mo.bSlidesOnWalls = def.bSlidesOnWalls;
+				mo.pushFactor = def.pushFactor;
 			}
 		}
 	}
@@ -236,6 +238,7 @@ Class GZC_StatueEnemies : GZC_Event
 			{
 				mo.bPushable = true;
 				mo.bShootable = false;
+				mo.pushFactor = 0.9;
 				mo.tics = -1;
 			}
 		}
@@ -257,6 +260,7 @@ Class GZC_StatueEnemies : GZC_Event
 				
 				mo.bPushable = def.bPushable;
 				mo.bShootable = def.bShootable;
+				mo.pushFactor = def.pushFactor;
 				mo.tics = 1;
 			}
 		}

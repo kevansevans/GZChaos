@@ -261,7 +261,7 @@ Class GZC_InventorySickness : GZC_Event
 	{
 		GZC_Event event = new('GZC_InventorySickness');
 		event.eventname = "Inventory sickness";
-		event.duration = 35 * 10;
+		event.duration = 35 * 5;
 		event.type = E_Timed;
 		return event;
 	}
@@ -318,8 +318,7 @@ Class GZC_GiveMegasphere : GZC_Event
 
 	override void eventFunc()
 	{
-		if (GameInfo.GameType == GAME_Doom) givePlayerItem('Megasphere');
-		if (GameInfo.GameType == GAME_Heretic) givePlayerItem('ArtiSuperHealth');
+		givePlayerItem('Megasphere');
 	}
 	
 	static GZC_Event create()
@@ -336,8 +335,7 @@ Class GZC_GiveLightAmp : GZC_Event
 {
 	override void eventFunc()
 	{
-		if (GameInfo.GameType == GAME_Doom) givePlayerItem('Infrared');
-		if (GameInfo.GameType == GAME_Heretic) givePlayerItem('ArtiTorch');
+		givePlayerItem('Infrared');
 		activated = true;
 	}
 	
@@ -397,8 +395,7 @@ Class GZC_GiveBlurSphere : GZC_Event
 {
 	override void eventFunc()
 	{
-		if (GameInfo.GameType == GAME_Doom) givePlayerItem('BlurSphere');
-		if (GameInfo.GameType == GAME_Heretic) givePlayerItem('ArtiInvisibility');
+		givePlayerItem('BlurSphere');
 		activated = true;
 	}
 	
@@ -418,8 +415,7 @@ Class GZC_GiveSoulsphere : GZC_Event
 {
 	override void eventFunc()
 	{
-		if (GameInfo.GameType == GAME_Doom) givePlayerItem('Soulsphere');
-		if (GameInfo.GameType == GAME_Heretic) givePlayerItem('ArtiHealth');
+		givePlayerItem('Soulsphere');
 		activated = true;
 	}
 	
@@ -439,8 +435,7 @@ Class GZC_GiveHealthBonus : GZC_Event
 {
 	override void eventFunc()
 	{
-		if (GameInfo.GameType == GAME_Doom) givePlayerItem('HealthBonus');
-		if (GameInfo.GameType == GAME_Heretic) givePlayerItem('CrystalVial');
+		givePlayerItem('HealthBonus');
 	}
 	
 	override void closeFunc() {}

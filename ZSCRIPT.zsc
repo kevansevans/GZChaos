@@ -6,6 +6,8 @@ version "4.9"
 #include "GZChaos/enemies/GreatGodImp.zsc"
 #include "GZChaos/enemies/OuchFace.zsc"
 
+#include "GZChaos/morphs/DogMode.zsc"
+
 #include "GZChaos/events/AudioEffects.zsc"
 #include "GZChaos/events/DecorationEffects.zsc"
 #include "GZChaos/events/EnemyEffects.zsc"

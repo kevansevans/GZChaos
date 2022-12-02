@@ -29,4 +29,10 @@ Warren
 Marisa Kirisame
 	- OUCH_M ZScript and related files. Used with permission.
 Rachael
-	- Enemy tic code slowdown: https://github.com/madame-rachelle/FloatTime
+	- Enemy tic code slowdown
+	- https://github.com/madame-rachelle/FloatTime
+Raven Software
+	- Chicken sprites and sounds
+Leon Zawada, Simon Rance 
+	- Return of The Triad, Dog Mode sprites, Sounds, and Decorate
+	- https://doomwiki.org/wiki/Return_of_the_Triad

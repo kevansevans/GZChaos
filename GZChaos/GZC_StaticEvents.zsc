@@ -54,8 +54,6 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	override void PlayerEntered(PlayerEvent event)
 	{
-		uiIsHidden = false;
-	
 		getPlayerInfo();
 		
 		getEffects();
@@ -103,6 +101,8 @@ Class GZC_EventHandler : StaticEventHandler
 		
 		pong = player.countInv('GZC_PongToken');
 		if (pong) runPong();
+		
+		uiIsHidden = player.countInv('GZC_HideTimerToken');
 	}
 	
 	void performModTic()
@@ -122,10 +122,14 @@ Class GZC_EventHandler : StaticEventHandler
 		{
 			if (player.health > 0)
 			{
-				if (!effects.events[i].activated) effects.events[i].eventFunc();
+				if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration) effects.events[i].eventFunc();
 				if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
 				effects.events[i].life += 1;
-				if (effects.events[i].life > effects.events[i].duration && effects.events[i].type != E_PerLevel)
+				if (effects.events[i].life == effects.events[i].duration)
+				{
+					effects.events[i].closeFunc();
+				}
+				if (effects.events[i].life > (effects.events[i].duration + (35 * 30)) && effects.events[i].type != E_PerLevel)
 				{
 					removeEffect(effects.events[i]);
 				}
@@ -154,7 +158,6 @@ Class GZC_EventHandler : StaticEventHandler
 	void removeEffect(GZC_Event _effect)
 	{
 		GZC_Event effect = _effect;
-		effect.closeFunc();
 		int place = effects.events.find(effect);
 		effects.events.delete(place);
 		effects.events.shrinkToFit();
@@ -399,57 +402,19 @@ Class GZC_EventHandler : StaticEventHandler
 				if (uiIsHidden && !(effects.events[i] is "GZC_HideTimerAndEffects")) continue;
 			
 				GZC_Event effect = effects.events[i];
-				Screen.DrawText(BIGFONT, Font.CR_White, 20, (yoffset - 20), effect.eventname, DTA_ScaleX, 1.5, DTA_ScaleY, 1.5);
-				if (effects.events[i].type == E_Timed)
+				int fontcolor = Font.CR_White;
+				
+				if (effect.life > effect.duration || effect.type != E_Timed) fontcolor = Font.CR_DarkGray;
+				if (effect.life < 35) fontcolor = Font.CR_Yellow;
+				
+				Screen.DrawText(BIGFONT, fontcolor, 20, (yoffset - 20), effect.eventname, DTA_ScaleX, 1.5, DTA_ScaleY, 1.5);
+				if (effect.type == E_Timed && effect.life < effect.duration)
 				{
 					double ratio = 1 - (double(effect.life) / double(effect.duration));
 					Screen.DrawThickLine(20, yOffset += 10, 20 + (200 * ratio), yOffset, 10, color("FF0000"), 255);
 				}
 				yOffset += 60;
 			}
-		}
-	}
-	
-	override void NetworkProcess(ConsoleEvent event)
-	{
-		infoplayer = players[event.Player];
-		player = infoplayer.mo;
-		
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
-		Actor mo;
-	
-		Array<string> command;
-		event.name.Split (command, ":");
-		
-		switch (name(command[0]))
-		{
-			case 'meta':
-				switch (name(command[1]))
-				{
-					case 'speedup':
-						list.timemodifier /= command[2].toDouble();
-						break;
-					case 'slowdown':
-						list.timemodifier *= command[2].toDouble();
-						break;
-					case 'hideeverything':
-						uiIsHidden = true;
-						break;
-					case 'showeverything':
-						uiIsHidden = false;
-						break;
-					case 'pongon':
-						pong = true;
-						break;
-					case 'pongoff':
-						ponginit = false;
-						pong = false;
-						break;
-				}
-				break;
-			case 'rolleffect':
-				addEffectToActive(E_RollExtraEffects);
-				break;
 		}
 	}
 }

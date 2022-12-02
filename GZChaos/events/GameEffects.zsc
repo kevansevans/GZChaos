@@ -368,7 +368,7 @@ Class GZC_SlowProjectiles : GZC_Event
 
 	override void spawnFunc(Actor mo)
 	{
-		mo.A_ScaleVelocity(0.5);
+		if (mo) mo.A_ScaleVelocity(0.5);
 	}
 
 	Static GZC_Event create()

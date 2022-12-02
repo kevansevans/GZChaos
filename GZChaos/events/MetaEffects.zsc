@@ -10,7 +10,7 @@ Class GZC_PortraitMode : GZC_Event
 	override void closeFunc()
 	{
 		let player = players[consoleplayer].mo;
-		player.takeInventory('GZC_PortraitModeToken', 1);
+		player.takeInventory('GZC_PortraitModeToken', 999);
 	}
 	
 	static GZC_Event create()
@@ -122,12 +122,14 @@ Class GZC_HideTimerAndEffects : GZC_Event
 {
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("meta:hideeverything");
+		PlayerPawn player = players[consoleplayer].mo;
+		player.giveInventory('GZC_HideTimerToken', 1);
 	}
 	
 	override void closeFunc()
 	{
-		EventHandler.SendNetworkEvent("meta:showeverything");
+		PlayerPawn player = players[consoleplayer].mo;
+		player.takeInventory('GZC_HideTimerToken', 1);
 	}
 
 	static GZC_Event create()
@@ -139,6 +141,8 @@ Class GZC_HideTimerAndEffects : GZC_Event
 		return event;
 	}
 }
+
+Class GZC_HideTimerToken : Inventory {}
 
 Class GZC_DoubleTimerDuration : GZC_Event
 {
@@ -161,13 +165,14 @@ Class GZC_DoubleTimerDuration : GZC_Event
 
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("meta:slowdown:2");
-		activated = true;
+		PlayerPawn player = players[consoleplayer].mo;
+		player.giveInventory('GZC_DoubleTimerToken', 1);
 	}
 	
 	override void closeFunc()
 	{
-		EventHandler.SendNetworkEvent("meta:speedup:2");
+		PlayerPawn player = players[consoleplayer].mo;
+		player.takeInventory('GZC_DoubleTimerToken', 1);
 	}
 	
 	static GZC_Event create()
@@ -179,6 +184,8 @@ Class GZC_DoubleTimerDuration : GZC_Event
 		return event;
 	}
 }
+
+Class GZC_DoubleTimerToken : Inventory {}
 
 Class GZC_HalfTimerDuration : GZC_Event
 {
@@ -201,24 +208,27 @@ Class GZC_HalfTimerDuration : GZC_Event
 
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("meta:speedup:2");
-		activated = true;
+		PlayerPawn player = players[consoleplayer].mo;
+		player.giveInventory('GZC_HalfTimerToken', 1);
 	}
 	
 	override void closeFunc()
 	{
-		EventHandler.SendNetworkEvent("meta:slowdown:2");
+		PlayerPawn player = players[consoleplayer].mo;
+		player.takeInventory('GZC_HalfTimerToken', 1);
 	}
 	
 	static GZC_Event create()
 	{
 		GZC_Event event = new('GZC_HalfTimerDuration');
 		event.eventname = "2x timer speed";
-		event.duration = 35 * 60 * 3;
+		event.duration = 35 * 60 * 2;
 		event.type = E_Timed;
 		return event;
 	}
 }
+
+Class GZC_HalfTimerToken : Inventory {}
 
 Class GZC_QuarterTimerDuration : GZC_Event
 {
@@ -241,24 +251,27 @@ Class GZC_QuarterTimerDuration : GZC_Event
 
 	override void eventFunc()
 	{
-		EventHandler.SendNetworkEvent("meta:speedup:4");
-		activated = true;
+		PlayerPawn player = players[consoleplayer].mo;
+		player.giveInventory('GZC_QuarterTimerToken', 1);
 	}
 	
 	override void closeFunc()
 	{
-		EventHandler.SendNetworkEvent("meta:slowdown:4");
+		PlayerPawn player = players[consoleplayer].mo;
+		player.takeInventory('GZC_QuarterTimerToken', 1);
 	}
 	
 	static GZC_Event create()
 	{
 		GZC_Event event = new('GZC_QuarterTimerDuration');
 		event.eventname = "4x timer speed";
-		event.duration = 35 * 60 * 3;
+		event.duration = 35 * 60;
 		event.type = E_Timed;
 		return event;
 	}
 }
+
+Class GZC_QuarterTimerToken : Inventory {}
 
 Class GZC_RollExtraEffects : GZC_Event
 {

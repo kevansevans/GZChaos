@@ -15,7 +15,15 @@ Class GZC_EventList play
 	
 	int timeLimit()
 	{
-		return int(Max(35 * 30 * timemodifier, 35 * 1));
+		int base = 35 * 30;
+		
+		PlayerPawn player = players[consoleplayer].mo;
+		
+		if (player.countInv('GZC_DoubleTimerToken')) base *= 2;
+		if (player.countInv('GZC_HalfTimerToken')) base /= 2;
+		if (player.countInv('GZC_QuarterTimerToken')) base /= 4;
+	
+		return int(max(5, base));
 	}
 	
 	Array<String> cachedEffects;
@@ -258,6 +266,10 @@ Class GZC_EventList play
 				return GZC_SetAllWallsToNoFlat.create();
 			case E_SetAllWallsToISuck:
 				return GZC_SetAllWallsToISuck.create();
+			case E_MorphIntoChicken:
+				return GZC_MorphIntoChicken.create();
+			case E_MorphIntoDog:
+				return GZC_MorphIntoDog.create();
 		}
 		
 		return GZC_DoNothing.create();
@@ -386,6 +398,8 @@ enum E_Event
 	E_PortraitMode,
 	E_SetAllWallsToNoFlat,
 	E_SetAllWallsToISuck,
+	E_MorphIntoChicken,
+	E_MorphIntoDog,
 	E_NumEvents
 }
 
