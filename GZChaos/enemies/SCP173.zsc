@@ -1,0 +1,46 @@
+Class SCP173 : Actor
+{
+	Default
+	{
+		xScale 0.5;
+		yScale 0.5;
+		
+		Speed 20;
+		Height 56;
+		
+		+Solid;
+		+LookAllAround;
+		
+		MeleeRange 64;
+		MaxTargetRange 16;
+	}
+	
+	States
+	{
+		Spawn:
+			173S A 1 A_look();
+			Loop;
+		See:
+			173S AA 1 A_WeepingAngel();
+			Loop;
+		Melee:
+			173S A 1 A_CustomMeleeAttack(999, "", "", "Melee", false);
+			goto Spawn;
+	}
+	
+	Action void A_WeepingAngel()
+	{
+		if (!target)
+		{
+			A_Look();
+			A_Wander();
+			return;
+		}
+	
+		if (!target.isVisible(self, false))
+		{
+			if (isVisible(target, true)) A_FaceTarget();
+			A_Chase();
+		}
+	}
+}

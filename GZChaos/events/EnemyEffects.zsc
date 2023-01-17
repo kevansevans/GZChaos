@@ -1,3 +1,165 @@
+Class GZC_BetaSkulls : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "LostSoul")) continue;
+			
+			Actor.spawn('GZC_BetaSkull', mo.pos);
+			mo.destroy();
+		}
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		if (mo.getClass() != 'LostSoul') return;
+		
+		Actor.spawn('GZC_BetaSkull', mo.pos);
+		mo.destroy();
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "GZC_BetaSkull")) continue;
+			
+			if (mo.health > 0) Actor.spawn('LostSoul', mo.pos);
+			mo.destroy();
+		}
+	}
+
+	Static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_BetaSkulls');
+		event.eventname = "Beta Lost Souls";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class GZC_FullPainChances : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.painChance = 256;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = getDefaultByType(mo.getClass());
+				mo.painChance = def.painChance;
+			}
+		}
+	}
+
+	Static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_FullPainChances');
+		event.eventname = "Enemies always flinch";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+	
+	override bool verify()
+	{
+		bool result = super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (event is 'GZC_ZeroPainChances') return false;
+		}
+		
+		return result;
+	}
+}
+
+Class GZC_ZeroPainChances : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.painChance = 0;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = getDefaultByType(mo.getClass());
+				mo.painChance = def.painChance;
+			}
+		}
+	}
+
+	Static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_ZeroPainChances');
+		event.eventname = "Enemies cannot flinch";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+	
+	override bool verify()
+	{
+		bool result = super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (event is 'GZC_FullPainChances') return false;
+		}
+		
+		return result;
+	}
+}
+
 Class GZC_InverseFlyingRules : GZC_Event
 {
 	override void eventFunc()
@@ -288,10 +450,7 @@ Class GZC_NightmareMonsters : GZC_Event
 	
 		while ((mo = Actor(it.Next ())))
 		{
-			if (mo.bIsMonster && !mo.bStealth)
-			{
-				mo.bStealth = true;
-			}
+			mo.bStealth = true;
 		}
 	}
 	
@@ -302,9 +461,12 @@ Class GZC_NightmareMonsters : GZC_Event
 	
 		while ((mo = Actor(it.Next ())))
 		{
-			if (mo.bIsMonster)
+			let def = GetDefaultByType(mo.getClass());
+		
+			if (!def.bStealth)
 			{
-				mo.bStealth = false;
+				mo.bStealth = def.bStealth;
+				mo.A_SetRenderStyle(def.Alpha, mo.getRenderStyle());
 			}
 		}
 	}

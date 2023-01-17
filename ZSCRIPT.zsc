@@ -1,10 +1,13 @@
 version "4.9"
 
-#include "GZChaos/GZC_StaticEvents.zsc"
 #include "GZChaos/GZC_Events.zsc"
+#include "GZChaos/GZC_StaticEvents.zsc"
+#include "GZChaos/GZC_TitleMap.zsc"
 
+#include "GZChaos/enemies/BetaSkull.zsc"
 #include "GZChaos/enemies/GreatGodImp.zsc"
 #include "GZChaos/enemies/OuchFace.zsc"
+#include "GZChaos/enemies/SCP173.zsc"
 
 #include "GZChaos/morphs/DogMode.zsc"
 

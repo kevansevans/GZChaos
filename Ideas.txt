@@ -1,12 +1,33 @@
 Temporarily turn all enemies into explosive barrels
+
 Detonate all barrels on map
+
 ignite
-launch player up
+
 Anechoic chamber: All line defs block sound
-echo chamber: All line derfs pass sound
+
+echo chamber: All line defs pass sound
+
 short sighted demons: All lines block sight
-all monsters can fly
+
+Tool Time Mode
+
+Too much information
+
+Monsters throw items at player (curstate.sprite and curstate.frame)
+
+Spawn SCP-173
+
+Opening doors does... something?
 
 Spastic monsters (give them random tics)
 
-Turret monsters (all monsters hold their ground and start rapid firing) <- Not viable just yet
+AAAAAHHHHH //Every enemy becomes suicide bomber
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Ideas that can't be done because GZDoom can't do them
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Turret monsters (all monsters hold their ground and start rapid firing)
+
+Weapon recoil

@@ -27,7 +27,6 @@ Class GZC_EventHandler : StaticEventHandler
 		console.printf('Let the Chaos begin!');
 		
 		list = GZC_EventList.create();
-		console.printf('Loading in ' .. (E_NumEvents) .. ' events!');
 		
 		timer = 0;
 		
@@ -73,6 +72,8 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldTick()
 	{
+		if (level.LevelNum == 999) return;
+	
 		if (!player) getPlayerInfo();
 		
 		if (!effects) getEffects();
@@ -166,6 +167,8 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	override void RenderUnderlay(RenderEvent event)
 	{
+		if (level.LevelNum == 999) return;
+	
 		if (!uiIsHidden)
 		{
 			double ratio = timer / timeLimit;

@@ -1,3 +1,96 @@
+Class GZC_ContainmentBreach : GZC_Event
+{
+	Array<Actor> locations;
+	Array<String> classes;
+	SCP173 scp;
+	
+	String levelmus;
+	
+	override void eventFunc()
+	{
+		locations.clear();
+		classes.clear();
+		
+		levelmus = level.music;
+		
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			let tracker = VectorActor(Actor.spawn("VectorActor", (0, 0, 0)));
+			tracker.vector = mo.pos;
+			locations.push(tracker);
+			classes.push('' .. mo.getClassName());
+			
+			mo.destroy();
+		}
+		
+		scp = SCP173(Actor.spawn('SCP173', (0,0,0)));
+		let player = players[consoleplayer].mo;
+		
+		while (true)
+		{
+			int place = random(0, locations.size() - 1);
+			Vector3 pos = VectorActor(locations[place]).vector;
+			scp.setOrigin(pos, false);
+			if (scp.isVisible(player, true)) continue;
+			break;
+		}
+		
+		player.S_ChangeMusic("");
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.S_ChangeMusic(levelmus);
+		
+		for (int i = 0; i < classes.size(); ++i)
+		{
+			Actor.spawn(classes[i], VectorActor(locations[i]).vector);
+		}
+		
+		scp.destroy();
+	}
+	
+	Static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_ContainmentBreach');
+		event.eventname = "Containment Breach";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		event.deleteme = true;
+		return event;
+	}
+}
+
+Class GZC_ChaosDevice : GZC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		Vector3 location;
+		int face;
+		[location, face] = level.pickPlayerStart(player.playerNumber());
+		player.teleport(location, face, 1);
+	}
+
+	Static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_ChaosDevice');
+		event.eventname = "Chaos Device";
+		event.duration = 35 * 60;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
 Class GZC_ShuffleAmmoTypes : GZC_Event
 {
 	override void eventFunc()
@@ -51,7 +144,7 @@ Class GZC_ShuffleAmmoTypes : GZC_Event
 				{
 					while (true)
 					{
-						let selected = types[random(0, types.size())];
+						let selected = types[random(0, types.size() - 1)];
 						if (selected is gun.AmmoType2) continue;
 					
 						gun.AmmoType2 = (Class<Ammo>)(selected);
@@ -343,12 +436,46 @@ Class GZC_FartingPlayer : GZC_Event
 	}
 }
 
-Class GZC_FastProjectiles : GZC_Event
+Class GZC_ProjectileModifier : GZC_Event
+{
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_ProjectileModifier") return false;
+		}
+		
+		return result;
+	}
+}
+
+Class GZC_FastProjectiles : GZC_ProjectileModifier
 {
 
 	override void spawnFunc(Actor mo)
 	{
 		mo.A_ScaleVelocity(1.5);
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.Vel3DFromAngle(def.speed, mo.angle, mo.pitch);
+		}
 	}
 
 	Static GZC_Event create()
@@ -359,16 +486,29 @@ Class GZC_FastProjectiles : GZC_Event
 		event.type = E_Timed;
 		return event;
 	}
-
 }
 
 
-Class GZC_SlowProjectiles : GZC_Event
+Class GZC_SlowProjectiles : GZC_ProjectileModifier
 {
 
 	override void spawnFunc(Actor mo)
 	{
 		if (mo) mo.A_ScaleVelocity(0.5);
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.Vel3DFromAngle(def.speed, mo.angle, mo.pitch);
+		}
 	}
 
 	Static GZC_Event create()
@@ -382,12 +522,26 @@ Class GZC_SlowProjectiles : GZC_Event
 
 }
 
-Class GZC_ExtraSlowProjectiles : GZC_Event
+Class GZC_ExtraSlowProjectiles : GZC_ProjectileModifier
 {
 
 	override void spawnFunc(Actor mo)
 	{
 		mo.A_ScaleVelocity(0.25);
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.Vel3DFromAngle(def.speed, mo.angle, mo.pitch);
+		}
 	}
 
 	Static GZC_Event create()
@@ -401,12 +555,26 @@ Class GZC_ExtraSlowProjectiles : GZC_Event
 
 }
 
-Class GZC_PainfullySlowProjectiles : GZC_Event
+Class GZC_PainfullySlowProjectiles : GZC_ProjectileModifier
 {
 
 	override void spawnFunc(Actor mo)
 	{
 		mo.A_ScaleVelocity(0.01);
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.Vel3DFromAngle(def.speed, mo.angle, mo.pitch);
+		}
 	}
 
 	Static GZC_Event create()
@@ -519,12 +687,19 @@ Class GZC_SeekerProjectiles : GZC_Event
 		
 		while ((mo = Actor(it.Next ())))
 		{
-			if (mo.bMissile)
-			{
-				mo.bSeekerMissile = true;
-				mo.tracer = player;
-				mo.A_Tracer();
-			}
+			if (!mo.bMissile) continue;
+			
+			if (!mo.target) continue;
+			
+			if (!(mo.target.bIsMonster || mo.target is "PlayerPawn")) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+				
+			if (def.bSeekerMissile) continue;
+					
+			mo.bSeekerMissile = true;
+			mo.tracer = player;
+			mo.A_Tracer();
 		}
 	}
 	

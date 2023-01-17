@@ -1,0 +1,5 @@
+Change RNG to incriment modulo based to better spread out effects and avoic bellcurves
+
+set up cvars to filter out specific/categorized effects
+
+investigate how to better measure timer so changing speed/requirements looks smoother

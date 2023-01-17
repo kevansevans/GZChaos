@@ -1,4 +1,51 @@
-Class GZC_MorphIntoDog : GZC_Event
+Class GZC_ShrunkTheDoomguy : GZC_Event
+{
+	override void eventFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		
+		player.A_SetSize(player.radius * 0.1, player.height * 0.1);
+		player.viewHeight *= 0.1;
+		player.player.viewHeight *= 0.01;
+		player.forwardMove1 *= 0.1;
+		player.forwardMove2 *= 0.1;
+		player.sideMove1 *= 0.1;
+		player.sideMove2 *= 0.1;
+		player.MaxStepHeight *= 0.1;
+		player.ViewBob *= 0.1;
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		let def = GetDefaultByType(player.getClass());
+		player.A_SetSize(def.radius, def.height);
+		player.viewHeight = def.viewHeight;
+		player.player.viewHeight = def.viewHeight;
+		player.forwardMove1 = def.forwardMove1;
+		player.forwardMove2 = def.forwardMove2;
+		player.sideMove1 = def.sideMove1;
+		player.sideMove2 = def.sideMove2;
+		player.MaxStepHeight = def.MaxStepHeight;
+		player.viewBob = def.viewBob;
+	}
+
+	Static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_ShrunkTheDoomguy');
+		event.eventname = "Honey, I shrunk the Doomguy!";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class GZC_MorphEffect : GZC_Event
+{}
+
+Class GZC_MorphIntoDog : GZC_MorphEffect
 {
 	Class<Actor> original;
 
@@ -22,11 +69,12 @@ Class GZC_MorphIntoDog : GZC_Event
 		event.eventname = "Dog mode!";
 		event.duration = 35 * 60 * 2;
 		event.type = E_Timed;
+		event.deleteMe = true;
 		return event;
 	}
 }
 
-Class GZC_MorphIntoChicken : GZC_Event
+Class GZC_MorphIntoChicken : GZC_MorphEffect
 {
 	Class<Actor> original;
 
@@ -50,6 +98,7 @@ Class GZC_MorphIntoChicken : GZC_Event
 		event.eventname = "cockadoodledoo!";
 		event.duration = 35 * 60 * 2;
 		event.type = E_Timed;
+		event.deleteMe = true;
 		return event;
 	}
 }
@@ -596,8 +645,7 @@ Class GZC_TeleportPlayer : GZC_Event
 				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
 				if (ceilheight - floorheight > 64)
 				{
-					Player.SetOrigin((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)), false);
-					Actor.spawn('TeleportFog', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
+					player.teleport((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)), player.angle, 1);
 					break;
 				}
 			}

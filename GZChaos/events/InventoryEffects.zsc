@@ -201,7 +201,7 @@ Class GZC_InventorySickness : GZC_Event
 		
 		for (inventory item = player.inv; item != null; item = item.inv)
 		{
-			if (item is "EffectInventory" || item is "Fist") continue;
+			if (item is "EffectInventory" || item is "Fist" || item is "Doggie" || item is "beak") continue;
 			else
 			{
 				Vector3 newpos = player.pos;

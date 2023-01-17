@@ -1,0 +1,50 @@
+Class GZC_BetaSkull : Actor
+{
+	Default
+	{
+		Health 100;
+		Radius 16;
+		Height 56;
+		Mass 50;
+		Speed 8;
+		Damage 3;
+		PainChance 256;
+		Monster;
+		+FLOAT +NOGRAVITY +MISSILEMORE +DONTFALL +NOICEDEATH +ZDOOMTRANS +RETARGETAFTERSLAM
+		AttackSound "skull/melee";
+		PainSound "skull/pain";
+		DeathSound "skull/death";
+		ActiveSound "skull/active";
+		RenderStyle "SoulTrans";
+		Obituary "$OB_SKULL";
+		Tag "$FN_LOST";
+	}
+
+	States
+	{
+	Spawn:
+		BSKL A 10 A_Look;
+		Loop;
+	See:
+		BSKL BCDA 5 A_Chase;
+		Loop;
+	Missile:
+		BSKL E 4 A_FaceTarget;
+		BSKL F 5 A_BetaSkullAttack;
+		BSKL F 4;
+		Goto See;
+	Pain:
+		BSKL G 4;
+		BSKL H 2 A_Pain;
+		Goto See;
+		BSKL I 4;
+		Goto See;
+	Death:
+		BSKL JKLM 5;
+		BSKL N 5 A_Scream;
+		BSKL O 5;
+		BSKL P 5 A_Fall;
+		BSKL Q 5 A_Stop;
+		Wait;
+	}
+}

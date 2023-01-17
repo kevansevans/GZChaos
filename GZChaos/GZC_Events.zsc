@@ -172,8 +172,8 @@ Class GZC_EventList play
 				return GZC_LeftJoyconDrift.create();
 			case E_RightJoyconDrift:
 				return GZC_RightJoyconDrift.create();
-			case E_BrokenBSPRendering:
-				return GZC_BrokenBSPRendering.create();
+			//case E_BrokenBSPRendering:
+				//return GZC_BrokenBSPRendering.create();
 			case E_ScardeyItems:
 				return GZC_ScardeyItems.create();
 			case E_ClearAutoMap:
@@ -270,6 +270,28 @@ Class GZC_EventList play
 				return GZC_MorphIntoChicken.create();
 			case E_MorphIntoDog:
 				return GZC_MorphIntoDog.create();
+			case E_FullPainChances:
+				return GZC_FullPainChances.create();
+			case E_ZeroPainChances:
+				return GZC_ZeroPainChances.create();
+			case E_ChaosDevice:
+				return GZC_ChaosDevice.create();
+			case E_UpgradeToStimpack:
+				return GZC_UpgradeToStimpack.create();
+			case E_UpgradeToMedikit:
+				return GZC_UpgradeToMedikit.create();
+			case E_UpgradeToSoulsphere:
+				return GZC_UpgradeToSoulsphere.create();
+			case E_UpgradeToMegasphere:
+				return GZC_UpgradeToMegasphere.create();
+			case E_DestroyAllHealth:
+				return GZC_DestroyAllHealth.create();
+			case E_BetaSkulls:
+				return GZC_BetaSkulls.create();
+			case E_ShrunkTheDoomguy:
+				return GZC_ShrunkTheDoomguy.create();
+			case E_ContainmentBreach:
+				return GZC_ContainmentBreach.create();
 		}
 		
 		return GZC_DoNothing.create();
@@ -350,7 +372,7 @@ enum E_Event
 	E_InventorySickness,
 	E_LeftJoyconDrift,
 	E_RightJoyconDrift,
-	E_BrokenBSPRendering,
+	//E_BrokenBSPRendering,
 	E_ScardeyItems,
 	E_ClearAutoMap,
 	E_HideTimerAndEffects,
@@ -400,6 +422,17 @@ enum E_Event
 	E_SetAllWallsToISuck,
 	E_MorphIntoChicken,
 	E_MorphIntoDog,
+	E_FullPainChances,
+	E_ZeroPainChances,
+	E_ChaosDevice,
+	E_UpgradeToStimpack,
+	E_UpgradeToMedikit,
+	E_UpgradeToSoulsphere,
+	E_UpgradeToMegasphere,
+	E_DestroyAllHealth,
+	E_BetaSkulls,
+	E_ShrunkTheDoomguy,
+	E_ContainmentBreach,
 	E_NumEvents
 }
 
@@ -414,6 +447,7 @@ Class GZC_Event abstract play
 	virtual void eventFunc(){}
 	virtual void closeFunc(){}
 	virtual void spawnFunc(Actor mo){}
+	virtual void lineDamageFunc(WorldEvent event) {}
 	
 	//Prevents same effectsw from stacking, and can be used to prevent certain
 	//effects from creating bad combinations.
@@ -488,6 +522,11 @@ Class GZC_Event abstract play
 		
 		return true;
 	}
+}
+
+Class VectorActor : Actor
+{
+	Vector3 vector;
 }
 
 Class EffectInventory : Inventory

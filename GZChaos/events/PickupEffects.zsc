@@ -1,3 +1,195 @@
+Class GZC_UpgradeToMegasphere : GZC_Event
+{
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void eventFunc()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "Health")
+			{
+				let item = Actor.spawn('Megasphere', mo.pos);
+				pointers.push(item);
+				classes.push(mo.getClassName() .. "");
+				mo.destroy();
+			}
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_UpgradeToMegasphere');
+		event.eventname = "Cheap as dirt health";
+		event.duration = 35 * 30;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class GZC_UpgradeToSoulsphere : GZC_Event
+{
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void eventFunc()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "Health" && !(mo is "Soulsphere"))
+			{
+				let item = Actor.spawn('Soulsphere', mo.pos);
+				pointers.push(item);
+				classes.push(mo.getClassName() .. "");
+				mo.destroy();
+			}
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_UpgradeToSoulsphere');
+		event.eventname = "Health surplus";
+		event.duration = 35 * 60 * 1;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class GZC_UpgradeToMedikit : GZC_Event
+{
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void eventFunc()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "HealthBonus" || mo is "Stimpack")
+			{
+				let item = Actor.spawn('Medikit', mo.pos);
+				pointers.push(item);
+				classes.push(mo.getClassName() .. "");
+				mo.destroy();
+			}
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_UpgradeToMedikit');
+		event.eventname = "Health stimulus";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class GZC_UpgradeToStimpack : GZC_Event
+{
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void eventFunc()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "HealthBonus")
+			{
+				let item = Actor.spawn('stimpack', mo.pos);
+				pointers.push(item);
+				classes.push(mo.getClassName() .. "");
+				mo.destroy();
+			}
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_UpgradeToStimpack');
+		event.eventname = "Health boost";
+		event.duration = 35 * 60 * 5;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
 Class GZC_DuplicatePickups : GZC_Event
 {
 	override void eventFunc()
@@ -148,59 +340,149 @@ Class GZC_ShrinkPickups : GZC_Event
 
 Class GZC_ReplaceHealthWithBonuses : GZC_Event
 {
+	Array<String> classes;
+	Array<Actor> pointers;
+
 	override void eventFunc()
 	{
+		classes.clear();
+		pointers.clear();
+	
 		ThinkerIterator it = ThinkerIterator.Create("Actor");
 		Actor mo;
 		
 		while ((mo = Actor(it.Next ())))
 		{
-			if (mo is "health" && !(mo is 'healthbonus'))
+			if ((mo is "health" && !(mo is "Healthbonus")) || mo is "Megasphere")
 			{
+				classes.push(mo.getClassName() .. "");
 				let item = Actor.spawn('healthbonus', mo.pos);
+				pointers.push(item);
 				mo.destroy();
 			}
 		}
 		
 	}
 	
-	override void closeFunc() {}
+	override void closeFunc() 
+	{
+		for (int i = 0; i < classes.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			let className = classes[i];
+			let org = Actor.spawn(className, pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
 	
 	static GZC_Event create()
 	{
 		GZC_Event event = new('GZC_ReplaceHealthWithBonuses');
 		event.eventname = "Health Famine";
-		event.duration = 35 * 90;
-		event.type = E_Instant;
+		event.duration = 35 * 60 * 2;
+		event.type = E_Timed;
 		return event;
 	}
 }
 
 Class GZC_ReplaceMedikitWithStimpack : GZC_Event
 {
+	Array<String> classes;
+	Array<Actor> pointers;
+
 	override void eventFunc()
 	{
+		classes.clear();
+		pointers.clear();
+	
 		ThinkerIterator it = ThinkerIterator.Create("Actor");
 		Actor mo;
 		
 		while ((mo = Actor(it.Next ())))
 		{
-			if (mo is "medikit")
+			if (mo is "medikit" || mo is "soulsphere")
 			{
+				classes.push(mo.getClassName() .. "");
 				let item = Actor.spawn('stimpack', mo.pos);
+				pointers.push(item);
 				mo.destroy();
 			}
 		}
+		
+		activated = true;
 	}
 	
-	override void closeFunc() {}
+	override void closeFunc() 
+	{
+		for (int i = 0; i < classes.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			let org = Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	
+	}
 	
 	static GZC_Event create()
 	{
 		GZC_Event event = new('GZC_ReplaceMedikitWithStimpack');
 		event.eventname = "Health Recession";
-		event.duration = 35 * 90;
-		event.type = E_Instant;
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		return event;
+	}
+}
+
+Class GZC_DestroyAllHealth : GZC_Event
+{
+	Array<String> classes;
+	Array<float> x;
+	Array<float> y;
+	Array<float> z;
+
+	override void eventFunc()
+	{
+		classes.clear();
+		x.clear();
+		y.clear();
+		z.clear();
+	
+		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "health" || mo is "megasphere")
+			{
+				classes.push(mo.getClassName() .. "");
+				x.push(mo.pos.x);
+				y.push(mo.pos.y);
+				z.push(mo.pos.z);
+				mo.destroy();
+			}
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc() 
+	{
+		for (int i = 0; i < classes.size(); ++i)
+		{
+			if (!classes[i]) continue;
+			
+			let org = Actor.spawn(classes[i], (x[i],y[i],z[i]));
+		}
+	
+	}
+	
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_DestroyAllHealth');
+		event.eventname = "Health Extinction";
+		event.duration = 35 * 60;
+		event.type = E_Timed;
 		return event;
 	}
 }
