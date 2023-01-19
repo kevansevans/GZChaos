@@ -1,4 +1,21 @@
-Class GZC_UpgradeToMegasphere : GZC_Event
+Class GZC_HealthPickupModifier : GZC_Event
+{
+	override bool verify()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+	
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (event is 'GZC_HealthPickupModifier') return false;
+		}
+		
+		return Super.verify();
+	}
+}
+
+Class GZC_UpgradeToMegasphere : GZC_HealthPickupModifier
 {
 	Array<String> classes;
 	Array<Actor> pointers;
@@ -46,7 +63,7 @@ Class GZC_UpgradeToMegasphere : GZC_Event
 	}
 }
 
-Class GZC_UpgradeToSoulsphere : GZC_Event
+Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
 {
 	Array<String> classes;
 	Array<Actor> pointers;
@@ -94,7 +111,7 @@ Class GZC_UpgradeToSoulsphere : GZC_Event
 	}
 }
 
-Class GZC_UpgradeToMedikit : GZC_Event
+Class GZC_UpgradeToMedikit : GZC_HealthPickupModifier
 {
 	Array<String> classes;
 	Array<Actor> pointers;
@@ -142,7 +159,7 @@ Class GZC_UpgradeToMedikit : GZC_Event
 	}
 }
 
-Class GZC_UpgradeToStimpack : GZC_Event
+Class GZC_UpgradeToStimpack : GZC_HealthPickupModifier
 {
 	Array<String> classes;
 	Array<Actor> pointers;
@@ -338,7 +355,7 @@ Class GZC_ShrinkPickups : GZC_Event
 	}
 }
 
-Class GZC_ReplaceHealthWithBonuses : GZC_Event
+Class GZC_ReplaceHealthWithBonuses : GZC_HealthPickupModifier
 {
 	Array<String> classes;
 	Array<Actor> pointers;
@@ -385,7 +402,7 @@ Class GZC_ReplaceHealthWithBonuses : GZC_Event
 	}
 }
 
-Class GZC_ReplaceMedikitWithStimpack : GZC_Event
+Class GZC_ReplaceMedikitWithStimpack : GZC_HealthPickupModifier
 {
 	Array<String> classes;
 	Array<Actor> pointers;
@@ -434,7 +451,7 @@ Class GZC_ReplaceMedikitWithStimpack : GZC_Event
 	}
 }
 
-Class GZC_DestroyAllHealth : GZC_Event
+Class GZC_DestroyAllHealth : GZC_HealthPickupModifier
 {
 	Array<String> classes;
 	Array<float> x;
