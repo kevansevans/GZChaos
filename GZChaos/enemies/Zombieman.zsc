@@ -1,0 +1,31 @@
+Class GZC_Zombieman : Zombieman
+{
+	Default
+	{
+		+DoHarmSpecies;
+	}
+}
+
+Class GZC_Zombieman_Shotgun : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 A_SposAttackUseAtkSound();
+			POSS E 8;
+			Goto See;
+	}
+}
+
+Class GZC_Zombieman_Fireball : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 A_TroopAttack();
+			POSS E 8;
+			Goto See;
+	}
+}

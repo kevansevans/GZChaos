@@ -1,3 +1,27 @@
+Class GZC_YouveBeenStruck : GZC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		
+		FLineTraceData shot;
+		player.LineTrace(player.angle, 512, 0, 0, 0, 0, 0, shot);
+		
+		let cybie = Actor.spawn("GZC_Cyberfuck", shot.hitlocation);
+		cybie.target = player;
+		cybie.A_FaceTarget();
+	}
+
+	Static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_YouveBeenStruck');
+		event.eventname = "Cyberfuck";
+		event.duration = 35 * 60;
+		event.type = E_Instant;
+		return event;
+	}
+}
+
 Class GZC_BetaSkulls : GZC_Event
 {
 	override void eventFunc()

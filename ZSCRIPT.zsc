@@ -3,11 +3,14 @@ version "4.9"
 #include "GZChaos/GZC_Events.zsc"
 #include "GZChaos/GZC_StaticEvents.zsc"
 #include "GZChaos/GZC_TitleMap.zsc"
+#include "GZChaos/GZC_Utils.zsc"
 
 #include "GZChaos/enemies/BetaSkull.zsc"
+#include "GZChaos/enemies/Cyberfuck.zsc"
 #include "GZChaos/enemies/GreatGodImp.zsc"
 #include "GZChaos/enemies/OuchFace.zsc"
 #include "GZChaos/enemies/SCP173.zsc"
+#include "GZChaos/enemies/Zombieman.zsc"
 
 #include "GZChaos/morphs/DogMode.zsc"
 
@@ -21,3 +24,5 @@ version "4.9"
 #include "GZChaos/events/PickupEffects.zsc"
 #include "GZChaos/events/PlayerEffects.zsc"
 #include "GZChaos/events/SpriteEffects.zsc"
+
+#include "GZChaos/events/EnemyReplacements/Zombiemen.zsc"

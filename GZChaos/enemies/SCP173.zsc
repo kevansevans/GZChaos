@@ -18,7 +18,11 @@ Class SCP173 : Actor
 	States
 	{
 		Spawn:
-			173S A 1 A_look();
+			173S A 1 
+			{	
+				A_look();
+				A_Wander();
+			}
 			Loop;
 		See:
 			173S AA 1 A_WeepingAngel();

@@ -1,0 +1,97 @@
+Class GZC_ZombiemanShotgunner : GZC_Event
+{
+	Array<ActorTracker> pointers;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Zombieman") continue;
+			
+			let zo = Actor.spawn("GZC_Zombieman_Shotgun", mo.pos);
+			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
+			zo.angle = mo.angle;
+			tracker.pointer = zo;
+			pointers.push(tracker);
+			mo.destroy();
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "GZC_Zombieman")) continue;
+			
+			Actor.spawn("Zombieman", mo.pos);
+			mo.destroy();
+		}
+	}
+
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_ZombiemanShotgunner');
+		event.eventname = "Shotgun Zombiemen";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		event.deleteme = true;
+		return event;
+	}
+}
+
+Class GZC_ZombiemanFireball : GZC_Event
+{
+	Array<ActorTracker> pointers;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Zombieman") continue;
+			
+			let zo = Actor.spawn("GZC_Zombieman_Fireball", mo.pos);
+			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
+			zo.angle = mo.angle;
+			tracker.pointer = zo;
+			pointers.push(tracker);
+			mo.destroy();
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "GZC_Zombieman")) continue;
+			
+			Actor.spawn("Zombieman", mo.pos);
+			mo.destroy();
+		}
+	}
+
+	static GZC_Event create()
+	{
+		GZC_Event event = new('GZC_ZombiemanFireball');
+		event.eventname = "Fireball Zombiemen";
+		event.duration = 35 * 60 * 3;
+		event.type = E_Timed;
+		event.deleteme = true;
+		return event;
+	}
+}

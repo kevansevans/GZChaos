@@ -1,0 +1,15 @@
+Class GZC_Cyberfuck : Cyberdemon
+{
+	Default
+	{
+		-CountKill;
+		+NoGravity;
+	}
+	States
+	{
+		Spawn:
+			CYBR E 6 A_FaceTarget;
+			CYBR F 12 A_CyberAttack;
+			stop;
+	}
+}

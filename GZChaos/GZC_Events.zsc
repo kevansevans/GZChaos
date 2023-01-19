@@ -251,7 +251,7 @@ Class GZC_EventList play
 				return GZC_DoubleAmmo.create();
 			case E_AutoPong:
 				return GZC_AutoPong.create();
-			Case E_TallWeaponSprites:
+			case E_TallWeaponSprites:
 				return GZC_TallWeaponSprites.create();
 			case E_WideWeaponSprites:
 				return GZC_WideWeaponSprites.create();
@@ -293,6 +293,12 @@ Class GZC_EventList play
 				return GZC_ShrunkTheDoomguy.create();
 			case E_ContainmentBreach:
 				return GZC_ContainmentBreach.create();
+			case E_YouveBeenStruck:
+				return GZC_YouveBeenStruck.create();
+			case E_ZombiemanShotgunner:
+				return GZC_ZombiemanShotgunner.create();
+			case E_ZombiemanFireball:
+				return GZC_ZombiemanFireball.create();
 		}
 		
 		return GZC_DoNothing.create();
@@ -434,6 +440,9 @@ enum E_Event
 	E_BetaSkulls,
 	E_ShrunkTheDoomguy,
 	E_ContainmentBreach,
+	E_YouveBeenStruck,
+	E_ZombiemanShotgunner,
+	E_ZombiemanFireball,
 	E_NumEvents
 }
 
