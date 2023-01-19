@@ -8,6 +8,8 @@ Class GZC_EventList play
 		return list;
 	}
 	
+	int rngcounter;
+	
 	bool debug;
 	double timemodifier;
 	
@@ -32,8 +34,6 @@ Class GZC_EventList play
 	
 	GZC_Event getEffect(int _ignore = -1)
 	{
-		int event = -1;
-		
 		PlayerPawn player = players[consoleplayer].mo;
 		effects = EffectInventory(player.findInventory("EffectInventory"));
 		
@@ -42,9 +42,10 @@ Class GZC_EventList play
 		
 		while (true)
 		{
-			event = random(0, E_NumEvents - 1);
+			rngcounter += random(1, E_NumEvents - 1);
+			rngcounter = rngcounter % E_NumEvents;
 			
-			selectedevent = getEvent(event);
+			selectedevent = getEvent(rngcounter);
 			
 			if (!selectedEvent.verify()) continue;
 			
