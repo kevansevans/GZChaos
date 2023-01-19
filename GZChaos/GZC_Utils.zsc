@@ -1,0 +1,11 @@
+Class ActorTracker : Actor
+{
+	Actor pointer;
+	Class<Actor> type;
+	Vector3 Pos;
+}
+
+Class EffectInventory : Inventory
+{
+	Array<GZC_Event> events;
+}

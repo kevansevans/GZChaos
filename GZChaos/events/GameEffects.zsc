@@ -1,15 +1,13 @@
 Class GZC_ContainmentBreach : GZC_Event
 {
-	Array<Actor> locations;
-	Array<String> classes;
+	Array<ActorTracker> pointers;
 	SCP173 scp;
 	
 	String levelmus;
 	
 	override void eventFunc()
 	{
-		locations.clear();
-		classes.clear();
+		pointers.clear();
 		
 		levelmus = level.music;
 		
@@ -21,11 +19,10 @@ Class GZC_ContainmentBreach : GZC_Event
 			if (!mo.bIsMonster) continue;
 			if (mo.health <= 0) continue;
 			
-			let tracker = VectorActor(Actor.spawn("VectorActor", (0, 0, 0)));
-			tracker.vector = mo.pos;
-			locations.push(tracker);
-			classes.push('' .. mo.getClassName());
-			
+			let tracker = ActorTracker(Actor.spawn("ActorTracker", (0, 0, 0)));
+			tracker.type = mo.getClass();
+			tracker.pos = mo.pos;
+			pointers.push(tracker);
 			mo.destroy();
 		}
 		
@@ -34,8 +31,8 @@ Class GZC_ContainmentBreach : GZC_Event
 		
 		while (true)
 		{
-			int place = random(0, locations.size() - 1);
-			Vector3 pos = VectorActor(locations[place]).vector;
+			int place = random(0, pointers.size() - 1);
+			Vector3 pos = pointers[place].pos;
 			scp.setOrigin(pos, false);
 			if (scp.isVisible(player, true)) continue;
 			break;
@@ -51,9 +48,9 @@ Class GZC_ContainmentBreach : GZC_Event
 		let player = players[consoleplayer].mo;
 		player.S_ChangeMusic(levelmus);
 		
-		for (int i = 0; i < classes.size(); ++i)
+		for (int i = 0; i < pointers.size(); ++i)
 		{
-			Actor.spawn(classes[i], VectorActor(locations[i]).vector);
+			Actor.spawn(pointers[i].type, pointers[i].pos);
 		}
 		
 		scp.destroy();

@@ -523,13 +523,3 @@ Class GZC_Event abstract play
 		return true;
 	}
 }
-
-Class VectorActor : Actor
-{
-	Vector3 vector;
-}
-
-Class EffectInventory : Inventory
-{
-	Array<GZC_Event> events;
-}
