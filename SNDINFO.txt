@@ -5,6 +5,8 @@ SkyMayBe/ThereIsNoEscape "Sounds/SkyMayBe_ThereIsNoEscape"
 pong/paddle "sounds/PADDBOOP.ogg"
 pong/wall "sounds/WALLBOOP.ogg"
 
+coffee/slurp "sounds/SLURP.ogg"
+
 chicken/pain CHICPAI
 chicken/death CHICDTH
 $Random chicken/peck { CHICPK1 CHICPK2 CHICPK3 }

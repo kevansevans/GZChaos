@@ -2,7 +2,6 @@ version "4.9"
 
 #include "GZChaos/GZC_Events.zsc"
 #include "GZChaos/GZC_StaticEvents.zsc"
-#include "GZChaos/GZC_TitleMap.zsc"
 #include "GZChaos/GZC_Utils.zsc"
 
 #include "GZChaos/enemies/BetaSkull.zsc"
@@ -13,6 +12,8 @@ version "4.9"
 #include "GZChaos/enemies/Zombieman.zsc"
 
 #include "GZChaos/morphs/DogMode.zsc"
+
+#include "GZChaos/weapons/Coffee.zsc"
 
 #include "GZChaos/events/AudioEffects.zsc"
 #include "GZChaos/events/DecorationEffects.zsc"

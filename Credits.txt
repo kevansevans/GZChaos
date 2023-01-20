@@ -18,6 +18,7 @@ Jimmy Squared
 	- D_RUNNNN midi
 	- Testing
 	- Poot sound effects that WERE SENT ONE BY ONE YOU FUCK
+	- Coffee mug sprites, all is forgiven
 Xaser
 	- MEGALODOOMIA.mid
 Shakar
