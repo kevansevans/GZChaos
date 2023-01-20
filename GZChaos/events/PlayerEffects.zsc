@@ -1,3 +1,46 @@
+Class GZC_CoffeeBreak : GZC_Event
+{
+	String lastweapon;
+
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		
+		if (!self.lastweapon) {
+			lastweapon = player.player.readyWeapon.getClassName();
+		}
+		
+		if (!(player.player.readyWeapon is 'CoffeeMug'))
+		{
+			player.giveInventory('CoffeeMug', 1);
+			player.A_SelectWeapon('CoffeeMug');
+		}
+		
+		if (player.player.readyWeapon is 'CoffeeMug')
+		{
+			let coffee = CoffeeMug(player.player.readyWeapon);
+			coffee.lastweapon = self.lastweapon;
+			
+			if (player.health >= 100)
+			{
+				activated = true;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+	
+	}
+
+	override void init()
+	{
+		eventname = "Coffee break";
+		duration = 35 * 60 * 90;
+		type = E_HiddenTimer;
+	}
+}
+
 Class GZC_ShrunkTheDoomguy : GZC_Event
 {
 	override void eventFunc()
@@ -32,13 +75,13 @@ Class GZC_ShrunkTheDoomguy : GZC_Event
 		player.viewBob = def.viewBob;
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
 		GZC_Event event = new('GZC_ShrunkTheDoomguy');
-		event.eventname = "Honey, I shrunk the Doomguy!";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Honey, I shrunk the Doomguy!";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+
 	}
 }
 
@@ -63,14 +106,14 @@ Class GZC_MorphIntoDog : GZC_MorphEffect
 	
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
 		GZC_Event event = new('GZC_MorphIntoDog');
-		event.eventname = "Dog mode!";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		event.deleteMe = true;
-		return event;
+		eventname = "Dog mode!";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+		deleteMe = true;
+
 	}
 }
 
@@ -92,14 +135,12 @@ Class GZC_MorphIntoChicken : GZC_MorphEffect
 	
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_MorphIntoChicken');
-		event.eventname = "cockadoodledoo!";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		event.deleteMe = true;
-		return event;
+		eventname = "cockadoodledoo!";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+		deleteMe = true;
 	}
 }
 
@@ -127,13 +168,11 @@ Class GZC_DoubleRunning : GZC_Event
 		player.sideMove2 = def.sideMove2;
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DoubleRunning');
-		event.eventname = "Give it the gas!";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "Give it the gas!";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -157,13 +196,11 @@ Class GZC_DisableRunning : GZC_Event
 		player.sideMove2 = def.sideMove2;
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DisableRunning');
-		event.eventname = "No need to rush";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "No need to rush";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -238,14 +275,12 @@ Class GZC_StartRecording : GZC_Event
 	
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_StartRecording');
-		event.eventname = "Recording";
-		event.duration = 35 * 15;
-		event.type = E_Timed;
-		event.deleteme = true;
-		return event;
+		eventname = "Recording";
+		duration = 35 * 15;
+		type = E_Timed;
+		deleteme = true;
 	}
 }
 
@@ -277,13 +312,13 @@ Class GZC_ScardeyItems : GZC_Event
 		PlayerPawn player = players[consoleplayer].mo;
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
 		GZC_Event event = new('GZC_ScardeyItems');
-		event.eventname = "Pickups are scared of player";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "Pickups are scared of player";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+
 	}
 }
 
@@ -312,15 +347,13 @@ Class GZC_RightJoyconDrift : GZC_Event
 	
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_RightJoyconDrift');
-		GZC_RightJoyconDrift(event).drift = random(400, 600);
-		GZC_RightJoyconDrift(event).angle = random(0, 359);
-		event.eventname = "Right Joycon drift";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		drift = random(400, 600);
+		angle = random(0, 359);
+		eventname = "Right Joycon drift";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -345,15 +378,13 @@ Class GZC_LeftJoyconDrift : GZC_Event
 	
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_LeftJoyconDrift');
-		GZC_LeftJoyconDrift(event).drift = random(400, 600);
-		GZC_LeftJoyconDrift(event).angle = random(0, 359);
-		event.eventname = "Left Joycon drift";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		drift = random(400, 600);
+		angle = random(0, 359);
+		eventname = "Left Joycon drift";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -390,13 +421,11 @@ Class GZC_DisableForwardBackwards : GZC_Event
 		player.forwardMove2 = def.ForwardMove2;
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DisableForwardBackwards');
-		event.eventname = "Disable Forward/Backwards movement";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "Disable Forward/Backwards movement";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }
 
@@ -433,13 +462,11 @@ Class GZC_DisableStrafingMovement : GZC_Event
 		player.sideMove2 = def.sideMove2;
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DisableStrafingMovement');
-		event.eventname = "Disable strafing movement";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "Disable strafing movement";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }
 
@@ -467,13 +494,11 @@ Class GZC_InvertPlayerMovement : GZC_Event
 		player.sideMove2 = def.sideMove2;
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_InvertPlayerMovement');
-		event.eventname = "Inverted movement";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "Inverted movement";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }
 
@@ -506,14 +531,12 @@ Class GZC_GameEndPlayer : GZC_Event
 	
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_GameEndPlayer');
-		GZC_GameEndPlayer(event).startframe = gametic;
-		event.eventname = "Player commits suicide";
-		event.duration = 35 * 90;
-		event.type = E_HiddenTimer;
-		return event;
+		startframe = gametic;
+		eventname = "Player commits suicide";
+		duration = 35 * 90;
+		type = E_HiddenTimer;
 	}
 }
 
@@ -546,14 +569,12 @@ Class GZC_FakeGameEndPlayer : GZC_Event
 	
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_FakeGameEndPlayer');
-		GZC_FakeGameEndPlayer(event).startframe = gametic;
-		event.eventname = "Player commits suicide";
-		event.duration = 35 * 90;
-		event.type = E_HiddenTimer;
-		return event;
+		startframe = gametic;
+		eventname = "Player commits suicide";
+		duration = 35 * 90;
+		type = E_HiddenTimer;
 	}
 }
 
@@ -571,13 +592,11 @@ Class GZC_CantStopFiring : GZC_Event
 	
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_CantStopFiring');
-		event.eventname = "Can't stop shooting!";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "Can't stop shooting!";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }
 
@@ -595,13 +614,11 @@ Class GZC_SuperIcePhysics : GZC_Event
 		player.mo.bNoFriction = false;
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SuperIcePhysics');
-		event.eventname = "Disabled player friction";
-		event.duration = (35 * 60 * 2) + (35 * 30);
-		event.type = E_Timed;
-		return event;
+		eventname = "Disabled player friction";
+		duration = (35 * 60 * 2) + (35 * 30);
+		type = E_Timed;
 	}
 }
 
@@ -619,13 +636,11 @@ Class GZC_FallDamage : GZC_Event
 		player.mo.bFallDamage = false;
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_FallDamage');
-		event.eventname = "Player takes fall damage";
-		event.duration = (35 * 60 * 2) + (35 * 30);
-		event.type = E_Timed;
-		return event;
+		eventname = "Player takes fall damage";
+		duration = (35 * 60 * 2) + (35 * 30);
+		type = E_Timed;
 	}
 }
 
@@ -654,12 +669,10 @@ Class GZC_TeleportPlayer : GZC_Event
 	
 	override void closeFunc() {}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_TeleportPlayer');
-		event.eventname = "Teleport to random sector";
-		event.duration = 35 * 90;
-		event.type = E_Instant;
-		return event;
+		eventname = "Teleport to random sector";
+		duration = 35 * 90;
+		type = E_Instant;
 	}
 }

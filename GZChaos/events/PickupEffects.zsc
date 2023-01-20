@@ -53,13 +53,11 @@ Class GZC_UpgradeToMegasphere : GZC_HealthPickupModifier
 		}
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_UpgradeToMegasphere');
-		event.eventname = "Cheap as dirt health";
-		event.duration = 35 * 30;
-		event.type = E_Timed;
-		return event;
+		eventname = "Cheap as dirt health";
+		duration = 35 * 30;
+		type = E_Timed;
 	}
 }
 
@@ -101,13 +99,11 @@ Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
 		}
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_UpgradeToSoulsphere');
-		event.eventname = "Health surplus";
-		event.duration = 35 * 60 * 1;
-		event.type = E_Timed;
-		return event;
+		eventname = "Health surplus";
+		duration = 35 * 60 * 1;
+		type = E_Timed;
 	}
 }
 
@@ -149,13 +145,11 @@ Class GZC_UpgradeToMedikit : GZC_HealthPickupModifier
 		}
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_UpgradeToMedikit');
-		event.eventname = "Health stimulus";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Health stimulus";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -197,13 +191,11 @@ Class GZC_UpgradeToStimpack : GZC_HealthPickupModifier
 		}
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_UpgradeToStimpack');
-		event.eventname = "Health boost";
-		event.duration = 35 * 60 * 5;
-		event.type = E_Timed;
-		return event;
+		eventname = "Health boost";
+		duration = 35 * 60 * 5;
+		type = E_Timed;
 	}
 }
 
@@ -241,13 +233,11 @@ Class GZC_DuplicatePickups : GZC_Event
 		
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DuplicatePickups');
-		event.eventname = "Duplicate all items";
-		event.duration = 35 * 30;
-		event.type = E_Instant;
-		return event;
+		eventname = "Duplicate all items";
+		duration = 35 * 30;
+		type = E_Instant;
 	}
 }
 
@@ -301,13 +291,11 @@ Class GZC_ShuffleItemsAround : GZC_Event
 	
 	override void closeFunc() {}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ShuffleItemsAround');
-		event.eventname = "Shuffle Items";
-		event.duration = 35 * 5;
-		event.type = E_Timed;
-		return event;
+		eventname = "Shuffle Items";
+		duration = 35 * 5;
+		type = E_Timed;
 	}
 }
 
@@ -345,13 +333,11 @@ Class GZC_ShrinkPickups : GZC_Event
 		}
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ShrinkPickups');
-		event.eventname = "What is this? A pickup for ants?";
-		event.duration = 35 * 3 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "What is this? A pickup for ants?";
+		duration = 35 * 3 * 60;
+		type = E_Timed;
 	}
 }
 
@@ -392,13 +378,11 @@ Class GZC_ReplaceHealthWithBonuses : GZC_HealthPickupModifier
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ReplaceHealthWithBonuses');
-		event.eventname = "Health Famine";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "Health Famine";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -441,13 +425,11 @@ Class GZC_ReplaceMedikitWithStimpack : GZC_HealthPickupModifier
 	
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ReplaceMedikitWithStimpack');
-		event.eventname = "Health Recession";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Health Recession";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -494,12 +476,10 @@ Class GZC_DestroyAllHealth : GZC_HealthPickupModifier
 	
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DestroyAllHealth');
-		event.eventname = "Health Extinction";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "Health Extinction";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }

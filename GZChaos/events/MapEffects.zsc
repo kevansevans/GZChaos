@@ -59,14 +59,12 @@ Class GZC_SetAllWallsToISuck : GZC_Event
 	
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SetAllWallsToISuck');
-		event.eventname = "I suck at making maps";
-		event.duration = 35 * 60 * 99999;
-		event.deleteme = true;
-		event.type = E_Instant;
-		return event;
+		eventname = "I suck at making maps";
+		duration = 35 * 60 * 99999;
+		deleteme = true;
+		type = E_Instant;
 	}
 }
 
@@ -131,14 +129,12 @@ Class GZC_SetAllWallsToNoFlat : GZC_Event
 	
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SetAllWallsToNoFlat');
-		event.eventname = "Testing... 1, 2, 3, testing...";
-		event.duration = 35 * 60 * 99999;
-		event.deleteme = true;
-		event.type = E_Instant;
-		return event;
+		eventname = "Testing... 1, 2, 3, testing...";
+		duration = 35 * 60 * 99999;
+		deleteme = true;
+		type = E_Instant;
 	}
 }
 
@@ -176,13 +172,11 @@ Class GZC_DiscoSkybox : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DiscoSkybox');
-		event.eventname = "Disco Skybox";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "Disco Skybox";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }
 
@@ -212,13 +206,11 @@ Class GZC_SuperSecretsEverywhere : GZC_Event
 	override void closeFunc()
 	{}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SuperSecretsEverywhere');
-		event.eventname = "Everything is a secret";
-		event.duration = 35 * 60;
-		event.type = E_Instant;
-		return event;
+		eventname = "Everything is a secret";
+		duration = 35 * 60;
+		type = E_Instant;
 	}
 }
 
@@ -262,13 +254,11 @@ Class GZC_IncreasedSectorFriction : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_IncreasedSectorFriction');
-		event.eventname = "Increased Sector Friction";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Increased Sector Friction";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -316,13 +306,12 @@ Class GZC_IncreasedSectorFriction : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
 		GZC_Event event = new('GZC_TheVomitorium');
-		event.eventname = "The Vomitorium";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "The Vomitorium";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }*/
 
@@ -341,17 +330,15 @@ Class GZC_ClearAutoMap : GZC_Event
 	
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ClearAutoMap');
-		event.eventname = "Clear Auto Map";
-		event.duration = 35 * 30;
-		event.type = E_Instant;
-		return event;
+		eventname = "Clear Auto Map";
+		duration = 35 * 30;
+		type = E_Instant;
 	}
 }
 
-Class GZC_BrokenBSPRendering : GZC_Event
+/*Class GZC_BrokenBSPRendering : GZC_Event
 {
 	Array<line> lines;
 
@@ -386,15 +373,13 @@ Class GZC_BrokenBSPRendering : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_BrokenBSPRendering');
-		event.eventname = "BSP Corruption";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "BSP Corruption";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
-}
+}*/
 
 Class GZC_TheFloorIsLava : GZC_Event
 {
@@ -412,13 +397,11 @@ Class GZC_TheFloorIsLava : GZC_Event
 	
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_TheFloorIsLava');
-		event.eventname = "The floor is lava!";
-		event.duration = 35 * 10;
-		event.type = E_Instant;
-		return event;
+		eventname = "The floor is lava!";
+		duration = 35 * 10;
+		type = E_Instant;
 	}
 }
 
@@ -438,13 +421,11 @@ Class GZC_TheFloorIsNukage : GZC_Event
 	
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_TheFloorIsNukage');
-		event.eventname = "The floor is Nukage!";
-		event.duration = 35 * 10;
-		event.type = E_Instant;
-		return event;
+		eventname = "The floor is Nukage!";
+		duration = 35 * 10;
+		type = E_Instant;
 	}
 }
 
@@ -464,13 +445,11 @@ Class GZC_TheFloorIsSludge : GZC_Event
 	
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_TheFloorIsSludge');
-		event.eventname = "The floor is sludge!";
-		event.duration = 35 * 10;
-		event.type = E_Instant;
-		return event;
+		eventname = "The floor is sludge!";
+		duration = 35 * 10;
+		type = E_Instant;
 	}
 }
 
@@ -545,14 +524,12 @@ Class GZC_SetAllWallsToStartan : GZC_Event
 	
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SetAllWallsToStartan');
-		event.eventname = "MyFirstMap.wad";
-		event.duration = 35 * 60 * 99999;
-		event.deleteme = true;
-		event.type = E_Instant;
-		return event;
+		eventname = "MyFirstMap.wad";
+		duration = 35 * 60 * 99999;
+		deleteme = true;
+		type = E_Instant;
 	}
 }
 
@@ -617,14 +594,12 @@ Class GZC_SetAllWallsToFireblu : GZC_Event
 	
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SetAllWallsToFireblu');
-		event.eventname = "Everyone's favorite texture";
-		event.duration = 35 * 60 * 99999;
-		event.deleteme = true;
-		event.type = E_Instant;
-		return event;
+		eventname = "Everyone's favorite texture";
+		duration = 35 * 60 * 99999;
+		deleteme = true;
+		type = E_Instant;
 	}
 }
 
@@ -680,13 +655,11 @@ Class GZC_ShuffleKeyTextures : GZC_Event
 	
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ShuffleKeyTextures');
-		event.eventname = "Shuffle key color textures";
-		event.duration = 35 * 5;
-		event.type = E_Timed;
-		return event;
+		eventname = "Shuffle key color textures";
+		duration = 35 * 5;
+		type = E_Timed;
 	}
 }
 
@@ -720,12 +693,10 @@ Class GZC_MisalignAllTextures : GZC_Event
 	
 	override void closeFunc() {}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_MisalignAllTextures');
-		event.eventname = "Misalign textures";
-		event.duration = 35 * 30;
-		event.type = E_PerLevel;
-		return event;
+		eventname = "Misalign textures";
+		duration = 35 * 30;
+		type = E_PerLevel;
 	}
 }

@@ -29,3 +29,39 @@ Class GZC_Zombieman_Fireball : GZC_Zombieman
 			Goto See;
 	}
 }
+
+Class GZC_Zombieman_Repeater : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 A_PosAttack();
+			POSS E 8 A_MonsterRefire(40, "See");
+			Goto Missile+1;
+	}
+}
+
+Class GZC_Zombieman_Baron : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 A_BruisAttack();
+			POSS E 8;
+			Goto See;
+	}
+}
+
+Class GZC_Zombieman_Plasma : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 A_BspiAttack();
+			POSS E 8;
+			Goto See;
+	}
+}

@@ -13,13 +13,11 @@ Class GZC_PortraitMode : GZC_Event
 		player.takeInventory('GZC_PortraitModeToken', 999);
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_PortraitMode');
-		event.eventname = "Portrait mode";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "Portrait mode";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }
 
@@ -40,13 +38,11 @@ Class GZC_SuperHot : GZC_Event
 		player.takeInventory('GZC_SuperHotToken', 1);
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SuperHot');
-		event.eventname = "SUPER HOT";
-		event.duration = 35 * 30;
-		event.type = E_Timed;
-		return event;
+		eventname = "SUPER HOT";
+		duration = 35 * 30;
+		type = E_Timed;
 	}
 }
 
@@ -66,13 +62,11 @@ Class GZC_AutoPong : GZC_Event
 		player.takeInventory('GZC_PongToken', 1);
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_AutoPong');
-		event.eventname = "Pong";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "Pong";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -108,13 +102,11 @@ Class GZC_ResetEffectTimers : GZC_Event
 		
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ResetEffectTimers');
-		event.eventname = "Reset effect timers";
-		event.duration = 35 * 60;
-		event.type = E_Instant;
-		return event;
+		eventname = "Reset effect timers";
+		duration = 35 * 60;
+		type = E_Instant;
 	}
 }
 
@@ -132,13 +124,11 @@ Class GZC_HideTimerAndEffects : GZC_Event
 		player.takeInventory('GZC_HideTimerToken', 1);
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_HideTimerAndEffects');
-		event.eventname = "Hidden timer and effects";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Hidden timer and effects";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -175,13 +165,11 @@ Class GZC_DoubleTimerDuration : GZC_Event
 		player.takeInventory('GZC_DoubleTimerToken', 1);
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DoubleTimerDuration');
-		event.eventname = "1/2 timer speed";
-		event.duration = 35 * 60 * 5;
-		event.type = E_Timed;
-		return event;
+		eventname = "1/2 timer speed";
+		duration = 35 * 60 * 5;
+		type = E_Timed;
 	}
 }
 
@@ -218,13 +206,36 @@ Class GZC_HalfTimerDuration : GZC_Event
 		player.takeInventory('GZC_HalfTimerToken', 1);
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_HalfTimerDuration');
-		event.eventname = "2x timer speed";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "2x timer speed";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
+Class GZC_FuckYourGodmode : GZC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer];
+		player.cheats &= ~(CF_GODMODE);
+	}
+
+	override bool verify()
+	{
+		let player = players[consoleplayer];
+		
+		if (player.cheats & CF_GODMODE) return true;
+		
+		return false;
+	}
+
+	override void init()
+	{
+		eventname = "No god mode for you!";
+		duration = 35 * 60;
+		type = E_Instant;
 	}
 }
 
@@ -261,13 +272,11 @@ Class GZC_QuarterTimerDuration : GZC_Event
 		player.takeInventory('GZC_QuarterTimerToken', 1);
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_QuarterTimerDuration');
-		event.eventname = "4x timer speed";
-		event.duration = 35 * 60;
-		event.type = E_Timed;
-		return event;
+		eventname = "4x timer speed";
+		duration = 35 * 60;
+		type = E_Timed;
 	}
 }
 
@@ -291,14 +300,12 @@ Class GZC_RollExtraEffects : GZC_Event
 		
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_RollExtraEffects');
-		GZC_RollExtraEffects(event).bonuseffects = random(2, 5);
-		event.eventname = "Roll " .. GZC_RollExtraEffects(event).bonuseffects .. " extra effects";
-		event.duration = 35 * 60;
-		event.type = E_HiddenTimer;
-		return event;
+		bonuseffects = random(2, 5);
+		eventname = "Roll " .. bonuseffects .. " extra effects";
+		duration = 35 * 60;
+		type = E_HiddenTimer;
 	}
 }
 
@@ -308,12 +315,10 @@ Class GZC_DoNothing : GZC_Event
 	
 	override void closeFunc() {}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DoNothing');
-		event.eventname = "Nothing.";
-		event.duration = 35 * 60;
-		event.type = E_Instant;
-		return event;
+		eventname = "Nothing.";
+		duration = 35 * 60;
+		type = E_Instant;
 	}
 }

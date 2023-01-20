@@ -21,12 +21,15 @@ Class GZC_EventHandler : StaticEventHandler
 	bool uiIsHidden;
 	bool pong;
 	bool superhot;
+	
+	override void NewGame()
+	{
+		list = GZC_EventList.create();
+	}
 
 	override void OnRegister()
 	{
 		console.printf('Let the Chaos begin!');
-		
-		list = GZC_EventList.create();
 		
 		timer = 0;
 		

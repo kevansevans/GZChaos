@@ -29,13 +29,11 @@ Class GZC_TallWeaponSprites : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_TallWeaponSprites');
-		event.eventname = "Tall and thin weapon sprites";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "Tall and thin weapon sprites";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -70,13 +68,11 @@ Class GZC_WideWeaponSprites : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_WideWeaponSprites');
-		event.eventname = "Wide and stout weapon sprites";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "Wide and stout weapon sprites";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -111,13 +107,11 @@ Class GZC_SuperNintendoDoom : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SuperNintendoDoom');
-		event.eventname = "Doom for the SNES";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "Doom for the SNES";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -164,13 +158,11 @@ Class GZC_SpinningMonsters : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SpinningMonsters');
-		event.eventname = "On a roll";
-		event.duration = 35 * 60 * 2;
-		event.type = E_Timed;
-		return event;
+		eventname = "On a roll";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
 	}
 }
 
@@ -204,13 +196,11 @@ Class GZC_WideMonsters : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_WideMonsters');
-		event.eventname = "Wide Monster sprites";
-		event.duration = 35 * 90;
-		event.type = E_Timed;
-		return event;
+		eventname = "Wide Monster sprites";
+		duration = 35 * 90;
+		type = E_Timed;
 	}
 }
 
@@ -244,12 +234,10 @@ Class GZC_TallMonsters : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_TallMonsters');
-		event.eventname = "Tall Monster sprites";
-		event.duration = 35 * 90;
-		event.type = E_Timed;
-		return event;
+		eventname = "Tall Monster sprites";
+		duration = 35 * 90;
+		type = E_Timed;
 	}
 }

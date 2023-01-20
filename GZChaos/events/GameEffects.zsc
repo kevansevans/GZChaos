@@ -56,14 +56,12 @@ Class GZC_ContainmentBreach : GZC_Event
 		scp.destroy();
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ContainmentBreach');
-		event.eventname = "Containment Breach";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		event.deleteme = true;
-		return event;
+		eventname = "Containment Breach";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		deleteme = true;
 	}
 }
 
@@ -78,13 +76,11 @@ Class GZC_ChaosDevice : GZC_Event
 		player.teleport(location, face, 1);
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ChaosDevice');
-		event.eventname = "Chaos Device";
-		event.duration = 35 * 60;
-		event.type = E_Instant;
-		return event;
+		eventname = "Chaos Device";
+		duration = 35 * 60;
+		type = E_Instant;
 	}
 }
 
@@ -183,13 +179,11 @@ Class GZC_ShuffleAmmoTypes : GZC_Event
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ShuffleAmmoTypes');
-		event.eventname = "Shuffled ammo pool";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Shuffled ammo pool";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -206,13 +200,11 @@ Class GZC_LimpProjectiles : GZC_Event
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_LimpProjectiles');
-		event.eventname = "Limp enemy projectiles";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Limp enemy projectiles";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -256,13 +248,11 @@ Class GZC_JupiterGravity : GZC_Event
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_JupiterGravity');
-		event.eventname = "Jupiter Gravity";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Jupiter Gravity";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -306,13 +296,11 @@ Class GZC_MoonGravity : GZC_Event
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_MoonGravity');
-		event.eventname = "Moon Gravity";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Moon Gravity";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -347,13 +335,11 @@ Class GZC_FartingMonsters : GZC_Event
 		}
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_FartingMonsters');
-		event.eventname = "Farting Monsters";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Farting Monsters";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -389,13 +375,11 @@ Class GZC_FartingItems : GZC_Event
 		}
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_FartingItems');
-		event.eventname = "Farting items";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Farting items";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -423,13 +407,11 @@ Class GZC_FartingPlayer : GZC_Event
 		}
 	}
 	
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_FartingPlayer');
-		event.eventname = "Farting player";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Farting player";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -475,13 +457,11 @@ Class GZC_FastProjectiles : GZC_ProjectileModifier
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_FastProjectiles');
-		event.eventname = "Fast projectiles";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Fast projectiles";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -508,13 +488,11 @@ Class GZC_SlowProjectiles : GZC_ProjectileModifier
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SlowProjectiles');
-		event.eventname = "Slow projectiles";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Slow projectiles";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 
 }
@@ -541,13 +519,11 @@ Class GZC_ExtraSlowProjectiles : GZC_ProjectileModifier
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ExtraSlowProjectiles');
-		event.eventname = "Slower projectiles";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Slower projectiles";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 
 }
@@ -574,13 +550,11 @@ Class GZC_PainfullySlowProjectiles : GZC_ProjectileModifier
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_PainfullySlowProjectiles');
-		event.eventname = "Painfully Slow projectiles";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Painfully Slow projectiles";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 
 }
@@ -641,13 +615,11 @@ Class GZC_DisableGravity : GZC_Event
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_DisableGravity');
-		event.eventname = "Everything ignores gravity";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "Everything ignores gravity";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -663,13 +635,11 @@ Class GZC_ExplodingBulletPuffs : GZC_Event
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ExplodingBulletPuffs');
-		event.eventname = "All bullet puffs explode";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "All bullet puffs explode";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -715,13 +685,11 @@ Class GZC_SeekerProjectiles : GZC_Event
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SeekerProjectiles');
-		event.eventname = "All projectiles seek player";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		return event;
+		eventname = "All projectiles seek player";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -874,14 +842,12 @@ Class GZC_OUCH : GZC_EVENT
 	
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_OUCH');
-		event.eventname = "OUCH";
-		event.duration = 35 * 60 * 9999;
-		event.type = E_PerLevel;
-		event.deleteme = true;
-		return event;
+		eventname = "OUCH";
+		duration = 35 * 60 * 9999;
+		type = E_PerLevel;
+		deleteme = true;
 	}
 }
 
@@ -918,15 +884,13 @@ Class GZC_FakeLagCrash : GZC_Event
 	
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_FakeLagCrash');
-		GZC_FakeLagCrash(event).spawn = gametic;
-		GZC_FakeLagCrash(event).delay = 35 * random(5, 10);
-		event.eventname = "Nothing.";
-		event.duration = 35 * 60;
-		event.type = E_HiddenTimer;
-		return event;
+		spawn = gametic;
+		delay = 35 * random(5, 10);
+		eventname = "Nothing.";
+		duration = 35 * 60;
+		type = E_HiddenTimer;
 	}
 }
 
@@ -960,12 +924,10 @@ Class GZC_RestartLevel : GZC_Event
 		}
 	}
 
-	Static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_RestartLevel');
-		event.eventname = "Exit and restart level";
-		event.duration = 35 * 10;
-		event.type = E_Timed;
-		return event;
+		eventname = "Exit and restart level";
+		duration = 35 * 10;
+		type = E_Timed;
 	}
 }

@@ -85,13 +85,105 @@ Class GZC_ZombiemanFireball : GZC_Event
 		}
 	}
 
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_ZombiemanFireball');
-		event.eventname = "Fireball Zombiemen";
-		event.duration = 35 * 60 * 3;
-		event.type = E_Timed;
-		event.deleteme = true;
-		return event;
+		eventname = "Fireball Zombiemen";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		deleteme = true;
+	}
+}
+
+Class GZC_ZombiemanRepeater : GZC_Event
+{
+	Array<ActorTracker> pointers;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Zombieman") continue;
+			
+			let zo = Actor.spawn("GZC_Zombieman_Repeater", mo.pos);
+			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
+			zo.angle = mo.angle;
+			tracker.pointer = zo;
+			pointers.push(tracker);
+			mo.destroy();
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "GZC_Zombieman")) continue;
+			
+			Actor.spawn("Zombieman", mo.pos);
+			mo.destroy();
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Repeater Zombiemen";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		deleteme = true;
+	}
+}
+
+Class GZC_ZombiemanBaron : GZC_Event
+{
+	Array<ActorTracker> pointers;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Zombieman") continue;
+			
+			let zo = Actor.spawn("GZC_Zombieman_Baron", mo.pos);
+			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
+			zo.angle = mo.angle;
+			tracker.pointer = zo;
+			pointers.push(tracker);
+			mo.destroy();
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "GZC_Zombieman")) continue;
+			
+			Actor.spawn("Zombieman", mo.pos);
+			mo.destroy();
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Baron Zombiemen";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		deleteme = true;
 	}
 }

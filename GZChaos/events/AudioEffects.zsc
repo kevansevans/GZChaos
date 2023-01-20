@@ -1,8 +1,12 @@
 Class GZC_SetMusicToCursedMidi : GZC_Event
 {
+	string levelmus;
+
 	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
+		
+		levelmus = level.music;
 	
 		int rng = random(0, E_NumSongs - 1);
 		switch (rng)
@@ -28,20 +32,22 @@ Class GZC_SetMusicToCursedMidi : GZC_Event
 				eventname = eventname .. " - Scary Monsters and Nice Sprites (Skrillex)";
 				break;
 		}
+		
+		activated = true;
 	}
 	
 	override void closeFunc()
 	{
-	
+		let player = players[consoleplayer].mo;
+		player.S_ChangeMusic(levelmus);
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_SetMusicToCursedMidi');
-		event.eventname = "Cursed music";
-		event.duration = 35 * 30;
-		event.type = E_Instant;
-		return event;
+		eventname = "Cursed music";
+		duration = 35 * 30 * 5;
+		type = E_Timed;
+		deleteme = true;
 	}
 }
 
@@ -78,12 +84,10 @@ Class GZC_FakeNotification : GZC_Event
 		}
 	}
 	
-	static GZC_Event create()
+	override void init()
 	{
-		GZC_Event event = new('GZC_FakeNotification');
-		event.eventname = "Nothing.";
-		event.duration = 35 * 60;
-		event.type = E_HiddenTimer;
-		return event;
+		eventname = "Nothing.";
+		duration = 35 * 60;
+		type = E_HiddenTimer;
 	}
 }

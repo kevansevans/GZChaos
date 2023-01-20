@@ -1,14 +1,34 @@
 Class GZC_EventList play
 {
+	Array<String> events;
+
 	static GZC_EventList create()
 	{
 		GZC_EventList list = new('GZC_EventList');
 		list.timemodifier = 1.0;
 		list.cachedEffects.clear();
+		
+		list.events.clear();
+		
+		Array<String> cleaners;
+		cleaners.clear();
+		
+		for (int i = 0; i < AllClasses.size(); ++i)
+		{
+			if (!(AllClasses[i] is "GZC_Event")) continue;
+			
+			let event = GZC_Event(new(AllClasses[i]));
+			event.init();
+			if (event.skipme) continue;
+			
+			list.events.push('' .. AllClasses[i].getClassName());
+		}
+		
 		return list;
 	}
 	
 	int rngcounter;
+	int modifier;
 	
 	bool debug;
 	double timemodifier;
@@ -17,7 +37,7 @@ Class GZC_EventList play
 	
 	int timeLimit()
 	{
-		int base = 35 * 30;
+		int base = 35 * (min(max(30 + modifier, 20), 60));
 		
 		PlayerPawn player = players[consoleplayer].mo;
 		
@@ -42,10 +62,12 @@ Class GZC_EventList play
 		
 		while (true)
 		{
-			rngcounter += random(1, E_NumEvents - 1);
-			rngcounter = rngcounter % E_NumEvents;
+			rngcounter += random(1, events.size() - 1);
+			rngcounter = rngcounter % events.size();
 			
-			selectedevent = getEvent(rngcounter);
+			let _event = new(events[rngcounter]);
+			selectedevent = GZC_Event(_event);
+			selectedevent.init();
 			
 			if (!selectedEvent.verify()) continue;
 			
@@ -63,245 +85,8 @@ Class GZC_EventList play
 			cachedEffects.shrinkToFit();
 		}
 		
-		if (!selectedevent) return GZC_DoNothing.create();
+		if (!selectedevent) return GZC_Event(new('GZC_DoNothing'));
 		else return selectedevent;
-	}
-	
-	GZC_Event getEvent(int _input)
-	{
-		switch (_input)
-		{
-			case E_TakeAllKeysAway:
-				return GZC_TakeAllKeysAway.create();
-			case E_ReplaceHealthWithBonuses:
-				return GZC_ReplaceHealthWithBonuses.create();
-			case E_ReplaceMedikitWithStimpack:
-				return GZC_ReplaceMedikitWithStimpack.create();
-			case E_SpawnGreatGodImp:
-				return GZC_SpawnGreatGodImp.create();
-			case E_TheFloorIsLava:
-				return GZC_TheFloorIsLava.create();
-			case E_TheFloorIsNukage:
-				return GZC_TheFloorIsNukage.create();
-			case E_TheFloorIsSludge:
-				return GZC_TheFloorIsSludge.create();
-			case E_DisableForwardBackwards:
-				return GZC_DisableForwardBackwards.create();
-			case E_DisableStrafingMovement:
-				return GZC_DisableStrafingMovement.create();
-			case E_InvertPlayerMovement:
-				return GZC_InvertPlayerMovement.create();
-			case E_ShrinkPickups:
-				return GZC_ShrinkPickups.create();
-			case E_GameEndPlayer:
-				if (random(1, 10) == 5) return GZC_GameEndPlayer.create();
-				else return GZC_FakeGameEndPlayer.create();
-			case E_RestartLevel:
-				return GZC_RestartLevel.create();
-			case E_CantStopFiring:
-				return GZC_CantStopFiring.create();
-			case E_NightmareMonsters:
-				return GZC_NightmareMonsters.create();
-			case E_NightmareRespawns:
-				return GZC_NightmareRespawns.create();
-			case E_SuperIcePhysics:
-				return GZC_SuperIcePhysics.create();
-			case E_FallDamage:
-				return GZC_FallDamage.create();
-			case E_TeleportPlayer:
-				return GZC_TeleportPlayer.create();
-			case E_Nothing:
-				return GZC_DoNothing.create();
-			case E_DoubleTimerDuration:
-				return GZC_DoubleTimerDuration.create();
-			case E_HalfTimerDuration:
-				return GZC_HalfTimerDuration.create();
-			case E_QuarterTimerDuration:
-				return GZC_QuarterTimerDuration.create();
-			case E_SetAllWallsToStartan:
-				return GZC_SetAllWallsToStartan.create();
-			case E_SetAllWallsToFireblu:
-				return GZC_SetAllWallsToFireblu.create();
-			case E_ShuffleKeyTextures:
-				return GZC_ShuffleKeyTextures.create();
-			case E_ShuffleItemsAround:
-				return GZC_ShuffleItemsAround.create();
-			case E_RollExtraEffects:
-				return GZC_RollExtraEffects.create();
-			case E_GiveMegaSphere:
-				return GZC_GiveMegaSphere.create();
-			case E_GiveLightAmp:
-				return GZC_GiveLightAmp.create();
-			case E_GiveRadSuit:
-				return GZC_GiveRadSuit.create();
-			case E_GiveSoulsphere:
-				return GZC_GiveSoulsphere.create();
-			case E_GiveBlurSphere:
-				return GZC_GiveBlurSphere.create();
-			case E_GiveInvulnerabilitySphere:
-				return GZC_GiveInvulnerabilitySphere.create();
-			case E_GiveBerserk:
-				return GZC_GiveBerserk.create();
-			Case E_GiveRandomWeapon:
-				return GZC_GiveRandomWeapon.create();
-			case E_GiveHealthBonus:
-				return GZC_GiveHealthBonus.create();
-			case E_GiveArmorBonus:
-				return GZC_GiveArmorBonus.create();
-			case E_StatueEnemies:
-				return GZC_StatueEnemies.create();
-			case E_WideMonsters:
-				return GZC_WideMonsters.create();
-			case E_TallMonsters:
-				return GZC_TallMonsters.create();
-			case E_SpinningMonsters:
-				return GZC_SpinningMonsters.create();
-			case E_MisalignAllTextures:
-				return GZC_MisalignAllTextures.create();
-			case E_FakeGameEndPlayer:
-				if (random(1, 10) == 5) return GZC_GameEndPlayer.create();
-				else return GZC_FakeGameEndPlayer.create();
-			case E_FakeNotification:
-				return GZC_FakeNotification.create();
-			case E_SetMusicToCursedMidi:
-				return GZC_SetMusicToCursedMidi.create();
-			case E_AnkleBiterEnemies:
-				return GZC_AnkleBiterEnemies.create();
-			case E_InventorySickness:
-				return GZC_InventorySickness.create();
-			case E_LeftJoyconDrift:	
-				return GZC_LeftJoyconDrift.create();
-			case E_RightJoyconDrift:
-				return GZC_RightJoyconDrift.create();
-			//case E_BrokenBSPRendering:
-				//return GZC_BrokenBSPRendering.create();
-			case E_ScardeyItems:
-				return GZC_ScardeyItems.create();
-			case E_ClearAutoMap:
-				return GZC_ClearAutoMap.create();
-			case E_HideTimerAndEffects:
-				return GZC_HideTimerAndEffects.create();
-			case E_ResetEffectTimers:
-				return GZC_ResetEffectTimers.create();
-			case E_FrictionlessEnemies:
-				return GZC_FrictionlessEnemies.create();
-			case E_DuplicatePickups:
-				return GZC_DuplicatePickups.create();
-			case E_DuplicatingBarrels:
-				return GZC_DuplicatingBarrels.create();
-			case E_FakeLagCrash:
-				return GZC_FakeLagCrash.create();
-			case E_OUCH:
-				return GZC_OUCH.create();
-			case E_IncreasedSectorFriction:
-				return GZC_IncreasedSectorFriction.create();
-			case E_SuperSecretsEverywhere:
-				return GZC_SuperSecretsEverywhere.create();
-			case E_SuperNintendoDoom:
-				return GZC_SuperNintendoDoom.create();
-			case E_SeekerProjectiles:
-				return GZC_SeekerProjectiles.create();
-			case E_FastWeapons:
-				return GZC_FastWeapons.create();
-			case E_NegativeFastWeapons:
-				return GZC_NegativeFastWeapons.create();
-			case E_RandomWeaponFrameDuration:
-				return GZC_RandomWeaponFrameDuration.create();
-			case E_StartRecording:
-				return GZC_StartRecording.create();
-			case E_CacodemonHitscanners:
-				return GZC_CacodemonHitscanners.create();
-			case E_ArachnotronGrowthSpurt:
-				return GZC_ArachnotronGrowthSpurt.create();
-			case E_ExplodingBulletPuffs:
-				return GZC_ExplodingBulletPuffs.create();
-			case E_DiscoSkybox:
-				return GZC_DiscoSkybox.create();
-			case E_AllMonstersWakeUp:
-				return GZC_AllMonstersWakeUp.create();
-			case E_ParanoidOfBarrels:
-				return GZC_ParanoidOfBarrels.create();
-			case E_SlowProjectiles:
-				return GZC_SlowProjectiles.create();
-			case E_ExtraSlowProjectiles:
-				return GZC_ExtraSlowProjectiles.create();
-			case E_PainfullySlowProjectiles:
-				return GZC_PainfullySlowProjectiles.create();
-			case E_FastProjectiles:
-				return GZC_FastProjectiles.create();
-			case E_FartingPlayer:
-				return GZC_FartingPlayer.create();
-			case E_FartingMonsters:
-				return GZC_FartingMonsters.create();
-			case E_FartingItems:
-				return GZC_FartingItems.create();
-			case E_MoonGravity:
-				return GZC_MoonGravity.create();
-			case E_JupiterGravity:
-				return GZC_JupiterGravity.create();
-			case E_LimpProjectiles:
-				return GZC_LimpProjectiles.create();
-			case E_ShuffleAmmoTypes:
-				return GZC_ShuffleAmmoTypes.create();
-			case E_InverseFlyingRules:
-				return GZC_InverseFlyingRules.create();
-			case E_InfiniteAmmo:
-				return GZC_InfiniteAmmo.create();
-			case E_DoubleAmmo:
-				return GZC_DoubleAmmo.create();
-			case E_AutoPong:
-				return GZC_AutoPong.create();
-			case E_TallWeaponSprites:
-				return GZC_TallWeaponSprites.create();
-			case E_WideWeaponSprites:
-				return GZC_WideWeaponSprites.create();
-			case E_DoubleRunning:
-				return GZC_DoubleRunning.create();
-			case E_DisableRunning:
-				return GZC_DisableRunning.create();
-			case E_SuperHot:
-				return GZC_SuperHot.create();
-			case E_PortraitMode:
-				return GZC_PortraitMode.create();
-			case E_SetAllWallsToNoFlat:
-				return GZC_SetAllWallsToNoFlat.create();
-			case E_SetAllWallsToISuck:
-				return GZC_SetAllWallsToISuck.create();
-			case E_MorphIntoChicken:
-				return GZC_MorphIntoChicken.create();
-			case E_MorphIntoDog:
-				return GZC_MorphIntoDog.create();
-			case E_FullPainChances:
-				return GZC_FullPainChances.create();
-			case E_ZeroPainChances:
-				return GZC_ZeroPainChances.create();
-			case E_ChaosDevice:
-				return GZC_ChaosDevice.create();
-			case E_UpgradeToStimpack:
-				return GZC_UpgradeToStimpack.create();
-			case E_UpgradeToMedikit:
-				return GZC_UpgradeToMedikit.create();
-			case E_UpgradeToSoulsphere:
-				return GZC_UpgradeToSoulsphere.create();
-			case E_UpgradeToMegasphere:
-				return GZC_UpgradeToMegasphere.create();
-			case E_DestroyAllHealth:
-				return GZC_DestroyAllHealth.create();
-			case E_BetaSkulls:
-				return GZC_BetaSkulls.create();
-			case E_ShrunkTheDoomguy:
-				return GZC_ShrunkTheDoomguy.create();
-			case E_ContainmentBreach:
-				return GZC_ContainmentBreach.create();
-			case E_YouveBeenStruck:
-				return GZC_YouveBeenStruck.create();
-			case E_ZombiemanShotgunner:
-				return GZC_ZombiemanShotgunner.create();
-			case E_ZombiemanFireball:
-				return GZC_ZombiemanFireball.create();
-		}
-		
-		return GZC_DoNothing.create();
 	}
 }
 
@@ -328,138 +113,27 @@ enum E_EventType
 	E_Permnanent
 }
 
-enum E_Event
-{
-	E_TakeAllKeysAway,
-	E_ReplaceHealthWithBonuses,
-	E_ReplaceMedikitWithStimpack,
-	E_SpawnGreatGodImp,
-	E_TheFloorIsLava,
-	E_TheFloorIsNukage,
-	E_TheFloorIsSludge,
-	E_DisableForwardBackwards,
-	E_DisableStrafingMovement,
-	E_InvertPlayerMovement,
-	E_ShrinkPickups,
-	E_GameEndPlayer,
-	E_RestartLevel,
-	E_CantStopFiring,
-	E_NightmareMonsters,
-	E_NightmareRespawns,
-	E_SuperIcePhysics,
-	E_FallDamage,
-	E_TeleportPlayer,
-	E_Nothing,
-	E_DoubleTimerDuration,
-	E_HalfTimerDuration,
-	E_QuarterTimerDuration,
-	E_SetAllWallsToStartan,
-	E_SetAllWallsToFireblu,
-	E_ShuffleKeyTextures,
-	E_ShuffleItemsAround,
-	E_RollExtraEffects,
-	E_GiveMegaSphere,
-	E_GiveLightAmp,
-	E_GiveRadSuit,
-	E_GiveInvulnerabilitySphere,
-	E_GiveRandomWeapon,
-	E_GiveBerserk,
-	E_GiveHealthBonus,
-	E_GiveArmorBonus,
-	E_GiveSoulsphere,
-	E_GiveBlurSphere,
-	E_StatueEnemies,
-	E_WideMonsters,
-	E_TallMonsters,
-	E_SpinningMonsters,
-	E_MisalignAllTextures,
-	E_FakeGameEndPlayer,
-	E_SetMusicToCursedMidi,
-	E_AnkleBiterEnemies,
-	E_InventorySickness,
-	E_LeftJoyconDrift,
-	E_RightJoyconDrift,
-	//E_BrokenBSPRendering,
-	E_ScardeyItems,
-	E_ClearAutoMap,
-	E_HideTimerAndEffects,
-	E_ResetEffectTimers,
-	E_FrictionlessEnemies,
-	E_DuplicatePickups,
-	E_DuplicatingBarrels,
-	E_FakeLagCrash,
-	E_OUCH,
-	E_IncreasedSectorFriction,
-	E_SuperSecretsEverywhere,
-	E_SuperNintendoDoom,
-	E_SeekerProjectiles,
-	E_FastWeapons,
-	E_NegativeFastWeapons,
-	E_RandomWeaponFrameDuration,
-	E_StartRecording,
-	E_CacodemonHitscanners,
-	E_ArachnotronGrowthSpurt,
-	E_ExplodingBulletPuffs,
-	E_DiscoSkybox,
-	E_AllMonstersWakeUp,
-	E_ParanoidOfBarrels,
-	E_FakeNotification,
-	E_SlowProjectiles,
-	E_ExtraSlowProjectiles,
-	E_PainfullySlowProjectiles,
-	E_FastProjectiles,
-	E_FartingPlayer,
-	E_FartingMonsters,
-	E_FartingItems,
-	E_MoonGravity,
-	E_JupiterGravity,
-	E_ShuffleAmmoTypes,
-	E_LimpProjectiles,
-	E_InverseFlyingRules,
-	E_InfiniteAmmo,
-	E_DoubleAmmo,
-	E_AutoPong,
-	E_TallWeaponSprites,
-	E_WideWeaponSprites,
-	E_DoubleRunning,
-	E_DisableRunning,
-	E_SuperHot,
-	E_PortraitMode,
-	E_SetAllWallsToNoFlat,
-	E_SetAllWallsToISuck,
-	E_MorphIntoChicken,
-	E_MorphIntoDog,
-	E_FullPainChances,
-	E_ZeroPainChances,
-	E_ChaosDevice,
-	E_UpgradeToStimpack,
-	E_UpgradeToMedikit,
-	E_UpgradeToSoulsphere,
-	E_UpgradeToMegasphere,
-	E_DestroyAllHealth,
-	E_BetaSkulls,
-	E_ShrunkTheDoomguy,
-	E_ContainmentBreach,
-	E_YouveBeenStruck,
-	E_ZombiemanShotgunner,
-	E_ZombiemanFireball,
-	E_NumEvents
-}
-
-Class GZC_Event abstract play
+Class GZC_Event play
 {
 	String eventname;
 	Int duration;
 	Int life;
 	Bool activated;
 	Bool deleteme;
+	Bool skipme;
+	
 	E_EventType type;
+	
+	virtual void init() 
+	{
+		skipme = true;
+	}
 	virtual void eventFunc(){}
 	virtual void closeFunc(){}
 	virtual void spawnFunc(Actor mo){}
 	virtual void lineDamageFunc(WorldEvent event) {}
 	
-	//Prevents same effectsw from stacking, and can be used to prevent certain
+	//Prevents same effects from stacking, and can be used to prevent certain
 	//effects from creating bad combinations.
 	virtual bool verify()
 	{
