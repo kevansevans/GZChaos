@@ -10,6 +10,7 @@ Class SCP173 : Actor
 		
 		+Solid;
 		+LookAllAround;
+		+NoBlockMonst;
 		
 		MeleeRange 64;
 		MaxTargetRange 16;

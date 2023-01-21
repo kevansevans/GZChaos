@@ -1,3 +1,73 @@
+/*Class GZC_TurretEnemies : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			if (mo.resolveState('Missile'))
+			{
+				if (mo.health <= 0) continue;
+				if (mo.InStateSequence(mo.curState, mo.resolveState('Pain'))) continue;
+				if (!mo.InStateSequence(mo.curState, mo.resolveState('Missile')))
+				{
+					mo.setStateLabel('Missile');
+				}
+			}
+		}
+	}
+	override void init()
+	{
+		eventname = "Enemies stand their ground";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}*/
+
+Class GZC_AggressiveMissileMore : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			mo.bMissileMore = true;
+			mo.bMissileEvenMore = true;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.bMissileMore = def.bMissileMore;
+			mo.bMissileEvenMore = def.bMissileEvenMore;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Aggressive Enemies";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_YouveBeenStruck : GZC_Event
 {
 	override void eventFunc()

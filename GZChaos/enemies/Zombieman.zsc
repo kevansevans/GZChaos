@@ -65,3 +65,15 @@ Class GZC_Zombieman_Plasma : GZC_Zombieman
 			Goto See;
 	}
 }
+
+Class GZC_Zombieman_Rocket : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 A_CyberAttack();
+			POSS E 8;
+			Goto See;
+	}
+}

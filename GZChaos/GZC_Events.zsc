@@ -67,9 +67,10 @@ Class GZC_EventList play
 			
 			let _event = new(events[rngcounter]);
 			selectedevent = GZC_Event(_event);
-			selectedevent.init();
 			
 			if (!selectedEvent.verify()) continue;
+			
+			selectedevent.init();
 			
 			String classname = selectedevent.getClassName();
 			if (cachedEffects.find(classname) != cachedEffects.size()) continue;

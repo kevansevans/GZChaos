@@ -187,3 +187,97 @@ Class GZC_ZombiemanBaron : GZC_Event
 		deleteme = true;
 	}
 }
+
+Class GZC_ZombiemanPlasma : GZC_Event
+{
+	Array<ActorTracker> pointers;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Zombieman") continue;
+			
+			let zo = Actor.spawn("GZC_Zombieman_Plasma", mo.pos);
+			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
+			zo.angle = mo.angle;
+			tracker.pointer = zo;
+			pointers.push(tracker);
+			mo.destroy();
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "GZC_Zombieman")) continue;
+			
+			Actor.spawn("Zombieman", mo.pos);
+			mo.destroy();
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Plasma Zombiemen";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		deleteme = true;
+	}
+}
+
+Class GZC_ZombiemanRocket : GZC_Event
+{
+	Array<ActorTracker> pointers;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Zombieman") continue;
+			
+			let zo = Actor.spawn("GZC_Zombieman_Rocket", mo.pos);
+			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
+			zo.angle = mo.angle;
+			tracker.pointer = zo;
+			pointers.push(tracker);
+			mo.destroy();
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "GZC_Zombieman")) continue;
+			
+			Actor.spawn("Zombieman", mo.pos);
+			mo.destroy();
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Rocket Zombiemen";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		deleteme = true;
+	}
+}
