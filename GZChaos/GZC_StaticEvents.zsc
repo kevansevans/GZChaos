@@ -8,13 +8,6 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	GZC_EventList list;
 	
-	Array<String> criticals;
-	
-	double prevForwardMove1;
-	double prevForwardMove2;
-	double prevSideMove1;
-	double prevSideMove2;
-	
 	int timelimit;
 	EffectInventory effects;
 	
@@ -22,9 +15,15 @@ Class GZC_EventHandler : StaticEventHandler
 	bool pong;
 	bool superhot;
 	
+	int kills;
+	
+	int timerMode;
+	
 	override void NewGame()
 	{
 		list = GZC_EventList.create();
+		timerMode = E_Normal;
+		console.printf('Loaded in ' .. list.events.size() .. ' effects. Let the chaos begin!');
 	}
 
 	override void OnRegister()
@@ -32,8 +31,6 @@ Class GZC_EventHandler : StaticEventHandler
 		console.printf('Let the Chaos begin!');
 		
 		timer = 0;
-		
-		criticals.clear();
 	}
 	
 	void getPlayerInfo()
@@ -89,17 +86,31 @@ Class GZC_EventHandler : StaticEventHandler
 				break;
 			}
 		}
+		
+		timelimit = list.timelimit();
 			
 		if (player.health > 0)
 		{
 			
-			if (!player.countInv('GZC_SuperHotToken'))
+			switch (timerMode)
 			{
-				performModTic();
-			}
-			else
-			{
-				performTimeScale();
+				case E_Normal:
+					performModTic();
+					break;
+				case E_SuperHot:
+					performTimeScale();
+					break;
+				case E_PerKill:
+					if (kills)
+					{
+						performModTic(35);
+						--kills;
+					}
+					else
+					{
+						performModTic(0);
+					}
+					break;
 			}
 		}
 		
@@ -109,11 +120,9 @@ Class GZC_EventHandler : StaticEventHandler
 		uiIsHidden = player.countInv('GZC_HideTimerToken');
 	}
 	
-	void performModTic()
+	void performModTic(int steps = 1)
 	{
-		++timer;
-		
-		timelimit = list.timelimit();
+		timer += steps;
 		
 		if (list.timeLimit() - timer <= 0)
 		{
@@ -128,7 +137,7 @@ Class GZC_EventHandler : StaticEventHandler
 			{
 				if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration) effects.events[i].eventFunc();
 				if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
-				effects.events[i].life += 1;
+				effects.events[i].life += steps;
 				if (effects.events[i].life == effects.events[i].duration)
 				{
 					effects.events[i].closeFunc();
@@ -139,6 +148,14 @@ Class GZC_EventHandler : StaticEventHandler
 				}
 			}
 		}	
+	}
+	
+	override void WorldThingDied(WorldEvent _event)
+	{
+		if (_event.thing.target is "PlayerPawn")
+		{
+			++kills;
+		}
 	}
 	
 	override void worldThingSpawned(WorldEvent _event)
@@ -423,6 +440,13 @@ Class GZC_EventHandler : StaticEventHandler
 			}
 		}
 	}
+}
+
+enum E_TimerMode
+{
+	E_Normal,
+	E_SuperHot,
+	E_PerKill
 }
 
 /*

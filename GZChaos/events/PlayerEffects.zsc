@@ -26,6 +26,11 @@ Class GZC_CoffeeBreak : GZC_Event
 				activated = true;
 			}
 		}
+		
+		if (activated)
+		{
+			life = 0;
+		}
 	}
 	
 	override void closeFunc()

@@ -23,31 +23,6 @@ Class GZC_PortraitMode : GZC_Event
 
 class GZC_PortraitModeToken : inventory {}
 
-Class GZC_SuperHot : GZC_Event
-{
-	override void eventFunc()
-	{
-		let player = players[consoleplayer].mo;
-		player.giveInventory('GZC_SuperHotToken', 1);
-		activated = true;
-	}
-	
-	override void closeFunc()
-	{
-		let player = players[consoleplayer].mo;
-		player.takeInventory('GZC_SuperHotToken', 1);
-	}
-	
-	override void init()
-	{
-		eventname = "SUPER HOT";
-		duration = 35 * 30;
-		type = E_Timed;
-	}
-}
-
-Class GZC_SuperHotToken : Inventory {}
-
 Class GZC_AutoPong : GZC_Event
 {
 	override void eventFunc()
@@ -110,6 +85,9 @@ Class GZC_ResetEffectTimers : GZC_Event
 	}
 }
 
+Class GZC_HideTimerToken : Inventory
+{}
+
 Class GZC_HideTimerAndEffects : GZC_Event
 {
 	override void eventFunc()
@@ -128,88 +106,6 @@ Class GZC_HideTimerAndEffects : GZC_Event
 	{
 		eventname = "Hidden timer and effects";
 		duration = 35 * 60 * 3;
-		type = E_Timed;
-	}
-}
-
-Class GZC_HideTimerToken : Inventory {}
-
-Class GZC_DoubleTimerDuration : GZC_Event
-{
-	override bool verify()
-	{
-		bool result = Super.verify();
-	
-		PlayerPawn player = players[consoleplayer].mo;
-		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
-		
-		for (int i = 0; i < effects.events.size(); ++i)
-		{
-			GZC_Event event = effects.events[i];
-			if (event is "GZC_QuarterTimerDuration") return false;
-			if (event is "GZC_HalfTimerDuration") return false;
-		}
-		
-		return result;
-	}
-
-	override void eventFunc()
-	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.giveInventory('GZC_DoubleTimerToken', 1);
-	}
-	
-	override void closeFunc()
-	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.takeInventory('GZC_DoubleTimerToken', 1);
-	}
-	
-	override void init()
-	{
-		eventname = "1/2 timer speed";
-		duration = 35 * 60 * 5;
-		type = E_Timed;
-	}
-}
-
-Class GZC_DoubleTimerToken : Inventory {}
-
-Class GZC_HalfTimerDuration : GZC_Event
-{
-	override bool verify()
-	{
-		bool result = Super.verify();
-	
-		PlayerPawn player = players[consoleplayer].mo;
-		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
-		
-		for (int i = 0; i < effects.events.size(); ++i)
-		{
-			GZC_Event event = effects.events[i];
-			if (event is "GZC_DoubleTimerDuration") return false;
-			if (event is "GZC_QuarterTimerDuration") return false;
-		}
-		
-		return result;
-	}
-
-	override void eventFunc()
-	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.giveInventory('GZC_HalfTimerToken', 1);
-	}
-	
-	override void closeFunc()
-	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.takeInventory('GZC_HalfTimerToken', 1);
-	}
-	
-	override void init()
-	{
-		eventname = "2x timer speed";
-		duration = 35 * 60 * 2;
 		type = E_Timed;
 	}
 }
@@ -238,49 +134,6 @@ Class GZC_FuckYourGodmode : GZC_Event
 		type = E_Instant;
 	}
 }
-
-Class GZC_HalfTimerToken : Inventory {}
-
-Class GZC_QuarterTimerDuration : GZC_Event
-{
-	override bool verify()
-	{
-		bool result = Super.verify();
-	
-		PlayerPawn player = players[consoleplayer].mo;
-		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
-		
-		for (int i = 0; i < effects.events.size(); ++i)
-		{
-			GZC_Event event = effects.events[i];
-			if (event is "GZC_DoubleTimerDuration") return false;
-			if (event is "GZC_HalfTimerDuration") return false;
-		}
-		
-		return result;
-	}
-
-	override void eventFunc()
-	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.giveInventory('GZC_QuarterTimerToken', 1);
-	}
-	
-	override void closeFunc()
-	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.takeInventory('GZC_QuarterTimerToken', 1);
-	}
-	
-	override void init()
-	{
-		eventname = "4x timer speed";
-		duration = 35 * 60;
-		type = E_Timed;
-	}
-}
-
-Class GZC_QuarterTimerToken : Inventory {}
 
 Class GZC_RollExtraEffects : GZC_Event
 {

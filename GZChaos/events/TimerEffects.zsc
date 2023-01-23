@@ -1,0 +1,107 @@
+Class GZC_TimerEffect : GZC_Event
+{
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_TimerEffect") return false;
+		}
+		
+		return result;
+	}
+}
+
+Class GZC_SuperHot : GZC_TimerEffect
+{
+	override void eventFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.timermode = E_SuperHot;
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.timermode = E_Normal;
+	}
+	
+	override void init()
+	{
+		eventname = "SUPER HOT";
+		duration = 35 * 30;
+		type = E_Timed;
+	}
+}
+
+Class GZC_QuarterTimerDuration : GZC_TimerEffect
+{
+	override void eventFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.list.timemodifier = 0.25;
+	}
+	
+	override void closeFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.list.timemodifier = 1.0;
+	}
+	
+	override void init()
+	{
+		eventname = "4x timer speed";
+		duration = 35 * 60;
+		type = E_Timed;
+	}
+}
+
+Class GZC_HalfTimerDuration : GZC_TimerEffect
+{
+	override void eventFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.list.timemodifier = 0.5;
+	}
+	
+	override void closeFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.list.timemodifier = 1.0;
+	}
+	
+	override void init()
+	{
+		eventname = "2x timer speed";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
+Class GZC_DoubleTimerDuration : GZC_TimerEffect
+{
+	override void eventFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.list.timemodifier = 2.0;
+	}
+	
+	override void closeFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.list.timemodifier = 1;
+	}
+	
+	override void init()
+	{
+		eventname = "1/2 timer speed";
+		duration = 35 * 60 * 5;
+		type = E_Timed;
+	}
+}

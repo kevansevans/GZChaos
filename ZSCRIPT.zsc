@@ -25,5 +25,6 @@ version "4.9"
 #include "GZChaos/events/PickupEffects.zsc"
 #include "GZChaos/events/PlayerEffects.zsc"
 #include "GZChaos/events/SpriteEffects.zsc"
+#include "GZChaos/events/TimerEffects.zsc"
 
 #include "GZChaos/events/EnemyReplacements/Zombiemen.zsc"
