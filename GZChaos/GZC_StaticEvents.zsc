@@ -138,9 +138,10 @@ Class GZC_EventHandler : StaticEventHandler
 				if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration) effects.events[i].eventFunc();
 				if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
 				effects.events[i].life += steps;
-				if (effects.events[i].life == effects.events[i].duration)
+				if (effects.events[i].life >= effects.events[i].duration && !effects.events[i].deadEffect)
 				{
 					effects.events[i].closeFunc();
+					effects.events[i].deadEffect = true;
 				}
 				if (effects.events[i].life > (effects.events[i].duration + (35 * 30)) && effects.events[i].type != E_PerLevel)
 				{

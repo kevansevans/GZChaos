@@ -41,7 +41,7 @@ Class GZC_EventList play
 		
 		PlayerPawn player = players[consoleplayer].mo;
 		
-		base = int(base *= timemodifier);
+		base = int(base * timemodifier);
 	
 		return int(max(5, base));
 	}
@@ -52,14 +52,6 @@ Class GZC_EventList play
 	
 	GZC_Event getEffect(int _ignore = -1)
 	{
-		if (!set)
-		{
-			set = true;
-			let event = GZC_Event(new('GZC_QuarterTimerDuration'));
-			event.init();
-			return event;
-		}
-	
 		PlayerPawn player = players[consoleplayer].mo;
 		effects = EffectInventory(player.findInventory("EffectInventory"));
 		
@@ -125,9 +117,11 @@ Class GZC_Event play
 	String eventname;
 	Int duration;
 	Int life;
+	
 	Bool activated;
 	Bool deleteme;
 	Bool skipme;
+	Bool deadEffect;
 	
 	E_EventType type;
 	

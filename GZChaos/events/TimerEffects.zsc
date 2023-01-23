@@ -105,3 +105,81 @@ Class GZC_DoubleTimerDuration : GZC_TimerEffect
 		type = E_Timed;
 	}
 }
+
+Class GZC_TimerRunsOnKills : GZC_TimerEffect
+{
+	override void eventFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.timermode = E_PerKill;
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.timermode = E_Normal;
+	}
+	
+	override void init()
+	{
+		eventname = "1 kill = 1 second";
+		duration = 35 * 90;
+		type = E_Timed;
+	}
+}
+
+Class GZC_TimerBasedOnGoodHealth : GZC_Event
+{
+	override void eventFunc()
+	{
+		let event = GZC_Event.fetch();
+		let player = players[consoleplayer].mo;
+		event.list.timemodifier = max(0.01, 1 / (double(player.health) / 100.0));
+	}
+	
+	override void closeFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.list.timemodifier = 1.0;
+	}
+	
+	override void init()
+	{
+		eventname = "More Health = Faster Timer";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_TimerBasedOnBadHealth : GZC_Event
+{
+	override void eventFunc()
+	{
+		let event = GZC_Event.fetch();
+		let player = players[consoleplayer].mo;
+		double ratio;
+		if (player.health < 100)
+		{
+			ratio = (double(player.health) / 100.0 / 2.0) + 0.5;
+		}
+		else
+		{
+			ratio = (double(player.health) / 100.0);
+		}
+		event.list.timemodifier = ratio;
+	}
+	
+	override void closeFunc()
+	{
+		let event = GZC_Event.fetch();
+		event.list.timemodifier = 1.0;
+	}
+	
+	override void init()
+	{
+		eventname = "Less Health = Faster Timer";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
