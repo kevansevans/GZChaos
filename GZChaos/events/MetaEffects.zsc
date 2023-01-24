@@ -141,9 +141,11 @@ Class GZC_RollExtraEffects : GZC_Event
 
 	override void eventFunc()
 	{
+		let event = GZC_Event.fetch(); 
+	
 		if (gametic % 5 == 0 && bonuseffects > 0)
 		{
-			EventHandler.SendNetworkEvent("rolleffect");
+			event.addEffectToActive();
 			--bonuseffects;
 		}
 	}
