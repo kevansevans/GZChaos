@@ -1,3 +1,47 @@
+Class GZC_ExplosionOnDeath : GZC_Event
+{
+	override void deathFunc(Actor mo)
+	{
+		if (!mo.bIsMonster) return;
+		
+		let pos = mo.pos;
+		pos.z += (mo.height / 2);
+		let kaboomie = Actor.spawn('Kablooie', pos);
+		kaboomie.target = mo;
+	}
+	
+	override void init()
+	{
+		eventname = "Explosive Deaths";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class Kablooie : Actor
+{
+	default
+	{
+		-RocketTrail;
+		+NoGravity;
+		+OldRadiusDmg;
+		+Missile;
+	}
+
+	States
+	{
+		Spawn:
+			MISL B 4 Bright;
+			MISL B 4 Bright
+			{
+				target.A_Explode();
+			}
+			MISL C 6 Bright
+			MISL D 4 Bright;
+			stop;
+	}
+}
+
 Class GZC_RussianDollEnemies : GZC_Event
 {
 	double scalefactor;
