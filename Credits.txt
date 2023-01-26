@@ -14,6 +14,7 @@ Doug The Eagle
 	- Great God Imp and whatever sound effects they grabbed
 Alper002
 	- Proof reading over my shoulder and various effect ideas
+	- Testing
 Jimmy Squared
 	- D_RUNNNN midi
 	- Testing
@@ -29,6 +30,7 @@ Warren
 	- Testing
 Marisa Kirisame
 	- OUCH_M ZScript and related files. Used with permission.
+	- Testing
 Rachael
 	- Enemy tic code slowdown
 	- https://github.com/madame-rachelle/FloatTime
@@ -37,3 +39,5 @@ Raven Software
 Leon Zawada, Simon Rance 
 	- Return of The Triad, Dog Mode sprites, Sounds, and Decorate
 	- https://doomwiki.org/wiki/Return_of_the_Triad
+CutmanMike
+	- Blessing to use code and ideas from Corruption Cards
