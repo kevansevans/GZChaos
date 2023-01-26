@@ -29,6 +29,7 @@ Class GZC_ZombiemanShotgunner : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (mo.getClassName() != "Zombieman") continue;
+			if (mo.health <= 0) continue;
 			
 			let zo = Actor.spawn("GZC_Zombieman_Shotgun", mo.pos);
 			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
@@ -49,6 +50,7 @@ Class GZC_ZombiemanShotgunner : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (!(mo is "GZC_Zombieman")) continue;
+			if (mo.health <= 0) continue;
 			
 			Actor.spawn("Zombieman", mo.pos);
 			mo.destroy();
@@ -75,6 +77,7 @@ Class GZC_ZombiemanFireball : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (mo.getClassName() != "Zombieman") continue;
+			if (mo.health <= 0) continue;
 			
 			let zo = Actor.spawn("GZC_Zombieman_Fireball", mo.pos);
 			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
@@ -95,6 +98,7 @@ Class GZC_ZombiemanFireball : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (!(mo is "GZC_Zombieman")) continue;
+			if (mo.health <= 0) continue;
 			
 			Actor.spawn("Zombieman", mo.pos);
 			mo.destroy();
@@ -122,6 +126,7 @@ Class GZC_ZombiemanRepeater : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (mo.getClassName() != "Zombieman") continue;
+			if (mo.health <= 0) continue;
 			
 			let zo = Actor.spawn("GZC_Zombieman_Repeater", mo.pos);
 			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
@@ -142,6 +147,7 @@ Class GZC_ZombiemanRepeater : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (!(mo is "GZC_Zombieman")) continue;
+			if (mo.health <= 0) continue;
 			
 			Actor.spawn("Zombieman", mo.pos);
 			mo.destroy();
@@ -169,6 +175,7 @@ Class GZC_ZombiemanBaron : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (mo.getClassName() != "Zombieman") continue;
+			if (mo.health <= 0) continue;
 			
 			let zo = Actor.spawn("GZC_Zombieman_Baron", mo.pos);
 			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
@@ -189,6 +196,7 @@ Class GZC_ZombiemanBaron : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (!(mo is "GZC_Zombieman")) continue;
+			if (mo.health <= 0) continue;
 			
 			Actor.spawn("Zombieman", mo.pos);
 			mo.destroy();
@@ -216,6 +224,7 @@ Class GZC_ZombiemanPlasma : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (mo.getClassName() != "Zombieman") continue;
+			if (mo.health <= 0) continue;
 			
 			let zo = Actor.spawn("GZC_Zombieman_Plasma", mo.pos);
 			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
@@ -236,6 +245,7 @@ Class GZC_ZombiemanPlasma : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (!(mo is "GZC_Zombieman")) continue;
+			if (mo.health <= 0) continue;
 			
 			Actor.spawn("Zombieman", mo.pos);
 			mo.destroy();
@@ -263,6 +273,7 @@ Class GZC_ZombiemanRocket : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (mo.getClassName() != "Zombieman") continue;
+			if (mo.health <= 0) continue;
 			
 			let zo = Actor.spawn("GZC_Zombieman_Rocket", mo.pos);
 			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
@@ -283,6 +294,7 @@ Class GZC_ZombiemanRocket : GZC_Zombieman_Event
 		while (mo = Actor(it.next()))
 		{
 			if (!(mo is "GZC_Zombieman")) continue;
+			if (mo.health <= 0) continue;
 			
 			Actor.spawn("Zombieman", mo.pos);
 			mo.destroy();
