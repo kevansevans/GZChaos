@@ -1,0 +1,71 @@
+//Jitterskull from Ghoul's Forest 3
+Class Jitterskull : Actor
+{
+	Default
+	{
+		Scale 0.13;
+		Height 70;
+		Radius 15;
+		Speed 23;
+		Damage 255;
+		Health 800;
+		MONSTER;
+		+NOBLOCKMONST;
+		+DROPOFF;
+		+LOOKALLAROUND;
+		+QUICKTORETALIATE;
+		Obituary "%o was eaten by the jitterskull";
+		painchance 0;
+		mass 9999999999;
+	}
+	States
+	{
+		Spawn:
+			JSKL A 1 A_Look;
+			Loop;
+		See:
+			JSKL A 0 A_Stop;
+			JSKL A 0 A_StartSound("skullact");
+			JSKL D 0 A_Chase;
+			JSKL ABCBABCBCBABABCBCBABABCBCBA 1 A_FaceTarget;
+			JSKL A 0 A_JumpIfCloser(280, 21);
+			JSKL AAAAAAAAAAAAAAAAAAAA 0 A_Chase;
+			Loop;
+			JSKL D 0 A_FaceTarget;
+			JSKL D 0 A_StartSound("skullattack", CHAN_AUTO);
+			Goto Pain;
+		Pain: // Actually his attacking state to prevent him randomly charging at you from afar
+			JSKL D 0 A_FaceTarget;
+			JSKL D 1 A_SkullAttack;
+			JSKL D 0 A_JumpIfCloser(280, 2);
+			JSKL D 1 A_Stop;
+			Goto See;
+			JSKL D 0;
+			Loop;
+		Death:
+			JSKL D 0 A_StartSound("skulldie");
+			JSKL DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD 1 A_SpawnProjectile("ArchvileFirex2", 2, 0, random(0,360), 0);
+			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnProjectile("ArchvileFirex2", 0, 0, random(0,360), 0);
+			TNT1 A 0 A_Fall;
+			Stop;
+	}
+}
+
+Class ArchvileFirex : ArchvileFire
+{
+	Default
+	{
+		Speed 5;
+        +NOBLOCKMAP;
+        +NOCLIP;
+		-NOGRAVITY;
+	}
+}
+
+Class ArchvileFirex2 : ArchvileFirex
+{
+	Default
+	{
+		Speed 2;
+	}
+}

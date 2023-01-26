@@ -1,3 +1,80 @@
+Class GZC_JitterSkull : GZC_Event
+{
+	Array<ActorTracker> pointers;
+	Actor Jitter;
+	
+	String levelmus;
+	
+	override void eventFunc()
+	{
+		if (pointers.size() == 0)
+		{
+			pointers.clear();
+		
+			levelmus = level.music;
+		
+			ThinkerIterator it = ThinkerIterator.create("Actor");
+			Actor mo;
+		
+			while (mo = Actor(it.next()))
+			{
+				if (!mo.bIsMonster) continue;
+				if (mo.health <= 0) continue;
+				
+				let tracker = ActorTracker(Actor.spawn("ActorTracker", (0, 0, 0)));
+				tracker.type = mo.getClass();
+				tracker.pos = mo.pos;
+				pointers.push(tracker);
+				mo.destroy();
+			}
+			
+			let player = players[consoleplayer].mo;
+			player.S_ChangeMusic("");
+		}
+		
+		if (!Jitter) spawnJitterSkull();
+	}
+	
+	void spawnJitterSkull()
+	{
+		if (Jitter) return;
+		
+		Jitter = Actor.spawn('JitterSkull', (0,0,0));
+		let player = players[consoleplayer].mo;
+		
+		while (true)
+		{
+			int place = random(0, pointers.size() - 1);
+			Vector3 pos = pointers[place].pos;
+			Jitter.setOrigin(pos, false);
+			if (Jitter.isVisible(player, true)) continue;
+			Jitter.A_DamageSelf(0);
+			break;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.S_ChangeMusic(levelmus);
+		
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			Actor.spawn(pointers[i].type, pointers[i].pos);
+		}
+		
+		if (Jitter) Jitter.destroy();
+	}
+	
+	override void init()
+	{
+		eventname = "The Ghoul's Forest";
+		duration = 35 * 60;
+		type = E_Timed;
+		deleteme = true;
+	}
+}
+
 Class GZC_ContainmentBreach : GZC_Event
 {
 	Array<ActorTracker> pointers;
