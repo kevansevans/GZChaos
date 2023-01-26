@@ -2,15 +2,13 @@ Class GZC_PortraitMode : GZC_Event
 {
 	override void eventFunc()
 	{
-		let player = players[consoleplayer].mo;
-		player.giveInventory('GZC_PortraitModeToken', 1);
+		GZC_PortraitModeEvent(EventHandler.find('GZC_PortraitModeEvent')).enabled = true;
 		activated = true;
 	}
 	
 	override void closeFunc()
 	{
-		let player = players[consoleplayer].mo;
-		player.takeInventory('GZC_PortraitModeToken', 999);
+		GZC_PortraitModeEvent(EventHandler.find('GZC_PortraitModeEvent')).enabled = false;
 	}
 	
 	override void init()
@@ -21,20 +19,18 @@ Class GZC_PortraitMode : GZC_Event
 	}
 }
 
-class GZC_PortraitModeToken : inventory {}
-
 Class GZC_AutoPong : GZC_Event
 {
 	override void eventFunc()
 	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.giveInventory('GZC_PongToken', 1);
+		GZC_PongDrawer(EventHandler.find('GZC_PongDrawer')).enabled = true;
+		GZC_PongDrawer(EventHandler.find('GZC_PongDrawer')).ponginit = false;
+		activated = true;
 	}
 	
 	override void closeFunc()
 	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.takeInventory('GZC_PongToken', 1);
+		GZC_PongDrawer(EventHandler.find('GZC_PongDrawer')).enabled = false;
 	}
 	
 	override void init()
@@ -44,8 +40,6 @@ Class GZC_AutoPong : GZC_Event
 		type = E_Timed;
 	}
 }
-
-Class GZC_PongToken : Inventory {}
 
 Class GZC_ResetEffectTimers : GZC_Event
 {
@@ -85,21 +79,19 @@ Class GZC_ResetEffectTimers : GZC_Event
 	}
 }
 
-Class GZC_HideTimerToken : Inventory
-{}
-
 Class GZC_HideTimerAndEffects : GZC_Event
 {
 	override void eventFunc()
 	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.giveInventory('GZC_HideTimerToken', 1);
+		GZC_EffectDisplay(EventHandler.find('GZC_EffectDisplay')).hiddeneffect = true;
+		GZC_TimerDisplay(EventHandler.find('GZC_TimerDisplay')).hiddeneffect = true;
+		activated = true;
 	}
 	
 	override void closeFunc()
 	{
-		PlayerPawn player = players[consoleplayer].mo;
-		player.takeInventory('GZC_HideTimerToken', 1);
+		GZC_EffectDisplay(EventHandler.find('GZC_EffectDisplay')).hiddeneffect = false;
+		GZC_TimerDisplay(EventHandler.find('GZC_TimerDisplay')).hiddeneffect = false;
 	}
 
 	override void init()
