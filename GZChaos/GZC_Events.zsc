@@ -132,6 +132,7 @@ Class GZC_Event play
 	virtual void eventFunc(){}
 	virtual void closeFunc(){}
 	virtual void spawnFunc(Actor mo){}
+	virtual void deathFunc(Actor mo){}
 	virtual void lineDamageFunc(WorldEvent event) {}
 	
 	//Prevents same effects from stacking, and can be used to prevent certain
