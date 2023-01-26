@@ -1,3 +1,34 @@
+Class GZC_NoMoreInfighting : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			mo.bNoInFighting = true;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.bNoInFighting = def.bNoInFighting;
+		}
+	}
+}
+
 Class GZC_ExplosionOnDeath : GZC_Event
 {
 	override void deathFunc(Actor mo)
