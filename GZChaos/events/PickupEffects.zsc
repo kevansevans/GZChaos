@@ -1,3 +1,33 @@
+Class GZC_WanderingPickups : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is "Inventory")) continue;
+			if (mo is "key" || mo is "PuzzleItem") continue;
+			
+			mo.speed = 8;
+			mo.bNoBlockMonst = true;
+			mo.bCanUseWalls = true;
+			
+			if (gametic % 3 != 0) continue;
+			
+			mo.A_Wander();
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Wandering items";
+		duration = 35 * 30 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_HealthPickupModifier : GZC_Event
 {
 	override bool verify()

@@ -1,3 +1,30 @@
+Class GZC_RussianDollEnemies : GZC_Event
+{
+	double scalefactor;
+
+	override void deathFunc(Actor _mo)
+	{
+		if (!_mo.bIsMonster) return;
+		if (_mo.scale.x <= 0.4) return;
+		if (_mo.target is 'PlayerPawn')
+		{
+			let doll = _mo.A_DropItem(_mo.getClass());
+			doll.scale.x = _mo.scale.x * scalefactor;
+			doll.scale.y = _mo.scale.y * scalefactor;
+			let def = getDefaultByType(_mo.getClass());
+			doll.Health = int(double(def.health) * min(doll.scale.x, 1));
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Matryoshka";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		scalefactor = 0.8;
+	}
+}
+
 /*Class GZC_TurretEnemies : GZC_Event
 {
 	override void eventFunc()

@@ -1,3 +1,42 @@
+Class GZC_CantHaveShitInDetroit : GZC_Event
+{
+	override void eventFunc()
+	{
+		Array<String> items;
+		items.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let item = Inventory(mo);
+			if (!item) continue;
+			if (!item.owner) continue;
+			if (!(item.owner is 'PlayerPawn')) continue;
+			if (item is 'PuzzleItem' || item is 'Key') continue;
+			if (item is 'Fist' || item is 'Pistol') continue;
+			
+			items.push(item.getClassName());
+		}
+		
+		let player = players[consoleplayer].mo;
+		int rng = random(0, items.size() - 1);
+		player.TakeInventory(items[rng], 0x7FFFFFFF);
+		String itemname = (items[rng] == "HexenArmor" ? "Armor" : items[rng]);
+		eventname = "Dude, where's my " .. itemname .. "?";
+		
+		activated = true;
+	}
+
+	override void init()
+	{
+		eventname = "This is a placeholder";
+		duration = 35 * 30;
+		type = E_Instant;
+	}
+}
+
 Class GZC_DoubleAmmo : GZC_Event
 {
 	override void eventFunc()
