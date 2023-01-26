@@ -1,0 +1,19 @@
+class GZC_PortraitModeEvent : EventHandler
+{
+	bool enabled;
+
+	override void onRegister()
+	{
+		SetOrder(98);
+	}
+	
+	override void renderUnderlay(RenderEvent event)
+	{
+		if (!enabled) return;
+	
+		double ratio = Screen.getHeight() * (9.0 / 16.0);
+			
+		Screen.drawThickLine(0, 0, (Screen.getWidth() / 2) - (ratio / 2), 0, Screen.getHeight() * 2 + 40, Color("000000"));
+		Screen.drawThickLine((Screen.getWidth() / 2) + (ratio / 2), 0, Screen.getWidth(), 0, Screen.getHeight() * 2 + 40, Color("000000"));
+	}
+}

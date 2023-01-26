@@ -1,0 +1,94 @@
+class GZC_EffectDisplay : EventHandler
+{
+	bool hiddenEffect;
+	
+	GZC_EventHandler root;
+	GZC_EventList list;
+	
+	override void newGame()
+	{
+		hiddenEffect = false;
+		
+		SetOrder(2);
+	}
+	
+	override void WorldTick()
+	{
+		if (!root) getRootHandler();
+	}
+	
+	override void RenderOverlay(RenderEvent event)
+	{
+		let effects = root.effects;
+		if (!effects) return;
+		
+		if (effects.events.size() > 0)
+		{
+			int yOffset = 100;
+			for (int i = 0; i < effects.events.size(); ++i)
+			{
+				if (hiddenEffect && !(effects.events[i] is "GZC_HideTimerAndEffects")) continue;
+			
+				GZC_Event effect = effects.events[i];
+				int fontcolor = Font.CR_White;
+				
+				if (effect.life > effect.duration || effect.type != E_Timed) fontcolor = Font.CR_DarkGray;
+				if (effect.life < 35) fontcolor = Font.CR_Yellow;
+				
+				Screen.DrawText(BIGFONT, fontcolor, 20, (yoffset - 20), effect.eventname, DTA_ScaleX, 1.5, DTA_ScaleY, 1.5);
+				if (effect.type == E_Timed && effect.life < effect.duration)
+				{
+					double ratio = 1 - (double(effect.life) / double(effect.duration));
+					Screen.DrawThickLine(20, yOffset += 10, 20 + (200 * ratio), yOffset, 10, color("FF0000"), 255);
+				}
+				yOffset += 60;
+			}
+		}
+	}
+	
+	void getRootHandler()
+	{
+		root = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+		list = root.list;
+	}
+}
+
+Class GZC_TimerDisplay : EventHandler
+{
+	bool hiddenEffect;
+
+	GZC_EventHandler root;
+	GZC_EventList list;
+	
+	int timelimit;
+
+	override void onRegister()
+	{
+		SetOrder(200);
+	}
+	
+	override void WorldTick()
+	{
+		if (!root) getRootHandler();
+		
+		timelimit = list.timelimit();
+	}
+
+	override void RenderUnderlay(RenderEvent event)
+	{
+		if (!root) return;
+	
+		if (!hiddenEffect)
+		{
+			double ratio = root.timer / timeLimit;
+			double width = ratio * double(Screen.getWidth());
+			Screen.DrawThickLine(0, 5, width, 5, 10, Color("00CC00"));
+		}
+	}
+	
+	void getRootHandler()
+	{
+		root = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+		list = root.list;
+	}
+}

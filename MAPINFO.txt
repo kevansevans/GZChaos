@@ -2,4 +2,8 @@ GameInfo
 {
 	AddEventHandlers = "GZC_EventHandler"
 	AddEventHandlers = "GZC_EntropyMaintainer"
+	AddEventHandlers = "GZC_EffectDisplay"
+	AddEventHandlers = "GZC_TimerDisplay"
+	AddEventHandlers = "GZC_PortraitModeEvent"
+	AddEventHandlers = "GZC_PongDrawer"
 }

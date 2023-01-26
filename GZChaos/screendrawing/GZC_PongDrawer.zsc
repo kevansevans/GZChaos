@@ -1,0 +1,169 @@
+class GZC_PongDrawer : EventHandler
+{
+	bool enabled;
+	
+	bool ponginit;
+	vector2 padApos;
+	vector2 padBpos;
+	vector2 ballpos;
+	vector2 ballspeed;
+	
+	int ballradius;
+	int paddleHeight;
+	int paddleWidth;
+	
+	int leftScore;
+	int rightScore;
+	
+	override void onRegister()
+	{
+		setOrder(50);
+	}
+	
+	override void WorldTick()
+	{
+		if (enabled) runPong();
+	}
+	
+	override void renderOverlay(RenderEvent event)
+	{
+		if (!enabled) return;
+		
+		Screen.drawThickLine(ballpos.x - ballradius, ballpos.y - ballradius, ballpos.x + ballradius, ballpos.y - ballradius, ballradius * 2, Color("FFFFFF"));
+			
+		Screen.drawThickLine(padAPos.x, padAPos.y - (paddleHeight / 2), padAPos.x + paddleWidth, padAPos.y - (paddleHeight / 2), paddleHeight, Color("FFFFFF"));
+		Screen.drawThickLine(padBPos.x, padBPos.y - (paddleHeight / 2), padBPos.x + paddleWidth, padBPos.y - (paddleHeight / 2), paddleHeight, Color("FFFFFF"));
+		
+		Screen.drawThickLine(Screen.getWidth() / 2 - 2, -10, Screen.getWidth() / 2 + 2, -10, Screen.getHeight() * 2 + 40, Color("FFFFFF"));
+		
+		Screen.DrawText(BIGFONT, Font.CR_WHITE, Screen.getWidth() / 2 - 80, 20, '' .. leftScore, DTA_ScaleX, 5, DTA_ScaleY, 5);
+		Screen.DrawText(BIGFONT, Font.CR_WHITE, Screen.getWidth() / 2 + 20, 20, '' .. rightScore, DTA_ScaleX, 5, DTA_ScaleY, 5);
+	}
+	
+	void runPong()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+	
+		if (!ponginit)
+		{
+			ballradius = 12;
+			ballpos = (Screen.getWidth() / 2, Screen.getHeight() / 2);
+			
+			double xspeed = 10 * cos(random(0, 359));
+			double yspeed = 10 * cos(random(0, 359));
+			
+			ballspeed = (xspeed, yspeed);
+			
+			paddleWidth = 12;
+			paddleHeight = 120;
+			
+			padAPos = (0, (Screen.getHeight() / 2) - (paddleHeight / 2));
+			padBPos = (0, (Screen.getHeight() / 2) - (paddleHeight / 2));
+			
+			leftScore = 0;
+			rightScore = 0;
+			
+			ponginit = true;
+		}
+		
+		padAPos.x = 40;
+		padBPos.x = Screen.getWidth() - 40 - paddleWidth;
+		
+		ballpos += ballspeed;
+		
+		if (ballpos.x < -20 || ballpos.x > Screen.getWidth() + 20)
+		{
+			if (ballpos.x < -20) ++rightScore;
+			else ++leftScore;
+		
+			ballpos = (Screen.getWidth() / 2, Screen.getHeight() / 2);
+			
+			int angle = random(0, 359);
+			
+			double xspeed = 10 * cos(angle);
+			double yspeed = 10 * sin(angle);
+			
+			ballspeed = (xspeed, yspeed);
+		}
+		
+		if (ballpos.y - ballradius < 0 || ballpos.y + ballradius > Screen.getHeight()) 
+		{
+			
+			ballspeed.y *= -1;
+			player.A_StartSound("pong/wall", CHAN_AUTO);
+		}
+		
+		if (ballspeed.x < 0 && ballPos.x < Screen.getWidth() / 2)
+		{
+			if (ballpos.y + ballradius > padAPos.y + paddleheight)
+			{
+				padAPos.y += min(10, (ballpos.y + ballradius) - (padAPos.y + paddleheight)); 
+			}
+			
+			if (ballpos.y - ballradius < padAPos.y)
+			{
+				padAPos.y -= min(10, padAPos.y - ballpos.y - ballradius); 
+			}
+			
+			padAPos.y = max(40 + paddleheight, padAPos.y);
+			padAPos.y = min(Screen.getHeight() - 20 - (paddleheight / 2) , padAPos.y);
+		
+			if (ballpos.x - ballRadius < padApos.x + paddleWidth)
+			{
+				if (ballpos.y - ballradius > padAPos.y - (paddleHeight / 2) &&
+					ballpos.y + ballradius < padAPos.y + (paddleheight / 2))
+				{
+					int aangle = random(0, 359);
+				
+					double xspeed = 10 * cos(aangle);
+					double yspeed = 10 * sin(aangle);
+					if (xspeed < 0) xspeed *= -1;
+					
+					ballspeed = (xspeed, yspeed);
+					
+					player.A_StartSound("pong/paddle", CHAN_AUTO);
+				}
+			}
+		}
+		
+		if (ballspeed.x > 0 && ballPos.x > Screen.getWidth() / 2)
+		{
+			if (ballpos.y + ballradius > padBPos.y + paddleheight)
+			{
+				padBPos.y += min(10, (ballpos.y + ballradius) - (padBPos.y + paddleheight)); 
+			}
+			
+			if (ballpos.y - ballradius < padBPos.y)
+			{
+				padBPos.y -= min(10, padBPos.y - ballpos.y - ballradius); 
+			}
+			
+			padBPos.y = max(40 + paddleheight, padBPos.y);
+			padBPos.y = min(Screen.getHeight() - 20 - (paddleheight / 2) , padBPos.y);
+			
+			
+			if (ballpos.x + ballRadius > padBpos.x - paddleWidth)
+			{
+				if (ballpos.y - ballradius > padBpos.y - (paddleHeight / 2) &&
+					ballpos.y + ballradius < padBpos.y + (paddleheight / 2))
+				{
+					int bangle = random(0, 359);
+				
+					double xspeed = 10 * cos(bangle);
+					double yspeed = 10 * sin(bangle);
+					if (xspeed > 0) xspeed *= -1;
+					
+					ballspeed = (xspeed, yspeed);
+					
+					player.A_StartSound("pong/paddle", CHAN_AUTO);
+				}
+			}
+			
+		}
+		
+		padAPos.y = max(40, padAPos.y);
+		padAPos.y = min(Screen.getHeight() - 40, padAPos.y);
+		padBPos.y = max(40, padBPos.y);
+		padBPos.y = min(Screen.getHeight() - 40, padBPos.y);
+	}
+}
