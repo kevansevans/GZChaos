@@ -129,7 +129,7 @@ Class GZC_TimerRunsOnKills : GZC_TimerEffect
 	}
 }
 
-Class GZC_TimerBasedOnGoodHealth : GZC_Event
+Class GZC_TimerBasedOnGoodHealth : GZC_TimerEffect
 {
 	override void eventFunc()
 	{
@@ -152,7 +152,7 @@ Class GZC_TimerBasedOnGoodHealth : GZC_Event
 	}
 }
 
-Class GZC_TimerBasedOnBadHealth : GZC_Event
+Class GZC_TimerBasedOnBadHealth : GZC_TimerEffect
 {
 	override void eventFunc()
 	{
