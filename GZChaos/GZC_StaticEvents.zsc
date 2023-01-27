@@ -70,6 +70,8 @@ Class GZC_EventHandler : StaticEventHandler
 		}
 	}
 	
+	bool set;
+	
 	override void WorldTick()
 	{
 		if (level.LevelNum == 999) return;

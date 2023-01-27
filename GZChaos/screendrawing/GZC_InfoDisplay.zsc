@@ -24,7 +24,7 @@ class GZC_EffectDisplay : EventHandler
 		
 		if (effects.events.size() > 0)
 		{
-			int yOffset = 100;
+			int yOffset = 150;
 			for (int i = 0; i < effects.events.size(); ++i)
 			{
 				if (hiddenEffect && !(effects.events[i] is "GZC_HideTimerAndEffects")) continue;

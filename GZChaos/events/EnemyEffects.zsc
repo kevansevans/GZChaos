@@ -1,3 +1,58 @@
+Class GZC_ShuffleMonsters : GZC_Event
+{
+	Array<Actor> monsters;
+	
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.bNoTarget = true;
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		monsters.clear();
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			mo.target = null;
+			monsters.push(mo);
+		}
+		
+		for (int i = 0; i < monsters.size(); ++i)
+		{
+			int index_a = -1;
+			int index_b = -1;
+		
+			while (index_a == index_b)
+			{
+				index_a = random(0, monsters.size() - 1);
+				index_b = random(0, monsters.size() - 1);
+			}
+			
+			vector3 pos_a = monsters[index_a].pos;
+			vector3 pos_b = monsters[index_b].pos;
+			
+			monsters[index_a].setOrigin(pos_b, false);
+			monsters[index_b].setOrigin(pos_a, false);
+		}
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.bNoTarget = false;
+	}
+	
+	override void init()
+	{
+		eventname = "Shuffle Monsters";
+		duration = 35 * 5;
+		type = E_Timed;
+	}
+}
+
 Class GZC_NoMoreInfighting : GZC_Event
 {
 	override void eventFunc()
@@ -26,6 +81,13 @@ Class GZC_NoMoreInfighting : GZC_Event
 			
 			mo.bNoInFighting = def.bNoInFighting;
 		}
+	}
+	
+	override void init()
+	{
+		eventname = "No infighting";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
@@ -67,7 +129,7 @@ Class Kablooie : Actor
 			{
 				target.A_Explode();
 			}
-			MISL C 6 Bright
+			MISL C 6 Bright;
 			MISL D 4 Bright;
 			stop;
 	}
