@@ -22,6 +22,8 @@ class GZC_EffectDisplay : EventHandler
 		let effects = root.effects;
 		if (!effects) return;
 		
+		double scaley = double(Screen.getHeight()) / 1440.0;
+		
 		if (effects.events.size() > 0)
 		{
 			int yOffset = 150;
@@ -35,11 +37,12 @@ class GZC_EffectDisplay : EventHandler
 				if (effect.life > effect.duration || effect.type != E_Timed) fontcolor = Font.CR_DarkGray;
 				if (effect.life < 35) fontcolor = Font.CR_Yellow;
 				
-				Screen.DrawText(BIGFONT, fontcolor, 20, (yoffset - 20), effect.eventname, DTA_ScaleX, 1.5, DTA_ScaleY, 1.5);
+				Screen.DrawText(BIGFONT, fontcolor, 20 * scaley, (yoffset - 20) * scaley, effect.eventname, DTA_ScaleX, 1.5 * scaley, DTA_ScaleY, 1.5 * scaley);
 				if (effect.type == E_Timed && effect.life < effect.duration)
 				{
 					double ratio = 1 - (double(effect.life) / double(effect.duration));
-					Screen.DrawThickLine(20, yOffset += 10, 20 + (200 * ratio), yOffset, 10, color("FF0000"), 255);
+					yOffset += 10;
+					Screen.DrawThickLine(20 * scaley, yOffset * scaley, 20 + (200 * ratio * scaley), yOffset * scaley, 10, color("FF0000"), 255);
 				}
 				yOffset += 60;
 			}
