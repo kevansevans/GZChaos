@@ -161,7 +161,7 @@ Class GZC_EventHandler : StaticEventHandler
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
 			GZC_Event event = effects.events[i];
-			event.deathFunc(_event.thing);
+			if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration) event.deathFunc(_event.thing);
 		}
 	}
 	
@@ -173,7 +173,7 @@ Class GZC_EventHandler : StaticEventHandler
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
 			GZC_Event event = effects.events[i];
-			event.spawnFunc(_event.thing);
+			if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration) event.spawnFunc(_event.thing);
 		}
 	}
 	
