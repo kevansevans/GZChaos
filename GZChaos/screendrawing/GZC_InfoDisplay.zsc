@@ -60,11 +60,36 @@ Class GZC_TimerDisplay : EventHandler
 	GZC_EventHandler root;
 	GZC_EventList list;
 	
+	int selectedColor;
+	TextureID bar;
+	
+	static const string texnames[] = {
+		"GREEN",
+		"RED",
+		"BLUE",
+		"PINK",
+		"YELLOW",
+		"CYAN",
+		"WHITE",
+		"LGBT",
+		"LESBI",
+		"BISEX",
+		"PANSEX",
+		"TRANS",
+		"ACE",
+		"NONBI",
+		"FIREBLU1"
+	};
+	
 	int timelimit;
 
 	override void onRegister()
 	{
 		SetOrder(200);
+		
+		selectedColor = -1;
+		
+		updateBar(0);
 	}
 	
 	override void WorldTick()
@@ -72,6 +97,22 @@ Class GZC_TimerDisplay : EventHandler
 		if (!root) getRootHandler();
 		
 		timelimit = list.timelimit();
+		
+		Cvar cvarColor = Cvar.getCvar("GZC_TimerColor", players[consoleplayer]);
+		if (cvarcolor)
+		{
+			int selection = cvarcolor.getInt();
+			if (selection != selectedColor)
+			{
+				selectedColor = selection;
+				updateBar(selectedColor);
+			}
+		}
+	}
+	
+	void updateBar(int _selected)
+	{
+		bar = TexMan.CheckForTexture(texnames[_selected]);
 	}
 
 	override void RenderUnderlay(RenderEvent event)
@@ -82,7 +123,10 @@ Class GZC_TimerDisplay : EventHandler
 		{
 			double ratio = root.timer / timeLimit;
 			double width = ratio * double(Screen.getWidth());
-			Screen.DrawThickLine(0, 5, width, 5, 10, Color("00CC00"));
+			int tWidth, tHeight = TexMan.GetSize(bar);
+			Screen.SetClipRect(0, 0, int(width), 10);
+			Screen.drawTexture(bar, true, 0, 0, DTA_DestWidth, Screen.getWidth(), DTA_DestHeight, tHeight);
+			Screen.clearClipRect();
 		}
 	}
 	
