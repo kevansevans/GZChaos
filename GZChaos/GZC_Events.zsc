@@ -135,6 +135,12 @@ Class GZC_Event play
 	virtual void deathFunc(Actor mo){}
 	virtual void lineDamageFunc(WorldEvent event) {}
 	
+	virtual void morphActor(Actor mo, Class<Actor> type)
+	{
+		mo.bDontMorph = false;
+		mo.A_Morph(type, self.duration - self.life);
+	}
+	
 	//Prevents same effects from stacking, and can be used to prevent certain
 	//effects from creating bad combinations.
 	virtual bool verify()

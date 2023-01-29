@@ -31,31 +31,17 @@ Class GZC_ZombiemanShotgunner : GZC_Zombieman_Event
 			if (mo.getClassName() != "Zombieman") continue;
 			if (mo.health <= 0) continue;
 			
-			let zo = Actor.spawn("GZC_Zombieman_Shotgun", mo.pos);
-			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
-			zo.angle = mo.angle;
-			tracker.pointer = zo;
-			pointers.push(tracker);
-			mo.destroy();
+			morphActor(mo, "GZC_Zombieman_Shotgun");
 		}
 		
 		activated = true;
 	}
 	
-	override void closeFunc()
+	override void spawnFunc(Actor mo)
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (!(mo is "GZC_Zombieman")) continue;
-			if (mo.health <= 0) continue;
-			
-			Actor.spawn("Zombieman", mo.pos);
-			mo.destroy();
-		}
+		morphActor(mo, "GZC_Zombieman_Shotgun");
 	}
+	
 	override void init()
 	{
 		eventname = "Shotgun Zombiemen";
@@ -79,30 +65,15 @@ Class GZC_ZombiemanFireball : GZC_Zombieman_Event
 			if (mo.getClassName() != "Zombieman") continue;
 			if (mo.health <= 0) continue;
 			
-			let zo = Actor.spawn("GZC_Zombieman_Fireball", mo.pos);
-			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
-			zo.angle = mo.angle;
-			tracker.pointer = zo;
-			pointers.push(tracker);
-			mo.destroy();
+			morphActor(mo, "GZC_Zombieman_Fireball");
 		}
 		
 		activated = true;
 	}
 	
-	override void closeFunc()
+	override void spawnFunc(Actor mo)
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (!(mo is "GZC_Zombieman")) continue;
-			if (mo.health <= 0) continue;
-			
-			Actor.spawn("Zombieman", mo.pos);
-			mo.destroy();
-		}
+		morphActor(mo, "GZC_Zombieman_Fireball");
 	}
 
 	override void init()
@@ -128,30 +99,15 @@ Class GZC_ZombiemanRepeater : GZC_Zombieman_Event
 			if (mo.getClassName() != "Zombieman") continue;
 			if (mo.health <= 0) continue;
 			
-			let zo = Actor.spawn("GZC_Zombieman_Repeater", mo.pos);
-			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
-			zo.angle = mo.angle;
-			tracker.pointer = zo;
-			pointers.push(tracker);
-			mo.destroy();
+			morphActor(mo, "GZC_Zombieman_Repeater");
 		}
 		
 		activated = true;
 	}
 	
-	override void closeFunc()
+	override void spawnFunc(Actor mo)
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (!(mo is "GZC_Zombieman")) continue;
-			if (mo.health <= 0) continue;
-			
-			Actor.spawn("Zombieman", mo.pos);
-			mo.destroy();
-		}
+		morphActor(mo, "GZC_Zombieman_Repeater");
 	}
 
 	override void init()
@@ -177,30 +133,15 @@ Class GZC_ZombiemanBaron : GZC_Zombieman_Event
 			if (mo.getClassName() != "Zombieman") continue;
 			if (mo.health <= 0) continue;
 			
-			let zo = Actor.spawn("GZC_Zombieman_Baron", mo.pos);
-			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
-			zo.angle = mo.angle;
-			tracker.pointer = zo;
-			pointers.push(tracker);
-			mo.destroy();
+			morphActor(mo, "GZC_Zombieman_Baron");
 		}
 		
 		activated = true;
 	}
 	
-	override void closeFunc()
+	override void spawnFunc(Actor mo)
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (!(mo is "GZC_Zombieman")) continue;
-			if (mo.health <= 0) continue;
-			
-			Actor.spawn("Zombieman", mo.pos);
-			mo.destroy();
-		}
+		morphActor(mo, "GZC_Zombieman_Baron");
 	}
 
 	override void init()
@@ -226,30 +167,15 @@ Class GZC_ZombiemanPlasma : GZC_Zombieman_Event
 			if (mo.getClassName() != "Zombieman") continue;
 			if (mo.health <= 0) continue;
 			
-			let zo = Actor.spawn("GZC_Zombieman_Plasma", mo.pos);
-			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
-			zo.angle = mo.angle;
-			tracker.pointer = zo;
-			pointers.push(tracker);
-			mo.destroy();
+			morphActor(mo, "GZC_Zombieman_Plasma");
 		}
 		
 		activated = true;
 	}
 	
-	override void closeFunc()
+	override void spawnFunc(Actor mo)
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (!(mo is "GZC_Zombieman")) continue;
-			if (mo.health <= 0) continue;
-			
-			Actor.spawn("Zombieman", mo.pos);
-			mo.destroy();
-		}
+		morphActor(mo, "GZC_Zombieman_Plasma");
 	}
 
 	override void init()
@@ -275,30 +201,15 @@ Class GZC_ZombiemanRocket : GZC_Zombieman_Event
 			if (mo.getClassName() != "Zombieman") continue;
 			if (mo.health <= 0) continue;
 			
-			let zo = Actor.spawn("GZC_Zombieman_Rocket", mo.pos);
-			let tracker = ActorTracker(Actor.spawn("ActorTracker"));
-			zo.angle = mo.angle;
-			tracker.pointer = zo;
-			pointers.push(tracker);
-			mo.destroy();
+			morphActor(mo, "GZC_Zombieman_Rocket");
 		}
 		
 		activated = true;
 	}
 	
-	override void closeFunc()
+	override void spawnFunc(Actor mo)
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (!(mo is "GZC_Zombieman")) continue;
-			if (mo.health <= 0) continue;
-			
-			Actor.spawn("Zombieman", mo.pos);
-			mo.destroy();
-		}
+		morphActor(mo, "GZC_Zombieman_Rocket");
 	}
 
 	override void init()

@@ -9,3 +9,20 @@ Class EffectInventory : Inventory
 {
 	Array<GZC_Event> events;
 }
+
+Class EmptyActor : MorphedMonster
+{
+	default
+	{
+		-Solid;
+		-Shootable;
+		-CountKill;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+			Loop;
+	}
+}
