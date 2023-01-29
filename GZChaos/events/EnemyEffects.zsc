@@ -127,7 +127,7 @@ Class Kablooie : Actor
 			MISL B 4 Bright;
 			MISL B 4 Bright
 			{
-				target.A_Explode();
+				if (target) target.A_Explode();
 			}
 			MISL C 6 Bright;
 			MISL D 4 Bright;
