@@ -21,6 +21,7 @@ Class GZC_EventHandler : StaticEventHandler
 	{
 		list = GZC_EventList.create();
 		timerMode = E_Normal;
+		timer = 0;
 		console.printf('Loaded in ' .. list.events.size() .. ' effects. Let the chaos begin!');
 	}
 
