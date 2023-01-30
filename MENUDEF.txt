@@ -26,4 +26,7 @@ OptionValue "TimerColors"
 	12, "Ace Pride"
 	13, "Nonbinary Pride"
 	14, "Fireblu"
+	15, "Bloodfalls"
+	16, "Lava"
+	17, "Nukkage"
 }
