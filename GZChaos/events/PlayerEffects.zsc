@@ -1,3 +1,114 @@
+Class GZC_ReducedFieldOfView : GZC_Event
+{
+	override void eventFunc()
+	{
+		let inf = players[consoleplayer];
+		
+		inf.FOV = 30;
+	}
+	
+	override void closeFunc()
+	{
+		players[consoleplayer].FOV = players[consoleplayer].desiredFOV;
+	}
+	
+	override void init()
+	{
+		eventname = "Reduced FOV";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_QuakeFOV : GZC_Event
+{
+	override void eventFunc()
+	{
+		let inf = players[consoleplayer];
+		
+		inf.FOV = 150;
+	}
+	
+	override void closeFunc()
+	{
+		players[consoleplayer].FOV = players[consoleplayer].desiredFOV;
+	}
+	
+	override void init()
+	{
+		eventname = "Quake PRO";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_ThirdPerson : GZC_Event
+{
+	override void eventFunc()
+	{
+		players[consoleplayer].cheats |= CF_ChaseCam;
+	}
+	
+	override void closeFunc()
+	{
+		players[consoleplayer].cheats &= ~(CF_ChaseCam);
+	}
+	
+	override void init()
+	{
+		eventname = "Chase Cam";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_DrowsyDooming : GZC_Event
+{
+	int prevHealth;
+	double tiredness;
+	
+	override void eventFunc()
+	{
+		GZC_Drowsy(EventHandler.find('GZC_Drowsy')).enabled = true;
+	
+		if (gametic % 3 == 0) ++tiredness;
+	
+		let player = players[consoleplayer].mo;
+		
+		if (player.health < prevHealth) tiredness = 0;
+		
+		prevHealth = player.health;
+		
+		if (player.curstate == player.resolveState('Missile')) tiredness -= 10;
+		if (player.curstate == player.resolveState('Melee')) tiredness -= 10;
+		
+		tiredness = max(0, tiredness);
+		
+		GZC_Drowsy(EventHandler.find('GZC_Drowsy')).tiredness = tiredness;
+		
+		player.player.cheats &= !(CF_TOTALLYFROZEN);
+		if (tiredness >= 100)
+		{
+			player.player.cheats |= CF_TOTALLYFROZEN;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		GZC_Drowsy(EventHandler.find('GZC_Drowsy')).tiredness = 0;
+		GZC_Drowsy(EventHandler.find('GZC_Drowsy')).enabled = false;
+		
+		players[consoleplayer].cheats &= !(CF_TOTALLYFROZEN);
+	}
+	
+	override void init()
+	{
+		eventname = "Drowsy Dooming";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
 Class GZC_CoffeeBreak : GZC_Event
 {
 	String lastweapon;

@@ -1,3 +1,21 @@
+Class GZC_RainbowBlood : GZC_Event
+{
+	override void spawnFunc(Actor mo)
+	{
+		if (!(mo is "Blood")) return;
+		
+		mo.A_SetRenderStyle(1.0, Style_Stencil);
+		mo.SetShade(Color(random(0, 255), random(0, 255), random(0, 255)));
+	}
+
+	override void init()
+	{
+		eventname = "Rainbow Blood";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_TallWeaponSprites : GZC_Event
 {
 	override void eventFunc()

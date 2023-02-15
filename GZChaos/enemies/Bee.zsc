@@ -1,0 +1,38 @@
+Class BEE : Actor
+{
+	Default
+	{
+		Radius 1;
+		Height 1;
+		Speed 5;
+		MeleeRange 3;
+		Health 1;
+		
+		+NoGravity;
+		+Float;
+		+Solid;
+		+LookAllAround;
+		+NoBlockMonst;
+		+Shootable;
+		
+		Obituary "%o was stung to death";
+	}
+	States
+	{	
+		Spawn:
+			BEEA AB 4 A_Look();
+			Loop;
+		See:
+			BEEA AB 2 A_Chase();
+			Loop;
+		Melee:
+			BEEA A 1 
+			{
+				A_FaceTarget();
+				A_CustomMeleeAttack(1);
+			}
+		Death:
+			TNT1 A 1;
+			Stop;
+	}
+}

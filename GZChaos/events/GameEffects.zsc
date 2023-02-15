@@ -142,7 +142,7 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 		let player = players[consoleplayer].mo;
 		player.S_ChangeMusic(levelmus);
 		
-		scp.destroy();
+		if (scp) scp.destroy();
 	}
 	
 	override void init()

@@ -4,6 +4,8 @@ Class GZC_Cyberfuck : Cyberdemon
 	{
 		-CountKill;
 		+NoGravity;
+		
+		Obituary "%o was struck by...";
 	}
 	States
 	{

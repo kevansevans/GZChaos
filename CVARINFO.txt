@@ -1,1 +1,5 @@
+server noarchive bool gzc_debug = false;
+server noarchive bool gzc_pausemaintimer = false;
+server noarchive bool gzc_pauseeffecttimer = false;
+server noarchive string gzc_addeffect = "";
 user int GZC_TimerColor = 0;

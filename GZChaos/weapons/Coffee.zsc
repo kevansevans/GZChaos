@@ -14,13 +14,15 @@ Class CoffeeMug : Weapon
 			Loop;
 		Ready:
 			COFF A random(35 * 2, 35 * 4);
+			COFF AAAAAAAAAAAA 1 A_Lower();
 			COFF A 35 A_Sip();
+			COFF AAAAAAAAAAAA 1 A_Raise();
 			COFF A 0
 			{
 				if (player.health >= 100)
 				{
 					A_WeaponReady();
-					A_SelectWeapon(invoker.lastweapon);
+					A_SelectWeapon(!invoker.lastweapon ? "Fist" : invoker.lastweapon);
 				}
 			}
 			Loop;

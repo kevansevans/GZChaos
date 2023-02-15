@@ -1,3 +1,32 @@
+Class GZC_NotTheBees : GZC_Event
+{
+	override void deathFunc(Actor mo)
+	{
+		if (!mo.bIsMonster) return;
+		
+		int amount = random(5, 15);
+		
+		for (int i = 0; i < amount; ++i)
+		{
+			let thebee = mo.A_DropItem("Bee");
+			thebee.bNoGravity = true;
+			thebee.bFloat = true;
+			
+			int rng = random(1, 360);
+			thebee.vel.x = cos(rng) * 5;
+			thebee.vel.y = sin(rng) * 5;
+			
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Not the bees!";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_ShuffleMonsters : GZC_Event
 {
 	Array<Actor> monsters;

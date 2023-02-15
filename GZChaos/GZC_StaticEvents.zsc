@@ -75,11 +75,26 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldTick()
 	{
-		if (level.LevelNum == 999) return;
-	
 		if (!player) getPlayerInfo();
 		
 		if (!effects) getEffects();
+		
+		if (cvar.getCvar('gzc_addeffect').getString() != "")
+		{
+			let value = cvar.getCvar('gzc_addeffect').getString();
+			cvar.getCvar('gzc_addeffect').setString("");
+			for (int i; i < list.events.size(); ++i)
+			{
+				if (list.events[i].makeUpper().IndexOf(value.MakeUpper()) != -1)
+				{
+					let effect = GZC_Event(new(list.events[i]));
+					effect.init();
+					effects.events.push(effect);
+					return;
+				}
+			}
+			console.printf('No effect ' .. value .. ' found');
+		}
 		
 		for (inventory item = player.inv; item != null; item = item.inv)
 		{	
@@ -120,7 +135,7 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	void performModTic(int steps = 1)
 	{
-		timer += steps;
+		if (!Cvar.getCvar('gzc_pausemaintimer').getBool()) timer += steps;
 		
 		if (list.timeLimit() - timer <= 0)
 		{
@@ -133,9 +148,18 @@ Class GZC_EventHandler : StaticEventHandler
 		{
 			if (player.health > 0)
 			{
-				if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration) effects.events[i].eventFunc();
-				if (effects.events[i].type == E_Instant) effects.events[i].activated = true;
-				effects.events[i].life += steps;
+				if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration)
+				{
+					effects.events[i].eventFunc();
+				}
+				if (effects.events[i].type == E_Instant) 
+				{
+					effects.events[i].activated = true;
+				}
+				if (!Cvar.getCvar('gzc_pauseeffecttimer').getBool()) 
+				{
+					effects.events[i].life += steps;
+				}
 				if (effects.events[i].life >= effects.events[i].duration && !effects.events[i].deadEffect)
 				{
 					effects.events[i].closeFunc();
@@ -180,6 +204,12 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	void addEffectToActive(int _ignore = -1)
 	{
+		if (Cvar.getCvar('GZC_Debug', player.player).getBool())
+		{
+			console.printf('Debug mode active, no effect rolled.');
+			return;
+		}
+	
 		GZC_Event effect = list.getEffect(_ignore);
 		effects.events.push(effect);
 	}

@@ -6,4 +6,5 @@ GameInfo
 	AddEventHandlers = "GZC_TimerDisplay"
 	AddEventHandlers = "GZC_PortraitModeEvent"
 	AddEventHandlers = "GZC_PongDrawer"
+	AddEventHandlers = "GZC_Drowsy"
 }
