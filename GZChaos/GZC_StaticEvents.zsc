@@ -19,10 +19,17 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	override void NewGame()
 	{
-		list = GZC_EventList.create();
-		timerMode = E_Normal;
-		timer = 0;
-		console.printf('Loaded in ' .. list.events.size() .. ' effects. Let the chaos begin!');
+		getEffectsList();
+	}
+	
+	void getEffectsList()
+	{
+		if (!effects)
+		{
+			list = GZC_EventList.create();
+			timerMode = E_Normal;
+			timer = 0;
+		}
 	}
 
 	override void OnRegister()
@@ -42,6 +49,8 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	void getEffects()
 	{
+		getEffectsList();
+	
 		if (!player) getPlayerInfo();
 		
 		if (!player.countInv("EffectInventory"))

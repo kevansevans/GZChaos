@@ -71,6 +71,8 @@ Class GZC_EventList play
 			rngcounter += random(1, events.size() - 1);
 			rngcounter = rngcounter % events.size();
 			
+			if (rngcounter == _ignore) continue;
+			
 			let _event = new(events[rngcounter]);
 			selectedevent = GZC_Event(_event);
 			

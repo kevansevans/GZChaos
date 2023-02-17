@@ -1,3 +1,42 @@
+Class GZC_PickupsCanDie : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is 'Inventory')) continue;
+			if (mo is 'Key') continue;
+			
+			mo.bShootable = true;
+			mo.health = 100;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!(mo is 'Inventory')) continue;
+			if (mo is 'Key') continue;
+			
+			mo.bShootable = false;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Pickups Can Die";
+		duration = 35 * 30 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_WanderingPickups : GZC_Event
 {
 	override void eventFunc()

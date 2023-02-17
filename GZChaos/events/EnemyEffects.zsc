@@ -1,3 +1,74 @@
+Class GZC_OneTicMonsters : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			if (mo.tics > 1) mo.tics = 1;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "SV_Fastmonsters 1";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_FastMonsters : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			mo.bAlwaysFast = true;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bAlwaysFast = def.bAlwaysFast;
+		}
+	}
+
+	override bool verify()
+	{
+		bool result = super.verify();
+		
+		bool fastmode = !!G_SkillPropertyInt(SKILLP_FastMonsters);
+		
+		if (!fastmode) return false;
+		
+		return result;
+	}
+
+	override void init()
+	{
+		eventname = "Nightmare Monsters";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_NotTheBees : GZC_Event
 {
 	override void deathFunc(Actor mo)
