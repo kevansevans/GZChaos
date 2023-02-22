@@ -16,7 +16,7 @@ Class GZC_OneTicMonsters : GZC_Event
 	override void init()
 	{
 		eventname = "SV_Fastmonsters 1";
-		duration = 35 * 60 * 3;
+		duration = 35 * 60;
 		type = E_Timed;
 	}
 }

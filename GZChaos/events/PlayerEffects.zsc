@@ -153,6 +153,7 @@ Class GZC_CoffeeBreak : GZC_Event
 	{
 		eventname = "Coffee break";
 		duration = 35 * 60 * 90;
+		deleteme = true;
 		type = E_HiddenTimer;
 	}
 }
