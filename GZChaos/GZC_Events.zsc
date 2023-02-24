@@ -134,6 +134,7 @@ Class GZC_Event play
 	String eventname;
 	Int duration;
 	Int life;
+	int weight;
 	
 	Bool activated;
 	Bool deleteme;
@@ -170,6 +171,8 @@ Class GZC_Event play
 			GZC_Event event = effects.events[i];
 			if (event is self.getClassName()) return false;
 		}
+		
+		if (random(1, 100) < weight) return false;
 		
 		return true;
 	}
