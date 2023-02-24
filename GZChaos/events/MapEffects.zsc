@@ -76,10 +76,13 @@ Class GZC_TextureSwapEffect : GZC_Event
 
 Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 {
+	Array<Int> flags;
 
 	override void eventFunc()
 	{
 		initialize();
+		
+		flags.clear();
 	
 		TextureID walltex = TexMan.checkForTexture("STARTAN2");
 	
@@ -89,6 +92,7 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 		{
 			side sidedef = level.sides[si];
 			
+			flags.push(sidedef.linedef.flags);
 			sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
 		
 			for (int wall = 0; wall < 3; ++wall)
@@ -127,6 +131,18 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 		}
 		activated = true;
 	}
+	
+	override void closeFunc()
+	{
+		super.closeFunc();
+		
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+			sidedef.linedef.flags = flags[si];
+		}
+	}
+	
 	override void init()
 	{
 		eventname = "MyFirstMap.wad";
