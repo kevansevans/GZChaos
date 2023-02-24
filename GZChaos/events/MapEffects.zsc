@@ -1,6 +1,7 @@
 Class GZC_TextureSwapEffect : GZC_Event
 {
 	Array<String> oldnames;
+	Array<Int> oldlights;
 	TextureID oldskyA;
 	TextureID oldskyB;
 
@@ -23,9 +24,15 @@ Class GZC_TextureSwapEffect : GZC_Event
 	void initialize()
 	{
 		oldnames.clear();
+		oldlights.clear();
 	
 		oldskyA = level.SkyTexture1;
 		oldskyB = level.SkyTexture2;
+	}
+	
+	override void closeFunc()
+	{
+		resetMap();
 	}
 	
 	void resetMap()
@@ -62,7 +69,122 @@ Class GZC_TextureSwapEffect : GZC_Event
 				level.sectors[se].setTexture(1, TexMan.checkForTexture(oldnames[texTracker]));
 				++texTracker;
 			}
+			level.sectors[se].lightlevel = oldlights[se];
 		}
+	}
+}
+
+Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
+{
+
+	override void eventFunc()
+	{
+		initialize();
+	
+		TextureID walltex = TexMan.checkForTexture("STARTAN2");
+	
+		level.ChangeSky(TexMan.checkForTexture("SKY1"), TexMan.checkForTexture(''));
+	
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+			
+			sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
+		
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				TextureID curtex = sidedef.GetTexture(wall);
+				if (curtex)
+				{
+					string wallname = TexMan.getName(curtex);
+					
+					if (wallname != "DOORTRAK" && !checkIfReplaceable(wallname)) continue;
+					sidedef.setTexture(wall, walltex);
+					oldnames.push(TexMan.getName(wallTex));
+				}
+			}
+		}
+		
+		TextureID floortex = TexMan.CheckForTexture("FLOOR0_1");
+		TextureID ceiltex = TexMan.CheckForTexture("CEIL1_1");
+		
+		for (int se = 0; se < level.sectors.size(); ++se)
+		{
+			string orgFloorText = TexMan.getName(level.sectors[se].getTexture(0));
+			if (orgFloorText != "F_SKY1" && checkIfReplaceable(orgFloorText))
+			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
+				level.sectors[se].setTexture(0, floortex);
+			}
+			string orgCeilText = TexMan.getName(level.sectors[se].getTexture(1));
+			if (orgCeilText != "F_SKY1" && checkIfReplaceable(orgCeilText))
+			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
+				level.sectors[se].setTexture(1, ceiltex);
+			}
+			oldlights.push(level.sectors[se].lightlevel);
+			level.sectors[se].lightlevel = 192;
+		}
+		activated = true;
+	}
+	override void init()
+	{
+		eventname = "MyFirstMap.wad";
+		duration = 35 * 60 * 5;
+		deleteme = true;
+		type = E_Timed;
+	}
+}
+
+Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
+{
+	override void eventFunc()
+	{
+		initialize();
+	
+		TextureID newtex = TexMan.checkForTexture("FIREBLU1");
+		
+		level.ChangeSky(newtex, TexMan.checkForTexture(''));
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+		
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+					sidedef.setTexture(wall, newtex);
+					oldnames.push(TexMan.getName(wallTex));
+				}
+			}
+		}
+		for (int se = 0; se < level.sectors.size(); ++se)
+		{
+			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
+				level.sectors[se].setTexture(0, newtex);
+			}
+			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
+				level.sectors[se].setTexture(1, newtex);
+			}
+			oldlights.push(level.sectors[se].lightlevel);
+			level.sectors[se].lightlevel = 192;
+		}
+		
+		activated = true;
+	}
+	
+	override void init()
+	{
+		eventname = "Everyone's favorite texture";
+		duration = 35 * 60 * 5;
+		deleteme = true;
+		type = E_Timed;
 	}
 }
 
@@ -70,6 +192,8 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 {
 	override void eventFunc()
 	{
+		initialize();
+	
 		TextureID jule = TexMan.checkForTexture("JULESUCK");
 		TextureID tom = TexMan.checkForTexture("TOMKING");
 		
@@ -85,6 +209,7 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 				{
 					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
 					sidedef.setTexture(wall, jule);
+					oldnames.push(TexMan.getName(wallTex));
 				}
 			}
 		}
@@ -92,12 +217,15 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 		{
 			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
 			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
 				level.sectors[se].setTexture(0, tom);
 			}
 			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
 			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
 				level.sectors[se].setTexture(1, tom);
 			}
+			oldlights.push(level.sectors[se].lightlevel);
 			level.sectors[se].lightlevel = 192;
 		}
 		
@@ -107,9 +235,9 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 	override void init()
 	{
 		eventname = "Doom Alpha 0.2";
-		duration = 35 * 60 * 99999;
+		duration = 35 * 60 * 5;
 		deleteme = true;
-		type = E_Instant;
+		type = E_Timed;
 	}
 }
 
@@ -150,14 +278,11 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
 				level.sectors[se].setTexture(1, newtex);
 			}
+			oldlights.push(level.sectors[se].lightlevel);
+			level.sectors[se].lightlevel = 192;
 		}
 		
 		activated = true;
-	}
-	
-	override void closeFunc()
-	{
-		resetMap();
 	}
 
 	override void init()
@@ -174,6 +299,8 @@ Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 
 	override void eventFunc()
 	{
+		initialize();
+	
 		TextureID newtex = TexMan.checkForTexture("-noflat-");
 		
 		level.ChangeSky(newtex, TexMan.checkForTexture(''));
@@ -188,6 +315,7 @@ Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 				{
 					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
 					sidedef.setTexture(wall, newtex);
+					oldnames.push(TexMan.getName(wallTex));
 				}
 			}
 		}
@@ -195,42 +323,43 @@ Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 		{
 			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
 			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
 				level.sectors[se].setTexture(0, newtex);
 			}
 			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
 			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
 				level.sectors[se].setTexture(1, newtex);
 			}
+			oldlights.push(level.sectors[se].lightlevel);
 			level.sectors[se].lightlevel = 192;
 		}
 		
 		activated = true;
 	}
-	
-	override void closeFunc()
-	{
-	
-	}
 
 	override void init()
 	{
 		eventname = "Testing... 1, 2, 3, testing...";
-		duration = 35 * 60 * 99999;
+		duration = 35 * 60 * 5;
 		deleteme = true;
-		type = E_Instant;
+		type = E_Timed;
 	}
 }
 
 Class GZC_DiscoSkybox : GZC_Event
 {
-	TextureID originalSky;
+	TextureID oldskyA;
+	TextureID oldskyB;
+	
 	Array<String> textures;
 	int interval;
 	override void eventFunc()
 	{
-		if (!originalSky) {
+		if (!oldskyA) {
 		
-			originalSky = level.skytexture1;
+			oldskyA = level.skytexture1;
+			oldskyB = level.skytexture2;
 			textures.clear();
 			
 			interval = random(1, 10);
@@ -253,6 +382,11 @@ Class GZC_DiscoSkybox : GZC_Event
 			int index = random(0, textures.size() - 1);
 			level.changeSky(TexMan.checkForTexture(textures[index]), TexMan.checkForTexture(''));
 		}
+	}
+	
+	override void closeFunc()
+	{
+		level.changeSky(oldSkyA, oldSkyB);
 	}
 	
 	override void init()
@@ -532,119 +666,6 @@ Class GZC_TheFloorIsSludge : GZC_Event
 	{
 		eventname = "The floor is sludge!";
 		duration = 35 * 10;
-		type = E_Instant;
-	}
-}
-
-Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
-{
-
-	override void eventFunc()
-	{
-		TextureID walltex = TexMan.checkForTexture("STARTAN2");
-	
-		level.ChangeSky(TexMan.checkForTexture("SKY1"), TexMan.checkForTexture(''));
-	
-		for (int si = 0; si < level.sides.size(); ++si)
-		{
-			side sidedef = level.sides[si];
-			
-			sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
-		
-			for (int wall = 0; wall < 3; ++wall)
-			{
-				TextureID curtex = sidedef.GetTexture(wall);
-				if (curtex)
-				{
-					string wallname = TexMan.getName(curtex);
-					
-					if (wallname != "DOORTRAK" && !checkIfReplaceable(wallname)) continue;
-					sidedef.setTexture(wall, walltex);
-				}
-			}
-		}
-		
-		TextureID floortex = TexMan.CheckForTexture("FLOOR0_1");
-		TextureID ceiltex = TexMan.CheckForTexture("CEIL1_1");
-		
-		for (int se = 0; se < level.sectors.size(); ++se)
-		{
-			string orgFloorText = TexMan.getName(level.sectors[se].getTexture(0));
-			if (orgFloorText != "F_SKY1" && checkIfReplaceable(orgFloorText))
-			{
-				level.sectors[se].setTexture(0, floortex);
-			}
-			string orgCeilText = TexMan.getName(level.sectors[se].getTexture(1));
-			if (orgCeilText != "F_SKY1" && checkIfReplaceable(orgCeilText))
-			{
-				level.sectors[se].setTexture(1, ceiltex);
-			}
-			level.sectors[se].lightlevel = 192;
-		}
-		activated = true;
-	}
-	
-	override void closeFunc()
-	{
-	
-	}
-
-	override void init()
-	{
-		eventname = "MyFirstMap.wad";
-		duration = 35 * 60 * 99999;
-		deleteme = true;
-		type = E_Instant;
-	}
-}
-
-Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
-{
-	override void eventFunc()
-	{
-		TextureID newtex = TexMan.checkForTexture("FIREBLU1");
-		
-		level.ChangeSky(newtex, TexMan.checkForTexture(''));
-		for (int si = 0; si < level.sides.size(); ++si)
-		{
-			side sidedef = level.sides[si];
-		
-			for (int wall = 0; wall < 3; ++wall)
-			{
-				TextureID walltex = sidedef.GetTexture(wall);
-				if (walltex)
-				{
-					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
-					sidedef.setTexture(wall, newtex);
-				}
-			}
-		}
-		for (int se = 0; se < level.sectors.size(); ++se)
-		{
-			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
-			{
-				level.sectors[se].setTexture(0, newtex);
-			}
-			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
-			{
-				level.sectors[se].setTexture(1, newtex);
-			}
-			level.sectors[se].lightlevel = 192;
-		}
-		
-		activated = true;
-	}
-	
-	override void closeFunc()
-	{
-	
-	}
-
-	override void init()
-	{
-		eventname = "Everyone's favorite texture";
-		duration = 35 * 60 * 99999;
-		deleteme = true;
 		type = E_Instant;
 	}
 }
