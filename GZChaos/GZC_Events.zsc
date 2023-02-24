@@ -39,7 +39,7 @@ Class GZC_EventList play
 	
 	int timeLimit()
 	{
-		int base = 35 * (min(max(30 + modifier, 20), 60));
+		int base = 35 * (min(max(Cvar.getCvar("GZC_TimerDuration").getInt() + modifier, 20), 60));
 		
 		PlayerPawn player = players[consoleplayer].mo;
 		
@@ -83,12 +83,13 @@ Class GZC_EventList play
 			if (!selectedEvent.verify()) continue;
 			
 			selectedevent.init();
+			selectedevent.duration += 35 * random(Cvar.getCvar("GZC_MinTimeFlux").getInt() * -1, Cvar.getCvar("GZC_MaxTimeFlux").getInt());
 			
 			String classname = selectedevent.getClassName();
 			if (cachedEffects.find(classname) != cachedEffects.size()) continue;
 			
 			rolls.push(rngcounter);
-			rolls.resize(20);
+			rolls.resize(Cvar.getCvar("GZC_MemoryBuffer").getInt());
 			
 			break;
 		}
