@@ -1,5 +1,9 @@
 Class GZC_TextureSwapEffect : GZC_Event
 {
+	Array<String> oldnames;
+	TextureID oldskyA;
+	TextureID oldskyB;
+
 	override bool verify()
 	{
 		bool result = Super.verify();
@@ -14,6 +18,51 @@ Class GZC_TextureSwapEffect : GZC_Event
 		}
 		
 		return result;
+	}
+	
+	void initialize()
+	{
+		oldnames.clear();
+	
+		oldskyA = level.SkyTexture1;
+		oldskyB = level.SkyTexture2;
+	}
+	
+	void resetMap()
+	{
+		level.ChangeSky(oldSkyA, oldSkyB);
+	
+		int texTracker;
+		
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+		
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+					sidedef.setTexture(wall, TexMan.checkForTexture(oldnames[texTracker]));
+					++texTracker;
+				}
+			}
+		}
+		
+		for (int se = 0; se < level.sectors.size(); ++se)
+		{
+			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+			{
+				level.sectors[se].setTexture(0, TexMan.checkForTexture(oldnames[texTracker]));
+				++texTracker;
+			}
+			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			{
+				level.sectors[se].setTexture(1, TexMan.checkForTexture(oldnames[texTracker]));
+				++texTracker;
+			}
+		}
 	}
 }
 
@@ -69,6 +118,8 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 
 	override void eventFunc()
 	{
+		initialize();
+	
 		TextureID newtex = TexMan.checkForTexture("ISUCK");
 		
 		level.ChangeSky(newtex, TexMan.checkForTexture(''));
@@ -83,6 +134,7 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 				{
 					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
 					sidedef.setTexture(wall, newtex);
+					oldnames.push(TexMan.getName(wallTex));
 				}
 			}
 		}
@@ -90,13 +142,14 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 		{
 			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
 			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
 				level.sectors[se].setTexture(0, newtex);
 			}
 			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
 			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
 				level.sectors[se].setTexture(1, newtex);
 			}
-			level.sectors[se].lightlevel = 192;
 		}
 		
 		activated = true;
@@ -104,15 +157,15 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 	
 	override void closeFunc()
 	{
-	
+		resetMap();
 	}
 
 	override void init()
 	{
 		eventname = "I suck at making maps";
-		duration = 35 * 60 * 99999;
+		duration = 35 * 60 * 5;
 		deleteme = true;
-		type = E_Instant;
+		type = E_Timed;
 	}
 }
 
