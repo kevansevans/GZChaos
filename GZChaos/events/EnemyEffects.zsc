@@ -250,6 +250,8 @@ Class GZC_RussianDollEnemies : GZC_Event
 			doll.scale.y = _mo.scale.y * scalefactor;
 			let def = getDefaultByType(_mo.getClass());
 			doll.Health = int(double(def.health) * min(doll.scale.x, 1));
+			doll.target = _mo.target;
+			doll.angle = _mo.angle;
 		}
 	}
 	
@@ -258,7 +260,7 @@ Class GZC_RussianDollEnemies : GZC_Event
 		eventname = "Matryoshka";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		scalefactor = 0.8;
+		scalefactor = 0.75;
 	}
 }
 

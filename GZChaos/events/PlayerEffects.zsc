@@ -146,7 +146,8 @@ Class GZC_CoffeeBreak : GZC_Event
 	
 	override void closeFunc()
 	{
-	
+		let player = players[consoleplayer].mo;
+		player.TakeInventory('CoffeeMug', 999);
 	}
 
 	override void init()

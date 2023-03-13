@@ -23,7 +23,6 @@ Class GZC_SuperHot : GZC_TimerEffect
 	{
 		let event = GZC_Event.fetch();
 		event.timermode = E_SuperHot;
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -112,7 +111,6 @@ Class GZC_TimerRunsOnKills : GZC_TimerEffect
 	{
 		let event = GZC_Event.fetch();
 		event.timermode = E_PerKill;
-		activated = true;
 	}
 	
 	override void closeFunc()

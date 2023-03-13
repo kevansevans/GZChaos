@@ -61,6 +61,17 @@ Class GZC_EventHandler : StaticEventHandler
 		effects = EffectInventory(player.findInventory("EffectInventory"));
 	}
 	
+	int getEnabledEffectsCount()
+	{
+		int count;
+		foreach (effect : effects.events)
+		{
+			if (effect.life > effect.duration || effect.type != E_Timed) continue;
+			++count;
+		}
+		return count;
+	}
+	
 	override void PlayerEntered(PlayerEvent event)
 	{
 		getPlayerInfo();
@@ -144,7 +155,16 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	void performModTic(int steps = 1)
 	{
-		if (!Cvar.getCvar('gzc_pausemaintimer').getBool()) timer += steps;
+		int maxed = Cvar.getCvar('GZC_MaxEffects').getInt();
+	
+		if (!Cvar.getCvar('gzc_pausemaintimer').getBool()) 
+		{
+			if (maxed != 0 && getEnabledEffectsCount() >= maxed){}
+			else
+			{
+				timer += steps;
+			}
+		}
 		
 		if (list.timeLimit() - timer <= 0)
 		{
