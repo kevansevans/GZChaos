@@ -1,3 +1,54 @@
+Class GZC_MissingWad : GZC_TextureSwapEffect
+{
+	bool cleared;
+	Map<String, SpriteID> sprites;
+
+	override void eventFunc()
+	{
+		if (!cleared)
+		{
+			sprites.clear();
+			cleared = true;
+		}
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.sprite != mo.GetSpriteIndex('TNT1'))
+			{
+				if (mo.sprite != mo.getSpriteIndex('UNKN'))
+				{
+					string act = mo.getClassName();
+					if (!sprites.checkKey(act)) sprites.insert(act, mo.sprite);
+				}
+				mo.sprite = mo.GetSpriteIndex('UNKN');
+				mo.frame = 0;
+			}
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			string act = mo.getClassName();
+			mo.sprite = sprites.get(act);
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "!";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
 Class GZC_RainbowBlood : GZC_Event
 {
 	override void spawnFunc(Actor mo)
