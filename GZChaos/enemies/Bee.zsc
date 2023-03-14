@@ -18,6 +18,18 @@ Class BEE : Actor
 		
 		Obituary "%o was stung to death";
 	}
+	
+	int life;
+	
+	override void tick()
+	{
+		Super.tick();
+		
+		if (life >= 35 * 15) self.destroy();
+		
+		++life;
+	}
+	
 	States
 	{	
 		Spawn:
