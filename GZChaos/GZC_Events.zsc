@@ -156,8 +156,13 @@ Class GZC_Event play
 	
 	virtual void morphActor(Actor mo, Class<Actor> type)
 	{
+		bool ambush = mo.bAmbush;
+		bool hasTarget = mo.target == null;
+	
 		mo.bDontMorph = false;
 		mo.A_Morph(type, self.duration - self.life);
+		mo.bAmbush = ambush;
+		if (!hasTarget) mo.A_ClearTarget();
 	}
 	
 	//Prevents same effects from stacking, and can be used to prevent certain

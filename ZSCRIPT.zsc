@@ -15,7 +15,12 @@ version "4.10"
 #include "GZChaos/enemies/GreatGodImp.zsc"
 #include "GZChaos/enemies/JitterSkull.zsc"
 #include "GZChaos/enemies/SCP173.zsc"
+
+//Morph actors
 #include "GZChaos/enemies/Zombieman.zsc"
+#include "GZChaos/enemies/Shotgunner.zsc"
+#include "GZChaos/enemies/Chaingunner.zsc"
+#include "GZChaos/enemies/DoomImp.zsc"
 
 #include "GZChaos/morphs/DogMode.zsc"
 
@@ -33,4 +38,8 @@ version "4.10"
 #include "GZChaos/events/SpriteEffects.zsc"
 #include "GZChaos/events/TimerEffects.zsc"
 
+//Morph events
 #include "GZChaos/events/EnemyReplacements/Zombiemen.zsc"
+#include "GZChaos/events/EnemyReplacements/Shotgunner.zsc"
+#include "GZChaos/events/EnemyReplacements/Chaingunner.zsc"
+#include "GZChaos/events/EnemyReplacements/DoomImp.zsc"
