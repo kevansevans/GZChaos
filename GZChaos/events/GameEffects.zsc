@@ -3,6 +3,8 @@ Class GZC_RoomClearEvent : GZC_Event
 	override bool verify()
 	{
 		bool result = Super.verify();
+		
+		if (level.Killed_Monsters >= level.Total_Monsters) return false;
 	
 		PlayerPawn player = players[consoleplayer].mo;
 		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
