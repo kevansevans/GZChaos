@@ -27,6 +27,8 @@ Class GZC_BouncyProjectiles : GZC_Event
 		mo.bBounceOnFloors = true;
 		mo.bBounceOnCeilings = true;
 		mo.bAllowBounceOnActors = true;
+		mo.BounceFactor = 1.0;
+		mo.WallBounceFactor = 1.0;
 		mo.BounceSound = "bounce/boing";
 	}
 
