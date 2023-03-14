@@ -59,6 +59,8 @@ Class GZC_TextureSwapEffect : GZC_Event
 		
 		for (int se = 0; se < level.sectors.size(); ++se)
 		{
+			if (level.sectors[se].damageamount > 0) continue;
+		
 			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
 			{
 				level.sectors[se].setTexture(0, TexMan.checkForTexture(oldnames[texTracker]));
@@ -114,6 +116,8 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 		
 		for (int se = 0; se < level.sectors.size(); ++se)
 		{
+			if (level.sectors[se].damageamount > 0) continue;
+		
 			string orgFloorText = TexMan.getName(level.sectors[se].getTexture(0));
 			if (orgFloorText != "F_SKY1" && checkIfReplaceable(orgFloorText))
 			{
@@ -178,6 +182,8 @@ Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 		}
 		for (int se = 0; se < level.sectors.size(); ++se)
 		{
+			if (level.sectors[se].damageamount > 0) continue;
+		
 			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
 			{
 				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
@@ -231,6 +237,8 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 		}
 		for (int se = 0; se < level.sectors.size(); ++se)
 		{
+			if (level.sectors[se].damageamount > 0) continue;
+		
 			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
 			{
 				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
@@ -284,6 +292,8 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 		}
 		for (int se = 0; se < level.sectors.size(); ++se)
 		{
+			if (level.sectors[se].damageamount > 0) continue;
+		
 			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
 			{
 				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
@@ -337,6 +347,8 @@ Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 		}
 		for (int se = 0; se < level.sectors.size(); ++se)
 		{
+			if (level.sectors[se].damageamount > 0) continue;
+		
 			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
 			{
 				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
