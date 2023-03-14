@@ -44,7 +44,31 @@ Class GZC_HostileDecorations : GZC_Event
 				let attacker = cansee[rng];
 				attacker.target = player;
 				attacker.A_FaceTarget();
-				attacker.A_TroopAttack();
+				
+				int rng_attack = random(0, 5);
+				
+				switch (rng_attack)
+				{
+					case 0:
+						attacker.A_TroopAttack();
+						break;
+					case 1:
+						attacker.A_BruisAttack();
+						break;
+					case 2:
+						attacker.A_BSpiAttack();
+						break;
+					case 3:
+						attacker.A_HeadAttack();
+						break;
+					case 4:
+						attacker.A_CyberAttack();
+						break;
+					case 5:
+						attacker.A_SpawnProjectile("BFGBall");
+						break;
+				}
+				
 			}
 			
 			rng_delay = random(1, 10);
