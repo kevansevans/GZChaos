@@ -1,3 +1,66 @@
+Class GZC_HostileDecorations : GZC_Event
+{
+	int rng_delay;
+
+	override void eventFunc()
+	{
+		Array<Actor> decorations;
+		Array<Actor> cansee;
+	
+		if (gametic % (35 * rng_delay) == 0)
+		{
+			decorations.clear();
+		
+			ThinkerIterator it = ThinkerIterator.create('Actor');
+			Actor mo;
+			
+			while (mo = Actor(it.next()))
+			{
+				if (mo.sprite == mo.getSpriteIndex('TNT1')) continue;
+				if (mo.bIsMonster) continue;
+				if (!mo.bSolid) continue;
+				if (mo is 'Inventory') continue;
+				if (mo is 'PlayerPawn') continue;
+				if (mo is 'TeleportDest') continue;
+				
+				decorations.push(mo);
+			}
+			
+			cansee.clear();
+			
+			let player = players[consoleplayer].mo;
+			
+			foreach (dec : decorations)
+			{
+				if (player.isVisible(dec, true))
+				{
+					cansee.push(dec);
+				}
+			}
+			
+			if (cansee.Size() > 0)
+			{
+				int rng = random(0, cansee.Size() - 1);
+				let attacker = cansee[rng];
+				attacker.target = player;
+				attacker.A_FaceTarget();
+				attacker.A_TroopAttack();
+			}
+			
+			rng_delay = random(1, 10);
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Hostile architecture";
+		duration = 35 * 60 * 5;
+		deleteme = true;
+		type = E_Timed;
+		rng_delay = 5;
+	}
+}
+
 Class GZC_ParanoidOfBarrels : GZC_Event
 {
 	override void eventFunc()

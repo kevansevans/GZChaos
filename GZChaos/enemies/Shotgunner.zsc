@@ -1,0 +1,160 @@
+class GZC_Shotgunner : MorphedMonster
+{
+	Default
+	{
+		Health 30;
+		Radius 20;
+		Height 56;
+		Mass 100;
+		Speed 8;
+		PainChance 170;
+		Monster;
+		+FLOORCLIP
+		SeeSound "shotguy/sight";
+		AttackSound "shotguy/attack";
+		PainSound "shotguy/pain";
+		DeathSound "shotguy/death";
+		ActiveSound "shotguy/active";
+		Obituary "$OB_SHOTGUY";
+		Tag "$FN_SHOTGUN";
+		DropItem "Shotgun";
+	}
+	States
+	{
+	Spawn:
+		SPOS AB 10 A_Look;
+		Loop;
+	See:
+		SPOS AABBCCDD 3 A_Chase;
+		Loop;
+	Missile:
+		SPOS E 10 A_FaceTarget;
+		SPOS F 10 BRIGHT A_SposAttackUseAtkSound;
+		SPOS E 10;
+		Goto See;
+	Pain:
+		SPOS G 3;
+		SPOS G 3 A_Pain;
+		Goto See;
+	Death:
+		SPOS H 5;
+		SPOS I 5 A_Scream;
+		SPOS J 5 A_NoBlocking;
+		SPOS K 5;
+		SPOS L -1;
+		Stop;
+	XDeath:
+		SPOS M 5;
+		SPOS N 5 A_XScream;
+		SPOS O 5 A_NoBlocking;
+		SPOS PQRST 5;
+		SPOS U -1;
+		Stop;
+	Raise:
+		SPOS L 5;
+		SPOS KJIH 5;
+		Goto See;
+	}
+}
+
+Class GZC_Shotgunner_Rifle : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT A_PosAttack;
+			SPOS E 10;
+			Goto See;
+	}
+}
+
+Class GZC_Shotgunner_Fireball : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT 
+			{
+				for (int i = 0; i < 3; ++ i)
+				{
+					A_SpawnProjectile("DoomImpBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+				}
+			}
+			SPOS E 10;
+			Goto See;
+	}
+}
+
+Class GZC_Shotgunner_Repeater : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT A_SposAttackUseAtkSound();
+			SPOS E 10 A_MonsterRefire(40, "See");
+			Goto Missile+1;
+	}
+}
+
+Class GZC_Shotgunner_Rocket : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT 
+			{
+				for (int i = 0; i < 3; ++ i)
+				{
+					A_SpawnProjectile("Rocket", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+				}
+			}
+			SPOS E 10;
+			Goto See;
+	}
+}
+
+Class GZC_Shotgunner_Zappy : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT 
+			{
+				for (int i = 0; i < 3; ++ i)
+				{
+					A_SpawnProjectile("CacodemonBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+				}
+			}
+			SPOS E 10;
+			Goto See;
+	}
+}
+
+Class GZC_Shotgunner_Soul : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT 
+			{
+				for (int i = 0; i < 3; ++ i)
+				{
+					A_PainAttack('LostSoul', frandom(-11.25, 11.25));
+				}
+			}
+			SPOS E 10;
+			Goto See;
+	}
+}

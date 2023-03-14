@@ -63,7 +63,7 @@ Class GZC_Zombieman_Shotgun : GZC_Zombieman
 	{
 		Missile:
 			POSS E 10 A_FaceTarget();
-			POSS F 8 A_SposAttackUseAtkSound();
+			POSS F 8 Bright A_SposAttackUseAtkSound();
 			POSS E 8;
 			Goto See;
 	}
@@ -75,7 +75,7 @@ Class GZC_Zombieman_Fireball : GZC_Zombieman
 	{
 		Missile:
 			POSS E 10 A_FaceTarget();
-			POSS F 8 A_TroopAttack();
+			POSS F 8 Bright A_TroopAttack();
 			POSS E 8;
 			Goto See;
 	}
@@ -87,7 +87,7 @@ Class GZC_Zombieman_Repeater : GZC_Zombieman
 	{
 		Missile:
 			POSS E 10 A_FaceTarget();
-			POSS F 8 A_PosAttack();
+			POSS F 8 Bright A_PosAttack();
 			POSS E 8 A_MonsterRefire(40, "See");
 			Goto Missile+1;
 	}
@@ -99,7 +99,7 @@ Class GZC_Zombieman_Baron : GZC_Zombieman
 	{
 		Missile:
 			POSS E 10 A_FaceTarget();
-			POSS F 8 A_BruisAttack();
+			POSS F 8 Bright A_BruisAttack();
 			POSS E 8;
 			Goto See;
 	}
@@ -111,7 +111,7 @@ Class GZC_Zombieman_Plasma : GZC_Zombieman
 	{
 		Missile:
 			POSS E 10 A_FaceTarget();
-			POSS F 8 A_BspiAttack();
+			POSS F 8 Bright A_BspiAttack();
 			POSS E 8;
 			Goto See;
 	}
@@ -123,7 +123,31 @@ Class GZC_Zombieman_Rocket : GZC_Zombieman
 	{
 		Missile:
 			POSS E 10 A_FaceTarget();
-			POSS F 8 A_CyberAttack();
+			POSS F 8 Bright A_CyberAttack();
+			POSS E 8;
+			Goto See;
+	}
+}
+
+Class GZC_Zombieman_Zappy : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 Bright A_HeadAttack();
+			POSS E 8;
+			Goto See;
+	}
+}
+
+Class GZC_Zombieman_Soul : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 Bright A_PainAttack();
 			POSS E 8;
 			Goto See;
 	}

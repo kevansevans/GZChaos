@@ -1,3 +1,19 @@
+Class GZC_FeelingGenerous : GZC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.CheatGive('All', 1);
+	}
+
+	override void init()
+	{
+		eventname = "IDKFA";
+		duration = 35 * 30;
+		type = E_Instant;
+	}
+}
+
 Class GZC_CantHaveShitInDetroit : GZC_Event
 {
 	override void eventFunc()

@@ -220,3 +220,71 @@ Class GZC_ZombiemanRocket : GZC_Zombieman_Event
 		deleteme = true;
 	}
 }
+
+Class GZC_ZombiemanCaco : GZC_Zombieman_Event
+{
+	Array<ActorTracker> pointers;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Zappy");
+		}
+		
+		activated = true;
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		morphActor(mo, "GZC_Zombieman_Zappy");
+	}
+
+	override void init()
+	{
+		eventname = "Caco-Zombiemen";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		deleteme = true;
+	}
+}
+
+Class GZC_ZombiemanElemental : GZC_Zombieman_Event
+{
+	Array<ActorTracker> pointers;
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Soul");
+		}
+		
+		activated = true;
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		morphActor(mo, "GZC_Zombieman_Soul");
+	}
+
+	override void init()
+	{
+		eventname = "Zombie-Elemental";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		deleteme = true;
+	}
+}
