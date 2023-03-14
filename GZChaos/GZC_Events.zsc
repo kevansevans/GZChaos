@@ -54,14 +54,6 @@ Class GZC_EventList play
 	
 	GZC_Event getEffect(int _ignore = -1)
 	{
-		/*if (!set)
-		{
-			set = true;
-			let event = GZC_Event(new('GZC_QuakeFOV'));
-			event.init();
-			return event;
-		}*/
-	
 		PlayerPawn player = players[consoleplayer].mo;
 		effects = EffectInventory(player.findInventory("EffectInventory"));
 		
