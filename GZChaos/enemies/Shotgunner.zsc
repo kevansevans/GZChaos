@@ -121,6 +121,44 @@ Class GZC_Shotgunner_Rocket : GZC_Shotgunner
 	}
 }
 
+Class GZC_Shotgunner_Baron : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT 
+			{
+				for (int i = 0; i < 3; ++ i)
+				{
+					A_SpawnProjectile("BaronBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+				}
+			}
+			SPOS E 10;
+			Goto See;
+	}
+}
+
+Class GZC_Shotgunner_Plasma : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT 
+			{
+				for (int i = 0; i < 3; ++ i)
+				{
+					A_SpawnProjectile("ArachnotronPlasma", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+				}
+			}
+			SPOS E 10;
+			Goto See;
+	}
+}
+
 Class GZC_Shotgunner_Zappy : GZC_Shotgunner
 {
 
