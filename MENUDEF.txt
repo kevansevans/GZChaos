@@ -8,6 +8,7 @@ OptionMenu "GZCMenu"
 	Title "---GZChaos Options---"
 	Option "Timer color", "GZC_TimerColor", "TimerColors"
 	Slider "Timer duration (seconds)", "GZC_TimerDuration", 20, 90, 5, 0
+	Slider "Max effects", "GZC_MaxEffects", 0, 15, 1, 0
 	Slider "Repeat effect buffer", "GZC_MemoryBuffer", 0, 100, 1, 0
 	Slider "RNG decrease effect duration (seconds)", "GZC_MinTimeFlux", 0, 30, 1, 0
 	Slider "RNG Increase effect duration (seconds)", "GZC_MaxTimeFlux", 0, 30, 1, 0
