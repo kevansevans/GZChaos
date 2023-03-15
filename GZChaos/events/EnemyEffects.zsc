@@ -1,3 +1,62 @@
+Class GZC_BarrelsOFun : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo is 'GZC_ExplosiveBarrel') continue;
+			mo.A_Morph('GZC_ExplosiveBarrel', duration);
+		}
+		
+		activated = true;
+	}
+
+	override void init()
+	{
+		eventname = "Barrels o' fun";
+		duration = 35 * 10;
+		type = E_Timed;
+	}
+}
+
+class GZC_ExplosiveBarrel : MorphedMonster
+{
+	Default
+	{
+		Health 20;
+		Radius 10;
+		Height 42;
+		+SOLID
+		+SHOOTABLE
+		+NOBLOOD
+		+ACTIVATEMCROSS
+		+DONTGIB
+		+NOICEDEATH
+		+OLDRADIUSDMG
+		DeathSound "world/barrelx";
+		Obituary "$OB_BARREL";
+	}
+	States
+	{
+	Spawn:
+		BAR1 AB 6;
+		Loop;
+	Death:
+		BEXP A 5 BRIGHT;
+		BEXP B 5 BRIGHT A_Scream;
+		BEXP C 5 BRIGHT;
+		BEXP D 10 BRIGHT A_Explode;
+		BEXP E 10 BRIGHT;
+		TNT1 A 1050 BRIGHT A_BarrelDestroy;
+		TNT1 A 5 A_Respawn;
+		Wait;
+	}
+}
+
 Class GZC_OneTicMonsters : GZC_Event
 {
 	override void eventFunc()
