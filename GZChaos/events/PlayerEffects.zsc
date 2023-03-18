@@ -724,7 +724,7 @@ Class GZC_CantStopFiring : GZC_Event
 
 Class GZC_SuperIcePhysics : GZC_Event
 {
-	override void eventFUnc()
+	override void eventFunc()
 	{
 		PlayerInfo player = players[consoleplayer];
 		player.mo.bNoFriction = true;
@@ -788,8 +788,6 @@ Class GZC_TeleportPlayer : GZC_Event
 			}
 		}
 	}
-	
-	override void closeFunc() {}
 	
 	override void init()
 	{

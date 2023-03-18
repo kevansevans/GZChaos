@@ -2,12 +2,6 @@
 //To do
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Refactor function calls, as in, untie them from a specific timer so they can be called from
-anywhere
-
-Separate special drawing effects into their own event listeners so their code doesn't
-need to be waded through
-
 set up cvars to filter out specific/categorized effects
 
 investigate how to better measure timer so changing speed/requirements looks smoother

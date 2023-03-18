@@ -85,6 +85,10 @@ Class GZC_EventHandler : StaticEventHandler
 				GZC_Event event = effects.events[i];
 				if (event.type == E_PerLevel || event.type == E_Instant || effects.events[i].deleteme)
 				{
+					if (event.life < event.duration)
+					{
+						event.closeFunc();
+					}
 					removeEffect(event);
 				}
 			}
@@ -109,6 +113,8 @@ Class GZC_EventHandler : StaticEventHandler
 				{
 					let effect = GZC_Event(new(list.events[i]));
 					effect.init();
+					bool verified = effect.verify();
+					if (!verified) console.printf('Warning: Effect "' .. effect.eventname .. '" resolved false under verification!');
 					effects.events.push(effect);
 					return;
 				}

@@ -36,6 +36,8 @@ Class GZC_MissingWad : GZC_TextureSwapEffect
 		
 		while (mo = Actor(it.next()))
 		{
+			if (mo.health <= 0) continue;
+		
 			string act = mo.getClassName();
 			mo.sprite = sprites.get(act);
 		}
@@ -193,10 +195,7 @@ Class GZC_SpinningMonsters : GZC_Event
 		ThinkerIterator it = ThinkerIterator.Create("Actor");
 		Actor mo;
 		
-		while (!factor) 
-		{
-			factor = random(-15, 15);
-		}
+		if (!factor) factor = random(-15, 15);
 		
 		while ((mo = Actor(it.Next ())))
 		{
@@ -260,8 +259,17 @@ Class GZC_WideMonsters : GZC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				mo.scale.x = 1;
+				let def = getDefaultByType(mo.getClass());
+				mo.scale.x = def.scale.x;
 			}
+		}
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		if (mo.bIsMonster)
+		{
+			mo.scale.y = 7;
 		}
 	}
 	
@@ -298,8 +306,17 @@ Class GZC_TallMonsters : GZC_Event
 		{
 			if (mo.bIsMonster)
 			{
-				mo.scale.y = 1;
+				let def = getDefaultByType(mo.getClass());
+				mo.scale.y = def.scale.y;
 			}
+		}
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		if (mo.bIsMonster)
+		{
+			mo.scale.y = 7;
 		}
 	}
 	
