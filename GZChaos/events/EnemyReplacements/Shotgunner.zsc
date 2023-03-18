@@ -24,7 +24,6 @@ Class GZC_ShotgunnerFireballs : GZC_Zombieman_Event
 		eventname = "Fireball Shotgunners";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Shotgunguy';
 		morph = 'GZC_Shotgunner_Fireball';
@@ -38,7 +37,6 @@ Class GZC_ShotgunnerRepeater : GZC_Zombieman_Event
 		eventname = "Repeater Shotgunners";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Shotgunguy';
 		morph = 'GZC_Shotgunner_Repeater';
@@ -52,7 +50,6 @@ Class GZC_ShotgunnerRocketeer : GZC_Zombieman_Event
 		eventname = "Rocketeer Shotgunners";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Shotgunguy';
 		morph = 'GZC_Shotgunner_Rocket';
@@ -66,7 +63,6 @@ Class GZC_ShotgunnerBaron : GZC_Zombieman_Event
 		eventname = "Baron Shotgunners";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Shotgunguy';
 		morph = 'GZC_Shotgunner_Baron';
@@ -80,7 +76,6 @@ Class GZC_ShotgunnerPlasma : GZC_Zombieman_Event
 		eventname = "Plasma Shotgunners";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Shotgunguy';
 		morph = 'GZC_Shotgunner_Plasma';
@@ -94,7 +89,6 @@ Class GZC_ShotgunnerZappy : GZC_Zombieman_Event
 		eventname = "Caco-Shotgunners";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Shotgunguy';
 		morph = 'GZC_Shotgunner_Zappy';
@@ -108,7 +102,6 @@ Class GZC_ShotgunnerSoul : GZC_Zombieman_Event
 		eventname = "Shotgun Elemental";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Shotgunguy';
 		morph = 'GZC_Shotgunner_Soul';

@@ -38,6 +38,11 @@ Class GZC_EnemyMorphEvent : GZC_Event
 		morphActor(mo, morph);
 	}
 	
+	override void loadFunc()
+	{
+		performMorph();
+	}
+	
 	override void eventFunc()
 	{
 		performMorph();

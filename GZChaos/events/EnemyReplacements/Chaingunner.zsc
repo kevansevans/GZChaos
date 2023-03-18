@@ -24,7 +24,6 @@ Class GZC_ChaingunnerShotgunner : GZC_Chaingunner_Event
 		eventname = "Shotgun Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Chaingunner';
 		morph = 'GZC_Chaingunner_Shotgun';
@@ -38,7 +37,6 @@ Class GZC_ChaingunnerFireball : GZC_Chaingunner_Event
 		eventname = "Fireball Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Chaingunner';
 		morph = 'GZC_Chaingunner_Fireball';
@@ -52,7 +50,6 @@ Class GZC_ChaingunnerBaron : GZC_Chaingunner_Event
 		eventname = "Baron Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Chaingunner';
 		morph = 'GZC_Chaingunner_Baron';
@@ -66,7 +63,6 @@ Class GZC_ChaingunnerPlasma : GZC_Chaingunner_Event
 		eventname = "Plasma Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Chaingunner';
 		morph = 'GZC_Chaingunner_Plasma';
@@ -80,7 +76,6 @@ Class GZC_ChaingunnerRocket : GZC_Chaingunner_Event
 		eventname = "Rocket Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Chaingunner';
 		morph = 'GZC_Chaingunner_Rocket';
@@ -94,7 +89,6 @@ Class GZC_ChaingunnerCaco : GZC_Chaingunner_Event
 		eventname = "Caco-Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Chaingunner';
 		morph = 'GZC_Chaingunner_Zappy';
@@ -108,7 +102,6 @@ Class GZC_ChaingunnerElemental : GZC_Chaingunner_Event
 		eventname = "Chain-Elemental";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'Chaingunner';
 		morph = 'GZC_Chaingunner_Soul';

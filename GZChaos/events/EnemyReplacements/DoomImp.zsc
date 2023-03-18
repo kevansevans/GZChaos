@@ -24,7 +24,6 @@ Class GZC_DoomImpShotgunner : GZC_DoomImp_Event
 		eventname = "Shotgun Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'DoomImp';
 		morph = 'GZC_DoomImp_Shotgun';
@@ -38,7 +37,6 @@ Class GZC_DoomImpRepeater : GZC_DoomImp_Event
 		eventname = "Repeater Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'DoomImp';
 		morph = 'GZC_DoomImp_Repeater';
@@ -52,7 +50,6 @@ Class GZC_DoomImpBaron : GZC_DoomImp_Event
 		eventname = "Baron Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'DoomImp';
 		morph = 'GZC_DoomImp_Baron';
@@ -66,7 +63,6 @@ Class GZC_DoomImpPlasma : GZC_DoomImp_Event
 		eventname = "Plasma Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'DoomImp';
 		morph = 'GZC_DoomImp_Plasma';
@@ -80,7 +76,6 @@ Class GZC_DoomImpRocket : GZC_DoomImp_Event
 		eventname = "Rocketeer Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'DoomImp';
 		morph = 'GZC_DoomImp_Rocket';
@@ -94,7 +89,6 @@ Class GZC_DoomImpCaco : GZC_DoomImp_Event
 		eventname = "Caco-Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'DoomImp';
 		morph = 'GZC_DoomImp_Zappy';
@@ -108,7 +102,6 @@ Class GZC_DoomImpElemental : GZC_DoomImp_Event
 		eventname = "Imp-Elemental";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'DoomImp';
 		morph = 'GZC_DoomImp_Soul';

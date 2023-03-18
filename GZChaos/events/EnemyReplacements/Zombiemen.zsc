@@ -24,7 +24,6 @@ Class GZC_ZombiemanShotgunner : GZC_Zombieman_Event
 		eventname = "Shotgun Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'zombieman';
 		morph = 'GZC_Zombieman_Shotgun';
@@ -38,7 +37,6 @@ Class GZC_ZombiemanFireball : GZC_Zombieman_Event
 		eventname = "Fireball Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'zombieman';
 		morph = 'GZC_Zombieman_Fireball';
@@ -52,7 +50,6 @@ Class GZC_ZombiemanRepeater : GZC_Zombieman_Event
 		eventname = "Repeater Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'zombieman';
 		morph = 'GZC_Zombieman_Repeater';
@@ -66,7 +63,6 @@ Class GZC_ZombiemanBaron : GZC_Zombieman_Event
 		eventname = "Baron Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'zombieman';
 		morph = 'GZC_Zombieman_baron';
@@ -80,7 +76,6 @@ Class GZC_ZombiemanPlasma : GZC_Zombieman_Event
 		eventname = "Plasma Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'zombieman';
 		morph = 'GZC_Zombieman_Plasma';
@@ -94,7 +89,6 @@ Class GZC_ZombiemanRocket : GZC_Zombieman_Event
 		eventname = "Rocketeer Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'zombieman';
 		morph = 'GZC_Zombieman_Rocket';
@@ -108,7 +102,6 @@ Class GZC_ZombiemanCaco : GZC_Zombieman_Event
 		eventname = "Caco-Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'zombieman';
 		morph = 'GZC_Zombieman_Zappy';
@@ -122,7 +115,6 @@ Class GZC_ZombiemanElemental : GZC_Zombieman_Event
 		eventname = "Zombie-Elemental";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
-		deleteme = true;
 		
 		target = 'zombieman';
 		morph = 'GZC_Zombieman_Soul';

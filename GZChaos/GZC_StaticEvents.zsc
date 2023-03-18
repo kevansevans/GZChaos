@@ -83,13 +83,17 @@ Class GZC_EventHandler : StaticEventHandler
 			for (int i = 0; i < effects.events.size(); ++i)
 			{
 				GZC_Event event = effects.events[i];
-				if (event.type == E_PerLevel || event.type == E_Instant || effects.events[i].deleteme)
+				if (event.type == E_PerLevel || event.type == E_Instant || event.deleteme || !event.verify())
 				{
 					if (event.life < event.duration)
 					{
 						event.closeFunc();
 					}
 					removeEffect(event);
+				}
+				else
+				{
+					event.loadFunc();
 				}
 			}
 		}
