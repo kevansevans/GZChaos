@@ -1,4 +1,4 @@
-Class GZC_Zombieman_Event : GZC_Event
+Class GZC_Zombieman_Event : GZC_EnemyMorphEvent
 {
 	override bool verify()
 	{
@@ -19,272 +19,112 @@ Class GZC_Zombieman_Event : GZC_Event
 
 Class GZC_ZombiemanShotgunner : GZC_Zombieman_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Zombieman") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Zombieman_Shotgun");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Zombieman_Shotgun");
-	}
-	
 	override void init()
 	{
 		eventname = "Shotgun Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'zombieman';
+		morph = 'GZC_Zombieman_Shotgun';
 	}
 }
 
 Class GZC_ZombiemanFireball : GZC_Zombieman_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Zombieman") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Zombieman_Fireball");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Zombieman_Fireball");
-	}
-
 	override void init()
 	{
 		eventname = "Fireball Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'zombieman';
+		morph = 'GZC_Zombieman_Fireball';
 	}
 }
 
 Class GZC_ZombiemanRepeater : GZC_Zombieman_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Zombieman") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Zombieman_Repeater");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Zombieman_Repeater");
-	}
-
 	override void init()
 	{
 		eventname = "Repeater Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'zombieman';
+		morph = 'GZC_Zombieman_Repeater';
 	}
 }
 
 Class GZC_ZombiemanBaron : GZC_Zombieman_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Zombieman") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Zombieman_Baron");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Zombieman_Baron");
-	}
-
 	override void init()
 	{
 		eventname = "Baron Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'zombieman';
+		morph = 'GZC_Zombieman_baron';
 	}
 }
 
 Class GZC_ZombiemanPlasma : GZC_Zombieman_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Zombieman") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Zombieman_Plasma");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Zombieman_Plasma");
-	}
-
 	override void init()
 	{
 		eventname = "Plasma Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'zombieman';
+		morph = 'GZC_Zombieman_Plasma';
 	}
 }
 
 Class GZC_ZombiemanRocket : GZC_Zombieman_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Zombieman") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Zombieman_Rocket");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Zombieman_Rocket");
-	}
-
 	override void init()
 	{
 		eventname = "Rocketeer Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'zombieman';
+		morph = 'GZC_Zombieman_Rocket';
 	}
 }
 
 Class GZC_ZombiemanCaco : GZC_Zombieman_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Zombieman") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Zombieman_Zappy");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Zombieman_Zappy");
-	}
-
 	override void init()
 	{
 		eventname = "Caco-Zombiemen";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'zombieman';
+		morph = 'GZC_Zombieman_Zappy';
 	}
 }
 
 Class GZC_ZombiemanElemental : GZC_Zombieman_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Zombieman") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Zombieman_Soul");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Zombieman_Soul");
-	}
-
 	override void init()
 	{
 		eventname = "Zombie-Elemental";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'zombieman';
+		morph = 'GZC_Zombieman_Soul';
 	}
 }

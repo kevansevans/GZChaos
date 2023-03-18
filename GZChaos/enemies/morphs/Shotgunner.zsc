@@ -196,3 +196,22 @@ Class GZC_Shotgunner_Soul : GZC_Shotgunner
 			Goto See;
 	}
 }
+
+Class GZC_Shotgunner_Skel : GZC_Shotgunner
+{
+
+	States
+	{
+		Missile:
+			SPOS E 10 A_FaceTarget;
+			SPOS F 10 BRIGHT 
+			{
+				for (int i = 0; i < 3; ++ i)
+				{
+					A_PainAttack('RevenantTracer', frandom(-11.25, 11.25));
+				}
+			}
+			SPOS E 10;
+			Goto See;
+	}
+}

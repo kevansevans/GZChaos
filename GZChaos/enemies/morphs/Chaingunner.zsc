@@ -140,3 +140,15 @@ Class GZC_Chaingunner_Soul : GZC_Chaingunner
 			Goto Missile+1;
 	}
 }
+
+Class GZC_Chaingunner_Skel : GZC_Chaingunner
+{
+	States
+	{
+		Missile:
+			CPOS E 10 A_FaceTarget;
+			CPOS FE 4 BRIGHT A_SkelMissile();
+			CPOS F 1 A_CPosRefire;
+			Goto Missile+1;
+	}
+}

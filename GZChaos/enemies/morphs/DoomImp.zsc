@@ -145,3 +145,14 @@ Class GZC_DoomImp_Soul : GZC_DoomImp
 			Goto See;
 	}
 }
+
+Class GZC_DoomImp_Skel : GZC_DoomImp
+{
+	States
+	{
+		Missile:
+			TROO EF 8 A_FaceTarget;
+			TROO G 6 A_SkelMissile();
+			Goto See;
+	}
+}

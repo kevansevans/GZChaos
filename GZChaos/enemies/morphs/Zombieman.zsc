@@ -152,3 +152,15 @@ Class GZC_Zombieman_Soul : GZC_Zombieman
 			Goto See;
 	}
 }
+
+Class GZC_Zombieman_Skel : GZC_Zombieman
+{
+	States
+	{
+		Missile:
+			POSS E 10 A_FaceTarget();
+			POSS F 8 Bright A_SkelMissile();
+			POSS E 8;
+			Goto See;
+	}
+}

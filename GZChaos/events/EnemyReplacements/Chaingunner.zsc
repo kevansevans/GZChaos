@@ -1,4 +1,4 @@
-Class GZC_Chaingunner_Event : GZC_Event
+Class GZC_Chaingunner_Event : GZC_EnemyMorphEvent
 {
 	override bool verify()
 	{
@@ -19,238 +19,98 @@ Class GZC_Chaingunner_Event : GZC_Event
 
 Class GZC_ChaingunnerShotgunner : GZC_Chaingunner_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Chaingunner") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Chaingunner_Shotgun");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Chaingunner_Shotgun");
-	}
-	
 	override void init()
 	{
 		eventname = "Shotgun Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'Chaingunner';
+		morph = 'GZC_Chaingunner_Shotgun';
 	}
 }
 
 Class GZC_ChaingunnerFireball : GZC_Chaingunner_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Chaingunner") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Chaingunner_Fireball");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Chaingunner_Fireball");
-	}
-
 	override void init()
 	{
 		eventname = "Fireball Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'Chaingunner';
+		morph = 'GZC_Chaingunner_Fireball';
 	}
 }
 
 Class GZC_ChaingunnerBaron : GZC_Chaingunner_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Chaingunner") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Chaingunner_Baron");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Chaingunner_Baron");
-	}
-
 	override void init()
 	{
 		eventname = "Baron Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'Chaingunner';
+		morph = 'GZC_Chaingunner_Baron';
 	}
 }
 
 Class GZC_ChaingunnerPlasma : GZC_Chaingunner_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Chaingunner") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Chaingunner_Plasma");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Chaingunner_Plasma");
-	}
-
 	override void init()
 	{
 		eventname = "Plasma Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'Chaingunner';
+		morph = 'GZC_Chaingunner_Plasma';
 	}
 }
 
 Class GZC_ChaingunnerRocket : GZC_Chaingunner_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Chaingunner") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Chaingunner_Rocket");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Chaingunner_Rocket");
-	}
-
 	override void init()
 	{
 		eventname = "Rocket Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'Chaingunner';
+		morph = 'GZC_Chaingunner_Rocket';
 	}
 }
 
 Class GZC_ChaingunnerCaco : GZC_Chaingunner_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Chaingunner") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Chaingunner_Zappy");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Chaingunner_Zappy");
-	}
-
 	override void init()
 	{
 		eventname = "Caco-Chaingunner";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'Chaingunner';
+		morph = 'GZC_Chaingunner_Zappy';
 	}
 }
 
 Class GZC_ChaingunnerElemental : GZC_Chaingunner_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "Chaingunner") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_Chaingunner_Soul");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_Chaingunner_Soul");
-	}
-
 	override void init()
 	{
 		eventname = "Chain-Elemental";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'Chaingunner';
+		morph = 'GZC_Chaingunner_Soul';
 	}
 }

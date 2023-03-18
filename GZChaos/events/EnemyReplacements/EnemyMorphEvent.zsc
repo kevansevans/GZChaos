@@ -1,0 +1,52 @@
+Class GZC_EnemyMorphEvent : GZC_Event
+{
+	name target;
+	name morph;
+	
+	override bool verify()
+	{
+		if (!target) ThrowAbortException('Error! No target defined in: ' .. self.getClassName());
+		if (!morph) ThrowAbortException('Error! No morph defined in: ' .. self.getClassName());
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() == target) return true;
+		}
+		
+		return false;
+	}
+	
+	void performMorph()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != target) continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, morph);
+		}
+	}
+	
+	void individualMorph(Actor mo)
+	{
+		morphActor(mo, morph);
+	}
+	
+	override void eventFunc()
+	{
+		performMorph();
+		
+		activated = true;
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		if (mo is target) individualMorph(mo);
+	}
+}

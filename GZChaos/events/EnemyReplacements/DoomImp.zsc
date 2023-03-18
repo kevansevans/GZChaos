@@ -1,4 +1,4 @@
-Class GZC_DoomImp_Event : GZC_Event
+Class GZC_DoomImp_Event : GZC_EnemyMorphEvent
 {
 	override bool verify()
 	{
@@ -19,238 +19,98 @@ Class GZC_DoomImp_Event : GZC_Event
 
 Class GZC_DoomImpShotgunner : GZC_DoomImp_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "DoomImp") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_DoomImp_Shotgun");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_DoomImp_Shotgun");
-	}
-	
 	override void init()
 	{
 		eventname = "Shotgun Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'DoomImp';
+		morph = 'GZC_DoomImp_Shotgun';
 	}
 }
 
 Class GZC_DoomImpRepeater : GZC_DoomImp_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "DoomImp") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_DoomImp_Repeater");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_DoomImp_Repeater");
-	}
-
 	override void init()
 	{
 		eventname = "Repeater Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'DoomImp';
+		morph = 'GZC_DoomImp_Repeater';
 	}
 }
 
 Class GZC_DoomImpBaron : GZC_DoomImp_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "DoomImp") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_DoomImp_Baron");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_DoomImp_Baron");
-	}
-
 	override void init()
 	{
 		eventname = "Baron Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'DoomImp';
+		morph = 'GZC_DoomImp_Baron';
 	}
 }
 
 Class GZC_DoomImpPlasma : GZC_DoomImp_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "DoomImp") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_DoomImp_Plasma");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_DoomImp_Plasma");
-	}
-
 	override void init()
 	{
 		eventname = "Plasma Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'DoomImp';
+		morph = 'GZC_DoomImp_Plasma';
 	}
 }
 
 Class GZC_DoomImpRocket : GZC_DoomImp_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "DoomImp") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_DoomImp_Rocket");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_DoomImp_Rocket");
-	}
-
 	override void init()
 	{
 		eventname = "Rocketeer Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'DoomImp';
+		morph = 'GZC_DoomImp_Rocket';
 	}
 }
 
 Class GZC_DoomImpCaco : GZC_DoomImp_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "DoomImp") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_DoomImp_Zappy");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_DoomImp_Zappy");
-	}
-
 	override void init()
 	{
 		eventname = "Caco-Imps";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'DoomImp';
+		morph = 'GZC_DoomImp_Zappy';
 	}
 }
 
 Class GZC_DoomImpElemental : GZC_DoomImp_Event
 {
-	Array<ActorTracker> pointers;
-
-	override void eventFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo.getClassName() != "DoomImp") continue;
-			if (mo.health <= 0) continue;
-			
-			morphActor(mo, "GZC_DoomImp_Soul");
-		}
-		
-		activated = true;
-	}
-	
-	override void spawnFunc(Actor mo)
-	{
-		morphActor(mo, "GZC_DoomImp_Soul");
-	}
-
 	override void init()
 	{
 		eventname = "Imp-Elemental";
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 		deleteme = true;
+		
+		target = 'DoomImp';
+		morph = 'GZC_DoomImp_Soul';
 	}
 }
