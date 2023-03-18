@@ -28,9 +28,6 @@ Proverbial
 	- Testing
 Warren
 	- Testing
-Marisa Kirisame
-	- OUCH_M ZScript and related files. Used with permission.
-	- Testing
 Rachael
 	- Enemy tic code slowdown
 	- https://github.com/madame-rachelle/FloatTime
