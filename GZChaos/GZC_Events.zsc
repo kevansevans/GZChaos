@@ -72,9 +72,10 @@ Class GZC_EventList play
 			let _event = new(events[rngcounter]);
 			selectedevent = GZC_Event(_event);
 			
+			selectedevent.init();
+			
 			if (!selectedEvent.verify()) continue;
 			
-			selectedevent.init();
 			selectedevent.duration += 35 * random(Cvar.getCvar("GZC_MinTimeFlux").getInt() * -1, Cvar.getCvar("GZC_MaxTimeFlux").getInt());
 			
 			String classname = selectedevent.getClassName();
