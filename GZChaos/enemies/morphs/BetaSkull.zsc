@@ -1,4 +1,4 @@
-Class GZC_BetaSkull : Actor
+Class GZC_BetaSkull : MorphedMonster
 {
 	Default
 	{

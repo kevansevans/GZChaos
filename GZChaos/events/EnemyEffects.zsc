@@ -418,38 +418,22 @@ Class GZC_BetaSkulls : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		ThinkerIterator it = ThinkerIterator.create('LostSoul');
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
 		{
-			if (!(mo is "LostSoul")) continue;
-			
-			Actor.spawn('GZC_BetaSkull', mo.pos);
-			mo.destroy();
+			morphActor(mo, 'GZC_BetaSkull');
 		}
+		
+		activated = true;
 	}
 	
 	override void spawnFunc(Actor mo)
 	{
 		if (mo.getClass() != 'LostSoul') return;
 		
-		Actor.spawn('GZC_BetaSkull', mo.pos);
-		mo.destroy();
-	}
-	
-	override void closeFunc()
-	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
-		Actor mo;
-	
-		while (mo = Actor(it.next()))
-		{
-			if (!(mo is "GZC_BetaSkull")) continue;
-			
-			if (mo.health > 0) Actor.spawn('LostSoul', mo.pos);
-			mo.destroy();
-		}
+		morphActor(mo, 'GZC_BetaSkull');
 	}
 
 	override void init()
