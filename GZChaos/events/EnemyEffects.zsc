@@ -1,3 +1,196 @@
+Class GZC_EnemySpeedEffect : GZC_Event
+{
+	override bool verify()
+	{
+		bool result = super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (event is 'GZC_EnemySpeedEffect') return false;
+		}
+		
+		return result;
+	}
+}
+
+Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = random(-def.speed * 2, def.speed * 2);
+		}
+		
+		activated = true;
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		let def = getDefaultByType(mo.getClass());
+		mo.speed = random(-def.speed * 2, def.speed * 2);
+	}
+	
+	override void loadFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = random(-def.speed * 2, def.speed * 2);
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+		
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "??? Speed Monsters";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
+Class GZC_NegativeEnemySpeed : GZC_EnemySpeedEffect
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed * -1;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+		
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "-1x Speed Monsters";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
+Class GZC_HalfEnemySpeed : GZC_EnemySpeedEffect
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = int(def.speed / 2);
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+		
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "1/2 Speed Monsters";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
+Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+		
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed * 2;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+		
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "2x Speed Monsters";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
 Class GZC_AAAAAHHHHH : GZC_Event
 {
 	override void eventFunc()
