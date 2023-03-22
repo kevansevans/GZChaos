@@ -22,6 +22,7 @@ version "4.10"
 #include "GZChaos/enemies/morphs/Chaingunner.zsc"
 #include "GZChaos/enemies/morphs/DoomImp.zsc"
 #include "GZChaos/enemies/morphs/ExplosiveBarrel.zsc"
+#include "GZChaos/enemies/morphs/Kamikazi.zsc"
 
 #include "GZChaos/morphs/DogMode.zsc"
 

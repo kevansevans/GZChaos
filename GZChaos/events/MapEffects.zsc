@@ -1,3 +1,43 @@
+Class GZC_MurderInTheDark : GZC_Event
+{
+	Array<Int> lights;
+	int levelnum;
+	
+	override void eventFunc()
+	{
+		lights.clear();
+		levelnum = level.levelnum;
+		
+		foreach (sec : level.sectors)
+		{
+			lights.push(sec.lightlevel);
+			sec.lightlevel = 24;
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		if (levelNum != level.levelnum) return;
+		
+		int index = 0;
+		foreach (sec : level.sectors)
+		{
+			sec.lightlevel = lights[index];
+			++index;
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Murder In The Dark";
+		duration = 35 * 60 * 3;
+		deleteme = true;
+		type = E_Timed;
+	}
+}
+
 Class GZC_TextureSwapEffect : GZC_Event
 {
 	Array<String> oldnames;

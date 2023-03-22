@@ -1,3 +1,57 @@
+Class GZC_Aimbot : GZC_Event
+{
+	double distance;
+	Actor closest;
+	
+	override void eventFunc()
+	{
+		distance = 0x7FFFFFFF;
+		closest = null;
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		let player = players[consoleplayer].mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			if (!player.isVisible(mo, true)) continue;
+			
+			double dist = player.distance3D(mo);
+			if (dist < distance)
+			{
+				distance = dist;
+				closest = mo;
+			}
+		}
+		
+		if (!closest) return;
+		
+		player.angle = atan2(closest.pos.y - player.pos.y, closest.pos.x - player.pos.x);
+		if (!player.player.centering) player.pitch = PitchTo(player, closest, 0.6);
+	}
+	
+	double PitchTo( Actor a, Actor b, double hfact = 1. )
+    {
+        if ( !a || !b ) return 0;
+        Vector3 thispos = a.player?a.Vec2OffsetZ(0,0,a.player.viewz):a.Vec3Offset(0,0,a.missileheight);
+        Vector3 otherpos = b.Vec3Offset(0,0,b.height*hfact);
+        Vector3 diff = level.Vec3Diff(thispos,otherpos);
+        double dist = diff.length();
+        if ( dist > 0 ) return -asin(diff.z/dist);
+        return 0;
+    }
+	
+	override void init()
+	{
+		eventname = "Aimbot";
+		duration = 35 * 90;
+		type = E_Timed;
+	}
+}
+
 Class GZC_ReducedFieldOfView : GZC_Event
 {
 	override void eventFunc()
