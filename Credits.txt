@@ -38,3 +38,5 @@ Leon Zawada, Simon Rance
 	- https://doomwiki.org/wiki/Return_of_the_Triad
 CutmanMike
 	- Blessing to use code and ideas from Corruption Cards
+CaptainToenail
+	- Kamikazi enemy

@@ -1,3 +1,50 @@
+Class GZC_NoSplashDamage : GZC_Event
+{
+	void negate(Actor mo)
+	{
+		mo.bNoRadiusDMG = true;
+	}
+	
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			negate(mo);
+		}
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		negate(mo);
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bNoRadiusDMG = def.bNoRadiusDMG;
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Ineffective Splash Damage";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_EnemySpeedEffect : GZC_Event
 {
 	override bool verify()
@@ -29,7 +76,7 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 			if (!mo.bIsMonster) continue;
 			
 			let def = getDefaultByType(mo.getClass());
-			mo.speed = random(-def.speed * 2, def.speed * 2);
+			mo.speed = random(int(-def.speed * 2), int(def.speed * 2));
 		}
 		
 		activated = true;
@@ -38,7 +85,7 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 	override void spawnFunc(Actor mo)
 	{
 		let def = getDefaultByType(mo.getClass());
-		mo.speed = random(-def.speed * 2, def.speed * 2);
+		mo.speed = random(int(-def.speed * 2), int(def.speed * 2));
 	}
 	
 	override void loadFunc()
@@ -51,7 +98,7 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 			if (!mo.bIsMonster) continue;
 			
 			let def = getDefaultByType(mo.getClass());
-			mo.speed = random(-def.speed * 2, def.speed * 2);
+			mo.speed = random(int(-def.speed * 2), int(def.speed * 2));
 		}
 	}
 	

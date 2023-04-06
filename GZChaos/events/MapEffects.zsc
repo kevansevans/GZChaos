@@ -1,3 +1,44 @@
+Class GZC_KryptoniteFog : GZC_Event
+{
+	Array<int> foglevels;
+	Array<Color> colors;
+	
+	override void eventFunc()
+	{
+		foglevels.clear();
+		colors.clear();
+		
+		foreach (sec : level.sectors)
+		{
+			foglevels.push(sec.colormap.fogDensity);
+			colors.push(sec.colormap.fadeColor);
+			sec.setFogDensity(0x100);
+			sec.setFade(Color(0xACFFCD));
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		int index = 0;
+		
+		foreach (sec : level.sectors)
+		{
+			sec.setFogDensity(foglevels[index]);
+			sec.setFade(colors[index]);
+			++index;
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Superman 64";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_MurderInTheDark : GZC_Event
 {
 	Array<Int> lights;
