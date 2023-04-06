@@ -1,0 +1,13 @@
+HardwareShader postprocess scene
+{
+	Name "lowres"
+	Shader "Shaders/GLSL/lowres.fp" 330
+	Uniform vec2 inputScale
+}
+
+HardwareShader postprocess scene
+{
+	Name "gb_shader"
+	Shader "Shaders/GLSL/gb_shader.fp" 330
+	Uniform vec2 iResolution
+}

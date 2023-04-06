@@ -1,0 +1,68 @@
+Class GZC_ShaderEvent : GZC_Event
+{}
+
+Class GZC_MSDOSMode : GZC_ShaderEvent
+{
+	override void eventFunc()
+	{
+		PPShader.SetEnabled("lowres", true);
+		PPShader.SetUniform2f("lowres", "inputScale", (320, 200));
+	}
+	
+	override void closeFunc()
+	{
+		PPShader.SetEnabled("lowres", false);
+	}
+
+	override void init()
+	{
+		eventname = "MS-DOS";
+		duration = 35 * 5 * 60;
+		type = E_Timed;
+	}
+}
+
+Class GZC_GameboyMode : GZC_ShaderEvent
+{
+	int levelnum;
+	Array<Int> lights;
+	
+	override void eventFunc()
+	{
+		if (levelNum != level.levelnum)
+		{
+			lights.clear();
+			
+			foreach(sec : level.sectors)
+			{
+				lights.push(sec.lightlevel);
+				sec.lightlevel = 256;
+			}
+			
+			levelnum = level.levelnum;
+		}
+	
+		PPShader.SetEnabled("gb_shader", true);
+		PPShader.SetUniform2f("gb_shader", "iResolution", (Screen.getWidth(), Screen.getHeight()));
+	}
+	
+	override void closeFunc()
+	{
+		PPShader.SetEnabled("gb_shader", false);
+		
+		int index = 0;
+		foreach(sec : level.sectors)
+		{
+			lights.push(sec.lightlevel);
+			sec.lightlevel = lights[index];
+			++index;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Doom for the Gameboy";
+		duration = 35 * 60 * 5;
+		type = E_Timed;
+	}
+}

@@ -37,6 +37,7 @@ version "4.10"
 #include "GZChaos/events/MetaEffects.zsc"
 #include "GZChaos/events/PickupEffects.zsc"
 #include "GZChaos/events/PlayerEffects.zsc"
+#include "GZChaos/events/ShaderEffects.zsc"
 #include "GZChaos/events/SpriteEffects.zsc"
 #include "GZChaos/events/TimerEffects.zsc"
 
