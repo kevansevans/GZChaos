@@ -22,7 +22,7 @@ Class GZC_EnemyMorphEvent : GZC_Event
 	
 	void performMorph()
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
+		ThinkerIterator it = ThinkerIterator.create(target);
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -49,6 +49,17 @@ Class GZC_EnemyMorphEvent : GZC_Event
 		performMorph();
 		
 		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create(morph);
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
 	}
 	
 	override void spawnFunc(Actor mo)
