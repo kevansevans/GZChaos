@@ -23,6 +23,7 @@ version "4.10"
 #include "GZChaos/enemies/morphs/ExplosiveBarrel.zsc"
 #include "GZChaos/enemies/morphs/Kamikazi.zsc"
 #include "GZChaos/enemies/morphs/BetaSkull.zsc"
+#include "GZChaos/enemies/morphs/Cacodemon.zsc"
 
 #include "GZChaos/morphs/DogMode.zsc"
 
@@ -43,6 +44,7 @@ version "4.10"
 
 //Morph events
 #include "GZChaos/events/EnemyReplacements/EnemyMorphEvent.zsc"
+#include "GZChaos/events/EnemyReplacements/Cacodemon.zsc"
 #include "GZChaos/events/EnemyReplacements/Zombiemen.zsc"
 #include "GZChaos/events/EnemyReplacements/Shotgunner.zsc"
 #include "GZChaos/events/EnemyReplacements/Chaingunner.zsc"

@@ -1,0 +1,96 @@
+Class GZC_Cacodemon_Event : GZC_EnemyMorphEvent
+{
+	override bool verify()
+	{
+		bool result = Super.verify();
+		
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (event is 'GZC_Cacodemon_Event') return false;
+		}
+		
+		return result;
+	}
+}
+
+Class GZC_CacodemonShotgunner : GZC_Cacodemon_Event
+{
+	override void init()
+	{
+		eventname = "Shotgun Cacodemon";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		
+		target = 'Cacodemon';
+		morph = 'GZC_Cacodemon_Shotgun';
+	}
+}
+
+Class GZC_CacodemonFireball : GZC_Cacodemon_Event
+{
+	override void init()
+	{
+		eventname = "Fireball Cacodemon";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		
+		target = 'Cacodemon';
+		morph = 'GZC_Cacodemon_Fireball';
+	}
+}
+
+Class GZC_CacodemonBaron : GZC_Cacodemon_Event
+{
+	override void init()
+	{
+		eventname = "Baron Cacodemon";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		
+		target = 'Cacodemon';
+		morph = 'GZC_Cacodemon_Baron';
+	}
+}
+
+Class GZC_CacodemonPlasma : GZC_Cacodemon_Event
+{
+	override void init()
+	{
+		eventname = "Plasma Cacodemon";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		
+		target = 'Cacodemon';
+		morph = 'GZC_Cacodemon_Plasma';
+	}
+}
+
+Class GZC_CacodemonRocket : GZC_Cacodemon_Event
+{
+	override void init()
+	{
+		eventname = "Rocket Cacodemon";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		
+		target = 'Cacodemon';
+		morph = 'GZC_Cacodemon_Rocket';
+	}
+}
+
+Class GZC_CacodemonElemental : GZC_Cacodemon_Event
+{
+	override void init()
+	{
+		eventname = "Caco-Elemental";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+		
+		target = 'Cacodemon';
+		morph = 'GZC_Cacodemon_Soul';
+	}
+}

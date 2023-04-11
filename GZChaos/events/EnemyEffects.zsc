@@ -892,7 +892,7 @@ Class GZC_ArachnotronGrowthSpurt : GZC_Event
 	}
 }
 
-Class GZC_CacodemonHitscanners : GZC_Event
+/*Class GZC_CacodemonHitscanners : GZC_Event
 {
 
 	override void spawnFunc(Actor mo)
@@ -915,7 +915,7 @@ Class GZC_CacodemonHitscanners : GZC_Event
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 	}
-}
+}*/
 
 Class GZC_FrictionlessEnemies : GZC_Event
 {
