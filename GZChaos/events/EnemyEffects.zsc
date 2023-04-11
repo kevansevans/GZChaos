@@ -1153,35 +1153,39 @@ Class GZC_NightmareRespawns : GZC_Event
 
 Class GZC_SpawnGreatGodImp : GZC_Event
 {
-	Actor impy;
+	Array<DoomImp> imps;
+	
+	override bool verify()
+	{
+		bool result = super.verify();
+		
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			if (mo.getClassName() == 'DoomImp') return result;
+		}
+		
+		return false;
+	}
 
 	override void eventFunc()
 	{
-		let player = players[consoleplayer].mo;
+		imps.clear();
 	
-		while (true)
-		{
-			int rng = random(0, level.Sectors.size() - 1);
-			let c = level.Sectors[rng].centerspot;
-			if (level.IsPointInLevel((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c))))
-			{
-				double ceilheight = level.Sectors[rng].ceilingplane.ZAtPoint(c);
-				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
-				if (ceilheight - floorheight > 64)
-				{
-					impy = Actor.spawn('greatgodimp', (c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)));
-					impy.target = player;
-					impy.A_damageSelf(0);
-					activated = true;
-					break;
-				}
-			}
-		}
-	}
-	
-	override void closeFunc() 
-	{
-		if (impy) impy.destroy();
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = DoomImp(it.next())) imps.push(DoomImp(mo));
+		
+		if (imps.Size() == 0) return;
+		
+		int rng = random(0, imps.Size() - 1);
+		imps[rng].A_Morph('GZC_GreatGodImp', duration);
+		
+		activated = true;
 	}
 	
 	override void init()

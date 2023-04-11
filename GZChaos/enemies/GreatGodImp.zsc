@@ -1,4 +1,4 @@
-Class GreatGodImp : DoomImp
+Class GZC_GreatGodImp : GZC_DoomImp
 {
 	Default
 	{
