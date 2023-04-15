@@ -1,10 +1,11 @@
+float size = 128.;
+
 void main()
 {
-	vec2 localCord = floor(TexCoord * inputScale);
-	localCord = localCord / inputScale;
+	vec2 iRes = vec2(320, 200);
+	vec2 resolution = vec2(size, iResolution.y / iResolution.x * size);
+	vec2 localCord = floor(TexCoord * iRes);
+    vec2 uv = localCord / iRes;
 	
-	FragColor = vec4(	textureGather(InputTexture, localCord, 0).x,
-						textureGather(InputTexture, localCord, 1).x,
-						textureGather(InputTexture, localCord, 2).x,
-						textureGather(InputTexture, localCord, 3).x);
+	FragColor = vec4(texture(InputTexture, uv).xyz,1.0);
 }
