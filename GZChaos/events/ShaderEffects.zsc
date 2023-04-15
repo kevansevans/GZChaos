@@ -1,12 +1,21 @@
 Class GZC_ShaderEvent : GZC_Event
-{}
+{
+
+	static void DisableShaders()
+	{
+		PPShader.SetEnabled("lowres", false);
+		PPShader.SetEnabled("gb_shader", false);
+		PPShader.SetEnabled("blur", false);
+	}
+	
+}
 
 Class GZC_MSDOSMode : GZC_ShaderEvent
 {
 	override void eventFunc()
 	{
 		PPShader.SetEnabled("lowres", true);
-		PPShader.SetUniform2f("lowres", "inputScale", (320, 200));
+		PPShader.SetUniform2f("lowres", "iResolution", (Screen.getWidth(), Screen.getHeight()));
 	}
 	
 	override void closeFunc()

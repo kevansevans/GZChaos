@@ -20,6 +20,8 @@ Class GZC_EventHandler : StaticEventHandler
 	override void NewGame()
 	{
 		getEffectsList();
+		
+		GZC_ShaderEvent.DisableShaders();
 	}
 	
 	void getEffectsList()
