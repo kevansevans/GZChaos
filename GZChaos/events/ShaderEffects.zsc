@@ -45,7 +45,7 @@ Class GZC_GameboyMode : GZC_ShaderEvent
 			foreach(sec : level.sectors)
 			{
 				lights.push(sec.lightlevel);
-				sec.lightlevel = 256;
+				sec.lightlevel = 512;
 			}
 			
 			levelnum = level.levelnum;
