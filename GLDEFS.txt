@@ -2,7 +2,7 @@ HardwareShader postprocess scene
 {
 	Name "lowres"
 	Shader "Shaders/GLSL/lowres.fp" 330
-	Uniform vec2 inputScale
+	Uniform vec2 iResolution
 }
 
 HardwareShader postprocess scene
@@ -11,3 +11,18 @@ HardwareShader postprocess scene
 	Shader "Shaders/GLSL/gb_shader.fp" 330
 	Uniform vec2 iResolution
 }
+
+HardwareShader postprocess scene
+{
+	Name "blur"
+	Shader "Shaders/GLSL/blur.fp" 330
+	Uniform vec2 iResolution
+}
+
+/*HardwareShader postprocess scene
+{
+	Name "liquid"
+	Shader "Shaders/GLSL/liquid.fp" 330
+	Uniform vec2 iResolution
+	uniform float timer
+}*/

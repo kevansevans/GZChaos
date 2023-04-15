@@ -66,3 +66,24 @@ Class GZC_GameboyMode : GZC_ShaderEvent
 		type = E_Timed;
 	}
 }
+
+Class GZC_GaussianBlur : GZC_ShaderEvent
+{
+	override void eventFunc()
+	{
+		PPShader.SetEnabled("blur", true);
+		PPShader.SetUniform2f("blur", "iResolution", (Screen.getWidth(), Screen.getHeight()));
+	}
+	
+	override void closeFunc()
+	{
+		PPShader.SetEnabled("blur", false);
+	}
+
+	override void init()
+	{
+		eventname = "You need glasses";
+		duration = 35 * 5 * 60;
+		type = E_Timed;
+	}
+}
