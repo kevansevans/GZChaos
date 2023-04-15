@@ -85,6 +85,8 @@ Class GZC_TextureSwapEffect : GZC_Event
 	Array<Int> oldlights;
 	TextureID oldskyA;
 	TextureID oldskyB;
+	
+	int levelnum;
 
 	override bool verify()
 	{
@@ -109,6 +111,8 @@ Class GZC_TextureSwapEffect : GZC_Event
 	
 		oldskyA = level.SkyTexture1;
 		oldskyB = level.SkyTexture2;
+		
+		levelnum = level.levelnum;
 	}
 	
 	override void closeFunc()
@@ -118,6 +122,8 @@ Class GZC_TextureSwapEffect : GZC_Event
 	
 	void resetMap()
 	{
+		if (levelNum != level.levelnum) return;
+	
 		level.ChangeSky(oldSkyA, oldSkyB);
 	
 		int texTracker;
