@@ -163,7 +163,7 @@ Class GZC_DrowsyDooming : GZC_Event
 	}
 }
 
-Class GZC_CoffeeBreak : GZC_Event
+/*Class GZC_CoffeeBreak : GZC_Event
 {
 	String lastweapon;
 
@@ -211,7 +211,7 @@ Class GZC_CoffeeBreak : GZC_Event
 		deleteme = true;
 		type = E_HiddenTimer;
 	}
-}
+}*/
 
 Class GZC_ShrunkTheDoomguy : GZC_Event
 {

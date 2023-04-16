@@ -6,6 +6,7 @@ Class GZC_ShaderEvent : GZC_Event
 		PPShader.SetEnabled("lowres", false);
 		PPShader.SetEnabled("gb_shader", false);
 		PPShader.SetEnabled("blur", false);
+		PPShader.SetEnabled("liquid", false);
 	}
 	
 }
@@ -92,6 +93,27 @@ Class GZC_GaussianBlur : GZC_ShaderEvent
 	override void init()
 	{
 		eventname = "You need glasses";
+		duration = 35 * 5 * 60;
+		type = E_Timed;
+	}
+}
+
+Class GZC_LiquidQuake : GZC_ShaderEvent
+{
+	override void eventFunc()
+	{
+		PPShader.SetEnabled("liquid", true);
+		PPShader.SetUniform1i("liquid", "iTime", gametic);
+	}
+	
+	override void closeFunc()
+	{
+		PPShader.SetEnabled("liquid", false);
+	}
+
+	override void init()
+	{
+		eventname = "*Slime";
 		duration = 35 * 5 * 60;
 		type = E_Timed;
 	}

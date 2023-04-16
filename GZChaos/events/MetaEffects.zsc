@@ -97,11 +97,11 @@ Class GZC_HideTimerAndEffects : GZC_Event
 	override void init()
 	{
 		eventname = "Hidden timer and effects";
-		duration = 35 * 60 * 3;
+		duration = 35 * 60 * random(1, 5);
 		type = E_Timed;
 	}
 }
-
+//Yeah, I didn't list this one on purpose, lol.
 Class GZC_FuckYourGodmode : GZC_Event
 {
 	override void eventFunc()

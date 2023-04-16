@@ -10,6 +10,9 @@ frustrated enjoyment as they play tested. Thanks guys!
 Thank you to the many helpful people over in the ZDoom discord that helped me
 with my many problems I had while I was making this.
 
+Shader code will have the URL of their source within the glsl file themselves.
+I found them on shader toy, and felt it was easier to put the links there.
+
 Doug The Eagle
 	- Great God Imp and whatever sound effects they grabbed
 Alper002

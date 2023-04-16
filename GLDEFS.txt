@@ -19,10 +19,16 @@ HardwareShader postprocess scene
 	Uniform vec2 iResolution
 }
 
-/*HardwareShader postprocess scene
+HardwareShader postprocess scene
 {
 	Name "liquid"
 	Shader "Shaders/GLSL/liquid.fp" 330
+	Uniform int iTime
+}
+
+HardwareShader postprocess scene
+{
+	Name "fisheye"
+	Shader "Shaders/GLSL/fisheye.fp" 330
 	Uniform vec2 iResolution
-	uniform float timer
-}*/
+}
