@@ -8,6 +8,7 @@ version "4.10"
 #include "GZChaos/screendrawing/GZC_InfoDisplay.zsc"
 #include "GZChaos/screendrawing/GZC_PortraitMode.zsc"
 #include "GZChaos/screendrawing/GZC_PongDrawer.zsc"
+#include "GZChaos/screendrawing/GZC_TimerBar.zsc"
 
 #include "GZChaos/enemies/Bee.zsc"
 #include "GZChaos/enemies/Cyberfuck.zsc"

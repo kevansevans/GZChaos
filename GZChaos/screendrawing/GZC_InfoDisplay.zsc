@@ -59,33 +59,8 @@ class GZC_EffectDisplay : EventHandler
 Class GZC_TimerDisplay : EventHandler
 {
 	bool hiddenEffect;
-
-	GZC_EventHandler root;
-	GZC_EventList list;
 	
-	int selectedColor;
-	TextureID bar;
-	
-	static const string texnames[] = {
-		"GREEN",
-		"RED",
-		"BLUE",
-		"PINK",
-		"YELLOW",
-		"CYAN",
-		"WHITE",
-		"LGBT",
-		"LESBI",
-		"BISEX",
-		"PANSEX",
-		"TRANS",
-		"ACE",
-		"NONBI",
-		"FIREBLU1",
-		"BFALL1",
-		"LAVA1",
-		"NUKAGE1"
-	};
+	GZC_TimerBar activebar;
 	
 	int timelimit;
 
@@ -93,7 +68,8 @@ Class GZC_TimerDisplay : EventHandler
 	{
 		SetOrder(200);
 		
-		selectedColor = -1;
+		activeBar = new('GZC_TimerBar_Green');
+		activeBar.initBar();
 		
 		updateBar(0);
 	}
@@ -107,12 +83,7 @@ Class GZC_TimerDisplay : EventHandler
 		Cvar cvarColor = Cvar.getCvar("GZC_TimerColor", players[consoleplayer]);
 		if (cvarcolor)
 		{
-			int selection = cvarcolor.getInt();
-			if (selection != selectedColor)
-			{
-				selectedColor = selection;
-				updateBar(selectedColor);
-			}
+			//update here
 		}
 	}
 	
@@ -127,54 +98,7 @@ Class GZC_TimerDisplay : EventHandler
 	
 		if (!hiddenEffect)
 		{
-			double ratio = root.timer / timeLimit;
-			double scaley = double(Screen.getHeight()) / 1440.0;
-			double width = ratio * double(Screen.getWidth());
-			int tWidth, tHeight = TexMan.GetSize(bar);
-			Screen.SetClipRect(0, 0, int(width), int(10 * scaley));
-			if (selectedcolor < 14)
-			{
-				Screen.drawTexture(bar, true, 0, 0, DTA_DestWidth, Screen.getWidth(), DTA_DestHeight, tHeight);
-			}
-			else
-			{
-				double scalex = Screen.getWidth() / 128; 
-				Screen.drawShape(bar, true, getBar());
-			}
-			Screen.clearClipRect();
+			activeBar.drawBar(root.timer, timelimit);
 		}
-	}
-	
-	ui Shape2D getBar()
-	{
-		let square = new("Shape2D");
-
-		square.PushVertex((-1,-1));
-		square.PushVertex((1,-1));
-		square.PushVertex((1,1));
-		square.PushVertex((-1,1));
-		
-		square.PushCoord((0, 0));
-		square.PushCoord((4, 0));
-		square.PushCoord((4, 0.05));
-		square.PushCoord((0, 0.05));
-
-		square.PushTriangle(0,1,2);
-		square.PushTriangle(0,2,3);
-
-		let transformation = new("Shape2DTransform");
-
-		transformation.Scale((Screen.getWidth(), 10));
-		transformation.Translate((0, 0));
-
-		square.SetTransform(transformation);
-
-		return square;
-	}
-	
-	void getRootHandler()
-	{
-		root = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
-		list = root.list;
 	}
 }

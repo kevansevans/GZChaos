@@ -1,0 +1,131 @@
+Class GZC_TimerBarBase
+{
+	bool isTexture;
+
+	Array<Color> colors;
+	
+	GZC_EventHandler root;
+	GZC_EventList list;
+	
+	double ratio;
+	
+	TextureID texture;
+
+	virtual ui void drawBar(double _time, int _limit)
+	{
+		if (!root) 
+		{
+			initBar();
+			return;
+		}
+	
+		Screen.DrawText(SMALLFONT, Font.CR_WHITE, 0, 0, 'Undefined bar present! ' .. self.getClassName());
+	}
+	
+	virtual void initBar()
+	{
+		root = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+		list = root.list;
+	}
+	
+	ui Shape2D getBar(Double _ratio, Double _min, Double _max, Double _scaleuv = 1.0)
+	{
+		let square = new("Shape2D");
+		
+		double x = min(_ratio, _max);
+
+		square.PushVertex((_min, 0));
+		square.PushVertex((_min, 1));
+		square.PushVertex((x, 0));
+		square.PushVertex((x, 1));
+		
+		square.PushCoord((0, 0));
+		square.PushCoord((0, 1 / Screen.getHeight()));
+		square.PushCoord((_ratio * _scaleuv, 0));
+		square.PushCoord((_ratio * _scaleuv, 1 / Screen.getHeight()));
+
+		square.PushTriangle(0, 1, 2);
+		square.PushTriangle(1, 2, 3);
+
+		let transformation = new("Shape2DTransform");
+
+		transformation.Scale((Screen.getWidth(), 10));
+		transformation.Translate((0, 0));
+
+		square.SetTransform(transformation);
+
+		return square;
+	}
+}
+
+Class GZC_TimerBar : GZC_TimerBarBase
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+	}
+	
+	override void drawBar(double _time, int _limit)
+	{
+		if (isTexture)
+		{
+			drawTexture(_time, _limit);
+			return;
+		}
+		
+		drawColors(_time, _limit);
+	}
+	
+	ui void drawColors(double _time, int _limit)
+	{
+		ratio = _time / _limit;
+		double width = ratio * Screen.getWidth();
+		
+		int slices = colors.size();
+		double frac = 1 / double(colors.size());
+		int fill = int(slices * ratio) + 1;
+		
+		for (int i = 0; i < fill; ++i)
+		{
+			Screen.drawShapeFill(colors[i], 1.0, getBar(ratio, double(i) * frac, double(i + 1) * frac));
+		}
+	}
+	
+	ui void drawTexture(double _time, int _limit)
+	{
+		ratio = _time / _limit;
+		double width = ratio * Screen.getWidth();
+		
+		int slices = colors.size();
+		double frac = 1 / double(colors.size());
+		int fill = int(slices * ratio) + 1;
+		
+		int tWidth, tHeight = TexMan.GetSize(texture);
+		
+		Screen.drawShape(texture, true, getBar(ratio, 0.0, 1.0, 1));
+	}
+}
+
+Class GZC_TimerBar_Green : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("00FF00"));
+	}
+}
+
+Class GZC_TimerBar_Fireblu : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("SP_FACE1");
+	}
+}
