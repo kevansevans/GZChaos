@@ -1,6 +1,6 @@
 AddOptionMenu "OptionsMenu"
 {
-	Submenu "GZCChaos Options", "GZCMenu"
+	Submenu "GZChaos Options", "GZCMenu"
 }
 
 OptionMenu "GZCMenu"
