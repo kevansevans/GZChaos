@@ -60,6 +60,8 @@ Class GZC_TimerDisplay : EventHandler
 {
 	bool hiddenEffect;
 	
+	GZC_EventHandler root;
+	GZC_EventList list;
 	GZC_TimerBar activebar;
 	
 	int timelimit;
@@ -68,10 +70,27 @@ Class GZC_TimerDisplay : EventHandler
 	{
 		SetOrder(200);
 		
+		Cvar cvarTimerBar = Cvar.getCvar("GZC_TimerBarClassName", players[consoleplayer]);
+		string classname = cvarTimerBar.getString();
+		Class<GZC_TimerBar> bar = classname;
+		
+		if (bar)
+		{
+			activeBar = GZC_TimerBar(new(classname));
+			activeBar.initBar();
+			return;
+		}
+		
 		activeBar = new('GZC_TimerBar_Green');
 		activeBar.initBar();
+		cvarTimerBar.setString('GZC_TimerBar_Green');
 		
-		updateBar(0);
+	}
+	
+	void getRootHandler()
+	{
+		root = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+		list = root.list;
 	}
 	
 	override void WorldTick()
@@ -79,17 +98,26 @@ Class GZC_TimerDisplay : EventHandler
 		if (!root) getRootHandler();
 		
 		timelimit = list.timelimit();
-		
-		Cvar cvarColor = Cvar.getCvar("GZC_TimerColor", players[consoleplayer]);
-		if (cvarcolor)
-		{
-			//update here
-		}
-	}
 	
-	void updateBar(int _selected)
-	{
-		bar = TexMan.CheckForTexture(texnames[_selected]);
+		Cvar cvarTimerBar = Cvar.getCvar("GZC_TimerBarClassName", players[consoleplayer]);
+		
+		if (activebar.getClassName() == cvarTimerBar.getString()) return;
+		else
+		{
+			string classname = cvarTimerBar.getString();
+			Class<GZC_TimerBar> bar = classname;
+		
+			if (bar)
+			{
+				activeBar = GZC_TimerBar(new(classname));
+				activeBar.initBar();
+				return;
+			}
+		}
+		
+		activeBar = new('GZC_TimerBar_Green');
+		activeBar.initBar();
+		cvarTimerBar.setString('GZC_TimerBar_Green');
 	}
 
 	override void RenderUnderlay(RenderEvent event)

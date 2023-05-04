@@ -1,37 +1,17 @@
 AddOptionMenu "OptionsMenu"
 {
-	Submenu "GZChaos Options", "GZCMenu"
+	Submenu "GZCChaos Options", "GZCMenu"
 }
 
 OptionMenu "GZCMenu"
 {
+	Class "OptionMenuGZChaosMenu"
+	
 	Title "---GZChaos Options---"
-	Option "Timer color", "GZC_TimerColor", "TimerColors"
+	GZCBarTimer "Timer color", "GZC_TimerBarClassName", ""
 	Slider "Timer duration (seconds)", "GZC_TimerDuration", 20, 90, 5, 0
 	Slider "Max effects", "GZC_MaxEffects", 0, 15, 1, 0
 	Slider "Repeat effect buffer", "GZC_MemoryBuffer", 0, 100, 1, 0
 	Slider "RNG decrease effect duration", "GZC_MinTimeFlux", 0, 30, 1, 0
 	Slider "RNG Increase effect duration", "GZC_MaxTimeFlux", 0, 30, 1, 0
-}
-
-OptionValue "TimerColors"
-{
-	0, "Green"
-	1, "Red"
-	2, "Blue"
-	3, "Pink"
-	4, "Yellow"
-	5, "Cyan"
-	6, "White"
-	7, "LGBT+ Pride"
-	8, "Lesbian Pride"
-	9, "Bi Pride"
-	10, "Pan Pride"
-	11, "Trans Pride"
-	12, "Ace Pride"
-	13, "Nonbinary Pride"
-	14, "Fireblu"
-	15, "Bloodfalls"
-	16, "Lava"
-	17, "Nukkage"
 }

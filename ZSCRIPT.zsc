@@ -4,6 +4,8 @@ version "4.10"
 #include "GZChaos/GZC_StaticEvents.zsc"
 #include "GZChaos/GZC_Utils.zsc"
 
+#include "GZChaos/GZC_OptionsMenu.zsc"
+
 #include "GZChaos/screendrawing/GZC_Drowsy.zsc"
 #include "GZChaos/screendrawing/GZC_InfoDisplay.zsc"
 #include "GZChaos/screendrawing/GZC_PortraitMode.zsc"

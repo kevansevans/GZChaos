@@ -60,6 +60,8 @@ Class GZC_TimerBarBase
 
 Class GZC_TimerBar : GZC_TimerBarBase
 {
+	string timername;
+
 	override void InitBar()
 	{
 		Super.InitBar();
@@ -67,6 +69,8 @@ Class GZC_TimerBar : GZC_TimerBarBase
 	
 	override void drawBar(double _time, int _limit)
 	{
+		if (_time == 0 || _limit == 0) return;
+	
 		if (isTexture)
 		{
 			drawTexture(_time, _limit);
@@ -115,6 +119,36 @@ Class GZC_TimerBar_Green : GZC_TimerBar
 		colors.clear();
 		
 		colors.push(Color("00FF00"));
+		
+		timername = "Green";
+	}
+}
+
+Class GZC_TimerBar_Red : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("0000FF"));
+		
+		timername = "Red";
+	}
+}
+
+Class GZC_TimerBar_Blue : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FF0000"));
+		
+		timername = "Blue";
 	}
 }
 
@@ -126,6 +160,22 @@ Class GZC_TimerBar_Fireblu : GZC_TimerBar
 		
 		isTexture = true;
 		
-		texture = TexMan.CheckForTexture("SP_FACE1");
+		texture = TexMan.CheckForTexture("FIREBLU1");
+		
+		timername = "Fireblu";
+	}
+}
+
+Class GZC_TimerBar_Nukage : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("NUKAGE1");
+		
+		timername = "Nukage";
 	}
 }

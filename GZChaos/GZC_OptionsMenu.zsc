@@ -1,0 +1,103 @@
+Class OptionMenuGZChaosMenu : OptionMenu
+{
+	Override void Init(Menu _parent, OptionMenuDescriptor _desc)
+	{
+		Super.Init(_parent, _desc);
+	}
+}
+
+class OptionMenuItemGZCBarTimer : OptionMenuItemOption
+{
+	Array<String> timerbars;
+	int selection;
+	
+	void getTimerBars()
+	{
+		timerbars.clear();
+		
+		for (int i = 0; i < AllClasses.size(); ++i)
+		{
+			string classname = AllClasses[i].getClassName();
+			if (AllClasses[i] is 'GZC_TimerBar')
+			{
+				if (AllClasses[i].getClassName() == 'GZC_TimerBar') continue;
+				timerbars.push(AllClasses[i].getClassName());
+			}
+		}
+	}
+	
+	override bool MenuEvent (int mkey, bool fromcontroller)
+	{
+		getTimerBars();
+	
+		int cnt = timerbars.size();
+		if (cnt > 0)
+		{
+			selection = GetSelection();
+			if (mkey == Menu.MKEY_Left)
+			{
+				--selection;
+				if (selection < 0) selection = cnt - 1;
+			}
+			else if (mkey == Menu.MKEY_Right || mkey == Menu.MKEY_Enter)
+			{
+				++selection;
+				if (selection >= cnt) selection = 0;
+			}
+			else
+			{
+				return Super.MenuEvent(mkey, fromcontroller);
+			}
+			
+			SetSelection(Selection);
+			Menu.MenuSound("menu/change");
+		}
+		else
+		{
+			return Super.MenuEvent(mkey, fromcontroller);
+		}
+		return true;
+	}
+
+	override int GetSelection()
+	{
+		getTimerBars();
+	
+		String cv = mCVar.GetString();
+		int cnt = timerbars.size();
+		int index = timerbars.find(mCVar.getString());
+		
+		if (index == cnt)
+		{
+			return 0;
+		}
+		
+		return index;
+	}
+	
+	override void SetSelection(int Selection)
+	{
+		int cnt = timerbars.size();
+		if (cnt > 0 && mCVar != null)
+		{
+			mCVar.SetString(timerbars[selection]);
+		}
+	}
+	
+	override int Draw(OptionMenuDescriptor desc, int y, int indent, bool selected)
+	{
+		if (mCenter)
+		{
+			indent = (screen.GetWidth() / 2);
+		}
+		drawLabel(indent, y, selected? OptionMenuSettings.mFontColorSelection : OptionMenuSettings.mFontColor, isGrayed());
+
+		getTimerBars();
+		GZC_TimerBar bar = GZC_TimerBar(new(timerbars[GetSelection()]));
+		bar.initBar();
+		String text = bar.timername;
+		if (text.Length() == 0) text = StringTable.Localize("$TXT_UNKNOWN");
+		drawValue(indent, y, OptionMenuSettings.mFontColorValue, text, isGrayed());
+		return indent;
+	}
+}
