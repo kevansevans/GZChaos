@@ -110,6 +110,19 @@ Class GZC_TimerBar : GZC_TimerBarBase
 	}
 }
 
+/*
+	Notice! Due to weird GZDoom fuckery, Screen.DrawShapeFill expects colors
+	in BGR format, not RGB. This means if you want "Red", you must push the
+	color value Color("0000FF"). This has been brought up to the GZDoom devs,
+	and at the time of this comment, no fix is planned.
+	
+	Again, it's #BBGGRR, not #RRGGBB
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Solid color
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Class GZC_TimerBar_Green : GZC_TimerBar
 {
 	override void InitBar()
@@ -151,6 +164,213 @@ Class GZC_TimerBar_Blue : GZC_TimerBar
 		timername = "Blue";
 	}
 }
+
+Class GZC_TimerBar_Yellow : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("00FFFF"));
+		
+		timername = "Yellow";
+	}
+}
+
+Class GZC_TimerBar_Cyan : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FFFF00"));
+		
+		timername = "Cyan";
+	}
+}
+
+Class GZC_TimerBar_Magenta : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FF00FF"));
+		
+		timername = "Magenta";
+	}
+}
+
+Class GZC_TimerBar_White : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FFFFFF"));
+		
+		timername = "White";
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Pride Flags
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Class GZC_TimerBar_LGBT : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("0000E5"));
+		colors.push(Color("008DFF"));
+		colors.push(Color("00EEFF"));
+		colors.push(Color("218100"));
+		colors.push(Color("FF4C00"));
+		colors.push(Color("880176"));
+		
+		timername = "LGBT+ Pride";
+	}
+}
+
+Class GZC_TimerBar_Lesbian : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("251DE6"));
+		colors.push(Color("226FF4"));
+		colors.push(Color("4E92F7"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("4E92F7"));
+		colors.push(Color("226FF4"));
+		colors.push(Color("251DE6"));
+		
+		timername = "Lesbian Pride";
+	}
+}
+
+Class GZC_TimerBar_Gay : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FFBE7A"));
+		colors.push(Color("FFEC9C"));
+		colors.push(Color("FEE4C6"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("FEE4C6"));
+		colors.push(Color("FFEC9C"));
+		colors.push(Color("FFBE7A"));
+		
+		timername = "Gay Pride";
+	}
+}
+
+Class GZC_TimerBar_Bisexual : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("7002D6"));
+		colors.push(Color("974F9B"));
+		colors.push(Color("A73800"));
+		
+		timername = "Bisexual Pride";
+	}
+}
+
+Class GZC_TimerBar_Pansexual : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("8C21FF"));
+		colors.push(Color("00D8FF"));
+		colors.push(Color("FEB121"));
+		
+		timername = "Pansexual Pride";
+	}
+}
+
+Class GZC_TimerBar_Acesexual : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("070707"));
+		colors.push(Color("A2A2A2"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("7F287E"));
+		
+		timername = "Acesexual Pride";
+	}
+}
+
+Class GZC_TimerBar_Trans : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("F9CF5B"));
+		colors.push(Color("B8A8F5"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("B8A8F5"));
+		colors.push(Color("F9CF5B"));
+		
+		timername = "Trans Pride";
+	}
+}
+
+Class GZC_TimerBar_Nonbinary : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("36F4FD"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("D2599D"));
+		colors.push(Color("2C2C2C"));
+		
+		timername = "Nonbinary Pride";
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Textures
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Class GZC_TimerBar_Fireblu : GZC_TimerBar
 {
