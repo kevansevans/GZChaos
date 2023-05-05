@@ -139,20 +139,12 @@ Class GZC_DrowsyDooming : GZC_Event
 		tiredness = max(0, tiredness);
 		
 		GZC_Drowsy(EventHandler.find('GZC_Drowsy')).tiredness = tiredness;
-		
-		player.player.cheats &= !(CF_TOTALLYFROZEN);
-		if (tiredness >= 100)
-		{
-			player.player.cheats |= CF_TOTALLYFROZEN;
-		}
 	}
 	
 	override void closeFunc()
 	{
 		GZC_Drowsy(EventHandler.find('GZC_Drowsy')).tiredness = 0;
 		GZC_Drowsy(EventHandler.find('GZC_Drowsy')).enabled = false;
-		
-		players[consoleplayer].cheats &= !(CF_TOTALLYFROZEN);
 	}
 	
 	override void init()
