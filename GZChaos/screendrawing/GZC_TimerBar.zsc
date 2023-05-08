@@ -316,7 +316,7 @@ Class GZC_TimerBar_Pansexual : GZC_TimerBar
 	}
 }
 
-Class GZC_TimerBar_Acesexual : GZC_TimerBar
+Class GZC_TimerBar_Asexual : GZC_TimerBar
 {
 	override void InitBar()
 	{
@@ -329,7 +329,7 @@ Class GZC_TimerBar_Acesexual : GZC_TimerBar
 		colors.push(Color("FFFFFF"));
 		colors.push(Color("7F287E"));
 		
-		timername = "Acesexual Pride";
+		timername = "Asexual Pride";
 	}
 }
 
