@@ -8,6 +8,7 @@ Class GZC_TimerBarBase
 	GZC_EventList list;
 	
 	double ratio;
+	double scaleuv;
 	
 	TextureID texture;
 
@@ -33,6 +34,7 @@ Class GZC_TimerBarBase
 		let square = new("Shape2D");
 		
 		double x = min(_ratio, _max);
+		double uvx = (160.0 * _scaleuv);
 
 		square.PushVertex((_min, 0));
 		square.PushVertex((_min, 1));
@@ -40,9 +42,9 @@ Class GZC_TimerBarBase
 		square.PushVertex((x, 1));
 		
 		square.PushCoord((0, 0));
-		square.PushCoord((0, 1 / Screen.getHeight()));
-		square.PushCoord((_ratio * _scaleuv, 0));
-		square.PushCoord((_ratio * _scaleuv, 1 / Screen.getHeight()));
+		square.PushCoord((0, _scaleuv));
+		square.PushCoord((_ratio * uvx, 0));
+		square.PushCoord((_ratio * uvx, _scaleuv));
 
 		square.PushTriangle(0, 1, 2);
 		square.PushTriangle(1, 2, 3);
@@ -106,7 +108,7 @@ Class GZC_TimerBar : GZC_TimerBarBase
 		
 		int tWidth, tHeight = TexMan.GetSize(texture);
 		
-		Screen.drawShape(texture, true, getBar(ratio, 0.0, 1.0, 1));
+		Screen.drawShape(texture, true, getBar(ratio, 0.0, 1.0, scaleuv));
 	}
 }
 
@@ -218,6 +220,27 @@ Class GZC_TimerBar_White : GZC_TimerBar
 		colors.push(Color("FFFFFF"));
 		
 		timername = "White";
+	}
+}
+
+Class GZC_TimerBar_Rainbow : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FFFFFF"));
+		
+		timername = "Rainbow";
+	}
+	
+	override void drawBar(double _time, int _limit)
+	{
+		
+		
+		Super.drawBar(_time, _limit);
 	}
 }
 
@@ -383,6 +406,8 @@ Class GZC_TimerBar_Fireblu : GZC_TimerBar
 		texture = TexMan.CheckForTexture("FIREBLU1");
 		
 		timername = "Fireblu";
+		
+		scaleuv = 1.0 / 8.0;
 	}
 }
 
@@ -397,5 +422,103 @@ Class GZC_TimerBar_Nukage : GZC_TimerBar
 		texture = TexMan.CheckForTexture("NUKAGE1");
 		
 		timername = "Nukage";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_Blood : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("Blood1");
+		
+		timername = "Boiling Blood";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_Lava : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("LAVA1");
+		
+		timername = "Lava";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_Marble : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("Marble1");
+		
+		timername = "Marble";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_SkullMarble : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("Marble2");
+		
+		timername = "Skull Marble";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_WallOfFaces : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("SP_FACE1");
+		
+		timername = "Wall Of Faces";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_GZMissing : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("-noflat-");
+		
+		timername = "GZDoom Missing Texture";
+		
+		scaleuv = 1.0;
 	}
 }
