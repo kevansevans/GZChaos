@@ -49,7 +49,7 @@ Class GZC_TimerBarBase
 
 		let transformation = new("Shape2DTransform");
 
-		transformation.Scale((Screen.getWidth(), 10));
+		transformation.Scale((Screen.getWidth(), Cvar.getCvar("GZC_TimerBarHeight", players[consoleplayer]).getInt()));
 		transformation.Translate((0, 0));
 
 		square.SetTransform(transformation);

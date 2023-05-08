@@ -9,6 +9,7 @@ OptionMenu "GZCMenu"
 	
 	Title "---GZChaos Options---"
 	GZCBarTimer "Timer color", "GZC_TimerBarClassName", ""
+	Slider "Timer height", "GZC_TimerBarHeight", 5, 20, 1, 0
 	Slider "Timer duration (seconds)", "GZC_TimerDuration", 20, 90, 5, 0
 	Slider "Max effects", "GZC_MaxEffects", 0, 15, 1, 0
 	Slider "Repeat effect buffer", "GZC_MemoryBuffer", 0, 100, 1, 0
