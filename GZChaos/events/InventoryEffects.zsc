@@ -354,165 +354,44 @@ Class GZC_TakeAllKeysAway : GZC_Event
 	}
 }
 
-Class GZC_GiveMegasphere : GZC_Event
+Class GZC_GiveRandomInventory : GZC_Event
 {
+	static const name doom_items[] = {
+		'Cell', 'CellPack', 'Clip', 'ClipBox', 'Shell', 'ShellBox', 'RocketAmmo', 'RocketBox', 'GreenArmor', 'BlueArmor', 
+		'ArmorBonus', 'Backpack', 'Berserk', 'HealthBonus', 'MediKit', 'MegaSphere', 'SoulSphere', 'StimPack', 'BlueCard', 'BlueSkull',
+		'RedCard', 'RedSkull', 'YellowCard', 'YellowSkull', 'AllMap', 'BlurSphere', 'Infrared', 'InvulnerabilitySphere', 'RadSuit'
+	};
+	
+	//Since each item is arguably a separate effect, arguably allowing it to always re-roll makes sense
+	override bool verify()
+	{
+		return true;
+	}
 
 	override void eventFunc()
 	{
-		givePlayerItem('Megasphere');
-	}
+		Actor item;
 	
-	override void init()
-	{
-		eventname = "Give megasphere";
-		duration = 35 * 60;
-		type = E_Instant;
+		switch (gameInfo.gameType)
+		{
+			case 1:
+				item = Actor.spawn(doom_items[random(0, 28)]);
+				break;
+			default:
+				return;
+		}
+		
+		item.touch(players[consoleplayer].mo);
+		self.eventname = "Give " .. item.getClassName();
 	}
-}
 
-Class GZC_GiveLightAmp : GZC_Event
-{
-	override void eventFunc()
-	{
-		givePlayerItem('Infrared');
-		activated = true;
-	}
-	
-	override void closeFunc() {}
-	
 	override void init()
 	{
-		eventname = "Give light amp";
-		duration = 35 * 120;
-		type = E_Timed;
-	}
-}
-
-Class GZC_GiveRadSuit : GZC_Event
-{
-	override void eventFunc()
-	{
-		givePlayerItem('RadSuit');
-		activated = true;
-	}
-	
-	override void closeFunc() {}
-	
-	override void init()
-	{
-		eventname = "Give rad suit";
-		duration = 35 * 60;
-		type = E_Timed;
-	}
-}
-
-Class GZC_GiveInvulnerabilitySphere : GZC_Event
-{
-	override void eventFunc()
-	{
-		givePlayerItem('InvulnerabilitySphere');
-		activated = true;
-	}
-	
-	override void closeFunc() {}
-	
-	override void init()
-	{
-		eventname = "Give invulnerability";
+		eventname = "Give a thing";
 		duration = 35 * 30;
-		type = E_Timed;
-	}
-}
-
-Class GZC_GiveBlurSphere : GZC_Event
-{
-	override void eventFunc()
-	{
-		givePlayerItem('BlurSphere');
-		activated = true;
-	}
-	
-	override void closeFunc() {}
-	
-	override void init()
-	{
-		eventname = "Give Blur Sphere";
-		duration = 35 * 60;
-		type = E_Timed;
-	}
-}
-
-Class GZC_GiveSoulsphere : GZC_Event
-{
-	override void eventFunc()
-	{
-		givePlayerItem('Soulsphere');
-		activated = true;
-	}
-	
-	override void closeFunc() {}
-	
-	override void init()
-	{
-		eventname = "Give Soulsphere";
-		duration = 35 * 60;
 		type = E_Instant;
 	}
-}
 
-Class GZC_GiveHealthBonus : GZC_Event
-{
-	override void eventFunc()
-	{
-		givePlayerItem('HealthBonus');
-	}
-	
-	override void closeFunc() {}
-	
-	override void init()
-	{
-		eventname = "Give single health bonus";
-		duration = 35 * 60;
-		type = E_Instant;
-	}
-}
-
-Class GZC_GiveArmorBonus : GZC_Event
-{
-	override void eventFunc()
-	{
-		givePlayerItem('ArmorBonus');
-	}
-	
-	override void closeFunc() {}
-	
-	override void init()
-	{
-		eventname = "Give single armor bonus";
-		duration = 35 * 60;
-		type = E_Instant;
-	}
-}
-
-Class GZC_GiveBerserk : GZC_Event
-{
-	override void eventFunc()
-	{
-		givePlayerItem('Berserk');
-		activated = true;
-	}
-	
-	override void closeFunc()
-	{
-	
-	}
-	
-	override void init()
-	{
-		eventname = "Give berserk";
-		duration = 35 * 15;
-		type = E_Instant;
-	}
 }
 
 Class GZC_GiveRandomWeapon : GZC_Event
