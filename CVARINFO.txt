@@ -5,6 +5,7 @@ server noarchive string gzc_addeffect = "";
 
 user string GZC_TimerBarClassName = "GZC_TimerBar_Green";
 user int GZC_TimerBarHeight = 15;
+user float GZC_EffectScaleAmount = 1.5;
 server int GZC_TimerDuration = 30;
 server int GZC_MinTimeFlux = 3;
 server int GZC_MaxTimeFlux = 3;
