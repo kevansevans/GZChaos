@@ -26,7 +26,7 @@ poot6	poot6
 poot7	poot7
 poot8	poot8
 
-disc/ord "Sounds/DISCORD.ogg"
+disc/ord "Sounds/Ambient.ogg"
 
 skull1 skull1
 skull2 skull2
