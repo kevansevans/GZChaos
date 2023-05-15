@@ -245,6 +245,18 @@ Class GZC_EventHandler : StaticEventHandler
 		}
 	}
 	
+	override void worldLinePreActivated(WorldEvent _event)
+	{
+		if (!player) getPlayerInfo();
+		if (!effects) getEffects();
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration) event.preActivateLine(_event);
+		}
+	}
+	
 	void addEffectToActive(int _ignore = -1)
 	{
 		if (Cvar.getCvar('GZC_Debug', player.player).getBool())

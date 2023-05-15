@@ -146,6 +146,7 @@ Class GZC_Event play
 	virtual void spawnFunc(Actor mo){}
 	virtual void deathFunc(Actor mo){}
 	virtual void lineDamageFunc(WorldEvent event) {}
+	virtual void preActivateLine(WorldEvent event) {}
 	virtual void loadFunc() {}
 	
 	virtual void morphActor(Actor mo, Class<Actor> type)
