@@ -1,3 +1,25 @@
+Class GZC_FaultySwitches : GZC_Event
+{
+	override void preActivateLine(WorldEvent event)
+	{
+		if (event.ActivationType != 2) return;
+	
+		bool activate = !random(0, 2);
+		event.shouldActivate = activate;
+		if (event.thing is 'PlayerPawn' && !activate)
+		{
+			event.thing.A_StartSound("world/spark", CHAN_AUTO);
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Faulty Doors and Switches";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_KryptoniteFog : GZC_Event
 {
 	Array<int> foglevels;
@@ -163,6 +185,65 @@ Class GZC_TextureSwapEffect : GZC_Event
 	}
 }
 
+Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
+{
+	bool cleared;
+
+	override void eventFunc()
+	{
+		if (cleared) return;
+	
+		initialize();
+	
+		TextureID newtex = TexMan.checkForTexture("MISSING");
+		
+		level.ChangeSky(newtex, TexMan.checkForTexture(''));
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+		
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+					sidedef.setTexture(wall, newtex);
+					oldnames.push(TexMan.getName(wallTex));
+				}
+			}
+		}
+		
+		for (int se = 0; se < level.sectors.size(); ++se)
+		{
+			if (level.sectors[se].damageamount > 0) continue;
+		
+			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
+				level.sectors[se].setTexture(0, newtex);
+			}
+			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			{
+				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
+				level.sectors[se].setTexture(1, newtex);
+			}
+			oldlights.push(level.sectors[se].lightlevel);
+			level.sectors[se].lightlevel = 192;
+		}
+		
+		cleared = true;
+	}
+	
+	override void init()
+	{
+		eventname = "Please install Counter Strike";
+		duration = 35 * 60 * 5;
+		deleteme = true;
+		type = E_Timed;
+	}
+}
+
 Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 {
 	Array<Int> flags;
@@ -226,6 +307,8 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 	override void closeFunc()
 	{
 		super.closeFunc();
+		
+		if (levelNum != level.levelnum) return;
 		
 		for (int si = 0; si < level.sides.size(); ++si)
 		{
