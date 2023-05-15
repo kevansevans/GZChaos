@@ -223,27 +223,6 @@ Class GZC_TimerBar_White : GZC_TimerBar
 	}
 }
 
-Class GZC_TimerBar_Rainbow : GZC_TimerBar
-{
-	override void InitBar()
-	{
-		Super.InitBar();
-		
-		colors.clear();
-		
-		colors.push(Color("FFFFFF"));
-		
-		timername = "Rainbow";
-	}
-	
-	override void drawBar(double _time, int _limit)
-	{
-		
-		
-		Super.drawBar(_time, _limit);
-	}
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Pride Flags
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -518,6 +497,22 @@ Class GZC_TimerBar_GZMissing : GZC_TimerBar
 		texture = TexMan.CheckForTexture("-noflat-");
 		
 		timername = "GZDoom Missing Texture";
+		
+		scaleuv = 1.0;
+	}
+}
+
+Class GZC_TimerBar_SourceMissing : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("MISSING");
+		
+		timername = "Source Engine Missing Texture";
 		
 		scaleuv = 1.0;
 	}
