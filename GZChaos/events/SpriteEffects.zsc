@@ -1,32 +1,35 @@
 Class GZC_MissingWad : GZC_TextureSwapEffect
 {
 	bool cleared;
-	Map<String, SpriteID> sprites;
 
 	override void eventFunc()
 	{
-		if (!cleared)
-		{
-			sprites.clear();
-			cleared = true;
-		}
-		
+		if (cleared) return;
+	
 		ThinkerIterator it = ThinkerIterator.create('Actor');
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
 		{
-			if (mo.sprite != mo.GetSpriteIndex('TNT1'))
-			{
-				if (mo.sprite != mo.getSpriteIndex('UNKN'))
-				{
-					string act = mo.getClassName();
-					if (!sprites.checkKey(act)) sprites.insert(act, mo.sprite);
-				}
-				mo.sprite = mo.GetSpriteIndex('UNKN');
-				mo.frame = 0;
-			}
+			if (mo is 'GZC_MissingActor' || mo is 'PlayerPawn') continue;
+			applyEffect(mo);
 		}
+		
+		cleared = true;
+	}
+	
+	override void spawnFunc(Actor mo)
+	{
+		if (mo is 'GZC_MissingActor') return;
+		applyEffect(mo);
+	}
+	
+	void applyEffect(Actor mo)
+	{
+		mo.bInvisibleInMirrors = true;
+		mo.bOnlyVisibleInMirrors = true;
+		let missing = Actor.spawn('GZC_MissingActor', mo.pos);
+		missing.master = mo;
 	}
 	
 	override void closeFunc()
@@ -36,10 +39,15 @@ Class GZC_MissingWad : GZC_TextureSwapEffect
 		
 		while (mo = Actor(it.next()))
 		{
-			if (mo.health <= 0) continue;
-		
-			string act = mo.getClassName();
-			mo.sprite = sprites.get(act);
+			if (mo is 'GZC_MissingActor')
+			{
+				mo.destroy();
+				continue;
+			}
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bInvisibleInMirrors = def.bInvisibleInMirrors;
+			mo.bOnlyVisibleInMirrors = def.bOnlyVisibleInMirrors;
 		}
 	}
 	
@@ -48,6 +56,34 @@ Class GZC_MissingWad : GZC_TextureSwapEffect
 		eventname = "!";
 		duration = 35 * 60 * 2;
 		type = E_Timed;
+	}
+}
+
+Class GZC_MissingActor : Actor
+{
+	States
+	{
+		Spawn:
+			UNKN AA 1 A_Mimic();
+			Loop;
+	}
+	
+	Action void A_Mimic()
+	{
+		if (!invoker.master) {
+			self.destroy();
+			return;
+		}
+		
+		if (master.sprite == master.getSpriteIndex('TNT1'))
+		{
+			invoker.sprite = master.getSpriteIndex('TNT1');
+			return;
+		}
+		
+		invoker.setOrigin(master.pos, true);
+		
+		invoker.bBright = master.curState.bFullBright;
 	}
 }
 
