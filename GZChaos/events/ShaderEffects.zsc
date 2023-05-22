@@ -1,6 +1,5 @@
 Class GZC_ShaderEvent : GZC_Event
 {
-
 	static void DisableShaders()
 	{
 		PPShader.SetEnabled("lowres", false);
@@ -9,6 +8,21 @@ Class GZC_ShaderEvent : GZC_Event
 		PPShader.SetEnabled("liquid", false);
 	}
 	
+	override bool verify()
+	{
+		bool result = Super.verify();
+	
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			if (event is "GZC_ShaderEvent") return false;
+		}
+		
+		return result;
+	}
 }
 
 Class GZC_MSDOSMode : GZC_ShaderEvent
