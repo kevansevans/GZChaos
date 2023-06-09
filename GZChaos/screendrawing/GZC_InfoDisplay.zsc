@@ -42,10 +42,10 @@ class GZC_EffectDisplay : EventHandler
 				if (effect.type == E_Timed && effect.life < effect.duration)
 				{
 					double ratio = 1 - (double(effect.life) / double(effect.duration));
-					yOffset += (12 * userscale) + 1;
+					yOffset += int(12 * userscale) + 1;
 					Screen.DrawThickLine(20, yOffset, (20 + (200 * ratio)) * userscale, yOffset, 10 * userscale, Color("FF0000"));
 				}
-				yOffset += 60 * userscale;
+				yOffset += int(60 * userscale);
 			}
 		}
 	}
