@@ -63,29 +63,13 @@ Class GZC_TimerDisplay : EventHandler
 	
 	GZC_EventHandler root;
 	GZC_EventList list;
-	GZC_TimerBar activebar;
+	ui GZC_TimerBar activebar;
 	
 	int timelimit;
 
 	override void onRegister()
 	{
 		SetOrder(200);
-		
-		Cvar cvarTimerBar = Cvar.getCvar("GZC_TimerBarClassName", players[consoleplayer]);
-		string classname = cvarTimerBar.getString();
-		Class<GZC_TimerBar> bar = classname;
-		
-		if (bar)
-		{
-			activeBar = GZC_TimerBar(new(classname));
-			activeBar.initBar();
-			return;
-		}
-		
-		activeBar = new('GZC_TimerBar_Green');
-		activeBar.initBar();
-		cvarTimerBar.setString('GZC_TimerBar_Green');
-		
 	}
 	
 	void getRootHandler()
@@ -99,8 +83,24 @@ Class GZC_TimerDisplay : EventHandler
 		if (!root) getRootHandler();
 		
 		timelimit = list.timelimit();
+	}
 	
+	override void UiTick()
+	{
 		Cvar cvarTimerBar = Cvar.getCvar("GZC_TimerBarClassName", players[consoleplayer]);
+		
+		if (!activebar)
+		{
+			string classname = cvarTimerBar.getString();
+			Class<GZC_TimerBar> bar = classname;
+		
+			if (bar)
+			{
+				activeBar = GZC_TimerBar(new(classname));
+				activeBar.initBar();
+				return;
+			}
+		}
 		
 		if (activebar.getClassName() == cvarTimerBar.getString()) return;
 		else
