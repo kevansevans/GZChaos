@@ -162,38 +162,13 @@ Class GZC_DrowsyDooming : GZC_Event
 	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
-		
-		if (!self.lastweapon) {
-			lastweapon = player.player.readyWeapon.getClassName();
-		}
-		
-		if (!(player.player.readyWeapon is 'CoffeeMug'))
-		{
-			player.giveInventory('CoffeeMug', 1);
-			player.A_SelectWeapon('CoffeeMug');
-		}
-		
-		if (player.player.readyWeapon is 'CoffeeMug')
-		{
-			let coffee = CoffeeMug(player.player.readyWeapon);
-			coffee.lastweapon = self.lastweapon;
-			
-			if (player.health >= 100)
-			{
-				activated = true;
-			}
-		}
-		
-		if (activated)
-		{
-			life = 0;
-		}
+		player.A_Morph('CoffeePlayer', 0x7FFFFFFF, 0, 'Actor', 'Actor');
+		activated = true;
 	}
 	
 	override void closeFunc()
 	{
-		let player = players[consoleplayer].mo;
-		player.TakeInventory('CoffeeMug', 999);
+		
 	}
 
 	override void init()
