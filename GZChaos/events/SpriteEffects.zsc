@@ -61,6 +61,11 @@ Class GZC_MissingWad : GZC_TextureSwapEffect
 
 Class GZC_MissingActor : Actor
 {
+	Default
+	{
+		+NoBlockmap;
+	}
+
 	States
 	{
 		Spawn:

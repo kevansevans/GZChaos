@@ -25,17 +25,16 @@ Jimmy Squared
 	- Coffee mug sprites, all is forgiven
 Xaser
 	- MEGALODOOMIA.mid
-Shakar
-	- Testing
-Proverbial
-	- Testing
-Warren
+Shakar, Proverbial, Warren
 	- Testing
 Rachael
 	- Enemy tic code slowdown
 	- https://github.com/madame-rachelle/FloatTime
 Raven Software
 	- Chicken sprites and sounds
+id Software
+	- Doom
+	- Doom 3 "take health" sound effect
 Leon Zawada, Simon Rance 
 	- Return of The Triad, Dog Mode sprites, Sounds, and Decorate
 	- https://doomwiki.org/wiki/Return_of_the_Triad

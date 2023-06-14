@@ -40,3 +40,5 @@ bounce/boing "Sounds/BOING.ogg"
 
 kamikazi/scream		DSKAMAAH
 kamikazi/idle		DSKAMIDL
+
+Doom3/TakeHealth	TAKEHEAL
