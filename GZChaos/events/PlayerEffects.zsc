@@ -1,3 +1,26 @@
+Class GZC_DoomThreeNightmare : GZC_Event
+{
+	override void eventFunc()
+	{
+		if (gametic % (35 * 5) != 0) return;
+		
+		let player = players[consoleplayer].mo;
+		
+		if (player.health <= 25) return;
+		
+		int drain = min(player.health - 25, 5);
+		player.A_DamageSelf(drain, 'Melee');
+		player.A_StartSound("Doom3/TakeHealth", CHAN_AUTO);
+	}
+	
+	override void init()
+	{
+		eventname = "Doom 3 Nightmare";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_Aimbot : GZC_Event
 {
 	double distance;

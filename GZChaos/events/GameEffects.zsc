@@ -1,3 +1,53 @@
+Class GZC_CompanionImpEvent : GZC_Event
+{
+	override void EventFunc()
+	{
+		activated = true;
+		
+		let player = players[consoleplayer].mo;
+		Actor.spawn('GZC_CompanionImp', player.pos);
+	}
+	
+	override void init()
+	{
+		eventname = "Companion Imp";
+		duration = 35 * 60;
+		type = E_Instant;
+		deleteme = true;
+	}
+}
+
+Class GZC_CompanionImp : DoomImp
+{
+	Default
+	{
+		Translation "CompanionImp";
+		+Friendly;
+	}
+	
+	override void tick()
+	{
+		Super.tick();
+		
+		if (gametic % (35 * 10) != 0) return;
+		
+		let player = players[consoleplayer].mo;
+		if (self.distance3D(player) > 1024 || !(player.isVisible(self, true) && self.isVisible(player, true)))
+		{
+			Self.SetOrigin(player.pos, false);
+			Actor.spawn('TeleportFog', player.pos);
+		}
+	}
+	
+	States
+	{
+		Melee:
+		Missile:
+			TNT1 A 0;
+			Goto See;
+	}
+}
+
 Class GZC_BouncyProjectiles : GZC_Event
 {
 	override void eventFunc()
