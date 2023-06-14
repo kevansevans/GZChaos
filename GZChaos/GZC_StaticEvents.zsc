@@ -105,6 +105,8 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldTick()
 	{
+		if (level.levelnum == 0) return;
+	
 		if (level.isFrozen()) return;
 	
 		if (!player) getPlayerInfo();
