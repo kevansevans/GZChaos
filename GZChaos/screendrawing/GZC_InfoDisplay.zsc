@@ -38,14 +38,14 @@ class GZC_EffectDisplay : EventHandler
 				if (effect.life > effect.duration || effect.type != E_Timed) fontcolor = Font.CR_DarkGray;
 				if (effect.life < 35) fontcolor = Font.CR_Yellow;
 				
-				Screen.DrawText(BIGFONT, fontcolor, 20 * scaley, (yoffset - 20) * scaley, effect.eventname, DTA_ScaleX, userscale * scaley, DTA_ScaleY, userscale * scaley);
+				Screen.DrawText(BIGFONT, fontcolor, 20 * scaley, yoffset, effect.eventname, DTA_ScaleX, userscale * scaley, DTA_ScaleY, userscale * scaley);
+				float ratio = 1 - (float(effect.life) / float(effect.duration));
+				yOffset += 20 * userscale;
 				if (effect.type == E_Timed && effect.life < effect.duration)
 				{
-					double ratio = 1 - (double(effect.life) / double(effect.duration));
-					yOffset += int(12 * userscale) + 1;
-					Screen.DrawThickLine(20, yOffset, (20 + (200 * ratio)) * userscale, yOffset, 10 * userscale, Color("FF0000"));
+					Screen.DrawThickLine(20, yOffset, (20 + (200 * ratio)) * userscale, yOffset, 5 * userscale, Color("FF0000"));
 				}
-				yOffset += int(60 * userscale);
+				yOffset += int(30 * userscale);
 			}
 		}
 	}
