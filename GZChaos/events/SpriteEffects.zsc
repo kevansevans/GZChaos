@@ -1,3 +1,69 @@
+Class GZC_FloorSpriteEnemies : GZC_Event
+{
+	override void EventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.bFlatSprite = true;
+		}
+	}
+	
+	override void CloseFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bFlatSprite = def.bFlatSprite;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "The Crusher";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_WallSpriteEnemies : GZC_Event
+{
+	override void EventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.bWallSprite = true;
+		}
+	}
+	
+	override void CloseFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bWallSprite = def.bWallSprite;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Flatworld";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_MissingWad : GZC_TextureSwapEffect
 {
 	bool cleared;

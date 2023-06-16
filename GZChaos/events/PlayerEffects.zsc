@@ -1,3 +1,48 @@
+/*Class GZC_PainRave : GZC_Event
+{
+	override void EventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		
+		player.DamageFade = Color("00CC00");
+		player.FlashIntensity = 1.0;
+	}
+
+	override void init()
+	{
+		eventname = "Pain Rave";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}*/
+
+Class GZC_AggressiveWeaponBobbing : GZC_Event
+{
+	override void EventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		
+		player.viewbob = (10.0 * sin(gametic)) + (5.0 * cos(gametic));
+		player.player.weaponstate |= WF_WeaponBobbing;
+	}
+	
+	override void CloseFunc()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.viewbob = def.viewbob;
+		player.player.weaponstate &= ~(WF_WeaponBobbing);
+	}
+
+	override void init()
+	{
+		eventname = "Whacky Wavey Inflatable Doomguy";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_DoomThreeNightmare : GZC_Event
 {
 	override void eventFunc()
