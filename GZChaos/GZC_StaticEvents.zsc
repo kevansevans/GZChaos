@@ -1,7 +1,6 @@
 Class GZC_EventHandler : StaticEventHandler
 {
 	double effectTimer;
-	double timer;
 	
 	PlayerPawn player;
 	PlayerInfo infoplayer;
@@ -30,15 +29,12 @@ Class GZC_EventHandler : StaticEventHandler
 		{
 			list = GZC_EventList.create();
 			timerMode = E_Normal;
-			timer = 0;
 		}
 	}
 
 	override void OnRegister()
 	{
 		console.printf('Let the Chaos begin!');
-		
-		timer = 0;
 		
 		SetOrder(100);
 	}
@@ -172,19 +168,20 @@ Class GZC_EventHandler : StaticEventHandler
 	void performModTic(int steps = 1)
 	{
 		int maxed = Cvar.getCvar('GZC_MaxEffects').getInt();
+		let player = players[consoleplayer].mo;
 	
 		if (!Cvar.getCvar('gzc_pausemaintimer').getBool()) 
 		{
 			if (maxed != 0 && getEnabledEffectsCount() >= maxed){}
 			else
 			{
-				timer += steps;
+				player.giveInventory('TimerToken', steps);
 			}
 		}
 		
-		if (list.timeLimit() - timer <= 0)
+		if (list.timeLimit() - player.countInv('TimerToken') <= 0)
 		{
-			timer = 0;
+			player.takeInventory('TimerToken', 0x7FFFFFFF);
 			
 			addEffectToActive();
 		}

@@ -127,7 +127,8 @@ Class GZC_TimerDisplay : EventHandler
 	
 		if (!hiddenEffect)
 		{
-			activeBar.drawBar(root.timer, timelimit);
+			let player = players[consoleplayer].mo;
+			activeBar.drawBar(player.countInv('TimerToken'), timelimit);
 		}
 	}
 }
