@@ -28,6 +28,8 @@ poot8	poot8
 
 disc/ord "Sounds/Ambient.ogg"
 
+Whip/Crack "Sounds/WHIPCRAK.ogg"
+
 skull1 skull1
 skull2 skull2
 skull3 skull3
