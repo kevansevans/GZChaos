@@ -51,6 +51,8 @@ Class GZC_CompanionImp : DoomImp
 	{
 		Super.tick();
 		
+		if (self.health <= 0) return;
+		
 		if (gametic % (35 * 10) != 0) return;
 		
 		let player = players[consoleplayer].mo;
