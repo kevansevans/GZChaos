@@ -39,7 +39,7 @@ Class GZC_WhipCrack : GZC_Event
 
 	override void DeathFunc(Actor _mo)
 	{
-		whip = true;
+		whipCrack();
 	}
 
 	override void SpawnFunc(Actor _mo)
