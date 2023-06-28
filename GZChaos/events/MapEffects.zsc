@@ -27,6 +27,18 @@ Class GZC_KryptoniteFog : GZC_Event
 	
 	override void eventFunc()
 	{
+		applyFog();
+	
+		activated = true;
+	}
+	
+	override void loadFunc()
+	{
+		applyFog();
+	}
+	
+	void applyFog()
+	{
 		foglevels.clear();
 		colors.clear();
 		
@@ -37,8 +49,6 @@ Class GZC_KryptoniteFog : GZC_Event
 			sec.setFogDensity(0x100);
 			sec.setFade(Color(0xACFFCD));
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
