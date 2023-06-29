@@ -1,3 +1,121 @@
+Class GZC_MacroMissiles : GZC_Event
+{
+	bool initiated;
+
+	override void eventFunc()
+	{
+		if (initiated) return;
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			shrinkMissile(mo);
+		}
+		
+		initiated = true;
+	}
+	
+	override void spawnFunc(Actor _mo)
+	{
+		if (!_mo.bMissile) return;
+		shrinkMissile(_mo);
+	}
+	
+	void shrinkMissile(Actor _mo)
+	{
+		double scale = 2;
+		_mo.scale.x *= scale;
+		_mo.scale.y *= scale;
+		_mo.A_SetSize(_mo.radius * scale, _mo.height * scale);
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = ACtor(it.next()))
+		{
+			if (!mo.bMissile) return;
+		
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+			mo.A_SetSize(def.radius, def.height);
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Macro-Missiles";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_MicroMissiles : GZC_Event
+{
+	bool initiated;
+
+	override void eventFunc()
+	{
+		if (initiated) return;
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			shrinkMissile(mo);
+		}
+		
+		initiated = true;
+	}
+	
+	override void spawnFunc(Actor _mo)
+	{
+		if (!_mo.bMissile) return;
+		shrinkMissile(_mo);
+	}
+	
+	void shrinkMissile(Actor _mo)
+	{
+		double scale = 0.25;
+		_mo.scale.x *= scale;
+		_mo.scale.y *= scale;
+		_mo.A_SetSize(_mo.radius * scale, _mo.height * scale);
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = ACtor(it.next()))
+		{
+			if (!mo.bMissile) return;
+		
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+			mo.A_SetSize(def.radius, def.height);
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Micro-Missiles";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_DetonateAllBarrels : GZC_Event
 {
 	override void eventFunc()
