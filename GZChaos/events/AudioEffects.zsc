@@ -57,7 +57,7 @@ Class GZC_WhipCrack : GZC_Event
 	override void init()
 	{
 		eventname = "Johnny Test";
-		duration = 35 * 30 * 3;
+		duration = 35 * 60;
 		type = E_Timed;
 	}
 }
