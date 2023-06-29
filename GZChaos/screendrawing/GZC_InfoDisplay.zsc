@@ -65,7 +65,7 @@ class GZC_EffectDisplay : EventHandler
 				{
 					Screen.DrawTexture(bgGreyBar, false, 20 * xscale, yOffset + (16 * yscale), DTA_ScaleX, xscale * 0.5, DTA_ScaleY, yscale * 0.5);
 					double ratio = 1.0 - (double(effect.life) / double(effect.duration));
-					Screen.DrawThickLine(25 * xscale, yOffset + (25.5 * yScale), (650 * xscale * 0.5 * ratio), yOffset + (25.5 * yScale), 20 * yScale * 0.5, Color("FF0000")); 
+					Screen.DrawThickLine(25 * xscale, yOffset + (25.5 * yScale), (25 * xscale) + (625 * xscale * 0.5 * ratio), yOffset + (25.5 * yScale), 20 * yScale * 0.5, Color("FF0000")); 
 				}
 			}
 		}
