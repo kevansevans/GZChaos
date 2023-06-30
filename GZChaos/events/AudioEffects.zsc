@@ -1,3 +1,44 @@
+Class GZC_TheEddsAreComing : GZC_Event //More like GZC_EddEvent, hue hue hue
+{
+	override void deathFunc(Actor _mo)
+	{
+		if (!_mo.bIsMonster) return;
+		
+		_mo.A_STartSound("EEnE/Kill", CHAN_AUTO);
+	}
+	
+	override void preActivateLine(WorldEvent _event)
+	{
+		let player = players[consoleplayer].mo;
+		player.A_StartSound("EEnE/Line", CHAN_AUTO);
+	}
+
+	override void init()
+	{
+		eventname = "The Edds Are Coming!";
+		duration = 35 * 60 * 5;
+		type = E_Timed;
+	}
+}
+
+Class GZC_QuipItGood : GZC_Event
+{
+	override void deathFunc(Actor _mo)
+	{
+		if (!_mo.bIsMonster) return;
+		
+		let player = players[consoleplayer].mo;
+		player.A_StartSound("Quip/Quip", CHAN_AUTO);
+	}
+
+	override void init()
+	{
+		eventname = "Quip it Good";
+		duration = 35 * 60 * 5;
+		type = E_Timed;
+	}
+}
+
 Class GZC_WhipCrack : GZC_Event
 {
 	bool spawned;
