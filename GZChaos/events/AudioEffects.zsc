@@ -1,16 +1,60 @@
 Class GZC_TheEddsAreComing : GZC_Event //More like GZC_EddEvent, hue hue hue
 {
-	override void deathFunc(Actor _mo)
+	override void eventFunc()
 	{
-		if (!_mo.bIsMonster) return;
+		startReassignment();
 		
-		_mo.A_STartSound("EEnE/Kill", CHAN_AUTO);
+		activated = true;
+	}
+	
+	override void spawnFunc(Actor _mo)
+	{
+		if (_mo.bIsmonster) return;
+		reassignDeathSound(_mo);
+	}
+	
+	override void loadFunc()
+	{
+		startReassignment();
+	}
+	
+	void startReassignment()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			reassignDeathSound(mo);
+		}
+	}
+	
+	void reassignDeathSound(Actor _mo)
+	{
+		_mo.DeathSound = "EEnE/kill";
+		_mo.bFullVolDeath = true;
 	}
 	
 	override void preActivateLine(WorldEvent _event)
 	{
 		let player = players[consoleplayer].mo;
 		player.A_StartSound("EEnE/Line", CHAN_AUTO);
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.DeathSound = def.DeathSound;
+			mo.bFullVolDeath = def.bFullVolDeath;
+		}
 	}
 
 	override void init()
