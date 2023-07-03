@@ -10,13 +10,6 @@ investigate how to better measure timer so changing speed/requirements looks smo
 //Effects to explore
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Double effect duration
-Halve effect duration
-
-Temporarily turn all enemies into explosive barrels
-
-Detonate all barrels on map
-
 ignite
 
 Anechoic chamber: All line defs block sound
@@ -25,24 +18,22 @@ echo chamber: All line defs pass sound
 
 short sighted demons: All lines block sight
 
-Tool Time Mode
-
 Too much information
 
 Monsters throw items at player (curstate.sprite and curstate.frame)
 
-Spawn SCP-173
-
 Opening doors does... something?
 
-Spastic monsters (give them random tics)
+let it snow
 
-AAAAAHHHHH //Every enemy becomes suicide bomber
+101 Legally Distinct Canines
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Ideas that can't be done because GZDoom can't do them
+//Ideas that can't be done because GZDoom can't do them, or require way too much effort
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Turret monsters (all monsters hold their ground and start rapid firing)
 
 Weapon recoil
+
+Mirror weapon sprites
