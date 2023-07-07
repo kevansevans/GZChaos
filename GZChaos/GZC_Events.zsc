@@ -106,7 +106,7 @@ Class GZC_EventList play
 	}
 }
 
-Class GZC_SeededRNG
+Class GZC_SeededRNG play
 {
 	int table[256];
 	Array<Int> pool;
@@ -139,20 +139,36 @@ Class GZC_SeededRNG
 	
 	void setRandomSeed()
 	{
-		string randomSeed = '' .. random(0, 0x7FFFFFFF);
-		while (randomSeed.length() <= 10) randomseed = '0' .. randomSeed;
-		randomseed = 'S:' .. randomSeed;
-		seed.setString(randomSeed);
+		String hextable[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+		int halfbyte = 0x0F;
+		int upper = random(0, 0x7FFFFFFF);
+		int lower = random(0, 0x7FFFFFFF);
+		string result = "";
+		
+		while (upper > 0)
+		{
+			result = hextable[upper & halfbyte] .. result;
+			upper = upper >> 4;
+		}
+		
+		while (lower > 0)
+		{
+			result = result .. hextable[lower & halfbyte];
+			lower = lower >> 4;
+		}
+		
+		seed.setString(result);
 	}
 	
 	void fillPool(String _input, Int _offset)
 	{
 		int charindex = 0;
+		int indexvalue;
 		while (charIndex < _input.length())
 		{
-			int value = (_input.byteAt(charindex) + _offset) % 256;
-			pool.push(table[value]);
-			++charindex;
+			int code = (_input.mid(charIndex, 2).toInt(10) + _offset) % 256;
+			pool.push(table[code]);
+			++charIndex;
 		}
 	}
 	
