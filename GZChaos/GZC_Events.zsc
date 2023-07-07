@@ -2,10 +2,16 @@ Class GZC_EventList play
 {
 	Array<String> events;
 	Array<int> rolls;
+	
+	GZC_SeededRNG rng;
 
 	static GZC_EventList create()
 	{
 		GZC_EventList list = new('GZC_EventList');
+		
+		list.rng = new('GZC_SeededRNG');
+		list.rng.init();
+		
 		list.timemodifier = 1.0;
 		list.cachedEffects.clear();
 		
@@ -62,7 +68,7 @@ Class GZC_EventList play
 		
 		while (true)
 		{
-			rngcounter += random(1, events.size() - 1);
+			rngcounter += int(rng.getValue() * events.size());
 			rngcounter = rngcounter % events.size();
 			
 			if (rngcounter == _ignore) continue;
@@ -97,6 +103,66 @@ Class GZC_EventList play
 		
 		if (!selectedevent) return GZC_Event(new('GZC_DoNothing'));
 		else return selectedevent;
+	}
+}
+
+Class GZC_SeededRNG
+{
+	int table[256];
+	Array<Int> pool;
+	int r_index;
+	Cvar seed;
+	
+	bool amSeeded;
+	
+	void init()
+	{
+		pool.clear();
+		amSeeded = Cvar.getCvar('GZC_UseSeed', players[consoleplayer]).getBool();
+		seed = Cvar.getCvar('GZC_SeedValue', players[consoleplayer]);
+	
+		for (int i = 0; i < 256; ++i)
+		{
+			table[i] = i + 1;
+		}
+		
+		if (!amSeeded || seed.getString() == "") setRandomSeed();
+		
+		string input = seed.getString();
+		int loops;
+		while(pool.size() < 256)
+		{
+			fillPool(input, loops);
+			++loops;
+		}
+	}
+	
+	void setRandomSeed()
+	{
+		string randomSeed = '' .. random(0, 0x7FFFFFFF);
+		while (randomSeed.length() <= 10) randomseed = '0' .. randomSeed;
+		randomseed = 'S:' .. randomSeed;
+		seed.setString(randomSeed);
+	}
+	
+	void fillPool(String _input, Int _offset)
+	{
+		int charindex = 0;
+		while (charIndex < _input.length())
+		{
+			int value = (_input.byteAt(charindex) + _offset) % 256;
+			pool.push(table[value]);
+			++charindex;
+		}
+	}
+	
+	double getValue()
+	{
+		int value = pool[r_index];
+		++r_index;
+		if (r_index >= pool.size()) r_index = 0;
+		
+		return double(value) / 256.0;
 	}
 }
 
