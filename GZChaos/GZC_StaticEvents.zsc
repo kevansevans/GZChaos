@@ -16,9 +16,13 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	int timerMode;
 	
+	bool showseed;
+	
 	override void NewGame()
 	{
 		getEffectsList();
+		
+		showseed = true;
 		
 		GZC_ShaderEvent.DisableShaders();
 	}
@@ -51,9 +55,11 @@ Class GZC_EventHandler : StaticEventHandler
 	
 		if (!player) getPlayerInfo();
 		
+		bool showseed;
 		if (!player.countInv("EffectInventory"))
 		{
 			player.giveInventory('EffectInventory', 1);
+			showseed = true;
 		}
 		
 		effects = EffectInventory(player.findInventory("EffectInventory"));
@@ -108,6 +114,14 @@ Class GZC_EventHandler : StaticEventHandler
 		if (!player) getPlayerInfo();
 		
 		if (!effects) getEffects();
+		
+		if (showseed)
+		{
+			let seedevent = new('GZC_SeedInfo');
+			seedevent.init();
+			effects.events.push(seedevent);
+			showseed = false;
+		}
 		
 		if (cvar.getCvar('gzc_addeffect').getString() != "")
 		{

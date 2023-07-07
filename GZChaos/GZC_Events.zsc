@@ -323,3 +323,14 @@ Class GZC_Event play
 		return GZC_EventHandler(StaticEventHandler.find("GZC_EventHandler"));
 	}
 }
+
+Class GZC_SeedInfo : GZC_Event
+{
+	override void init()
+	{
+		skipme = true;
+		eventname = "Seed: " .. Cvar.getCvar('GZC_SeedValue').getString();
+		duration = 35 * 10;
+		type = E_Timed;
+	}
+}
