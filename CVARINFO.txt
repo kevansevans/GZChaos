@@ -12,5 +12,7 @@ server int GZC_MaxTimeFlux = 3;
 server int GZC_MemoryBuffer = 20;
 server int GZC_MaxEffects = 0;
 
-server bool GZC_UseSeed = false;
+server bool GZC_UseSeed = true;
+server bool GZC_UseRandomSeed = false;
 server string GZC_SeedValue = "";
+user bool GZC_ShowSeedAtStart = true;

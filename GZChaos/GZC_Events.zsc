@@ -68,7 +68,7 @@ Class GZC_EventList play
 		
 		while (true)
 		{
-			rngcounter += int(rng.getValue() * events.size());
+			rngcounter += rng.getValue();
 			rngcounter = rngcounter % events.size();
 			
 			if (rngcounter == _ignore) continue;
@@ -111,7 +111,7 @@ Class GZC_SeededRNG play
 	int table[256];
 	Array<Int> pool;
 	int r_index;
-	Cvar seed;
+	Transient Cvar seed;
 	
 	bool amSeeded;
 	
@@ -172,13 +172,15 @@ Class GZC_SeededRNG play
 		}
 	}
 	
-	double getValue()
+	int getValue()
 	{
+		if (!Cvar.getCvar('GZC_UseSeed').getBool()) return random(1, 256);
+		
 		int value = pool[r_index];
 		++r_index;
 		if (r_index >= pool.size()) r_index = 0;
 		
-		return double(value) / 256.0;
+		return value;
 	}
 }
 
@@ -331,6 +333,6 @@ Class GZC_SeedInfo : GZC_Event
 		skipme = true;
 		eventname = "Seed: " .. Cvar.getCvar('GZC_SeedValue').getString();
 		duration = 35 * 10;
-		type = E_Timed;
+		type = E_Instant;
 	}
 }
