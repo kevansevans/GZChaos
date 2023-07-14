@@ -32,3 +32,16 @@ HardwareShader postprocess scene
 	Shader "Shaders/GLSL/fisheye.fp" 330
 	Uniform vec2 iResolution
 }
+
+HardwareShader postprocess scene
+{
+	Name "sketchbook"
+	Shader "Shaders/GLSL/sketchbook.fp" 330
+	Uniform vec2 iResolution
+}
+
+HardwareShader postprocess scene
+{
+	Name "negative"
+	Shader "Shaders/GLSL/negative.fp" 330
+}
