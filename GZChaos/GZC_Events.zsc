@@ -126,7 +126,7 @@ Class GZC_SeededRNG play
 			table[i] = i + 1;
 		}
 		
-		if (!amSeeded || seed.getString() == "") setRandomSeed();
+		if (!amSeeded || !seed || seed.getString() == "") setRandomSeed();
 		
 		string input = seed.getString();
 		int loops;
