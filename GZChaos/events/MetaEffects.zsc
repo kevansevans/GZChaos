@@ -98,7 +98,7 @@ Class GZC_HideTimerAndEffects : GZC_Event
 	override void init()
 	{
 		eventname = "Hidden timer and effects";
-		duration = 35 * 60 * random(1, 5);
+		duration = 35 * 60 * random(1, 3);
 		type = E_Timed;
 	}
 }
