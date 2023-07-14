@@ -27,6 +27,11 @@ Class GZC_EventHandler : StaticEventHandler
 		GZC_ShaderEvent.DisableShaders();
 	}
 	
+	override void WorldLoaded(WorldEvent _event)
+	{
+		GZC_ShaderEvent.DisableShaders();
+	}
+	
 	void getEffectsList()
 	{
 		if (!effects)
