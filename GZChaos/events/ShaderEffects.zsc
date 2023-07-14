@@ -6,6 +6,7 @@ Class GZC_ShaderEvent : GZC_Event
 		PPShader.SetEnabled("gb_shader", false);
 		PPShader.SetEnabled("blur", false);
 		PPShader.SetEnabled("liquid", false);
+		PPShader.SetEnabled("negative", false);
 	}
 	
 	override bool verify()
@@ -132,3 +133,44 @@ Class GZC_LiquidQuake : GZC_ShaderEvent
 		type = E_Timed;
 	}
 }
+
+Class GZC_NegativeColors : GZC_ShaderEvent
+{
+	override void eventFunc()
+	{
+		PPShader.SetEnabled("negative", true);
+	}
+	
+	override void closeFunc()
+	{
+		PPShader.SetEnabled("negative", false);
+	}
+
+	override void init()
+	{
+		eventname = "Mr. Negative";
+		duration = 35 * 5 * 60;
+		type = E_Timed;
+	}
+}
+
+/*Class GZC_FisheyeLens : GZC_ShaderEvent
+{
+	override void eventFunc()
+	{
+		PPShader.SetEnabled("fisheye", true);
+		PPShader.SetUniform2f("fisheye", "iResolution", (Screen.getWidth(), Screen.getHeight()));
+	}
+	
+	override void closeFunc()
+	{
+		PPShader.SetEnabled("fisheye", false);
+	}
+
+	override void init()
+	{
+		eventname = "Everything's cooler";
+		duration = 35 * 5 * 60;
+		type = E_Timed;
+	}
+}*/

@@ -1,11 +1,45 @@
-/*Class GZC_PainRave : GZC_Event
+Class GZC_NotQuiteInvulnerability : GZC_Event
 {
-	override void EventFunc()
+	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
+		player.GiveBody(9999, 9999);
+		activated = true;
+	}
+
+	override void init()
+	{
+		eventname = "Not quite invulnerability...";
+		duration = 35 * 60;
+		type = E_Instant;
+	}
+}
+
+Class GZC_EarthquakeMode : GZC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.A_Quake(9, 9, 0, 5, "");
+	}
+
+	override void init()
+	{
+		eventname = "Earthquake!";
+		duration = 35 * 60;
+		type = E_Timed;
+	}
+}
+
+/*Class GZC_PainRave : GZC_Event
+{
+	//Save for some day
+	override void EventFunc()
+	{
+		let player = players[consoleplayer];
 		
-		player.DamageFade = Color("00CC00");
-		player.FlashIntensity = 1.0;
+		player.mo.DamageFade = 0x00CC00;
+		//player.DamageCount = Clamp(player.damagecount, 0, 12);
 	}
 
 	override void init()

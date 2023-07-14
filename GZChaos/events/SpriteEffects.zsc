@@ -1,3 +1,43 @@
+Class GZC_DepthPerception : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		let player = players[consoleplayer].mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			double dist = mo.distance3D(player);
+			mo.scale.x = max(1.0, dist / 128.0);
+			mo.scale.y = max(1.0, dist / 128.0);
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		let player = players[consoleplayer].mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "No Depth Perception";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_FloorSpriteEnemies : GZC_Event
 {
 	override void EventFunc()
