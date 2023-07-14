@@ -190,7 +190,14 @@ Class GZC_TextureSwapEffect : GZC_Event
 				level.sectors[se].setTexture(1, TexMan.checkForTexture(oldnames[texTracker]));
 				++texTracker;
 			}
-			level.sectors[se].lightlevel = oldlights[se];
+		}
+		
+		int secindex = 0;
+		foreach (sec : level.sectors)
+		{
+			if(sec.damageamount > 0) continue;
+			sec.lightLevel = oldLights[secindex];
+			++secIndex;
 		}
 	}
 }
