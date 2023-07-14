@@ -115,15 +115,9 @@ Class GZC_EventHandler : StaticEventHandler
 		
 		if (!effects) getEffects();
 		
-		if (showseed)
-		{
-			let seedevent = new('GZC_SeedInfo');
-			seedevent.init();
-			effects.events.push(seedevent);
-			showseed = false;
-		}
+		showSeedEvent();
 		
-		if (cvar.getCvar('gzc_addeffect').getString() != "")
+		if (cvar.getCvar('gzc_addeffect') && cvar.getCvar('gzc_addeffect').getString() != "")
 		{
 			let value = cvar.getCvar('gzc_addeffect').getString();
 			cvar.getCvar('gzc_addeffect').setString("");
@@ -177,6 +171,21 @@ Class GZC_EventHandler : StaticEventHandler
 					break;
 			}
 		}
+	}
+	
+	void showSeedEvent()
+	{
+		if (!Cvar.getCvar('GZC_ShowSeedAtStart', players[consoleplayer])) return;
+		if (!Cvar.getCvar('GZC_UseSeed', players[consoleplayer])) return;
+		if (!Cvar.getCvar('GZC_ShowSeedAtStart', players[consoleplayer]).getBool()) return;
+		if (!Cvar.getCvar('GZC_UseSeed', players[consoleplayer]).getBool()) return;
+		
+		if (!showSeed) return;
+		
+		let seedevent = new('GZC_SeedInfo');
+		seedevent.init();
+		effects.events.push(seedevent);
+		showseed = false;
 	}
 	
 	void performModTic(int steps = 1)
