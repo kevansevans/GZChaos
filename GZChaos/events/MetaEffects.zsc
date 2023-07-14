@@ -87,7 +87,6 @@ Class GZC_HideTimerAndEffects : GZC_Event
 	{
 		GZC_EffectDisplay(EventHandler.find('GZC_EffectDisplay')).hiddeneffect = true;
 		GZC_TimerDisplay(EventHandler.find('GZC_TimerDisplay')).hiddeneffect = true;
-		activated = true;
 	}
 	
 	override void closeFunc()
