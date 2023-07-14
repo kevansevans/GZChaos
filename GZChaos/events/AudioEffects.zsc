@@ -1,3 +1,31 @@
+Class GZC_RandomActorSoundPitch : GZC_Event
+{
+	double randomvalue;
+	
+	override void eventFunc()
+	{
+		randomvalue = frandom(0.25, 2);
+	
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			for (int i = 0; i < 8; ++i)
+			{
+				mo.A_SoundPitch(i, randomvalue);
+			}
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Smack my pitch up";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_TheEddsAreComing : GZC_Event //More like GZC_EddEvent, hue hue hue
 {
 	override void eventFunc()
