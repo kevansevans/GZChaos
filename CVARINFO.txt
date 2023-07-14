@@ -5,14 +5,15 @@ server noarchive string gzc_addeffect = "";
 
 user string GZC_TimerBarClassName = "GZC_TimerBar_Green";
 user int GZC_TimerBarHeight = 15;
-user float GZC_EffectScaleAmount = 1.5;
+user float GZC_EffectScaleAmount = 10;
+user float GZC_EffectWidthScale = 1.0;
 server int GZC_TimerDuration = 30;
 server int GZC_MinTimeFlux = 3;
 server int GZC_MaxTimeFlux = 3;
 server int GZC_MemoryBuffer = 20;
 server int GZC_MaxEffects = 0;
 
-server bool GZC_UseSeed = true;
+server bool GZC_UseSeed = false;
 server bool GZC_UseRandomSeed = false;
-server string GZC_SeedValue = "";
+server string GZC_SeedValue = "LetTheChaosBegin";
 user bool GZC_ShowSeedAtStart = true;
