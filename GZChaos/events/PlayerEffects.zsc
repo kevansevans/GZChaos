@@ -3,7 +3,7 @@ Class GZC_NotQuiteInvulnerability : GZC_Event
 	override void eventFunc()
 	{
 		let player = players[consoleplayer].mo;
-		player.GiveBody(9999, 9999);
+		player.GiveBody(999, 999);
 		activated = true;
 	}
 
