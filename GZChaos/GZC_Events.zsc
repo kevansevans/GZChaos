@@ -68,7 +68,12 @@ Class GZC_EventList play
 		
 		while (true)
 		{
-			rngcounter += rng.getValue();
+			int roll = rng.getValue();
+			int dir = rng.getValue() % 2 == 0 ? 1 : -1;
+			roll *= dir;
+		
+			rngcounter += roll;
+			while (rngcounter < 0) rngcounter += events.size();
 			rngcounter = rngcounter % events.size();
 			
 			if (rngcounter == _ignore) continue;
@@ -174,7 +179,7 @@ Class GZC_SeededRNG play
 	
 	int getValue()
 	{
-		if (!Cvar.getCvar('GZC_UseSeed').getBool()) return random(1, 256);
+		if (!Cvar.getCvar('GZC_UseSeed').getBool())return random(1, 0xFFFF);
 		
 		int value = pool[r_index];
 		++r_index;
