@@ -1,0 +1,26 @@
+texture M_DOOM
+	pic M_DOOM1 	rand 35 70
+	pic M_DOOM2 	rand 35 70
+	pic M_DOOM3 	rand 35 70
+	pic M_DOOM4 	rand 35 70
+	pic M_DOOM5 	rand 35 70
+	pic M_DOOM6 	rand 35 70
+	pic M_DOOM7 	rand 35 70
+	pic M_DOOM8 	rand 35 70
+	pic M_DOOM9 	rand 35 70
+	pic M_DOOM10 	rand 35 70
+	pic M_DOOM11 	rand 35 70
+	pic M_DOOM12 	rand 35 70
+	pic M_DOOM13 	rand 35 70
+	pic M_DOOM14 	rand 35 70
+	pic M_DOOM15 	rand 35 70
+	pic M_DOOM16 	rand 35 70
+	pic M_DOOM17 	rand 35 70
+	pic M_DOOM18 	rand 35 70
+	pic M_DOOM19 	rand 35 70
+	pic M_DOOM20 	rand 35 70
+	pic M_DOOM21 	rand 35 70
+	pic M_DOOM22 	rand 35 70
+	pic M_DOOM23 	rand 35 70
+	pic M_DOOM24 	rand 35 70
+	pic M_DOOM25 	rand 35 70
