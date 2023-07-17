@@ -1,3 +1,52 @@
+Class GZC_UnfriendlyFire : GZC_Event
+{
+
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			setProperty(mo);
+		}
+		
+		activated = true;
+	}
+	
+	override void spawnFunc(Actor _mo)
+	{
+		if (_mo.bIsMonster) setProperty(_mo);
+	}
+	
+	void setProperty(Actor _mo)
+	{
+		_mo.bDoHarmSpecies = true;
+	}
+
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bDoHarmSpecies = def.bDoHarmSpecies;
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "(un)Friendly Fire";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_NoSplashDamage : GZC_Event
 {
 	void negate(Actor mo)
