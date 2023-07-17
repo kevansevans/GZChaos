@@ -69,11 +69,7 @@ Class GZC_EventList play
 		while (true)
 		{
 			int roll = rng.getValue();
-			int dir = rng.getValue() % 2 == 0 ? 1 : -1;
-			roll *= dir;
-		
 			rngcounter += roll;
-			while (rngcounter < 0) rngcounter += events.size();
 			rngcounter = rngcounter % events.size();
 			
 			if (rngcounter == _ignore) continue;
@@ -234,6 +230,7 @@ Class GZC_Event play
 	virtual void closeFunc(){}
 	virtual void spawnFunc(Actor mo){}
 	virtual void deathFunc(Actor mo){}
+	virtual void damageFunc(WorldEvent event){}
 	virtual void lineDamageFunc(WorldEvent event) {}
 	virtual void preActivateLine(WorldEvent event) {}
 	virtual void loadFunc() {}
