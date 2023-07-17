@@ -7,4 +7,6 @@ GameInfo
 	AddEventHandlers = "GZC_PortraitModeEvent"
 	AddEventHandlers = "GZC_PongDrawer"
 	AddEventHandlers = "GZC_Drowsy"
+	AddEventHandlers = "GZC_RearViewMirror"
+	//AddEventHandlers = "GZC_TooMuchInfoEvent"
 }

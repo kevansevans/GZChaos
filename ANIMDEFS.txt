@@ -1,3 +1,5 @@
+cameratexture TCAMTEX1 320 64
+
 texture M_DOOM
 	pic M_DOOM1 	rand 35 70
 	pic M_DOOM2 	rand 35 70
