@@ -1,15 +1,15 @@
 Class GZC_ShootToActivate : GZC_Event
 {
-	Array<int> lines;
+	Array<Line> lines;
 	
 	override void eventFunc()
 	{
-		activations.clear();
+		lines.clear();
 		
 		foreach (linedef : level.lines)
 		{
 			if (linedef.activation != SPAC_Use) continue;
-			activations.push(linedef.index());
+			lines.push(linedef);
 			linedef.activation = SPAC_Impact;
 		}
 		
@@ -20,7 +20,7 @@ Class GZC_ShootToActivate : GZC_Event
 	{
 		foreach (index : lines)
 		{
-			level.lines[index].activation = SPAC_Use;
+			index.activation = SPAC_Use;
 		}
 	}
 

@@ -1,3 +1,38 @@
+Class GZC_RubberEnemies : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			mo.bReflective = true;
+		}
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			let def = getDefaultByType(mo.getClass());
+			mo.bReflective = def.bReflective;
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Projectiles bounce off enemies";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_UnfriendlyFire : GZC_Event
 {
 
