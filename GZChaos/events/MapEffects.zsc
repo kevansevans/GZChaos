@@ -1,3 +1,37 @@
+Class GZC_ShootToActivate : GZC_Event
+{
+	Array<int> lines;
+	
+	override void eventFunc()
+	{
+		activations.clear();
+		
+		foreach (linedef : level.lines)
+		{
+			if (linedef.activation != SPAC_Use) continue;
+			activations.push(linedef.index());
+			linedef.activation = SPAC_Impact;
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		foreach (index : lines)
+		{
+			level.lines[index].activation = SPAC_Use;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Shoot to activate";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_LockedIn : GZC_Event
 {
 	override void preActivateLine(WorldEvent event)
