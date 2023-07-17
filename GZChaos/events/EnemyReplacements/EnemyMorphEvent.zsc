@@ -59,6 +59,7 @@ Class GZC_EnemyMorphEvent : GZC_Event
 		while (mo = Actor(it.next()))
 		{
 			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
 			MorphedMonster(mo).UndoMonsterMorph(true);
 		}
 	}
