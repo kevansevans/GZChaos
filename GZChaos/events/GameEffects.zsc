@@ -1,3 +1,19 @@
+Class GZC_AutoSave : GZC_Event
+{
+	override void eventFunc()
+	{
+		Autosave();
+		Activated = true;
+	}
+
+	override void init()
+	{
+		eventname = "Autosave";
+		duration = 35 * 60 * 3;
+		type = E_Instant;
+	}
+}
+
 Class GZC_RearView : GZC_Event
 {
 	override void eventFunc()
