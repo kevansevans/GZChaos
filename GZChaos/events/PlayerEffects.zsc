@@ -1,3 +1,50 @@
+Class GZC_GyroscopicCamera : GZC_Event
+{
+	override void eventFunc()
+	{
+		if (gametic % 35 == 0)
+		{
+			let player = players[consoleplayer].mo;
+			player.A_SetRoll(player.roll += 0.004);
+		}
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.A_SetRoll(0);
+	}
+	
+	override void init()
+	{
+		eventname = "Gyroscopic camera roll";
+		duration = 35 * 60 * 60;
+		type = E_Timed;
+	}
+}
+
+Class GZC_PlayerIsAGhost : GZC_Event
+{
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.bThruActors = true;
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer].mo;
+		player.bThruActors = false;
+	}
+	
+	override void init()
+	{
+		eventname = "Walk through actors";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_NotQuiteInvulnerability : GZC_Event
 {
 	override void eventFunc()

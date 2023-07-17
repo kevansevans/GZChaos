@@ -1,3 +1,25 @@
+Class GZC_RearView : GZC_Event
+{
+	override void eventFunc()
+	{
+		GZC_RearViewMirror(EventHandler.find('GZC_RearViewMirror')).enabled = true;
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		GZC_RearViewMirror(EventHandler.find('GZC_RearViewMirror')).enabled = false;
+	}
+	
+	override void init()
+	{
+		eventname = "Rear View Mirror";
+		duration = 35 * 60 * 3;
+		deleteme = true;
+		type = E_Timed;
+	}
+}
+
 Class GZC_MacroMissiles : GZC_Event
 {
 	bool initiated;

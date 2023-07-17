@@ -1,3 +1,24 @@
+Class GZC_LockedIn : GZC_Event
+{
+	override void preActivateLine(WorldEvent event)
+	{
+		line linedef = event.ActivatedLine;
+		if (linedef.special == 243 || linedef.special == 244)
+		{
+			event.shouldActivate = false;
+			let player = players[consoleplayer].mo;
+			player.A_StartSound("world/spark", CHAN_AUTO);
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "There is no escape...";
+		duration = 35 * 60 * 2;
+		type = E_Timed;
+	}
+}
+
 Class GZC_FaultySwitches : GZC_Event
 {
 	override void preActivateLine(WorldEvent event)
