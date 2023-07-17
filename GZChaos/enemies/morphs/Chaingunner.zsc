@@ -135,9 +135,17 @@ Class GZC_Chaingunner_Soul : GZC_Chaingunner
 	{
 		Missile:
 			CPOS E 10 A_FaceTarget;
-			CPOS FE 4 BRIGHT A_PainAttack();
+			CPOS FE 4 BRIGHT A_PainAttack('GZC_LostSoulSpecial');
 			CPOS F 1 A_CPosRefire;
 			Goto Missile+1;
+	}
+}
+
+Class GZC_LostSoulSpecial : LostSoul
+{
+	Default
+	{
+		+ThruSpecies;
 	}
 }
 
