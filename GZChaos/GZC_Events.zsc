@@ -82,6 +82,7 @@ Class GZC_EventList play
 			selectedevent.init();
 			
 			if (!selectedEvent.verify()) continue;
+			if (rng.getValue() < selectedevent.weight) continue;
 			
 			selectedevent.duration += 35 * random(Cvar.getCvar("GZC_MinTimeFlux").getInt() * -1, Cvar.getCvar("GZC_MaxTimeFlux").getInt());
 			
@@ -258,8 +259,6 @@ Class GZC_Event play
 			GZC_Event event = effects.events[i];
 			if (event is self.getClassName()) return false;
 		}
-		
-		if (random(1, 100) < weight) return false;
 		
 		return true;
 	}
