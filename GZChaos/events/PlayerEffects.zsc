@@ -185,6 +185,7 @@ Class GZC_Aimbot : GZC_Event
 		while (mo = Actor(it.next()))
 		{
 			if (!mo.bIsMonster) continue;
+			if (mo is "Inventory") continue;
 			if (mo.health <= 0) continue;
 			if (!player.isVisible(mo, true)) continue;
 			
