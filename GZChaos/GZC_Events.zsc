@@ -128,7 +128,8 @@ Class GZC_SeededRNG play
 			table[i] = i + 1;
 		}
 		
-		if (!amSeeded || !seed || seed.getString() == "") setRandomSeed();
+		if (!seed) setRandomSeed();
+		if (!amSeeded || seed.getString() == "") setRandomSeed();
 		
 		string input = seed.getString();
 		int loops;
@@ -166,7 +167,7 @@ Class GZC_SeededRNG play
 	{
 		int charindex = 0;
 		int indexvalue;
-		while (charIndex < _input.length())
+		while (charIndex <= _input.length())
 		{
 			int code = (_input.mid(charIndex, 2).toInt(10) + _offset) % 256;
 			pool.push(table[code]);
