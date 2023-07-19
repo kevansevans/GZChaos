@@ -36,11 +36,14 @@ Class GZC_LockedIn : GZC_Event
 {
 	override void preActivateLine(WorldEvent event)
 	{
+		let player = players[consoleplayer].mo;
+		
+		if (event.thing != player) return;
+	
 		line linedef = event.ActivatedLine;
 		if (linedef.special == 243 || linedef.special == 244)
 		{
 			event.shouldActivate = false;
-			let player = players[consoleplayer].mo;
 			player.A_StartSound("world/spark", CHAN_AUTO);
 		}
 	}
