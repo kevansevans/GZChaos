@@ -8,6 +8,7 @@ user int GZC_TimerBarHeight = 15;
 user float GZC_EffectScaleAmount = 10;
 user float GZC_EffectWidthScale = 1.0;
 server int GZC_TimerDuration = 30;
+server float GZC_MaxEffectDuration = 0.0;
 server int GZC_MinTimeFlux = 3;
 server int GZC_MaxTimeFlux = 3;
 server int GZC_MemoryBuffer = 20;

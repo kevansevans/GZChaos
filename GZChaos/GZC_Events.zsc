@@ -84,6 +84,13 @@ Class GZC_EventList play
 			if (!selectedEvent.verify()) continue;
 			if (rng.getValue() < selectedevent.weight) continue;
 			
+			double limiter = Cvar.getCvar("GZC_MaxEffectDuration").getFloat();
+			if (limiter != 0)
+			{
+				int value = int(35 * 60 * limiter);
+				selectedEvent.duration = min(value, selectedEvent.duration);
+			}
+			
 			selectedevent.duration += 35 * random(Cvar.getCvar("GZC_MinTimeFlux").getInt() * -1, Cvar.getCvar("GZC_MaxTimeFlux").getInt());
 			
 			String classname = selectedevent.getClassName();
