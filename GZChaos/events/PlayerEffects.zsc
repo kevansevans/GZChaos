@@ -839,9 +839,14 @@ Class GZC_GameEndPlayer : GZC_Event
 		}
 	}
 	
-	override void closeFunc()
+	override bool verify()
 	{
+		bool result = Super.verify();
 	
+		let player = players[consoleplayer];
+		if (Cvar.getCvar("GZC_UseSeed", player).getBool()) return false;
+		
+		return result;
 	}
 
 	override void init()
