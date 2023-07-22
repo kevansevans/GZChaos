@@ -97,11 +97,7 @@ Class GZC_EventList play
 		
 		String classname = selectedevent.getClassName();
 		cachedEffects.push(classname);
-		
-		if (cachedEffects.size() > 20) {
-			cachedEffects.delete(0);
-			cachedEffects.shrinkToFit();
-		}
+		cachedEffects.resize(Cvar.getCvar("GZC_MemoryBuffer").getInt());
 		
 		if (!selectedevent) return GZC_Event(new('GZC_DoNothing'));
 		else return selectedevent;
