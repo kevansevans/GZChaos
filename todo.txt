@@ -28,6 +28,10 @@ let it snow
 
 101 Legally Distinct Canines
 
+Make sprites draw the same size regardless of distance
+
+Force player to exit to random map. Make it potentially fake like fake level restart.
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Ideas that can't be done because GZDoom can't do them, or require way too much effort
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,3 +41,5 @@ Turret monsters (all monsters hold their ground and start rapid firing)
 Weapon recoil
 
 Mirror weapon sprites
+
+Autosave on player death
