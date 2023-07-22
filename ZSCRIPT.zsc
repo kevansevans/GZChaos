@@ -6,6 +6,8 @@ version "4.10"
 
 #include "GZChaos/GZC_OptionsMenu.zsc"
 
+#include "GZChaos/backend/GZC_SideDef.zsc"
+
 #include "GZChaos/screendrawing/GZC_Drowsy.zsc"
 #include "GZChaos/screendrawing/GZC_InfoDisplay.zsc"
 #include "GZChaos/screendrawing/GZC_PortraitMode.zsc"
@@ -30,8 +32,7 @@ version "4.10"
 #include "GZChaos/enemies/morphs/Cacodemon.zsc"
 
 #include "GZChaos/morphs/DogMode.zsc"
-
-#include "GZChaos/weapons/Coffee.zsc"
+#include "GZChaos/morphs/Coffee.zsc"
 
 #include "GZChaos/events/AudioEffects.zsc"
 #include "GZChaos/events/DecorationEffects.zsc"

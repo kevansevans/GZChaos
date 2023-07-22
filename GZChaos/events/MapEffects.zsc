@@ -171,6 +171,8 @@ Class GZC_MurderInTheDark : GZC_Event
 
 Class GZC_TextureSwapEffect : GZC_Event
 {
+	Map<Int, GZC_SideDef> sides;
+
 	Array<String> oldnames;
 	Array<Int> oldlights;
 	TextureID oldskyA;
@@ -196,6 +198,7 @@ Class GZC_TextureSwapEffect : GZC_Event
 	
 	void initialize()
 	{
+		sides.clear();
 		oldnames.clear();
 		oldlights.clear();
 	
@@ -215,49 +218,9 @@ Class GZC_TextureSwapEffect : GZC_Event
 		if (levelNum != level.levelnum) return;
 	
 		level.ChangeSky(oldSkyA, oldSkyB);
-	
-		int texTracker;
-		
-		for (int si = 0; si < level.sides.size(); ++si)
-		{
-			side sidedef = level.sides[si];
-		
-			for (int wall = 0; wall < 3; ++wall)
-			{
-				TextureID walltex = sidedef.GetTexture(wall);
-				if (walltex)
-				{
-					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
-					sidedef.setTexture(wall, TexMan.checkForTexture(oldnames[texTracker]));
-					++texTracker;
-				}
-			}
-		}
-		
-		for (int se = 0; se < level.sectors.size(); ++se)
-		{
-			if (level.sectors[se].damageamount > 0) continue;
-		
-			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
-			{
-				level.sectors[se].setTexture(0, TexMan.checkForTexture(oldnames[texTracker]));
-				++texTracker;
-			}
-			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
-			{
-				level.sectors[se].setTexture(1, TexMan.checkForTexture(oldnames[texTracker]));
-				++texTracker;
-			}
-		}
-		
-		int secindex = 0;
-		foreach (sec : level.sectors)
-		{
-			if(sec.damageamount > 0) continue;
-			sec.lightLevel = oldLights[secindex];
-			++secIndex;
-		}
 	}
+	
+	
 }
 
 Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
@@ -271,22 +234,15 @@ Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
 		initialize();
 	
 		TextureID newtex = TexMan.checkForTexture("MISSING");
-		
 		level.ChangeSky(newtex, TexMan.checkForTexture(''));
-		for (int si = 0; si < level.sides.size(); ++si)
-		{
-			side sidedef = level.sides[si];
 		
-			for (int wall = 0; wall < 3; ++wall)
-			{
-				TextureID walltex = sidedef.GetTexture(wall);
-				if (walltex)
-				{
-					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
-					sidedef.setTexture(wall, newtex);
-					oldnames.push(TexMan.getName(wallTex));
-				}
-			}
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			sidedef.setTexture(0, newtex);
+			sidedef.setTexture(1, newtex);
+			sidedef.setTexture(2, newtex);
 		}
 		
 		for (int se = 0; se < level.sectors.size(); ++se)

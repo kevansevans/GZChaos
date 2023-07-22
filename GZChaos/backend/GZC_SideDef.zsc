@@ -1,0 +1,17 @@
+Class GZC_SideDef : Object
+{
+	TextureID up;
+	TextureID mid;
+	TextureID low;
+
+	static GZC_SideDef create(TextureID _up, TextureID _mid, TextureID _low)
+	{
+		GZC_SideDef sidedef = new('GZC_SideDef');
+		
+		sidedef.up = _up;
+		sidedef.mid = _mid;
+		sidedef.low = _low;
+		
+		return sidedef;
+	}
+}
