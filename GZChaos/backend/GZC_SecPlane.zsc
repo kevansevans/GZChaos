@@ -1,0 +1,14 @@
+Class GZC_SecPlane : Object
+{
+	TextureID floortex;
+	TextureID ceiltex;
+	
+	static GZC_SecPlane create(TextureID _floortex, TextureID _ceiltex)
+	{
+		let plane = new('GZC_SecPlane');
+		plane.floortex = _floortex;
+		plane.ceiltex = _ceiltex;
+		
+		return plane;
+	}
+}

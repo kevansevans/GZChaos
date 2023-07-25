@@ -172,7 +172,8 @@ Class GZC_MurderInTheDark : GZC_Event
 Class GZC_TextureSwapEffect : GZC_Event
 {
 	Map<Int, GZC_SideDef> sides;
-
+	Map<Int, GZC_SecPlane> planes;
+	
 	Array<String> oldnames;
 	Array<Int> oldlights;
 	TextureID oldskyA;
@@ -199,6 +200,7 @@ Class GZC_TextureSwapEffect : GZC_Event
 	void initialize()
 	{
 		sides.clear();
+		planes.clear();
 		oldnames.clear();
 		oldlights.clear();
 	
@@ -218,6 +220,27 @@ Class GZC_TextureSwapEffect : GZC_Event
 		if (levelNum != level.levelnum) return;
 	
 		level.ChangeSky(oldSkyA, oldSkyB);
+		
+		foreach (sidedef : level.sides)
+		{
+			if (!sides.checkKey(sidedef.index())) continue;
+			
+			let sideinfo = sides.get(sidedef.index());
+			
+			sidedef.setTexture(0, sideinfo.up);
+			sidedef.setTexture(1, sideinfo.mid);
+			sidedef.setTexture(2, sideinfo.low);
+		}
+		
+		foreach (sec : level.sectors)
+		{
+			if (!planes.checkKey(sec.index())) continue;
+			
+			let secinfo = planes.get(sec.index());
+			
+			sec.setTexture(0, secinfo.floortex);
+			sec.setTexture(1, secinfo.ceiltex);
+		}
 	}
 	
 	
@@ -240,27 +263,32 @@ Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
 		{
 			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
 			sides.insert(sidedef.index(), g_side);
-			sidedef.setTexture(0, newtex);
-			sidedef.setTexture(1, newtex);
-			sidedef.setTexture(2, newtex);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
+			}
 		}
 		
-		for (int se = 0; se < level.sectors.size(); ++se)
+		foreach (sec : level.sectors)
 		{
-			if (level.sectors[se].damageamount > 0) continue;
-		
-			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
-				level.sectors[se].setTexture(0, newtex);
+				sec.setTexture(0, newtex);
 			}
-			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
-				level.sectors[se].setTexture(1, newtex);
+				sec.setTexture(1, newtex);
 			}
-			oldlights.push(level.sectors[se].lightlevel);
-			level.sectors[se].lightlevel = 192;
 		}
 		
 		cleared = true;
@@ -285,53 +313,48 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 		
 		flags.clear();
 	
-		TextureID walltex = TexMan.checkForTexture("STARTAN2");
+		TextureID newtex = TexMan.checkForTexture("STARTAN2");
 	
 		level.ChangeSky(TexMan.checkForTexture("SKY1"), TexMan.checkForTexture(''));
 	
-		for (int si = 0; si < level.sides.size(); ++si)
+		foreach (sidedef : level.sides)
 		{
-			side sidedef = level.sides[si];
-			
 			flags.push(sidedef.linedef.flags);
 			sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
 		
-			for (int wall = 0; wall < 3; ++wall)
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
 			{
-				TextureID curtex = sidedef.GetTexture(wall);
-				if (curtex)
-				{
-					string wallname = TexMan.getName(curtex);
-					
-					if (wallname != "DOORTRAK" && !checkIfReplaceable(wallname)) continue;
-					sidedef.setTexture(wall, walltex);
-					oldnames.push(TexMan.getName(wallTex));
-				}
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
 			}
 		}
 		
 		TextureID floortex = TexMan.CheckForTexture("FLOOR0_1");
 		TextureID ceiltex = TexMan.CheckForTexture("CEIL1_1");
 		
-		for (int se = 0; se < level.sectors.size(); ++se)
+		foreach (sec : level.sectors)
 		{
-			if (level.sectors[se].damageamount > 0) continue;
-		
-			string orgFloorText = TexMan.getName(level.sectors[se].getTexture(0));
-			if (orgFloorText != "F_SKY1" && checkIfReplaceable(orgFloorText))
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
-				level.sectors[se].setTexture(0, floortex);
+				sec.setTexture(0, floortex);
 			}
-			string orgCeilText = TexMan.getName(level.sectors[se].getTexture(1));
-			if (orgCeilText != "F_SKY1" && checkIfReplaceable(orgCeilText))
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
-				level.sectors[se].setTexture(1, ceiltex);
+				sec.setTexture(1, ceiltex);
 			}
-			oldlights.push(level.sectors[se].lightlevel);
-			level.sectors[se].lightlevel = 192;
 		}
+		
 		activated = true;
 	}
 	
@@ -364,39 +387,38 @@ Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 		initialize();
 	
 		TextureID newtex = TexMan.checkForTexture("FIREBLU1");
-		
 		level.ChangeSky(newtex, TexMan.checkForTexture(''));
-		for (int si = 0; si < level.sides.size(); ++si)
-		{
-			side sidedef = level.sides[si];
 		
-			for (int wall = 0; wall < 3; ++wall)
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
 			{
-				TextureID walltex = sidedef.GetTexture(wall);
-				if (walltex)
-				{
-					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
-					sidedef.setTexture(wall, newtex);
-					oldnames.push(TexMan.getName(wallTex));
-				}
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
 			}
 		}
-		for (int se = 0; se < level.sectors.size(); ++se)
-		{
-			if (level.sectors[se].damageamount > 0) continue;
 		
-			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
-				level.sectors[se].setTexture(0, newtex);
+				sec.setTexture(0, newtex);
 			}
-			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
-				level.sectors[se].setTexture(1, newtex);
+				sec.setTexture(1, newtex);
 			}
-			oldlights.push(level.sectors[se].lightlevel);
-			level.sectors[se].lightlevel = 192;
 		}
 		
 		activated = true;
@@ -421,37 +443,37 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 		TextureID tom = TexMan.checkForTexture("TOMKING");
 		
 		level.ChangeSky(jule, TexMan.checkForTexture(''));
-		for (int si = 0; si < level.sides.size(); ++si)
-		{
-			side sidedef = level.sides[si];
 		
-			for (int wall = 0; wall < 3; ++wall)
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
 			{
-				TextureID walltex = sidedef.GetTexture(wall);
-				if (walltex)
-				{
-					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
-					sidedef.setTexture(wall, jule);
-					oldnames.push(TexMan.getName(wallTex));
-				}
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, jule);
 			}
 		}
-		for (int se = 0; se < level.sectors.size(); ++se)
-		{
-			if (level.sectors[se].damageamount > 0) continue;
 		
-			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
-				level.sectors[se].setTexture(0, tom);
+				sec.setTexture(0, tom);
 			}
-			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
-				level.sectors[se].setTexture(1, tom);
+				sec.setTexture(1, tom);
 			}
-			oldlights.push(level.sectors[se].lightlevel);
-			level.sectors[se].lightlevel = 192;
 		}
 		
 		activated = true;
@@ -474,39 +496,38 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 		initialize();
 	
 		TextureID newtex = TexMan.checkForTexture("ISUCK");
-		
 		level.ChangeSky(newtex, TexMan.checkForTexture(''));
-		for (int si = 0; si < level.sides.size(); ++si)
-		{
-			side sidedef = level.sides[si];
 		
-			for (int wall = 0; wall < 3; ++wall)
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
 			{
-				TextureID walltex = sidedef.GetTexture(wall);
-				if (walltex)
-				{
-					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
-					sidedef.setTexture(wall, newtex);
-					oldnames.push(TexMan.getName(wallTex));
-				}
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
 			}
 		}
-		for (int se = 0; se < level.sectors.size(); ++se)
-		{
-			if (level.sectors[se].damageamount > 0) continue;
 		
-			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
-				level.sectors[se].setTexture(0, newtex);
+				sec.setTexture(0, newtex);
 			}
-			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
-				level.sectors[se].setTexture(1, newtex);
+				sec.setTexture(1, newtex);
 			}
-			oldlights.push(level.sectors[se].lightlevel);
-			level.sectors[se].lightlevel = 192;
 		}
 		
 		activated = true;
@@ -529,39 +550,38 @@ Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 		initialize();
 	
 		TextureID newtex = TexMan.checkForTexture("-noflat-");
-		
 		level.ChangeSky(newtex, TexMan.checkForTexture(''));
-		for (int si = 0; si < level.sides.size(); ++si)
-		{
-			side sidedef = level.sides[si];
 		
-			for (int wall = 0; wall < 3; ++wall)
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
 			{
-				TextureID walltex = sidedef.GetTexture(wall);
-				if (walltex)
-				{
-					if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
-					sidedef.setTexture(wall, newtex);
-					oldnames.push(TexMan.getName(wallTex));
-				}
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
 			}
 		}
-		for (int se = 0; se < level.sectors.size(); ++se)
-		{
-			if (level.sectors[se].damageamount > 0) continue;
 		
-			if (TexMan.getName(level.sectors[se].getTexture(0)) != "F_SKY1")
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(0)));
-				level.sectors[se].setTexture(0, newtex);
+				sec.setTexture(0, newtex);
 			}
-			if (TexMan.getName(level.sectors[se].getTexture(1)) != "F_SKY1")
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
 			{
-				oldnames.push(TexMan.getName(level.sectors[se].getTexture(1)));
-				level.sectors[se].setTexture(1, newtex);
+				sec.setTexture(1, newtex);
 			}
-			oldlights.push(level.sectors[se].lightlevel);
-			level.sectors[se].lightlevel = 192;
 		}
 		
 		activated = true;

@@ -7,6 +7,7 @@ version "4.10"
 #include "GZChaos/GZC_OptionsMenu.zsc"
 
 #include "GZChaos/backend/GZC_SideDef.zsc"
+#include "GZChaos/backend/GZC_SecPlane.zsc"
 
 #include "GZChaos/screendrawing/GZC_Drowsy.zsc"
 #include "GZChaos/screendrawing/GZC_InfoDisplay.zsc"
