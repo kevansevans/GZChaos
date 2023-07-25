@@ -51,7 +51,7 @@ Class GZC_LockedIn : GZC_Event
 	override void init()
 	{
 		eventname = "There is no escape...";
-		duration = 35 * 60 * 2;
+		duration = 35 * 60;
 		type = E_Timed;
 	}
 }
