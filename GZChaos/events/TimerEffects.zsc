@@ -17,6 +17,46 @@ Class GZC_TimerEffect : GZC_Event
 	}
 }
 
+Class GZC_KillsAccelerate : GZC_TimerEffect
+{
+	override void deathFunc(Actor _mo)
+	{
+		if (!_mo.bIsMonster) return;
+		
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(_mo.getClass());
+		
+		player.giveInventory('TimerToken', def.health);
+	}
+	
+	override void init()
+	{
+		eventname = "Kills add time";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_KillsDecelerate : GZC_TimerEffect
+{
+	override void deathFunc(Actor _mo)
+	{
+		if (!_mo.bIsMonster) return;
+		
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(_mo.getClass());
+		
+		player.takeInventory('TimerToken', def.health);
+	}
+	
+	override void init()
+	{
+		eventname = "Kills subtract time";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_SuperHot : GZC_TimerEffect
 {
 	override void eventFunc()
