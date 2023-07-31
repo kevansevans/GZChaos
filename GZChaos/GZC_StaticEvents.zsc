@@ -122,25 +122,6 @@ Class GZC_EventHandler : StaticEventHandler
 		
 		showSeedEvent();
 		
-		if (cvar.getCvar('gzc_addeffect') && cvar.getCvar('gzc_addeffect').getString() != "")
-		{
-			let value = cvar.getCvar('gzc_addeffect').getString();
-			cvar.getCvar('gzc_addeffect').setString("");
-			for (int i; i < list.events.size(); ++i)
-			{
-				if (list.events[i].makeUpper().IndexOf(value.MakeUpper()) != -1)
-				{
-					let effect = GZC_Event(new(list.events[i]));
-					effect.init();
-					bool verified = effect.verify();
-					if (!verified) console.printf('Warning: Effect "' .. effect.eventname .. '" resolved false under verification!');
-					effects.events.push(effect);
-					return;
-				}
-			}
-			console.printf('No effect ' .. value .. ' found');
-		}
-		
 		for (inventory item = player.inv; item != null; item = item.inv)
 		{	
 			if (item is "EffectInventory")
@@ -175,6 +156,25 @@ Class GZC_EventHandler : StaticEventHandler
 					}
 					break;
 			}
+		}
+		
+		if (cvar.getCvar('gzc_addeffect') && cvar.getCvar('gzc_addeffect').getString() != "")
+		{
+			let value = cvar.getCvar('gzc_addeffect').getString();
+			cvar.getCvar('gzc_addeffect').setString("");
+			for (int i; i < list.events.size(); ++i)
+			{
+				if (list.events[i].makeUpper().IndexOf(value.MakeUpper()) != -1)
+				{
+					let effect = GZC_Event(new(list.events[i]));
+					effect.init();
+					bool verified = effect.verify();
+					if (!verified) console.printf('Warning: Effect "' .. effect.eventname .. '" resolved false under verification!');
+					effects.events.push(effect);
+					return;
+				}
+			}
+			console.printf('No effect ' .. value .. ' found');
 		}
 	}
 	
