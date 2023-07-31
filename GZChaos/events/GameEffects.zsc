@@ -1007,7 +1007,7 @@ Class GZC_FakeLagCrash : GZC_Event
 			string music = level.music;
 			
 			let player = players[consoleplayer].mo;
-			player.S_ChangeMusic("");
+			player.S_PauseSound(false, false);
 			
 							//30 Million
 			for (int i = 0; i < 30000000; ++i)
@@ -1016,10 +1016,10 @@ Class GZC_FakeLagCrash : GZC_Event
 				idiot.destroy();
 			}
 		
-			player.S_ChangeMusic(music);
-		
 			eventname = "Fake crash";
 			activated = true;
+			
+			self.life = self.duration;
 		}
 	}
 	
@@ -1030,11 +1030,13 @@ Class GZC_FakeLagCrash : GZC_Event
 
 	override void init()
 	{
+		String fakenames[] = {"Slow and Wet", "The Penultimate Event", "Boof Scootle", "Serial PName Toucher", "Age of Heck", "Project Abstinence", "Neon Ochre", "Dunn & Dunner"};
+	
 		spawn = gametic;
-		delay = 35 * random(5, 10);
-		eventname = "Nothing.";
-		duration = 35 * 60;
-		type = E_HiddenTimer;
+		delay = 35 * random(10, 20);
+		eventname = fakenames[random(0, 7)];
+		duration = 35 * 60 * 3;
+		type = E_Timed;
 	}
 }
 
