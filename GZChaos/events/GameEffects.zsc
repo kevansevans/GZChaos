@@ -1030,11 +1030,11 @@ Class GZC_FakeLagCrash : GZC_Event
 
 	override void init()
 	{
-		String fakenames[] = {"Slow and Wet", "The Penultimate Event", "Boof Scootle", "Serial PName Toucher", "Age of Heck", "Project Abstinence", "Neon Ochre", "Dunn & Dunner"};
+		String fakenames[] = {"Slow and Wet", "The Penultimate Event", "Boof Scootle", "Serial PName Toucher", "Age of Heck", "Project Abstinence", "Neon Ochre", "Dunn & Dunner", "Oh no way, it's Fred Clegg"};
 	
 		spawn = gametic;
 		delay = 35 * random(10, 20);
-		eventname = fakenames[random(0, 7)];
+		eventname = fakenames[random(0, 8)];
 		duration = 35 * 60 * 3;
 		type = E_Timed;
 	}

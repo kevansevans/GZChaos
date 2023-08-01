@@ -17,6 +17,59 @@ Class GZC_TimerEffect : GZC_Event
 	}
 }
 
+Class GZC_KillsExtend : GZC_TimerEffect
+{
+	override void deathFunc(Actor _mo)
+	{
+		let player = players[consoleplayer].mo;
+		let effects = EffectInventory(player.findInventory("EffectInventory"));
+		let def = getDefaultByType(_mo.getClass());
+		
+		int rate = 35 * max(1, int(def.health / 35));
+		
+		foreach (event : effects.events)
+		{
+			if (event is 'GZC_KillsExtend') continue;
+		
+			event.life -= rate;
+			if (event.life < 0) event.life = 0;
+		}
+	}
+
+	override void init()
+	{
+		eventname = "Kills extend effect duration";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_KillsReduce : GZC_TimerEffect
+{
+	override void init()
+	{
+		eventname = "Kills reduce effect duration";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+	
+	override void deathFunc(Actor _mo)
+	{
+		let player = players[consoleplayer].mo;
+		let effects = EffectInventory(player.findInventory("EffectInventory"));
+		let def = getDefaultByType(_mo.getClass());
+		
+		int rate = 35 * max(1, int(def.health / 35));
+		
+		foreach (event : effects.events)
+		{
+			if (event is 'GZC_KillsReduce') continue;
+		
+			event.life += rate;
+		}
+	}
+}
+
 Class GZC_KillsAccelerate : GZC_TimerEffect
 {
 	override void deathFunc(Actor _mo)
