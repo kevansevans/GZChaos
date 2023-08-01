@@ -216,6 +216,8 @@ Class GZC_EventHandler : StaticEventHandler
 	
 		for (int i = 0; i < effects.events.size(); ++i)
 		{
+			if (!effects.events[i]) continue;
+		
 			if (player.health > 0)
 			{
 				if (!effects.events[i].activated && effects.events[i].life < effects.events[i].duration)
