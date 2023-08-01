@@ -210,6 +210,20 @@ Class GZC_TimerBar_Magenta : GZC_TimerBar
 	}
 }
 
+Class GZC_TimerBar_Purple : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("800080"));
+		
+		timername = "Purple";
+	}
+}
+
 Class GZC_TimerBar_White : GZC_TimerBar
 {
 	override void InitBar()
