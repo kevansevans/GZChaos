@@ -1,3 +1,43 @@
+Class GZC_DigDugWalking : GZC_Event
+{
+	string original;
+	
+	override void eventFunc()
+	{
+		let player = players[consoleplayer];
+		if (!original) 
+		{
+			original = Level.music;
+			player.mo.S_ChangeMusic('DIGDUG');
+		}
+		
+		if (!(player.cmd.buttons & (BT_Forward | BT_Back | BT_Left | BT_Right | BT_MoveLeft | BT_MoveRight)))
+		{
+			S_PauseSound(false, true);
+		}
+	}
+	
+	override void loadFunc()
+	{
+		let player = players[consoleplayer];
+		original = Level.music;
+		player.mo.S_ChangeMusic('DIGDUG');
+	}
+	
+	override void closeFunc()
+	{
+		let player = players[consoleplayer];
+		player.mo.S_ChangeMusic(original);
+	}
+	
+	override void init()
+	{
+		eventname = "DIG DUG";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_RandomActorSoundPitch : GZC_Event
 {
 	double randomvalue;
