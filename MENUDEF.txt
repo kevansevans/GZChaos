@@ -68,4 +68,5 @@ OptionMenu "GZCMenu"
 	Option "Use Random Seed", "GZC_UseRandomSeed", "NoYes", "GZC_UseSeed"
 	TextField "Seed", "GZC_SeedValue", "GZC_UseSeed"
 	Option "Show seed on new game", "GZC_ShowSeedAtStart", "YesNo", "GZC_UseSeed"
+	Option "Hide everything", "GZC_HideEverything", "YesNo"
 }

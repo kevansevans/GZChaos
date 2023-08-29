@@ -11,10 +11,11 @@ server int GZC_TimerDuration = 30;
 server float GZC_MaxEffectDuration = 0.0;
 server int GZC_MinTimeFlux = 3;
 server int GZC_MaxTimeFlux = 3;
-server int GZC_MemoryBuffer = 20;
+server int GZC_MemoryBuffer = 50;
 server int GZC_MaxEffects = 0;
 
 server bool GZC_UseSeed = false;
 server bool GZC_UseRandomSeed = false;
 server string GZC_SeedValue = "LetTheChaosBegin";
 user bool GZC_ShowSeedAtStart = true;
+user bool GZC_HideEverything = false;

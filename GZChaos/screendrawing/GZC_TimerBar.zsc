@@ -71,6 +71,8 @@ Class GZC_TimerBar : GZC_TimerBarBase
 	
 	override void drawBar(double _time, int _limit)
 	{
+		if (Cvar.getCvar("GZC_HideEverything", players[consoleplayer]).getBool()) return;
+	
 		if (_time == 0 || _limit == 0) return;
 	
 		if (isTexture)
