@@ -1,3 +1,121 @@
+Class GZC_DiminifiedDamage : GZC_Event
+{
+	override void DamageFunc(WorldEvent _event)
+	{
+		let def = getDefaultByType(_event.thing.getClass());
+		
+		double ratio = double(_event.thing.health) / double(def.health);
+		
+		_event.thing.A_SetSize(def.height * ratio, def.radius * ratio);
+		_event.thing.scale.x = def.scale.x * ratio;
+		_event.thing.scale.y = def.scale.y * ratio;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Diminified Damage";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_EmbiggeningDamage : GZC_Event
+{
+	override void DamageFunc(WorldEvent _event)
+	{
+		let def = getDefaultByType(_event.thing.getClass());
+		
+		double ratio = 1 + (1 - (double(_event.thing.health) / double(def.health)));
+		
+		_event.thing.A_SetSize(def.height * ratio, def.radius * ratio);
+		_event.thing.scale.x = def.scale.x * ratio;
+		_event.thing.scale.y = def.scale.y * ratio;
+	}
+	
+	override void closeFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Embiggening Damage";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
+Class GZC_Mitosis : GZC_Event
+{
+	override void eventFunc()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		Array<Actor> list;
+		list.clear();
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			if (list.size() != 0)
+			{
+				if (list.find(mo) != list.size()) continue;
+			}
+			
+			Name mon = mo.getClassName();
+			int angle = random(0, 360);
+			
+			let mobj_a = Actor.spawn(mon, mo.pos);
+			mobj_a.angle = mo.angle;
+			mobj_a.health = int(mo.health / 2);
+			mobj_a.Thrust();
+			list.push(mobj_a);
+			
+			let mobj_b = Actor.spawn(mon, mo.pos);
+			mobj_b.angle = mo.angle;
+			mobj_b.health = int(mo.health / 2);
+			mobj_a.Thrust(1e36, -1e37);
+			list.push(mobj_b);
+			
+			mo.A_DamageSelf(0x7FFFFFFF);
+		}
+		
+		activated = true;
+	}
+
+	override void init()
+	{
+		eventname = "Mitosis";
+		duration = 35 * 60 * 3;
+		type = E_Instant;
+	}
+}
+
 Class GZC_RubberEnemies : GZC_Event
 {
 	override void eventFunc()

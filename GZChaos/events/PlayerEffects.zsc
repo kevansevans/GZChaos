@@ -1,3 +1,21 @@
+Class GZC_Regeneration : GZC_Event
+{
+	override void eventFunc()
+	{
+		if (gametic % (35 * 3) != 0) return;
+		
+		let player = players[consoleplayer].mo;
+		player.GiveBody(random(1, 5), 100);
+	}
+
+	override void init()
+	{
+		eventname = "Health Regeneration";
+		duration = 35 * 60 * 3;
+		type = E_Timed;
+	}
+}
+
 Class GZC_ShootingNotAllowed : GZC_Event
 {
 	override void eventFunc()
@@ -6,14 +24,14 @@ Class GZC_ShootingNotAllowed : GZC_Event
 		if (!pinfo.readyWeapon.ammo1 && !pinfo.readyWeapon.ammo2) return;
 		if (pinfo.buttons & (BT_ATTACK | BT_ALTATTACK))
 		{
-			pinfo.mo.A_DamageSelf(0x7FFFFFF);
+			pinfo.mo.A_DamageSelf(0x1);
 		}
 	}
 	
 	override void init()
 	{
 		eventname = "No Shooting Allowed";
-		duration = 35 * 30;
+		duration = 35 * 5;
 		type = E_Timed;
 	}
 }
