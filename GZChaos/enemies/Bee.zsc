@@ -4,7 +4,7 @@ Class BEE : Actor
 	{
 		Radius 1;
 		Height 1;
-		Speed 5;
+		Speed 2;
 		MeleeRange 3;
 		Health 1;
 		

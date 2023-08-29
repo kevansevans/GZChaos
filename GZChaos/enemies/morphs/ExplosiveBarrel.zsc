@@ -28,6 +28,6 @@ class GZC_ExplosiveBarrel : MorphedMonster
 		BEXP E 10 BRIGHT;
 		TNT1 A 1050 BRIGHT A_BarrelDestroy;
 		TNT1 A 5 A_Respawn;
-		Wait;
+		stop;
 	}
 }
