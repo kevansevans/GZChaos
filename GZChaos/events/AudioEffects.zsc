@@ -44,7 +44,9 @@ Class GZC_RandomActorSoundPitch : GZC_Event
 	
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
+		
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -91,7 +93,8 @@ Class GZC_TheEddsAreComing : GZC_Event //More like GZC_EddEvent, hue hue hue
 	
 	void startReassignment()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -115,7 +118,8 @@ Class GZC_TheEddsAreComing : GZC_Event //More like GZC_EddEvent, hue hue hue
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))

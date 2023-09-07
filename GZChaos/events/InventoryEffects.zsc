@@ -21,7 +21,8 @@ Class GZC_CantHaveShitInDetroit : GZC_Event
 		Array<String> items;
 		items.clear();
 	
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Inventory");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -57,7 +58,8 @@ Class GZC_DoubleAmmo : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Weapon");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -75,7 +77,8 @@ Class GZC_DoubleAmmo : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Weapon");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -103,7 +106,8 @@ Class GZC_InfiniteAmmo : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -120,7 +124,8 @@ Class GZC_InfiniteAmmo : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))

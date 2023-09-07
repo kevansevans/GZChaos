@@ -13,7 +13,8 @@ Class GZC_DiminifiedDamage : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -48,7 +49,8 @@ Class GZC_EmbiggeningDamage : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -72,7 +74,8 @@ Class GZC_Mitosis : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		Array<Actor> list;
@@ -120,7 +123,8 @@ Class GZC_RubberEnemies : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -132,7 +136,8 @@ Class GZC_RubberEnemies : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -156,7 +161,8 @@ Class GZC_UnfriendlyFire : GZC_Event
 
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -180,7 +186,8 @@ Class GZC_UnfriendlyFire : GZC_Event
 
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -209,7 +216,8 @@ Class GZC_NoSplashDamage : GZC_Event
 	
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -227,7 +235,8 @@ Class GZC_NoSplashDamage : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -270,7 +279,8 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -292,7 +302,8 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void loadFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -306,7 +317,8 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -330,7 +342,8 @@ Class GZC_NegativeEnemySpeed : GZC_EnemySpeedEffect
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -344,7 +357,8 @@ Class GZC_NegativeEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -368,7 +382,8 @@ Class GZC_HalfEnemySpeed : GZC_EnemySpeedEffect
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -382,7 +397,8 @@ Class GZC_HalfEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -406,7 +422,8 @@ Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -420,7 +437,8 @@ Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -444,7 +462,8 @@ Class GZC_AAAAAHHHHH : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		let player = players[consoleplayer].mo;
@@ -476,7 +495,8 @@ Class GZC_BarrelsOFun : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -502,7 +522,8 @@ Class GZC_OneTicMonsters : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -525,7 +546,8 @@ Class GZC_FastMonsters : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -538,7 +560,8 @@ Class GZC_FastMonsters : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -607,7 +630,8 @@ Class GZC_ShuffleMonsters : GZC_Event
 		let player = players[consoleplayer].mo;
 		player.bNoTarget = true;
 		
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		monsters.clear();
@@ -657,7 +681,8 @@ Class GZC_NoMoreInfighting : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -670,7 +695,8 @@ Class GZC_NoMoreInfighting : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -768,7 +794,7 @@ Class GZC_RussianDollEnemies : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
+		it = ThinkerIterator.create("Actor");
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -798,7 +824,8 @@ Class GZC_AggressiveMissileMore : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -812,7 +839,8 @@ Class GZC_AggressiveMissileMore : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while (mo = Actor(it.next()))
@@ -860,7 +888,8 @@ Class GZC_BetaSkulls : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('LostSoul');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -890,7 +919,8 @@ Class GZC_FullPainChances : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -904,7 +934,8 @@ Class GZC_FullPainChances : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while (mo = Actor(it.next()))
@@ -945,7 +976,8 @@ Class GZC_ZeroPainChances : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -959,7 +991,8 @@ Class GZC_ZeroPainChances : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while (mo = Actor(it.next()))
@@ -1000,7 +1033,8 @@ Class GZC_InverseFlyingRules : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -1016,7 +1050,8 @@ Class GZC_InverseFlyingRules : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while (mo = Actor(it.next()))
@@ -1042,7 +1077,8 @@ Class GZC_AllMonstersWakeUp : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		PlayerPawn player = players[consoleplayer].mo;
@@ -1071,7 +1107,8 @@ Class GZC_ArachnotronGrowthSpurt : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -1123,7 +1160,8 @@ Class GZC_FrictionlessEnemies : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1140,7 +1178,8 @@ Class GZC_FrictionlessEnemies : GZC_Event
 		
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1169,7 +1208,8 @@ Class GZC_AnkleBiterEnemies : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1187,7 +1227,8 @@ Class GZC_AnkleBiterEnemies : GZC_Event
 	
 	override void closeFunc() 
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1215,7 +1256,8 @@ Class GZC_StatueEnemies : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1235,7 +1277,8 @@ Class GZC_StatueEnemies : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1267,7 +1310,8 @@ Class GZC_NightmareMonsters : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1280,7 +1324,8 @@ Class GZC_NightmareMonsters : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1317,7 +1362,8 @@ Class GZC_NightmareRespawns : GZC_Event
 	
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1331,7 +1377,8 @@ Class GZC_NightmareRespawns : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -1361,7 +1408,8 @@ Class GZC_SpawnGreatGodImp : GZC_Event
 	{
 		bool result = super.verify();
 		
-		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		if (!it) it = ThinkerIterator.create("DoomImp");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -1377,7 +1425,8 @@ Class GZC_SpawnGreatGodImp : GZC_Event
 	{
 		imps.clear();
 	
-		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		if (!it) it = ThinkerIterator.create("DoomImp");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = DoomImp(it.next())) imps.push(DoomImp(mo));

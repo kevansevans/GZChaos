@@ -25,7 +25,8 @@ Class GZC_TopDownView : GZC_Event
 		chasecam.angle = player.angle;
 		player.pitch = 0;
 		
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -39,7 +40,8 @@ Class GZC_TopDownView : GZC_Event
 		players[consoleplayer].mo.setCamera(players[consoleplayer].mo);
 		chasecam.destroy();
 		
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -254,7 +256,8 @@ Class GZC_Aimbot : GZC_Event
 		distance = 0x7FFFFFFF;
 		closest = null;
 		
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		let player = players[consoleplayer].mo;
@@ -699,7 +702,8 @@ Class GZC_ScardeyItems : GZC_Event
 	{
 		PlayerPawn player = players[consoleplayer].mo;
 		
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while ((mo = Actor(it.Next ())))

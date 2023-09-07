@@ -2,7 +2,8 @@ Class GZC_DepthPerception : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		let player = players[consoleplayer].mo;
@@ -17,7 +18,8 @@ Class GZC_DepthPerception : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		let player = players[consoleplayer].mo;
@@ -42,7 +44,8 @@ Class GZC_FloorSpriteEnemies : GZC_Event
 {
 	override void EventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -53,7 +56,8 @@ Class GZC_FloorSpriteEnemies : GZC_Event
 	
 	override void CloseFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -75,7 +79,8 @@ Class GZC_WallSpriteEnemies : GZC_Event
 {
 	override void EventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -86,7 +91,8 @@ Class GZC_WallSpriteEnemies : GZC_Event
 	
 	override void CloseFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -112,7 +118,8 @@ Class GZC_MissingWad : GZC_TextureSwapEffect
 	{
 		if (cleared) return;
 	
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -140,7 +147,8 @@ Class GZC_MissingWad : GZC_TextureSwapEffect
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.create('Actor');
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
@@ -298,7 +306,8 @@ Class GZC_SuperNintendoDoom : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while ((mo = Actor(it.Next ())))
@@ -313,7 +322,8 @@ Class GZC_SuperNintendoDoom : GZC_Event
 	
 	override void closeFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while ((mo = Actor(it.Next ())))
@@ -339,7 +349,8 @@ Class GZC_SpinningMonsters : GZC_Event
 
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		if (!factor) factor = random(-15, 15);
@@ -357,7 +368,8 @@ Class GZC_SpinningMonsters : GZC_Event
 	
 	override void closeFunc() 
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -385,7 +397,8 @@ Class GZC_WideMonsters : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -399,7 +412,8 @@ Class GZC_WideMonsters : GZC_Event
 	
 	override void closeFunc() 
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -432,7 +446,8 @@ Class GZC_TallMonsters : GZC_Event
 {
 	override void eventFunc()
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))
@@ -446,7 +461,8 @@ Class GZC_TallMonsters : GZC_Event
 	
 	override void closeFunc() 
 	{
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 	
 		while ((mo = Actor(it.Next ())))

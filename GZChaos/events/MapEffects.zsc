@@ -656,7 +656,8 @@ Class GZC_SuperSecretsEverywhere : GZC_Event
 			sec.flags |= Sector.SECF_SECRET;
 		}
 		
-		ThinkerIterator it = ThinkerIterator.Create("Actor");
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
 		Actor mo;
 		
 		while ((mo = Actor(it.Next ())))

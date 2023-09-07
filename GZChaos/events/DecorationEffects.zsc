@@ -11,7 +11,8 @@ Class GZC_HostileDecorations : GZC_Event
 		{
 			decorations.clear();
 		
-			ThinkerIterator it = ThinkerIterator.create('Actor');
+			if (!it) it = ThinkerIterator.create("Actor");
+			it.reinit();
 			Actor mo;
 			
 			while (mo = Actor(it.next()))
@@ -91,24 +92,22 @@ Class GZC_ParanoidOfBarrels : GZC_Event
 	{
 		if (gametic % 4 == 0)
 		{
-			ThinkerIterator it = ThinkerIterator.create("Actor");
+			if (!it) it = ThinkerIterator.create("ExplosiveBarrel");
+			it.reinit();
 			Actor mo;
 		
 			PlayerPawn player = players[consoleplayer].mo;
 		
 			while (mo = Actor(it.next()))
 			{
-				if (mo is "ExplosiveBarrel")
+				mo.target = player;
+				mo.speed = 1;
+				if (!player.isVisible(mo, false))
 				{
-					mo.target = player;
-					mo.speed = 1;
-					if (!player.isVisible(mo, false))
+					mo.A_Chase();
+					if (mo.distance3D(player) <= 64)
 					{
-						mo.A_Chase();
-						if (mo.distance3D(player) <= 64)
-						{
-							mo.A_DamageSelf(999);
-						}
+						mo.A_DamageSelf(999);
 					}
 				}
 			}
@@ -136,15 +135,13 @@ Class GZC_DuplicatingBarrels : GZC_Event
 			barrels.clear();
 			parents.clear();
 		
-			ThinkerIterator it = ThinkerIterator.Create("Actor");
+			if (!it) it = ThinkerIterator.create("ExplosiveBarrel");
+			it.reinit();
 			Actor mo;
 	
 			while ((mo = Actor(it.Next ())))
 			{
-				if (mo is "ExplosiveBarrel")
-				{
-					barrels.push(ExplosiveBarrel(mo));
-				}
+				barrels.push(ExplosiveBarrel(mo));
 			}
 			
 			int upperend = lowend + random(1, 5);
