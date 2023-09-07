@@ -286,14 +286,33 @@ Class GZC_QuakeFOV : GZC_Event
 
 Class GZC_ThirdPerson : GZC_Event
 {
+	Actor ChaseCam;
+
 	override void eventFunc()
 	{
-		players[consoleplayer].cheats |= CF_ChaseCam;
+		let player = players[consoleplayer].mo;
+		
+		if (!chasecam) 
+		{
+			chasecam = Actor.Spawn('Actor', player.pos);
+			chasecam.bNoGravity = true;
+			chasecam.target = player;
+			player.SetCamera(chasecam);
+		}
+		
+		chasecam.pitch = player.pitch;
+		
+		FLineTraceData shot;
+		player.LineTrace(player.angle, -64, player.pitch, 0, player.viewheight, 0, 0, shot);
+		
+		chasecam.setOrigin(shot.HitLocation, true);
+		chasecam.A_FaceTarget();
 	}
 	
-	override void closeFunc()
+	override void closefunc()
 	{
-		players[consoleplayer].cheats &= ~(CF_ChaseCam);
+		players[consoleplayer].mo.setCamera(players[consoleplayer].mo);
+		chasecam.destroy();
 	}
 	
 	override void init()
