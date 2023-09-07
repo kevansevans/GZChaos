@@ -1,3 +1,62 @@
+Class GZC_TopDownView : GZC_Event
+{
+	Actor ChaseCam;
+
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		
+		if (!chasecam) 
+		{
+			chasecam = Actor.Spawn('Actor', player.pos);
+			chasecam.bNoGravity = true;
+			chasecam.target = player;
+			chasecam.bNoClip = true;
+			player.SetCamera(chasecam);
+		}
+		
+		chasecam.pitch = player.pitch;
+		
+		let pos = player.pos;
+		pos.z += 256;
+		
+		chasecam.setOrigin(pos, true);
+		chasecam.pitch = 90;
+		chasecam.angle = player.angle;
+		player.pitch = 0;
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.bForceXYBillboard = true;
+		}
+	}
+	
+	override void closefunc()
+	{
+		players[consoleplayer].mo.setCamera(players[consoleplayer].mo);
+		chasecam.destroy();
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bForceXYBillboard = def.bForceXYBillboard;
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Um ackshually...";
+		duration = 35 * 60;
+		type = E_Timed;
+	}
+}
+
 Class GZC_Regeneration : GZC_Event
 {
 	override void eventFunc()
