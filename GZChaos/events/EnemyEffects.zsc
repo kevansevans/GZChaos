@@ -482,6 +482,16 @@ Class GZC_AAAAAHHHHH : GZC_Event
 		
 		activated = true;
 	}
+	
+	override void closeFunc()
+	{
+		it = ThinkerIterator.create("GZC_KamikaziGuy");
+		Actor mo;
+		while (mo = Actor(it.next()))
+		{
+			mo.unmorph(mo, 0, true);
+		}
+	}
 
 	override void init()
 	{
