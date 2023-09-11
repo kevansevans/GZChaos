@@ -215,7 +215,7 @@ enum E_EventType
 
 Class GZC_Event play
 {
-	ThinkerIterator it;
+	Transient ThinkerIterator it;
 
 	String eventname;
 	Int duration;
