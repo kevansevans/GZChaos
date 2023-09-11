@@ -50,7 +50,7 @@ class GZC_EffectDisplay : EventHandler
 				GZC_Event effect = effects.events[i];
 				int fontcolor = Font.CR_White;
 				
-				if (effect.life > effect.duration || effect.type != E_Timed) fontcolor = Font.CR_DarkGray;
+				if (effect.deadEffect || effect.type != E_Timed) fontcolor = Font.CR_DarkGray;
 				if (effect.life < 35) fontcolor = Font.CR_Yellow;
 				
 				int yOffset = 150 + ((60 * i) * yscale);
