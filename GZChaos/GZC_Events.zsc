@@ -96,7 +96,7 @@ Class GZC_EventList play
 			String classname = selectedevent.getClassName();
 			if (cachedEffects.find(classname) != cachedEffects.size()) continue;
 			
-			rolls.push(rngcounter);
+			rolls.insert(0, rngcounter);
 			rolls.resize(Cvar.getCvar("GZC_MemoryBuffer").getInt());
 			
 			break;
