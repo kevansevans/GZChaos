@@ -1,20 +1,21 @@
 Class GZC_ClearAllEffects : GZC_Event
 {
-	override void init()
+	override void eventFunc()
 	{
-		eventname = "Clear all effects";
-		duration = 35 * 60;
-		type = E_Instant;
-		
 		let player = players[consoleplayer].mo;
-		if (!player) return;
 		let effects = EffectInventory(player.findInventory("EffectInventory"));
-		if (!effects) return;
 		
 		foreach (event : effects.events)
 		{
 			event.life = event.duration;
 		}
+	}
+
+	override void init()
+	{
+		eventname = "Clear all effects";
+		duration = 35 * 60;
+		type = E_Instant;		
 	}
 }
 
