@@ -25,7 +25,7 @@ Jimmy Squared
 	- Coffee mug sprites, all is forgiven
 Xaser
 	- MEGALODOOMIA.mid
-Shakar, Proverbial, Warren
+Shakar, Proverbial, Warren, Kaapeli
 	- Testing
 Rachael
 	- Enemy tic code slowdown
@@ -42,3 +42,5 @@ CutmanMike
 	- Blessing to use code and ideas from Corruption Cards
 CaptainToenail
 	- Kamikazi enemy
+Neoworm
+	- Imp Spider Head

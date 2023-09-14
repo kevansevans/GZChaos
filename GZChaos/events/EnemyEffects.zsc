@@ -1,3 +1,185 @@
+Class GZC_ZergRush : GZC_Event
+{
+	Actor camera;
+	int count;
+	int limit;
+	override void eventFunc()
+	{
+		let player = players[consoleplayer].mo;
+		
+		if (!camera) 
+		{
+			camera = Actor.spawn('Actor', player.pos);
+			limit = random(1, 5) * 100;
+		}
+		
+		if (count < limit)
+		{
+			int seccount = level.sectors.size() - 1;
+			for (int i = 0; i < 10; ++i)
+			{
+				let sec = level.sectors[random(0, seccount)];
+				Vector3 pos = (sec.centerspot.x + random(-64, 64), sec.centerspot.y + random(-64, 64), sec.floorplane.ZAtPoint(sec.centerspot) + random(-10, 10));
+				
+				camera.setOrigin(pos, false);
+				
+				if (player.isVisible(camera, true))
+				{
+					++count;
+					let spider = Actor.spawn("GZC_SpiderImpHead", pos);
+					spider.target = player;
+					spider.A_FaceTarget();
+				}
+			}
+		}
+		
+		else
+		{
+			activated = true;
+			life = duration;
+		}
+	}
+
+	override void Init()
+	{
+		eventname = "Zerg rush";
+		duration = 35 * 60 * 5;
+		type = E_HiddenTimer;
+	}
+}
+
+Class GZC_PlutoniaExperience : GZC_Event
+{
+	override void eventFunc()
+	{
+		if (activated) return;
+		
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo is 'GZC_Chaingunner') continue;
+			
+			mo.A_Morph("GZC_Chaingunner", 35 * 30);
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.unmorph(mo, 0, true);
+		}
+	}
+
+	override void Init()
+	{
+		eventname = "The Plutonia Experience";
+		duration = 35 * 30;
+		type = E_Timed;
+	}
+}
+
+Class GZC_ElementOfPain : GZC_Event
+{
+	override void eventFunc()
+	{
+		if (activated) return;
+		
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo is 'GZC_PainElemental') continue;
+			
+			mo.A_Morph("GZC_PainElemental", 35 * 30);
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.unmorph(mo, 0, true);
+		}
+	}
+
+	override void Init()
+	{
+		eventname = "Element Of Pain";
+		duration = 35 * 30;
+		type = E_Timed;
+	}
+}
+
+Class GZC_MegaHurts : GZC_Event
+{
+	override void eventFunc()
+	{
+		if (activated) return;
+		
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo is 'GZC_Archvile') continue;
+			
+			mo.A_Morph("GZC_Archvile", 35 * 30);
+		}
+		
+		activated = true;
+	}
+	
+	override void closeFunc()
+	{
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.unmorph(mo, 0, true);
+		}
+	}
+
+	override void Init()
+	{
+		eventname = "200 Mega Hurts";
+		duration = 35 * 30;
+		type = E_Timed;
+	}
+}
+
 Class GZC_DiminifiedDamage : GZC_Event
 {
 	override void DamageFunc(WorldEvent _event)

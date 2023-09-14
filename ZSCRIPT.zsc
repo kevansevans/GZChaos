@@ -18,6 +18,7 @@ version "4.10"
 
 #include "GZChaos/enemies/Bee.zsc"
 #include "GZChaos/enemies/Cyberfuck.zsc"
+#include "GZChaos/enemies/ImpTrite.zsc"
 #include "GZChaos/enemies/JitterSkull.zsc"
 #include "GZChaos/enemies/SCP173.zsc"
 
@@ -31,6 +32,8 @@ version "4.10"
 #include "GZChaos/enemies/morphs/Kamikazi.zsc"
 #include "GZChaos/enemies/morphs/BetaSkull.zsc"
 #include "GZChaos/enemies/morphs/Cacodemon.zsc"
+#include "GZChaos/enemies/morphs/Archvile.zsc"
+#include "GZChaos/enemies/morphs/PainElemental.zsc"
 
 #include "GZChaos/morphs/DogMode.zsc"
 #include "GZChaos/morphs/Coffee.zsc"

@@ -101,3 +101,8 @@ kamikazi/scream		DSKAMAAH
 kamikazi/idle		DSKAMIDL
 
 Doom3/TakeHealth	TAKEHEAL
+
+impspid/see issee
+impspid/pain ispain
+impspid/death isdie
+impspid/atack isatak
