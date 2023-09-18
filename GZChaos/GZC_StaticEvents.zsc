@@ -18,6 +18,9 @@ Class GZC_EventHandler : StaticEventHandler
 	
 	bool showseed;
 	
+	int suffering;
+	int conquered;
+	
 	override void NewGame()
 	{
 		getEffectsList();
@@ -30,6 +33,8 @@ Class GZC_EventHandler : StaticEventHandler
 	override void WorldLoaded(WorldEvent _event)
 	{
 		GZC_ShaderEvent.DisableShaders();
+		
+		if (!_event.isSaveGame) ++conquered;
 	}
 	
 	void getEffectsList()
@@ -38,6 +43,9 @@ Class GZC_EventHandler : StaticEventHandler
 		{
 			list = GZC_EventList.create();
 			timerMode = E_Normal;
+			
+			suffering = 0;
+			conquered = 0;
 		}
 	}
 
@@ -45,7 +53,7 @@ Class GZC_EventHandler : StaticEventHandler
 	{
 		console.printf('Let the Chaos begin!');
 		
-		SetOrder(100);
+		SetOrder(1);
 	}
 	
 	void getPlayerInfo()
@@ -308,6 +316,7 @@ Class GZC_EventHandler : StaticEventHandler
 	
 		GZC_Event effect = list.getEffect(_ignore);
 		effects.events.push(effect);
+		++suffering;
 	}
 	
 	void removeEffect(GZC_Event _effect)
@@ -317,6 +326,42 @@ Class GZC_EventHandler : StaticEventHandler
 		effects.events.delete(place);
 		effects.events.shrinkToFit();
 		effect.destroy();
+	}
+	
+	ui double darkness;
+	ui int snapshot;
+	override void RenderOverlay(RenderEvent _event)
+	{
+		let player = players[consoleplayer].mo;
+		
+		if (player.health > 0)
+		{
+			return;
+		}
+		
+		if (snapshot == 0) snapshot = gametic;
+		
+		double sufscale = double(Screen.getWidth()) / 1600.0;
+		double mid = (Screen.getWidth() / 2) - (1535 / 2 * sufscale);
+		
+		Screen.DrawTexture(TexMan.CheckFOrTexture('SUFFER'), false, mid, 10, DTA_ScaleX, sufscale, DTA_ScaleY, sufscale);
+		
+		int seconds = int(snapshot / 35);
+		int rseconds = snapshot % 35;
+		int minutes = int(seconds / 60);
+		int hours = int(minutes / 60);
+		
+		string min = minutes < 10 ? "0" .. minutes : "" .. minutes;
+		string sec = rseconds < 10 ? "0" .. rseconds : "" .. rseconds;
+		
+		double screenscale = double(Screen.getWidth()) / 2560.0;
+		string playername = player.player.getUserName();
+		string statinfo = playername .. " suffered through " .. self.suffering .. " effects\nand persevered through " .. (self.conquered - 1) .. " maps.\nPlaytime: " .. hours .. ":" .. minutes .. ":" .. sec;
+		double statsize = BigFont.StringWidth(statinfo);
+		
+		double offsetx = (double(Screen.getWidth()) / 2) - (statsize / 2);
+		
+		Screen.DrawText(BigFont, Font.CR_Brick, offsetx, 20 + (190 * sufscale), statinfo);
 	}
 	
 	ThinkerIterator it;
