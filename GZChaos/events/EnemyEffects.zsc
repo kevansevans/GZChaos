@@ -89,6 +89,7 @@ Class GZC_PlutoniaExperience : GZC_Event
 		{
 			if (!mo.bIsMonster) continue;
 			if (mo is 'GZC_Chaingunner') continue;
+			if (mo.health <= 0) continue;
 			
 			mo.A_Morph("GZC_Chaingunner", 35 * 30);
 		}
@@ -133,6 +134,7 @@ Class GZC_ElementOfPain : GZC_Event
 		{
 			if (!mo.bIsMonster) continue;
 			if (mo is 'GZC_PainElemental') continue;
+			if (mo.health <= 0) continue;
 			
 			mo.A_Morph("GZC_PainElemental", 35 * 30);
 		}
@@ -177,6 +179,7 @@ Class GZC_MegaHurts : GZC_Event
 		{
 			if (!mo.bIsMonster) continue;
 			if (mo is 'GZC_Archvile') continue;
+			if (mo.health <= 0) continue;
 			
 			mo.A_Morph("GZC_Archvile", 35 * 30);
 		}
