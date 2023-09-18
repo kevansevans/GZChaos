@@ -1,3 +1,30 @@
+Class GZC_NoFunAllowed : GZC_Event
+{
+	override void eventFunc()
+	{
+		if (!it) it = ThinkerIterator.create("Actor");
+		it.reinit();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.A_DamageSelf(0x7FFFFFFF);
+		}
+		
+		activated = true;
+	}
+
+	override void Init()
+	{
+		eventname = "No fun allowed";
+		duration = 35 * 60 * 5;
+		type = E_Instant;
+	}
+}
+
 Class GZC_ZergRush : GZC_Event
 {
 	Actor camera;

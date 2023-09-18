@@ -1,3 +1,87 @@
+Class GZC_ShuffleEffectLife : GZC_Event
+{
+	override void eventFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			
+			if (event is "GZC_AddTimeToEffects") continue;
+			if (event.life >= event.duration || event.type != E_Timed) continue;
+			
+			event.life = random(0, event.duration);
+		}
+	}
+	
+	override void init()
+	{
+		eventname = "Randomize all active effect progression";
+		duration = 35 * 60 * 3;
+		type = E_Instant;
+	}
+}
+
+Class GZC_SubTimeToEffects : GZC_Event
+{
+	int seconds;
+	
+	override void eventFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			
+			if (event is "GZC_AddTimeToEffects") continue;
+			if (event.life >= event.duration || event.type != E_Timed) continue;
+			
+			event.duration -= 35 * seconds;
+		}
+	}
+
+	override void init()
+	{
+		seconds = random(5, 30);
+		eventname = "Remove " .. seconds .. " seconds to all effects";
+		duration = 35 * 60 * 3;
+		type = E_Instant;
+	}
+}
+
+Class GZC_AddTimeToEffects : GZC_Event
+{
+	int seconds;
+	
+	override void eventFunc()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		EffectInventory effects = EffectInventory(player.findInventory("EffectInventory"));
+		
+		for (int i = 0; i < effects.events.size(); ++i)
+		{
+			GZC_Event event = effects.events[i];
+			
+			if (event is "GZC_AddTimeToEffects") continue;
+			if (event.life >= event.duration || event.type != E_Timed) continue;
+			
+			event.duration += 35 * seconds;
+		}
+	}
+
+	override void init()
+	{
+		seconds = random(5, 30);
+		eventname = "Add " .. seconds .. " seconds to all effects";
+		duration = 35 * 60 * 3;
+		type = E_Instant;
+	}
+}
+
 Class GZC_TimerEffect : GZC_Event
 {
 	override bool verify()

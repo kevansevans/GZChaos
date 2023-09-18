@@ -13,7 +13,6 @@ Class GZC_SpiderImpHead : Actor
 		PainSound "impspid/pain";
 		DeathSound "impspid/death";
 		ActiveSound "impspid/see";
-		MeleeSound "impspid/atack";
 		Obituary "%o was biten by imp head";
 		MeleeDamage 3;
 	}
@@ -30,7 +29,7 @@ Class GZC_SpiderImpHead : Actor
 			Loop;
 		Melee:
 			IMHD D 8 A_FaceTarget();
-			IMHD E 6 A_MeleeAttack();
+			IMHD E 6 A_CustomMeleeAttack(random(1, 8), "impspid/atack", "");
 			Goto See;
 		Pain:
 			IMHD D 2 A_Pain();
