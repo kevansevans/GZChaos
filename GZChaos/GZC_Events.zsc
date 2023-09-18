@@ -168,8 +168,8 @@ Class GZC_SeededRNG play
 	
 	void fillPool(String _input, Int _offset)
 	{
-		int charindex = 0;
-		int indexvalue;
+		uint charindex = 0;
+		uint indexvalue;
 		while (charIndex <= _input.length())
 		{
 			int code = (_input.mid(charIndex, 2).toInt(10) + _offset) % 256;
