@@ -114,6 +114,7 @@ Class GZC_KillsExtend : GZC_TimerEffect
 		foreach (event : effects.events)
 		{
 			if (event is 'GZC_KillsExtend') continue;
+			if (event.life >= event.duration || event.type != E_Timed) continue;
 		
 			event.life -= rate;
 			if (event.life < 0) event.life = 0;
@@ -148,6 +149,7 @@ Class GZC_KillsReduce : GZC_TimerEffect
 		foreach (event : effects.events)
 		{
 			if (event is 'GZC_KillsReduce') continue;
+			if (event.life >= event.duration || event.type != E_Timed) continue;
 		
 			event.life += rate;
 		}
