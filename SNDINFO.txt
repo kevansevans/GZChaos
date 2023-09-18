@@ -106,3 +106,14 @@ impspid/see issee
 impspid/pain ispain
 impspid/death isdie
 impspid/atack isatak
+
+pain/sight "Sounds/rips/DSPESIT"
+pain/pain "Sounds/rips/DSPEPAIN"
+pain/sound "Sounds/rips/DSPEDTH"
+
+vile/sight "Sounds/rips/DSVISIT"
+vile/stop "Sounds/rips/DSVIATK"
+vile/pain "Sounds/rips/DSVIPAIN"
+vile/active "Sounds/rips/DSVIACT"
+vile/death "Sounds/rips/DSVILDTH"
+vile/firecrkl "Sounds/rips/DSFLAME"
