@@ -50,6 +50,7 @@ OptionMenu "GZCMenu"
 	GZCBarTimer "Timer texture", "GZC_TimerBarClassName", ""
 	Slider "Timer height", "GZC_TimerBarHeight", 5, 20, 1, 0
 	Slider "Effect info scale", "GZC_EffectScaleAmount", 1, 30, 1, 0
+	Option "Hide everything", "GZC_HideEverything", "YesNo"
 	
 	StaticText " "
 	StaticText "Gameplay settings"
@@ -68,5 +69,4 @@ OptionMenu "GZCMenu"
 	Option "Use Random Seed", "GZC_UseRandomSeed", "NoYes", "GZC_UseSeed"
 	TextField "Seed", "GZC_SeedValue", "GZC_UseSeed"
 	Option "Show seed on new game", "GZC_ShowSeedAtStart", "YesNo", "GZC_UseSeed"
-	Option "Hide everything", "GZC_HideEverything", "YesNo"
 }
