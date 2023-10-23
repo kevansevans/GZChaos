@@ -375,11 +375,11 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 	
 	String levelmus;
 	
-	override void eventFunc()
+	override bool verify()
 	{
-		pointers.clear();
+		bool result = super.verify();
 		
-		levelmus = level.music;
+		pointers.clear();
 		
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -399,6 +399,14 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 			morphActor(mo, "EmptyActor");
 		}
 		
+		if (pointers.size() == 0) return false;
+		
+		return result;
+	}
+	
+	
+	override void openFunc()
+	{
 		scp = SCP173(Actor.spawn('SCP173', (0,0,0)));
 		let player = players[consoleplayer].mo;
 		
@@ -411,6 +419,7 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 			break;
 		}
 		
+		levelmus = Level.music;
 		player.S_ChangeMusic("");
 	}
 	
