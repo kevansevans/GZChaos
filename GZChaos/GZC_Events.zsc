@@ -223,7 +223,6 @@ Class GZC_Event : Object play
 	int weight;
 	int life;
 	
-	Bool activated;
 	Bool deleteme;
 	Bool skipme;
 	Bool deadEffect;
@@ -234,6 +233,7 @@ Class GZC_Event : Object play
 	{
 		skipme = true;
 	}
+	virtual void openFunc() {}
 	virtual void eventFunc(){}
 	virtual void closeFunc(){}
 	virtual void spawnFunc(Actor mo){}

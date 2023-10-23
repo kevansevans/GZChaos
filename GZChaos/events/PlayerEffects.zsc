@@ -146,11 +146,10 @@ Class GZC_PlayerIsAGhost : GZC_Event
 
 Class GZC_NotQuiteInvulnerability : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		let player = players[consoleplayer].mo;
 		player.GiveBody(999, 999);
-		activated = true;
 	}
 
 	override void init()
@@ -451,7 +450,7 @@ Class GZC_DrowsyDooming : GZC_Event
 
 Class GZC_ShrunkTheDoomguy : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		PlayerPawn player = players[consoleplayer].mo;
 		
@@ -466,8 +465,6 @@ Class GZC_ShrunkTheDoomguy : GZC_Event
 		player.ViewBob *= 0.1;
 		player.scale.x *= 0.1;
 		player.scale.y *= 0.1;
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -504,13 +501,11 @@ Class GZC_MorphIntoDog : GZC_MorphEffect
 {
 	Class<Actor> original;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		PlayerPawn player = players[consoleplayer].mo;
 		
 		player.A_Morph('DogPlayer', duration);
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -533,13 +528,11 @@ Class GZC_MorphIntoChicken : GZC_MorphEffect
 {
 	Class<Actor> original;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		PlayerPawn player = players[consoleplayer].mo;
 		
 		player.A_Morph('ChickenPlayer', duration);
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -931,7 +924,6 @@ Class GZC_GameEndPlayer : GZC_Event
 		if (gametic - startframe >= 35 * 1)
 		{
 			player.A_Explode(999, 64);
-			activated = true;
 		}
 		else
 		{
@@ -978,7 +970,6 @@ Class GZC_FakeGameEndPlayer : GZC_Event
 		else if (gametic - startframe >= 35 * 3)
 		{
 			eventname = "Fake suicide :)";
-			activated = true;
 		}
 	}
 	

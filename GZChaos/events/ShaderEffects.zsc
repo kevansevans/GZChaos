@@ -26,6 +26,27 @@ Class GZC_ShaderEvent : GZC_Event
 	}
 }
 
+Class GZC_Shrooms : GZC_ShaderEvent
+{
+	override void eventFunc()
+	{
+		PPShader.SetEnabled("shrooms", true);
+		PPShader.SetUniform1i("shrooms", "iTime", gametic);
+	}
+	
+	override void closeFunc()
+	{
+		PPShader.SetEnabled("shrooms", false);
+	}
+
+	override void init()
+	{
+		eventname = "Psychadelics";
+		duration = 35 * 5 * 60;
+		type = E_Timed;
+	}
+}
+
 Class GZC_MSDOSMode : GZC_ShaderEvent
 {
 	override void eventFunc()

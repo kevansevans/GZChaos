@@ -73,11 +73,9 @@ Class GZC_RandomActorSoundPitch : GZC_Event
 
 Class GZC_TheEddsAreComing : GZC_Event //More like GZC_EddEvent, hue hue hue
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		startReassignment();
-		
-		activated = true;
 	}
 	
 	override void spawnFunc(Actor _mo)
@@ -226,7 +224,7 @@ Class GZC_SetMusicToCursedMidi : GZC_Event
 {
 	string levelmus;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		let player = players[consoleplayer].mo;
 		
@@ -256,8 +254,6 @@ Class GZC_SetMusicToCursedMidi : GZC_Event
 				eventname = eventname .. " - Scary Monsters and Nice Sprites (Skrillex)";
 				break;
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -299,12 +295,11 @@ Class GZC_FakeNotification : GZC_Event
 			interval = random(5, 10);
 			set = true;
 		}
-		if (gametic - ticcount > 35 * interval)
+		if (gametic - ticcount == 35 * interval)
 		{
 			let player = players[consoleplayer].mo;
 			player.A_StartSound("disc/ord", CHAN_AUTO, 0, 1, ATTN_NONE);
 			eventname = "Nothing?";
-			activated = true;
 		}
 	}
 	

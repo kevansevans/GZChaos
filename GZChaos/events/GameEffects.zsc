@@ -1,9 +1,8 @@
 Class GZC_AutoSave : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		Autosave();
-		Activated = true;
 	}
 
 	override void init()
@@ -16,10 +15,9 @@ Class GZC_AutoSave : GZC_Event
 
 Class GZC_RearView : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		GZC_RearViewMirror(EventHandler.find('GZC_RearViewMirror')).enabled = true;
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -183,10 +181,8 @@ Class GZC_DetonateAllBarrels : GZC_Event
 
 Class GZC_CompanionImpEvent : GZC_Event
 {
-	override void EventFunc()
+	override void openFunc()
 	{
-		activated = true;
-		
 		let player = players[consoleplayer].mo;
 		Actor.spawn('GZC_CompanionImp', player.pos);
 	}
@@ -394,7 +390,7 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 			if (mo is "EmptyActor") continue;
 			if (!mo.bIsMonster) continue;
 			if (mo.health <= 0) continue;
-			
+		
 			let tracker = ActorTracker(Actor.spawn("ActorTracker", (0, 0, 0)));
 			tracker.type = mo.getClass();
 			tracker.pos = mo.pos;
@@ -416,8 +412,6 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 		}
 		
 		player.S_ChangeMusic("");
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -458,7 +452,7 @@ Class GZC_ChaosDevice : GZC_Event
 
 Class GZC_ShuffleAmmoTypes : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		Array<Class<Ammo> > types;
 		
@@ -520,8 +514,6 @@ Class GZC_ShuffleAmmoTypes : GZC_Event
 				}
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -1021,10 +1013,12 @@ Class GZC_FakeLagCrash : GZC_Event
 {
 	int spawn;
 	int delay;
+	
+	bool disabled;
 
 	override void eventFunc()
 	{
-		if (life > delay)
+		if (life > delay && !disabled)
 		{
 			string music = level.music;
 			
@@ -1039,8 +1033,7 @@ Class GZC_FakeLagCrash : GZC_Event
 			}
 		
 			eventname = "Fake crash";
-			activated = true;
-			
+			disabled = true;
 			self.life = self.duration;
 		}
 	}
@@ -1079,7 +1072,6 @@ Class GZC_RestartLevel : GZC_Event
 				duration = 35 * 15;
 				eventname = "Fake level restart";
 				restart = false;
-				activated = true;
 			}
 		}
 	}

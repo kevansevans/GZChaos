@@ -1,6 +1,6 @@
 Class GZC_NoFunAllowed : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -13,8 +13,6 @@ Class GZC_NoFunAllowed : GZC_Event
 			
 			mo.A_DamageSelf(0x7FFFFFFF);
 		}
-		
-		activated = true;
 	}
 
 	override void Init()
@@ -40,7 +38,7 @@ Class GZC_ZergRush : GZC_Event
 			limit = random(1, 5) * 100;
 		}
 		
-		if (count < limit)
+		if (count < limit && life < duration)
 		{
 			int seccount = level.sectors.size() - 1;
 			for (int i = 0; i < 10; ++i)
@@ -62,7 +60,6 @@ Class GZC_ZergRush : GZC_Event
 		
 		else
 		{
-			activated = true;
 			life = duration;
 		}
 	}
@@ -77,10 +74,8 @@ Class GZC_ZergRush : GZC_Event
 
 Class GZC_PlutoniaExperience : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
-		if (activated) return;
-		
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
 		Actor mo;
@@ -93,8 +88,6 @@ Class GZC_PlutoniaExperience : GZC_Event
 			
 			mo.A_Morph("GZC_Chaingunner", 35 * 30);
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -122,10 +115,8 @@ Class GZC_PlutoniaExperience : GZC_Event
 
 Class GZC_ElementOfPain : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
-		if (activated) return;
-		
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
 		Actor mo;
@@ -138,8 +129,6 @@ Class GZC_ElementOfPain : GZC_Event
 			
 			mo.A_Morph("GZC_PainElemental", 35 * 30);
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -167,10 +156,8 @@ Class GZC_ElementOfPain : GZC_Event
 
 Class GZC_MegaHurts : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
-		if (activated) return;
-		
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
 		Actor mo;
@@ -183,8 +170,6 @@ Class GZC_MegaHurts : GZC_Event
 			
 			mo.A_Morph("GZC_Archvile", 35 * 30);
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -284,7 +269,7 @@ Class GZC_EmbiggeningDamage : GZC_Event
 
 Class GZC_Mitosis : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -319,8 +304,6 @@ Class GZC_Mitosis : GZC_Event
 			
 			mo.A_DamageSelf(0x7FFFFFFF);
 		}
-		
-		activated = true;
 	}
 
 	override void init()
@@ -371,7 +354,7 @@ Class GZC_RubberEnemies : GZC_Event
 Class GZC_UnfriendlyFire : GZC_Event
 {
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -382,8 +365,6 @@ Class GZC_UnfriendlyFire : GZC_Event
 			if (!mo.bIsMonster) continue;
 			setProperty(mo);
 		}
-		
-		activated = true;
 	}
 	
 	override void spawnFunc(Actor _mo)
@@ -489,7 +470,7 @@ Class GZC_EnemySpeedEffect : GZC_Event
 
 Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -502,8 +483,6 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 			let def = getDefaultByType(mo.getClass());
 			mo.speed = random(int(-def.speed * 2), int(def.speed * 2));
 		}
-		
-		activated = true;
 	}
 	
 	override void spawnFunc(Actor mo)
@@ -672,7 +651,7 @@ Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
 
 Class GZC_AAAAAHHHHH : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -691,8 +670,6 @@ Class GZC_AAAAAHHHHH : GZC_Event
 			mo.target = player;
 			mo.A_FaceTarget();
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -715,7 +692,7 @@ Class GZC_AAAAAHHHHH : GZC_Event
 
 Class GZC_BarrelsOFun : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -728,8 +705,6 @@ Class GZC_BarrelsOFun : GZC_Event
 			if (mo is 'GZC_ExplosiveBarrel') continue;
 			mo.A_Morph('GZC_ExplosiveBarrel', duration);
 		}
-		
-		activated = true;
 	}
 
 	override void init()
@@ -1108,7 +1083,24 @@ Class GZC_YouveBeenStruck : GZC_Event
 
 Class GZC_BetaSkulls : GZC_Event
 {
-	override void eventFunc()
+	override bool verify()
+	{
+		bool result = super.verify();
+		
+		if (!it) it = ThinkerIterator.create("LostSoul");
+		it.reinit();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			if (mo.getClassName() == 'LostSoul') return result;
+		}
+		
+		return false;
+	}
+
+	override void openFunc()
 	{
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -1118,8 +1110,6 @@ Class GZC_BetaSkulls : GZC_Event
 		{
 			morphActor(mo, 'GZC_BetaSkull');
 		}
-		
-		activated = true;
 	}
 	
 	override void spawnFunc(Actor mo)
@@ -1428,7 +1418,7 @@ Class GZC_FrictionlessEnemies : GZC_Event
 
 Class GZC_AnkleBiterEnemies : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		if (!it) it = ThinkerIterator.create("Actor");
 		it.reinit();
@@ -1443,8 +1433,6 @@ Class GZC_AnkleBiterEnemies : GZC_Event
 				mo.A_SetSize(mo.height / 3, mo.radius / 3, false);
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc() 
@@ -1643,7 +1631,7 @@ Class GZC_SpawnGreatGodImp : GZC_Event
 		return false;
 	}
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		imps.clear();
 	
@@ -1657,8 +1645,6 @@ Class GZC_SpawnGreatGodImp : GZC_Event
 		
 		int rng = random(0, imps.Size() - 1);
 		imps[rng].A_Morph('GZC_GreatGodImp', duration);
-		
-		activated = true;
 	}
 	
 	override void init()

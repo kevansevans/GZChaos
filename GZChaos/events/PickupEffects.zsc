@@ -91,7 +91,7 @@ Class GZC_UpgradeToMegasphere : GZC_HealthPickupModifier
 	Array<String> classes;
 	Array<Actor> pointers;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		classes.clear();
 		pointers.clear();
@@ -110,8 +110,6 @@ Class GZC_UpgradeToMegasphere : GZC_HealthPickupModifier
 				mo.destroy();
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -138,7 +136,7 @@ Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
 	Array<String> classes;
 	Array<Actor> pointers;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		classes.clear();
 		pointers.clear();
@@ -157,8 +155,6 @@ Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
 				mo.destroy();
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -185,7 +181,7 @@ Class GZC_UpgradeToMedikit : GZC_HealthPickupModifier
 	Array<String> classes;
 	Array<Actor> pointers;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		classes.clear();
 		pointers.clear();
@@ -204,8 +200,6 @@ Class GZC_UpgradeToMedikit : GZC_HealthPickupModifier
 				mo.destroy();
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -232,7 +226,7 @@ Class GZC_UpgradeToStimpack : GZC_HealthPickupModifier
 	Array<String> classes;
 	Array<Actor> pointers;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		classes.clear();
 		pointers.clear();
@@ -251,8 +245,6 @@ Class GZC_UpgradeToStimpack : GZC_HealthPickupModifier
 				mo.destroy();
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -342,7 +334,6 @@ Class GZC_ShuffleItemsAround : GZC_Event
 		
 		if (items.size() == 0)
 		{
-			activated = true;
 			return;
 		}
 		
@@ -471,7 +462,7 @@ Class GZC_ReplaceMedikitWithStimpack : GZC_HealthPickupModifier
 	Array<String> classes;
 	Array<Actor> pointers;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		classes.clear();
 		pointers.clear();
@@ -490,8 +481,6 @@ Class GZC_ReplaceMedikitWithStimpack : GZC_HealthPickupModifier
 				mo.destroy();
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc() 
@@ -521,7 +510,7 @@ Class GZC_DestroyAllHealth : GZC_HealthPickupModifier
 	Array<float> y;
 	Array<float> z;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		classes.clear();
 		x.clear();
@@ -543,8 +532,6 @@ Class GZC_DestroyAllHealth : GZC_HealthPickupModifier
 				mo.destroy();
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc() 

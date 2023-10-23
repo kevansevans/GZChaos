@@ -16,7 +16,7 @@ Class GZC_FeelingGenerous : GZC_Event
 
 Class GZC_CantHaveShitInDetroit : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		Array<String> items;
 		items.clear();
@@ -42,8 +42,6 @@ Class GZC_CantHaveShitInDetroit : GZC_Event
 		player.TakeInventory(items[rng], 0x7FFFFFFF);
 		String itemname = (items[rng] == "HexenArmor" ? "Armor" : items[rng]);
 		eventname = "Dude, where's my " .. itemname .. "?";
-		
-		activated = true;
 	}
 
 	override void init()

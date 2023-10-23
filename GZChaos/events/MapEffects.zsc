@@ -2,7 +2,7 @@ Class GZC_ShootToActivate : GZC_Event
 {
 	Array<Line> lines;
 	
-	override void eventFunc()
+	override void openFunc()
 	{
 		lines.clear();
 		
@@ -12,8 +12,6 @@ Class GZC_ShootToActivate : GZC_Event
 			lines.push(linedef);
 			linedef.activation = SPAC_Impact;
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -83,11 +81,9 @@ Class GZC_KryptoniteFog : GZC_Event
 	Array<int> foglevels;
 	Array<Color> colors;
 	
-	override void eventFunc()
+	override void openFunc()
 	{
 		applyFog();
-	
-		activated = true;
 	}
 	
 	override void loadFunc()
@@ -134,7 +130,7 @@ Class GZC_MurderInTheDark : GZC_Event
 	Array<Int> lights;
 	int levelnum;
 	
-	override void eventFunc()
+	override void openFunc()
 	{
 		lights.clear();
 		levelnum = level.levelnum;
@@ -144,8 +140,6 @@ Class GZC_MurderInTheDark : GZC_Event
 			lights.push(sec.lightlevel);
 			sec.lightlevel = 24;
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -250,7 +244,7 @@ Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
 {
 	bool cleared;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		if (cleared) return;
 	
@@ -290,8 +284,6 @@ Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
 				sec.setTexture(1, newtex);
 			}
 		}
-		
-		cleared = true;
 	}
 	
 	override void init()
@@ -307,7 +299,7 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 {
 	Array<Int> flags;
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		initialize();
 		
@@ -354,8 +346,6 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 				sec.setTexture(1, ceiltex);
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -382,7 +372,7 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 
 Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		initialize();
 	
@@ -420,8 +410,6 @@ Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 				sec.setTexture(1, newtex);
 			}
 		}
-		
-		activated = true;
 	}
 	
 	override void init()
@@ -435,7 +423,7 @@ Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 
 Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		initialize();
 	
@@ -475,8 +463,6 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 				sec.setTexture(1, tom);
 			}
 		}
-		
-		activated = true;
 	}
 
 	override void init()
@@ -491,7 +477,7 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 {
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		initialize();
 	
@@ -529,8 +515,6 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 				sec.setTexture(1, newtex);
 			}
 		}
-		
-		activated = true;
 	}
 
 	override void init()
@@ -545,7 +529,7 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 {
 
-	override void eventFunc()
+	override void openFunc()
 	{
 		initialize();
 	
@@ -583,8 +567,6 @@ Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 				sec.setTexture(1, newtex);
 			}
 		}
-		
-		activated = true;
 	}
 
 	override void init()
@@ -982,7 +964,7 @@ Class GZC_ShuffleKeyTextures : GZC_Event
 
 Class GZC_MisalignAllTextures : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		int odds = random(1, 10);
 		double amount = (double(odds) / 10) * 100;
@@ -1005,7 +987,6 @@ Class GZC_MisalignAllTextures : GZC_Event
 				}
 			}
 		}
-		activated = true;
 	}
 	
 	override void closeFunc() {}

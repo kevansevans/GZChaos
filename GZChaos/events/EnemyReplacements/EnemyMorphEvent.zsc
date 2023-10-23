@@ -44,11 +44,9 @@ Class GZC_EnemyMorphEvent : GZC_Event
 		performMorph();
 	}
 	
-	override void eventFunc()
+	override void openFunc()
 	{
 		performMorph();
-		
-		activated = true;
 	}
 	
 	override void closeFunc()

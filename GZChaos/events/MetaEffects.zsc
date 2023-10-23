@@ -21,10 +21,9 @@ Class GZC_ClearAllEffects : GZC_Event
 
 Class GZC_PortraitMode : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		GZC_PortraitModeEvent(EventHandler.find('GZC_PortraitModeEvent')).enabled = true;
-		activated = true;
 	}
 	
 	override void closeFunc()
@@ -43,11 +42,10 @@ Class GZC_PortraitMode : GZC_Event
 
 Class GZC_AutoPong : GZC_Event
 {
-	override void eventFunc()
+	override void openFunc()
 	{
 		GZC_PongDrawer(EventHandler.find('GZC_PongDrawer')).enabled = true;
 		GZC_PongDrawer(EventHandler.find('GZC_PongDrawer')).ponginit = false;
-		activated = true;
 	}
 	
 	override void closeFunc()
