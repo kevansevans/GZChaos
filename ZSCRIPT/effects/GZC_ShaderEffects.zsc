@@ -1,0 +1,121 @@
+class GZC_Shrooms : GZC_ShaderEffect
+{
+	//Based on an actual shroom trip I had!
+	default
+	{
+		GZC_Effect.title "Vibin on the cybin";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.ignore false;
+	}
+	
+	override void onOpen()
+	{
+		PPShader.SetEnabled("shrooms", true);
+	}
+	
+	override void onClose()
+	{
+		PPShader.SetEnabled("shrooms", false);
+	}
+	
+	override void onWorldTick()
+	{
+		PPShader.SetUniform1i("shrooms", "iTime", gametic);
+	}
+}
+
+class GZC_MSDOSMode : GZC_ShaderEffect
+{
+	default
+	{
+		GZC_Effect.title "MS-DOS";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.ignore false;
+	}
+	
+	override void onOpen()
+	{
+		PPShader.SetEnabled("lowres", true);
+		PPShader.SetUniform2f("lowres", "iResolution", (Screen.getWidth(), Screen.getHeight()));
+	}
+	
+	override void onClose()
+	{
+		PPShader.SetEnabled("lowres", false);
+	}
+}
+
+class GZC_GameboyMode : GZC_ShaderEffect
+{
+	default
+	{
+		GZC_Effect.title "Doom for the Gameboy";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.ignore false;
+	}
+	
+	override void onOpen()
+	{
+		PPShader.SetEnabled("gb_shader", true);
+	}
+	
+	override void onClose()
+	{
+		PPShader.SetEnabled("gb_shader", false);
+	}
+	
+	override void onWorldTick()
+	{
+		PPShader.SetUniform2f("gb_shader", "iResolution", (Screen.getWidth(), Screen.getHeight()));
+	}
+}
+
+class GZC_YouNeedGlasses : GZC_ShaderEffect
+{
+	default
+	{
+		GZC_Effect.title "You need glasses";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.ignore false;
+	}
+	
+	override void onOpen()
+	{
+		PPShader.SetEnabled("blur", true);
+	}
+	
+	override void onClose()
+	{
+		PPShader.SetEnabled("blur", false);
+	}
+	
+	override void onWorldTick()
+	{
+		PPShader.SetUniform2f("blur", "iResolution", (Screen.getWidth(), Screen.getHeight()));
+	}
+}
+
+class GZC_LiquidQuake : GZC_ShaderEffect
+{
+	Default
+	{
+		GZC_Effect.title '*slime';
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.ignore false;
+	}
+	
+	override void onOpen()
+	{
+		PPShader.SetEnabled("liquid", true);
+	}
+	
+	override void onClose()
+	{
+		PPShader.SetEnabled("liquid", false);
+	}
+	
+	override void onWorldTick()
+	{
+		PPShader.SetUniform1i("liquid", "iTime", gametic);
+	}
+}

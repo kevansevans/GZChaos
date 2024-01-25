@@ -1,0 +1,25 @@
+class GZC_ChaosWeapon : Weapon
+{
+	int raisespeed;
+	int lowerspeed;
+
+	property raisespeed: raisespeed;
+	property lowerspeed: lowerspeed;
+	
+	default
+	{
+		GZC_ChaosWeapon.raisespeed 6;
+		GZC_ChaosWeapon.lowerspeed 6;
+	}
+
+	virtual void A_PerformAttack()
+	{}
+	
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		
+		//Ensures 'give all' doesn't let these guns end up in the players inventory if there's replacements
+		if (!Cvar.getCvar("GZC_PureWeapons").getBool()) self.destroy();
+	}
+}

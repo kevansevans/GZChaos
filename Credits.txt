@@ -44,3 +44,5 @@ CaptainToenail
 	- Kamikazi enemy
 Neoworm
 	- Imp Spider Head
+Tango
+	- Diabolist Curse, sprites and sounds

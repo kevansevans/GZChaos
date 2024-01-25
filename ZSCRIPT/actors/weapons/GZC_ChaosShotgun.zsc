@@ -1,0 +1,41 @@
+class GZC_ChaosShotgun : GZC_ChaosWeapon
+{
+	Default
+	{
+		//Weapon.SlotNumber 3;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 8;
+		Weapon.AmmoType "Shell";
+		Inventory.PickupMessage "$GOTSHOTGUN";
+		Obituary "$OB_MPSHOTGUN";
+		Tag "$TAG_SHOTGUN";
+	}
+	States
+	{
+		Ready:
+			SHTG A 1 A_WeaponReady;
+			Loop;
+		Deselect:
+			SHTG A 1 A_Lower;
+			Loop;
+		Select:
+			SHTG A 1 A_Raise;
+			Loop;
+		Fire:
+			SHTG A 1;
+			SHTG A 1 A_FireShotgun;
+			SHTG BC 1;
+			SHTG D 1;
+			SHTG CB 1;
+			SHTG A 1;
+			SHTG A 1 A_ReFire;
+			Goto Ready;
+		Flash:
+			SHTF A 1 Bright A_Light1;
+			SHTF B 1 Bright A_Light2;
+			Goto LightDone;
+		Spawn:
+			SHOT A -1;
+			Stop;
+	}
+}

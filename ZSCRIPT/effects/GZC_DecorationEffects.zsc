@@ -1,0 +1,189 @@
+Class GZC_HostileDecorations : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Hostile decorations";
+		GZC_Effect.duration 35 * 60 * 5;
+	}
+
+	int rng_delay;
+	
+	override void onOpen()
+	{
+		rng_delay = 5;
+	}
+
+	override void onWorldtick()
+	{
+		Array<Actor> decorations;
+		Array<Actor> cansee;
+	
+		if (gametic % (35 * rng_delay) == 0)
+		{
+			decorations.clear();
+		
+			ThinkerIterator it = ThinkerIterator.create("Actor");
+			Actor mo;
+			
+			while (mo = Actor(it.next()))
+			{
+				if (mo.sprite == mo.getSpriteIndex('TNT1')) continue;
+				if (mo.bIsMonster) continue;
+				if (!mo.bSolid) continue;
+				if (mo is 'Inventory') continue;
+				if (mo is 'PlayerPawn') continue;
+				if (mo is 'TeleportDest') continue;
+				
+				decorations.push(mo);
+			}
+			
+			cansee.clear();
+			
+			let player = players[consoleplayer].mo;
+			
+			foreach (dec : decorations)
+			{
+				if (player.isVisible(dec, true))
+				{
+					cansee.push(dec);
+				}
+			}
+			
+			if (cansee.Size() > 0)
+			{
+				int rng = random(0, cansee.Size() - 1);
+				let attacker = cansee[rng];
+				attacker.target = player;
+				attacker.A_FaceTarget();
+				
+				int rng_attack = random(0, 5);
+				
+				switch (rng_attack)
+				{
+					case 0:
+						attacker.A_TroopAttack();
+						break;
+					case 1:
+						attacker.A_BruisAttack();
+						break;
+					case 2:
+						attacker.A_BSpiAttack();
+						break;
+					case 3:
+						attacker.A_HeadAttack();
+						break;
+					case 4:
+						attacker.A_CyberAttack();
+						break;
+					case 5:
+						if (!random(0, 10)) attacker.A_SpawnProjectile("BFGBall");
+						break;
+				}
+				
+			}
+			
+			rng_delay = random(1, 10);
+		}
+	}
+}
+
+Class GZC_ParanoidOfBarrels : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Did that barrel just move?";
+		GZC_Effect.duration 35 * 60 * 5;
+	}
+
+	override void onWorldTick()
+	{
+		if (gametic % 4 == 0)
+		{
+			ThinkerIterator it = ThinkerIterator.create("ExplosiveBarrel");
+			Actor mo;
+		
+			let player = players[consoleplayer].mo;
+		
+			while (mo = Actor(it.next()))
+			{
+				mo.target = player;
+				mo.speed = 1;
+				if (!player.isVisible(mo, false))
+				{
+					mo.A_Chase();
+					if (mo.distance3D(player) <= 64)
+					{
+						mo.A_DamageSelf(999);
+					}
+				}
+			}
+		}
+	}
+}
+
+Class GZC_DuplicatingBarrels : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Barrels duplicate like rabbits";
+		GZC_Effect.duration 35 * 30;
+	}
+
+	Array<ExplosiveBarrel> barrels;
+	Array<Int> parents;
+	int lowend;
+
+	override void onWorldTick()
+	{
+		if (gametic % 35 == 0)
+		{
+			barrels.clear();
+			parents.clear();
+		
+			ThinkerIterator it = ThinkerIterator.create("ExplosiveBarrel");
+			Actor mo;
+	
+			while ((mo = Actor(it.Next ())))
+			{
+				barrels.push(ExplosiveBarrel(mo));
+			}
+			
+			int upperend = lowend + random(1, 5);
+			upperend = min(upperend, barrels.size());
+			
+			while (parents.size() != upperend)
+			{
+				int rng = random(0, upperend);
+				if (parents.find(rng) != parents.size()) continue;
+				else parents.push(rng);
+			}
+			
+			lowend = upperend;
+			
+			for (int i = 0; i < parents.size(); ++i)
+			{
+				let chosen = barrels[i];
+				
+				Vector3 newPosA = chosen.pos;
+				Vector3 newPosB = chosen.pos;
+				
+				newPosA.x += (cos(gametic + 15) * 32);
+				newPosA.y += (sin(gametic - 15) * 32);
+				
+				newPosB.x += (cos(-gametic + 15) * 32);
+				newPosB.y += (sin(-gametic - 15) * 32);
+				
+				let childA = Actor.spawn("ExplosiveBarrel", newPosA);
+				let childB = Actor.spawn("ExplosiveBarrel", newPosB);
+				
+				childA.bPushable = true;
+				childB.bPushable = true;
+				
+				int angle = random(0, 359);
+				
+				childA.thrust(15, angle + 15);
+				childB.thrust(15, angle - 15);
+			}
+		}
+	}
+}

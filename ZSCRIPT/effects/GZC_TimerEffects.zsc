@@ -1,0 +1,352 @@
+class GZC_HalfEffectSpeed : GZC_EffectModifier
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "0.5x effect speed";
+		GZC_Effect.Duration 35 * 30 * 3;
+		GZC_Effect.value 0.5;
+	}
+}
+
+class GZC_DoubleEffectSpeed : GZC_EffectModifier
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "2x effect speed";
+		GZC_Effect.Duration 35 * 60 * 6;
+		GZC_Effect.value 2;
+	}
+}
+
+class GZC_ZeroTimerSpeed : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Pause timer";
+		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.value 0;
+	}
+}
+
+class GZC_TenthTimerSpeed : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "0.1x Timer Speed";
+		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.value 0.1;
+	}
+}
+
+class GZC_ThirdTimerSpeed : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "0.3x Timer Speed";
+		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.value 0.3;
+	}
+}
+
+class GZC_HalfTimerSpeed : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "0.5x Timer Speed";
+		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.value 0.5;
+	}
+}
+
+class GZC_QuarterTimerSpeed : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "0.25x Timer Speed";
+		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.value 0.25;
+	}
+}
+
+class GZC_DoubleTimerSpeed :GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "2x Timer Speed";
+		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.value 2;
+	}
+}
+
+class GZC_TripleTimerSpeed : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "3x Timer Speed";
+		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.value 3;
+	}
+}
+
+class GZC_QuadTimerSpeed : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "4x Timer Speed";
+		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.value 4;
+	}
+}
+
+class GZC_FastTimerToHealth : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "More health = Faster Timer";
+		GZC_Effect.Duration 35 * 60 * 3;
+	}
+	
+	override void onWorldTick()
+	{
+		let player = self.owner;
+		if (!player) player = players[consoleplayer].mo;
+		
+		self.value = double(player.health) / 100.0;
+	}
+}
+
+class GZC_SlowTimerToHealth : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "More health = Slower Timer";
+		GZC_Effect.Duration 35 * 60 * 3;
+	}
+	
+	override void onWorldTick()
+	{
+		let player = self.owner;
+		if (!player) player = players[consoleplayer].mo;
+		
+		self.value =  100.0 / double(player.health);
+	}
+}
+
+class GZC_TimerRunsOnKills : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "1 kill = 1 second";
+		GZC_Effect.Duration 35 * 90;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		double timerate = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).calculateTimeRate();
+		adjustTimer(35.0 * timerate);
+		
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.type != GZC_Timed) continue;
+			
+			effect.life += 35.0 * timerate;
+		}
+	}
+}
+
+Class GZC_ResetEffectDuration : GZC_EffectEffect 
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Reset all effects";
+		GZC_Effect.type GZC_Instant;
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.getClassName() == self.getClassName()) continue;
+			effect.life = 0;
+		}
+		
+	}
+}
+
+class GZC_ShuffleEffectLife : GZC_EffectEffect 
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Randomize all effect progression";
+		GZC_Effect.type GZC_Instant;
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.getClassName() == self.getClassName()) continue;
+			if (effect.type != GZC_Timed) continue;
+			
+			effect.life = random(0, effect.duration);
+		}
+	}
+}
+
+class GZC_SubtractTimeFromEffects : GZC_EffectEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.type GZC_Instant;
+		GZC_Effect.title "Remove # seconds from effects";
+	}
+	
+	override void onOpen()
+	{
+		int seconds = random(5, 30);
+		title = "Remove " .. seconds .. " seconds from effects";
+	
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.getClassName() == self.getClassName()) continue;
+			if (effect.type != GZC_Timed) continue;
+			
+			effect.life -= seconds * 35;
+			if (effect.life < 0) effect.life = 0;
+		}
+	}
+}
+
+class GZC_AddTimeFromEffects : GZC_EffectEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.type GZC_Instant;
+		GZC_Effect.title "Add # seconds from effects";
+	}
+	
+	override void onOpen()
+	{
+		int seconds = random(5, 30);
+		title = "Add " .. seconds .. " seconds to effects";
+	
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.getClassName() == self.getClassName()) continue;
+			if (effect.type != GZC_Timed) continue;
+			
+			effect.life += seconds * 35;
+		}
+	}
+}
+
+class GZC_KillsReduce : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Kills reduce effect progression";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		let def = getDefaultByType(_event.thing.getClass());
+		int rate = 35 * max(1, int(def.health / 35));
+		
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			effect.life -= rate;
+			if (effect.life < 0) effect.life = 0;
+		}
+	}
+}
+
+class GZC_KillsIncrease : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Kills increase effect progression";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		let def = getDefaultByType(_event.thing.getClass());
+		int rate = 35 * max(1, int(def.health / 35));
+		
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			effect.life += rate;
+		}
+	}
+}
+
+class GZC_KillsAccelerate : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Kills accelerate timer";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		let def = getDefaultByType(_event.thing.getClass());
+		
+		adjustTimer(def.health);
+	}
+}
+
+class GZC_KillsDecelerate : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Kills decelerate timer";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		let def = getDefaultByType(_event.thing.getClass());
+		
+		adjustTimer(-def.health);
+	}
+}

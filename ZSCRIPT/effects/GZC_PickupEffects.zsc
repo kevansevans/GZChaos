@@ -1,0 +1,519 @@
+Class GZC_PickupsCanDie : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Pickups Can Die";
+		GZC_Effect.duration 35 * 30 * 3;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.bShootable = true;
+		_mo.health = 100;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+		
+		while (mo = Inventory(it.next()))
+		{
+			if (mo is 'Key') continue;
+			applyeffect(mo);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing is 'key') return;
+		if (_event.thing is 'Inventory') applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+		
+		while (mo = Inventory(it.next()))
+		{
+			if (mo is 'Key') continue;
+			mo.bShootable = false;
+		}
+	}
+}
+
+Class GZC_WanderingPickups : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Wandering items";
+		GZC_Effect.duration 35 * 30 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+		
+		while (mo = Inventory(it.next()))
+		{
+			if (mo is "key" || mo is "PuzzleItem") continue;
+			
+			mo.speed = 8;
+			mo.bNoBlockMonst = true;
+			mo.bCanUseWalls = true;
+			
+			if (gametic % 3 != 0) continue;
+			
+			mo.A_Wander();
+		}
+	}
+}
+
+Class GZC_UpgradeToMegasphere : GZC_HealthPickupModifier
+{
+	default
+	{
+		GZC_Effect.title "Cheap as dirt health";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.ignore false;
+	}
+
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void onOpen()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.next()))
+		{	
+			if (!(mo is "health")) continue;
+			
+			let item = Actor.spawn('Megasphere', mo.pos);
+			pointers.push(item);
+			classes.push(mo.getClassName() .. "");
+			mo.destroy();
+		}
+	}
+	
+	override void onClose()
+	{
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+}
+
+Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
+{
+	default
+	{
+		GZC_Effect.title "Health surplus";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.ignore false;
+	}
+
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void onOpen()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.next()))
+		{
+			if (!(mo is "health")) continue;
+		
+			let item = Actor.spawn('Soulsphere', mo.pos);
+			pointers.push(item);
+			classes.push(mo.getClassName() .. "");
+			mo.destroy();
+		}
+	}
+	
+	override void onClose()
+	{
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+}
+
+Class GZC_UpgradeToMedikit : GZC_HealthPickupModifier
+{
+	default
+	{
+		GZC_Effect.title "Health stimulus";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void onOpen()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.next()))
+		{
+			if (!(mo is "stimpack" || mo is "healthbonus")) continue;
+		
+			let item = Actor.spawn('Medikit', mo.pos);
+			pointers.push(item);
+			classes.push(mo.getClassName() .. "");
+			mo.destroy();
+		}
+	}
+	
+	override void onClose()
+	{
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+}
+
+Class GZC_UpgradeToStimpack : GZC_HealthPickupModifier
+{
+	default
+	{
+		GZC_Effect.title "Health boost";
+		GZC_Effect.duration 35 * 60 * 5;
+		GZC_Effect.ignore false;
+	}
+
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void onOpen()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.next()))
+		{
+			if (!(mo is "healthbonus")) continue;
+		
+			let item = Actor.spawn('stimpack', mo.pos);
+			pointers.push(item);
+			classes.push(mo.getClassName() .. "");
+			mo.destroy();
+		}
+	}
+	
+	override void onClose()
+	{
+		for (int i = 0; i < pointers.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+}
+
+Class GZC_DuplicatePickups : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Duplicate all items";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+		
+		while (mo = Inventory(it.next()))
+		{
+			let dupe = Actor.spawn(mo.getClassName(), mo.pos);
+			dupe.thrust(15, random(0, 359));
+		}
+	}
+}
+
+Class GZC_ShuffleItemsAround : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Shuffle Items";
+		GZC_Effect.duration 35 * 5;
+	}
+
+	override void onWorldTick()
+	{
+		Array<Inventory> items;
+		items.clear();
+		
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+		
+		while (mo = Inventory(it.next()))
+		{
+			if (mo is 'key' || mo is 'PuzzleItem') continue;
+			items.push(mo);
+		}
+		
+		for (int i = 0; i < max(items.size() - 1, 100); ++i)
+		{
+			int rngA = 0;
+			int rngB = 0;
+			
+			while (rngA == rngB)
+			{
+				rngA = random(0, items.size() - 1);
+				rngB = random(0, items.size() - 1);
+			}
+			
+			Vector3 posA = items[rngA].pos;
+			Vector3 posB = items[rngB].pos;
+			
+			items[rngA].setOrigin(posB, false);
+			items[rngB].setOrigin(posA, false);
+		}
+	}
+}
+
+Class GZC_ShrinkPickups : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "What is this? A pickup for ants?";
+		GZC_Effect.duration 35 * 3 * 60;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.scale.x = 0.1;
+		_mo.scale.y = 0.1;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.Next()))
+		{
+			applyeffect(mo);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing is 'Inventory') applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.Next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+		}
+	}
+}
+
+Class GZC_ReplaceHealthWithBonuses : GZC_HealthPickupModifier
+{
+	default
+	{
+		GZC_Effect.title "Health Famine";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void onOpen()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.next()))
+		{
+			if (mo is "Healthbonus" || !(mo is "health")) continue;
+		
+			classes.push(mo.getClassName() .. "");
+			let item = Actor.spawn('healthbonus', mo.pos);
+			pointers.push(item);
+			mo.destroy();
+		}
+	}
+	
+	override void onClose() 
+	{
+		for (int i = 0; i < classes.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			let className = classes[i];
+			let org = Actor.spawn(className, pointers[i].pos);
+			pointers[i].destroy();
+		}
+	}
+}
+
+Class GZC_ReplaceMedikitWithStimpack : GZC_HealthPickupModifier
+{
+	default
+	{
+		GZC_Effect.title "Health Recession";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	Array<String> classes;
+	Array<Actor> pointers;
+
+	override void onOpen()
+	{
+		classes.clear();
+		pointers.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.next()))
+		{
+			if (mo is "medikit")
+			{
+				classes.push(mo.getClassName() .. "");
+				let item = Actor.spawn('stimpack', mo.pos);
+				pointers.push(item);
+				mo.destroy();
+			}
+		}
+	}
+	
+	override void onClose() 
+	{
+		for (int i = 0; i < classes.size(); ++i)
+		{
+			if (!pointers[i]) continue;
+			
+			let org = Actor.spawn(classes[i], pointers[i].pos);
+			pointers[i].destroy();
+		}
+	
+	}
+}
+
+Class GZC_DestroyAllHealth : GZC_HealthPickupModifier
+{
+	default
+	{
+		GZC_Effect.title "Health Extinction";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.ignore false;
+	}
+
+	Array<String> classes;
+	Array<float> x;
+	Array<float> y;
+	Array<float> z;
+	
+	void iterate()
+	{
+		classes.clear();
+		x.clear();
+		y.clear();
+		z.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+	
+		while (mo = Inventory(it.next()))
+		{
+			if (!(mo is "Health")) continue;
+		
+			classes.push(mo.getClassName() .. "");
+			x.push(mo.pos.x);
+			y.push(mo.pos.y);
+			z.push(mo.pos.z);
+			mo.destroy();
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onClose() 
+	{
+		for (int i = 0; i < classes.size(); ++i)
+		{
+			if (!classes[i]) continue;
+			
+			let org = Actor.spawn(classes[i], (x[i],y[i],z[i]));
+		}
+	
+	}
+}

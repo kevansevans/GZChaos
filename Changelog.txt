@@ -1,0 +1,59 @@
+
+GZChaos 1.1
+
+General changes:
+	- GZDoom 4.11 now required!
+	- Massively overhauled underlying system. Technically GZChaos 2.0, but that's for later, maybe.
+	- Seed system is no longer weird janky self implemented p_random nonsense.
+	- Every effect has had their code refactored and cleaned up, should perform much smoother.
+	- Timer code has been refactored to be more flexible and stable.
+	- Effects that are timer based can now stack on each other. 2x can combine with 4x to make 8x.
+	- Effects that could not carry across a level change now carry across a level change. No I will not elaborate.
+	- Texture swap effects have been reduced from 5 minutes to 2 minutes.
+	- Shader effects have had their duration reduced to 1 minute.
+	- Effects that downgrade health pickups will no longer target soulpshere or megaspheres.
+	- Fixed crashes pertaining to effects classified as "Room clearing".
+	- Fixed several freezes pertaining to while loops.
+	- Added "Pink" as a timer bar color.
+	- Added "Water" as a timer bar texture.
+	- Removed main menu addition, GZChaos options can still be found in the options menu.
+	- Added a menu to enable/disable effects in settings.
+	- Effect frequency can now be set to 3 minutes.
+	- Removed effect time flux settings.
+	
+Specific effect changes:
+	- "On A Roll" now affects all actors, except player.
+	- "Doom for the SNES" now affects all actors. For the rare cases a decorative actor has rotation frames.
+	- "Hidden Timer and Effects" have been split in twain.
+	- "Recording/Rewinding" will now factor in player pitch.
+	- "Clear Auto Map" has changed to "Faulty automap". Automap will only show lines in player's view.
+	- "Give a random item" will give ANY inventory item loaded in, regardless if it's useful or not.
+	- "Give a random weapon" will give ANY weapon loaded in, regardless if it's useful or not.
+	- "Mitosis" properly separates enemies.
+	- "Arachnotron growth spurt" will now check if there are arachnotrons on the map to force into puberty.
+	- "Bouncy! Bouncy! Bouncy!" will reset all projectiles back to their default state when finished.
+
+New Effects:
+	- 1/3rd timer
+	- 1/10th timer
+	- 3x timer
+	- Vibin on the cybin
+	- Friendly Archviles
+	- It's an abstract kind of hell
+	- Pause timer
+	- Get the lead out!
+	- 2x effect speed
+	- 0.5x effect speed
+	- You are the horror
+	- Diabolist Curse
+	
+Notes:
+	Part of the underlying changes include a "purity" detection system. A ton of
+	effects I wanted implemented could not happen due my desires to keep the game
+	as "uber compatible" as possible. So a bit of underlying code is set up to
+	check for these things, let me know if there's any weird behavior when mixing
+	GZChaos with various weapon mods. Not that I recommend it for the usual reasons.
+	This version does not feature any effect that relies on this system, this is just
+	to test that the refactor didn't make things shit the bed.
+	
+	

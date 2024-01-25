@@ -1,47 +1,75 @@
 HardwareShader postprocess scene
 {
 	Name "lowres"
-	Shader "Shaders/GLSL/lowres.fp" 330
+	Shader "SHADERS/GLSL/lowres.fp" 330
 	Uniform vec2 iResolution
 }
 
 HardwareShader postprocess scene
 {
 	Name "gb_shader"
-	Shader "Shaders/GLSL/gb_shader.fp" 330
+	Shader "SHADERS/GLSL/gb_shader.fp" 330
 	Uniform vec2 iResolution
 }
 
 HardwareShader postprocess scene
 {
 	Name "blur"
-	Shader "Shaders/GLSL/blur.fp" 330
+	Shader "SHADERS/GLSL/blur.fp" 330
 	Uniform vec2 iResolution
 }
 
 HardwareShader postprocess scene
 {
 	Name "liquid"
-	Shader "Shaders/GLSL/liquid.fp" 330
+	Shader "SHADERS/GLSL/liquid.fp" 330
 	Uniform int iTime
 }
 
 HardwareShader postprocess scene
 {
 	Name "fisheye"
-	Shader "Shaders/GLSL/fisheye.fp" 330
+	Shader "SHADERS/GLSL/fisheye.fp" 330
 	Uniform vec2 iResolution
 }
 
 HardwareShader postprocess scene
 {
 	Name "sketchbook"
-	Shader "Shaders/GLSL/sketchbook.fp" 330
+	Shader "SHADERS/GLSL/sketchbook.fp" 330
 	Uniform vec2 iResolution
 }
 
 HardwareShader postprocess scene
 {
 	Name "negative"
-	Shader "Shaders/GLSL/negative.fp" 330
+	Shader "SHADERS/GLSL/negative.fp" 330
 }
+
+HardwareShader postprocess scene
+{
+	Name "shrooms"
+	Shader "SHADERS/GLSL/shroomshader.fp" 330
+	Uniform int iTime
+}
+
+BRIGHTMAP SPRITE PLUMA0 { MAP "brightmaps/sprites/PLUMA0.png" }
+BRIGHTMAP SPRITE PLUMB0 { MAP "brightmaps/sprites/PLUMB0.png" }
+BRIGHTMAP SPRITE PLUMC0 { MAP "brightmaps/sprites/PLUMC0.png" }
+BRIGHTMAP SPRITE PLUMD0 { MAP "brightmaps/sprites/PLUMD0.png" }
+BRIGHTMAP SPRITE PLUME0 { MAP "brightmaps/sprites/PLUME0.png" }
+BRIGHTMAP SPRITE PLUMF0 { MAP "brightmaps/sprites/PLUMF0.png" }
+BRIGHTMAP SPRITE PLUMG0 { MAP "brightmaps/sprites/PLUMG0.png" }
+BRIGHTMAP SPRITE PLUMH0 { MAP "brightmaps/sprites/PLUMH0.png" }
+BRIGHTMAP SPRITE PLUMI0 { MAP "brightmaps/sprites/PLUMI0.png" }
+BRIGHTMAP SPRITE PLUMJ0 { MAP "brightmaps/sprites/PLUMJ0.png" }
+BRIGHTMAP SPRITE PLUMK0 { MAP "brightmaps/sprites/PLUMK0.png" }
+BRIGHTMAP SPRITE PLUML0 { MAP "brightmaps/sprites/PLUML0.png" }
+BRIGHTMAP SPRITE PLUMM0 { MAP "brightmaps/sprites/PLUMM0.png" }
+BRIGHTMAP SPRITE PLUMN0 { MAP "brightmaps/sprites/PLUMN0.png" }
+BRIGHTMAP SPRITE PLUMO0 { MAP "brightmaps/sprites/PLUMO0.png" }
+BRIGHTMAP SPRITE PLUMP0 { MAP "brightmaps/sprites/PLUMP0.png" }
+BRIGHTMAP SPRITE PLUMQ0 { MAP "brightmaps/sprites/PLUMQ0.png" }
+BRIGHTMAP SPRITE PLUMR0 { MAP "brightmaps/sprites/PLUMR0.png" }
+BRIGHTMAP SPRITE PLUMS0 { MAP "brightmaps/sprites/PLUMS0.png" }
+BRIGHTMAP SPRITE PLUMT0 { MAP "brightmaps/sprites/PLUMT0.png" }

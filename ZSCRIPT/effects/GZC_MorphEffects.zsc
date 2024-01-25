@@ -1,0 +1,1738 @@
+class GZC_ShotgunImps : GZC_MorphImpEffect
+{
+	Default
+	{
+		GZC_Effect.title "Shotgun Imps";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "DoomImp") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_DoomImp_Shotgun");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_DoomImp_Shotgun");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RepeaterImps : GZC_MorphImpEffect
+{
+	Default
+	{
+		GZC_Effect.title "Repeater Imps";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "DoomImp") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_DoomImp_Repeater");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_DoomImp_Repeater");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_BaronImps : GZC_MorphImpEffect
+{
+	Default
+	{
+		GZC_Effect.title "Baron Imps";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "DoomImp") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_DoomImp_Baron");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_DoomImp_Baron");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_PlasmaImps : GZC_MorphImpEffect
+{
+	Default
+	{
+		GZC_Effect.title "Plasma Imps";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "DoomImp") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_DoomImp_Plasma");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_DoomImp_Plasma");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RocketImps : GZC_MorphImpEffect
+{
+	Default
+	{
+		GZC_Effect.title "Plasma Imps";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "DoomImp") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_DoomImp_Rocket");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_DoomImp_Rocket");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_CacoImps : GZC_MorphImpEffect
+{
+	Default
+	{
+		GZC_Effect.title "Caco-Imps";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "DoomImp") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_DoomImp_Zappy");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_DoomImp_Zappy");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ElementalImps : GZC_MorphImpEffect
+{
+	Default
+	{
+		GZC_Effect.title "Imp-Elemental";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('DoomImp');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "DoomImp") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_DoomImp_Soul");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_DoomImp_Soul");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ShotgunZombieman : GZC_MorphZombiemanEffect
+{
+	Default
+	{
+		GZC_Effect.title "Shotgun Zombiemen";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('zombieman');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Shotgun");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Zombieman_Shotgun");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_FireballZombieman : GZC_MorphZombiemanEffect
+{
+	Default
+	{
+		GZC_Effect.title "Fireball Zombiemen";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('zombieman');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Fireball");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Zombieman_Fireball");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RepeaterZombieman : GZC_MorphZombiemanEffect
+{
+	Default
+	{
+		GZC_Effect.title "Repeater Zombiemen";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('zombieman');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Repeater");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Zombieman_Repeater");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_BaronZombieman : GZC_MorphZombiemanEffect
+{
+	Default
+	{
+		GZC_Effect.title "Baron Zombiemen";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('zombieman');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_baron");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Zombieman_baron");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_PlasmaZombieman : GZC_MorphZombiemanEffect
+{
+	Default
+	{
+		GZC_Effect.title "Plasma Zombiemen";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('zombieman');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Plasma");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Zombieman_Plasma");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RocketZombieman : GZC_MorphZombiemanEffect
+{
+	Default
+	{
+		GZC_Effect.title "Rocket Zombiemen";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('zombieman');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Rocket");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Zombieman_Rocket");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_CacoZombieman : GZC_MorphZombiemanEffect
+{
+	Default
+	{
+		GZC_Effect.title "Caco-Zombiemen";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('zombieman');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Zappy");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Zombieman_Zappy");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ElementalZombieman : GZC_MorphZombiemanEffect
+{
+	Default
+	{
+		GZC_Effect.title "Zombie-Elemental";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('zombieman');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "zombieman") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Zombieman_Soul");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Zombieman_Soul");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_FireballShotgunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Fireball Shotgunners";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Shotgunguy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Shotgunguy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Shotgunner_Fireball");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Shotgunner_Fireball");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RepeaterShotgunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Repeater Shotgunners";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Shotgunguy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Shotgunguy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Shotgunner_Repeater");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Shotgunner_Repeater");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RocketShotgunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Rocket Shotgunners";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Shotgunguy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Shotgunguy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Shotgunner_Rocket");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Shotgunner_Rocket");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_BaronShotgunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Baron Shotgunners";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Shotgunguy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Shotgunguy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Shotgunner_Baron");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Shotgunner_Baron");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_PlasmaShotgunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Baron Shotgunners";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Shotgunguy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Shotgunguy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Shotgunner_Plasma");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Shotgunner_Plasma");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ZappyShotgunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Caco-Shotgunners";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Shotgunguy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Shotgunguy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Shotgunner_Zappy");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Shotgunner_Zappy");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ElementalShotgunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Shotgun Elemental";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Shotgunguy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Shotgunguy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Shotgunner_Soul");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Shotgunner_Soul");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ShotgunChaingunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Shotgun Chaingunner";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('ChaingunGuy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "ChaingunGuy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Chaingunner_Shotgun");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Chaingunner_Shotgun");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_FireballChaingunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Fireball Chaingunner";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('ChaingunGuy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "ChaingunGuy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Chaingunner_Fireball");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Chaingunner_Fireball");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_BaronChaingunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Baron Chaingunner";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('ChaingunGuy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "ChaingunGuy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Chaingunner_Baron");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Chaingunner_Baron");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_PlasmaChaingunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Plasma Chaingunner";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('ChaingunGuy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "ChaingunGuy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Chaingunner_Plasma");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Chaingunner_Plasma");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RocketChaingunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Rocket Chaingunner";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('ChaingunGuy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "ChaingunGuy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Chaingunner_Rocket");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Chaingunner_Rocket");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ZappyChaingunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Caco-Chaingunner";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('ChaingunGuy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "ChaingunGuy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Chaingunner_Zappy");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Chaingunner_Zappy");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ElementalChaingunner : GZC_MorphShotgunnerEffect
+{
+	Default
+	{
+		GZC_Effect.title "Chain-Elemental";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('ChaingunGuy');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "ChaingunGuy") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Chaingunner_Soul");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Chaingunner_Soul");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RifleCacodemon : GZC_MorphCacodemonEffect
+{
+	Default
+	{
+		GZC_Effect.title "Rifle Cacodemon";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Cacodemon');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Cacodemon") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Cacodemon_Rifle");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Cacodemon_Rifle");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ShotgunCacodemon : GZC_MorphCacodemonEffect
+{
+	Default
+	{
+		GZC_Effect.title "Shotgun Cacodemon";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Cacodemon');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Cacodemon") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Cacodemon_Shotgun");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Cacodemon_Shotgun");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RepeaterCacodemon : GZC_MorphCacodemonEffect
+{
+	Default
+	{
+		GZC_Effect.title "Repeater Cacodemon";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Cacodemon');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Cacodemon") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Cacodemon_Repeater");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Cacodemon_Repeater");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_FireballCacodemon : GZC_MorphCacodemonEffect
+{
+	Default
+	{
+		GZC_Effect.title "Fireball Cacodemon";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Cacodemon');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Cacodemon") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Cacodemon_Fireball");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Cacodemon_Fireball");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_BaronCacodemon : GZC_MorphCacodemonEffect
+{
+	Default
+	{
+		GZC_Effect.title "Baron Cacodemon";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Cacodemon');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Cacodemon") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Cacodemon_Bruiser");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Cacodemon_Bruiser");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_PlasmaCacodemon : GZC_MorphCacodemonEffect
+{
+	Default
+	{
+		GZC_Effect.title "Baron Cacodemon";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Cacodemon');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Cacodemon") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Cacodemon_Plasma");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Cacodemon_Plasma");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_RocketCacodemon : GZC_MorphCacodemonEffect
+{
+	Default
+	{
+		GZC_Effect.title "Rocket Cacodemon";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Cacodemon');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Cacodemon") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Cacodemon_Rocket");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Cacodemon_Rocket");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}
+
+class GZC_ElementalCacodemon : GZC_MorphCacodemonEffect
+{
+	Default
+	{
+		GZC_Effect.title "Caco-Elemental";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Cacodemon');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.getClassName() != "Cacodemon") continue;
+			if (mo.health <= 0) continue;
+			
+			morphActor(mo, "GZC_Cacodemon_Soul");
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Cacodemon_Soul");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bStayMorphed = false;
+			MorphedMonster(mo).UndoMonsterMorph(true);
+		}
+	}
+}

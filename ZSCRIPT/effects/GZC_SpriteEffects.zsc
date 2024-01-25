@@ -1,0 +1,529 @@
+class GZC_NoDepthPerception : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "No Depth Perception";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		if (!owner) return;
+		
+		while (mo = Actor(it.next()))
+		{
+			double dist = mo.distance3D(owner);
+			mo.scale.x = max(1.0, dist / 128.0);
+			mo.scale.y = max(1.0, dist / 128.0);
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		if (!owner) return;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+		}
+	}
+}
+
+Class GZC_FloorSprites : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "The Crusher";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override bool verify()
+	{
+		if (players[consoleplayer].mo.countInv('GZC_WallSprites')) return false;
+		
+		return Super.verify();
+	}
+	
+	override void onOpen()
+	{
+		crushActors();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		crushActors();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		crush(_event.thing);
+	}
+	
+	void crushActors()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			crush(mo);
+		}
+	}
+	
+	void crush(Actor _mo)
+	{
+		_mo.bFlatSprite = true;
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bFlatSprite = def.bFlatSprite;
+		}
+	}
+}
+
+Class GZC_WallSprites : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Flatworld";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override bool verify()
+	{
+		if (players[consoleplayer].mo.countInv('GZC_FloorSprites')) return false;
+		
+		return Super.verify();
+	}
+	
+	override void onOpen()
+	{
+		crushActors();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		crushActors();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		crush(_event.thing);
+	}
+	
+	void crushActors()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			crush(mo);
+		}
+	}
+	
+	void crush(Actor _mo)
+	{
+		_mo.bWallSprite = true;
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bWallSprite = def.bFlatSprite;
+		}
+	}
+}
+
+class GZC_MissingWad : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "!";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	void applyeffect(Actor mo)
+	{
+		mo.bInvisibleInMirrors = true;
+		mo.bOnlyVisibleInMirrors = true;
+		let missing = Actor.spawn('GZC_MissingActor', mo.pos);
+		missing.master = mo;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is 'GZC_MissingActor' || mo is 'PlayerPawn') continue;
+			applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSPawn(WorldEvent _event)
+	{
+		applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo is 'GZC_MissingActor')
+			{
+				mo.destroy();
+				continue;
+			}
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bInvisibleInMirrors = def.bInvisibleInMirrors;
+			mo.bOnlyVisibleInMirrors = def.bOnlyVisibleInMirrors;
+		}
+	}
+}
+
+Class GZC_MissingActor : Actor
+{
+	Default
+	{
+		+NoBlockmap;
+	}
+
+	States
+	{
+		Spawn:
+			UNKN AA 1 A_Mimic();
+			Loop;
+	}
+	
+	Action void A_Mimic()
+	{
+		if (!invoker.master) {
+			self.destroy();
+			return;
+		}
+		
+		if (master.sprite == master.getSpriteIndex('TNT1'))
+		{
+			invoker.sprite = master.getSpriteIndex('TNT1');
+			return;
+		}
+		
+		invoker.setOrigin(master.pos, true);
+		
+		invoker.bBright = master.curState.bFullBright;
+	}
+}
+
+class GZC_RainbowBlood : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Rainbow Blood";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is 'Blood')) return;
+		
+		_event.thing.A_SetRenderStyle(1.0, Style_Stencil);
+		_event.thing.SetShade(Color(random(0, 255), random(0, 255), random(0, 255)));
+	}
+}
+
+class GZC_TallWeaponSprites : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Tall and thin weapon sprites";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override void onWorldTick()
+	{
+		PlayerInfo player = players[consoleplayer];
+		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			sprite.scale.Y = def.WeaponScaleY * 3;
+			sprite.scale.X = def.WeaponScaleX * 0.5;
+			sprite.VAlign = PSPA_BOTTOM;
+			sprite.HAlign = PSPA_CENTER;
+		}
+	}
+	
+	override void onClose()
+	{
+		PlayerInfo player = players[consoleplayer];
+		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			sprite.scale.y = def.WeaponScaleY;
+			sprite.scale.x = def.WeaponScaleX;
+			sprite.VAlign = PSPA_TOP;
+			sprite.HAlign = PSPA_Left;
+		}
+	}
+}
+
+class GZC_WideWeaponSprites : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Wide and stout weapon sprites";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override void onWorldTick()
+	{
+		PlayerInfo player = players[consoleplayer];
+		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			sprite.scale.x = def.WeaponScaleX * 4;
+			sprite.scale.Y = def.WeaponScaleY * 0.5;
+			sprite.HAlign = PSPA_CENTER;
+			sprite.VAlign = PSPA_BOTTOM;
+		}
+	}
+	
+	override void onClose()
+	{
+		PlayerInfo player = players[consoleplayer];
+		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			sprite.scale.x = def.WeaponScaleX;
+			sprite.scale.y = def.WeaponScaleX;
+			sprite.HAlign = PSPA_Left;
+			sprite.VAlign = PSPA_TOP;
+		}
+	}
+}
+
+class GZC_SuperNintendoDoom : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Doom for the SNES";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.bSpriteAngle = true;
+			mo.spriteAngle = 180;
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create();
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bSpriteAngle = def.bSpriteAngle;
+		}
+	}
+}
+
+class GZC_SpinningActors : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "On A Roll";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.bRollSprite = true;
+		_mo.bRollCenter = true;
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is 'PlayerPawn') continue;
+			
+			applyeffect(mo);
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing is 'PlayerPawn') return;
+		applyeffect(_event.thing);
+	}
+	
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is 'PlayerPawn') continue;
+			mo.roll += 15;
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+				
+			mo.bRollSprite = def.bRollSprite;
+			mo.bRollCenter = def.bRollCenter;
+			mo.roll = def.roll;
+		}
+	}
+}
+
+class GZC_WideMonsters : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Wide Monster Sprites";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.scale.x = 5;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bIsMonster) return;
+		applyeffect(_event.thing);
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			applyeffect(mo);
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.scale.x = def.scale.x;
+		}
+	}
+}
+
+class GZC_TallMonsters : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Wide Monster Sprites";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.scale.y = 7;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bIsMonster) return;
+		applyeffect(_event.thing);
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			applyeffect(mo);
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.scale.y = def.scale.y;
+		}
+	}
+}

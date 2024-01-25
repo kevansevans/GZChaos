@@ -1,0 +1,132 @@
+class GZC_InfoDraw : StaticEventHandler
+{
+	textureid bgGreyBar;
+
+	override void onRegister()
+	{
+		bgGreyBar = TexMan.checkForTexture('GREYMOD6');
+	}
+
+	override void RenderOverlay(RenderEvent event)
+	{
+		if (gamestate != GS_Level) return;
+		
+		if (Cvar.getCvar("GZC_HideEverything", players[consoleplayer]).getBool()) return;
+	
+		drawEffectInfo();
+	}
+	
+	ui void drawEffectInfo()
+	{
+		let player = players[consoleplayer].mo;
+	
+		double xscale = double(Screen.getWidth()) / 2560.0;
+		double yscale = double(Screen.getHeight()) / 1440.0;
+		double userscale = Cvar.getCvar('GZC_EffectScaleAmount', players[consoleplayer]).getFloat() / 10.0;
+		double hudscale = Cvar.getCvar('hud_scale', players[consoleplayer]).getFloat();
+		xscale *= (hudscale <= 0 ? 1 * userscale : hudscale * userscale);
+		yscale *= (hudscale <= 0 ? 1 * userscale : hudscale * userscale);
+
+		if (player.countInv('GZC_HideEffects'))
+		{
+			let effect = GZC_Effect(player.FindInventory('GZC_HideEffects'));
+			drawEffectToScreen(effect, 0, xscale, yscale);
+			return;
+		}
+
+		int effectcount = players[consoleplayer].mo.countInv('GZC_Effect');
+		
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		int index = 0;
+		while (effect = GZC_Effect(it.next()))
+		{
+			drawEffectToScreen(effect, index, xscale, yscale);
+			++index;
+		}
+	}
+	
+	ui void drawEffectToScreen(GZC_Effect effect, Int index, double xscale, double yscale)
+	{
+		int fontcolor = Font.CR_White;
+			
+		if (effect.life >= effect.duration) fontcolor = Font.CR_DarkGray;
+		if (effect.life < 35) fontcolor = Font.CR_Yellow;
+		
+		int yOffset = 150 + int((60 * index) * yscale);
+		
+		if (150 + ((60 * (index + 1)) * yscale) > Screen.getHeight() - 150 + (120 * yscale))
+		{
+			Screen.DrawText(BIGFONT, fontcolor, 20 * xscale, yoffset, "And " .. GZC_Effect.getEffectCount() - index .. " more!", DTA_ScaleX, xscale, DTA_ScaleY, yscale);
+			return;
+		}
+		
+		Screen.DrawText(BIGFONT, fontcolor, 20 * xscale, yoffset, effect.title, DTA_ScaleX, xscale, DTA_ScaleY, yscale);
+		
+		if (effect.type == GZC_Timed && effect.life <= effect.duration)
+		{
+			Screen.DrawTexture(bgGreyBar, false, 20 * xscale, yOffset + (16 * yscale), DTA_ScaleX, xscale * 0.5, DTA_ScaleY, yscale * 0.5);
+			double ratio = 1.0 - (double(effect.life) / double(effect.duration));
+			Screen.DrawThickLine(25 * xscale, yOffset + (25.5 * yScale), (25 * xscale) + (600 * xscale * 0.5 * ratio), yOffset + (25.5 * yScale), 20 * yScale * 0.5, Color("FF0000")); 
+		}
+	}
+}
+
+Class GZC_TimerDisplay : EventHandler
+{
+	ui GZC_TimerBar activebar;
+
+	override void onRegister()
+	{
+		SetOrder(200);
+	}
+	
+	override void UiTick()
+	{
+		Cvar cvarTimerBar = Cvar.getCvar("GZC_TimerBarClassName", players[consoleplayer]);
+		
+		if (!activebar)
+		{
+			string classname = cvarTimerBar.getString();
+			Class<GZC_TimerBar> bar = classname;
+		
+			if (bar)
+			{
+				activeBar = GZC_TimerBar(new(classname));
+				activeBar.initBar();
+				return;
+			}
+		}
+		
+		if (activebar.getClassName() == cvarTimerBar.getString()) return;
+		else
+		{
+			string classname = cvarTimerBar.getString();
+			Class<GZC_TimerBar> bar = classname;
+		
+			if (bar)
+			{
+				activeBar = GZC_TimerBar(new(classname));
+				activeBar.initBar();
+				return;
+			}
+		}
+		
+		activeBar = new('GZC_TimerBar_Green');
+		activeBar.initBar();
+		cvarTimerBar.setString('GZC_TimerBar_Green');
+	}
+
+	override void RenderUnderlay(RenderEvent event)
+	{
+		if (Cvar.getCvar("GZC_HideEverything", players[consoleplayer]).getBool()) return;
+	
+		let player = players[consoleplayer].mo;
+		if (player.countInv('GZC_HideTimer')) return;
+		
+		let tracker = GZC_GameTracker(player.findInventory('GZC_GameTracker'));
+			
+		activeBar.drawBar(tracker.time, tracker.timelimit);
+	}
+}

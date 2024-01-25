@@ -1,0 +1,425 @@
+Class GZC_FeelingGenerous : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "IDKFA";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.CheatGive('All', 1);
+	}
+}
+
+Class GZC_CantHaveShitInDetroit : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Dude, where's my ...?";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		Array<String> items;
+		items.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let item = Inventory(mo);
+			if (!item) continue;
+			if (!item.owner) continue;
+			if (!(item.owner is 'PlayerPawn')) continue;
+			if (item is 'PuzzleItem' || item is 'Key') continue;
+			if (item is 'Fist' || item is 'Pistol') continue;
+			if (item is 'GZC_Effect') continue;
+			
+			items.push(item.getClassName());
+		}
+		
+		let player = players[consoleplayer].mo;
+		int rng = random(0, items.size() - 1);
+		player.TakeInventory(items[rng], 0x7FFFFFFF);
+		String itemname = (items[rng] == "HexenArmor" ? "Armor" : items[rng]);
+		title = "Dude, where's my " .. itemname .. "?";
+	}
+}
+
+Class GZC_DoubleAmmo : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "sv_infiniteammo -1";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Weapon");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "weapon" && Inventory(mo).owner)
+			{
+				let gun = Weapon(mo);
+				let def = getDefaultByType(gun.getClass());
+				
+				gun.AmmoUse1 = def.AmmoUse1 * 2;
+				gun.AmmoUse2 = def.AmmoUse2 * 2;
+			}
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Weapon");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "weapon" && Inventory(mo).owner)
+			{
+				let gun = Weapon(mo);
+				let def = getDefaultByType(gun.getClass());
+				
+				gun.AmmoUse1 = def.AmmoUse1;
+				gun.AmmoUse2 = def.AmmoUse2;
+			}
+		}
+	}
+}
+
+Class GZC_InfiniteAmmo : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "sv_infiniteammo 1";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "weapon" && Inventory(mo).owner)
+			{
+				let gun = Weapon(mo);
+				gun.AmmoUse1 = 0;
+				gun.AmmoUse2 = 0;
+				gun.bAmmo_Optional = true;
+			}
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "weapon" && Inventory(mo).owner)
+			{
+				let gun = Weapon(mo);
+				let def = getDefaultByType(gun.getClass());
+				
+				gun.AmmoUse1 = def.AmmoUse1;
+				gun.AmmoUse2 = def.AmmoUse2;
+				gun.bAmmo_Optional = def.bAmmo_Optional;
+			}
+		}
+	}
+}
+
+Class GZC_FastWeapons : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "sv_fastweapons 2";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer];
+		
+		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		{
+			if (sprite.tics > 1) sprite.tics = 1;
+		}
+	}
+}
+
+Class GZC_NegativeFastWeapons : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "sv_fastweapons -2";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	state prevState;
+	
+	override void onWorldTick()
+	{
+		PlayerInfo player = players[consoleplayer];
+		
+		if (!player) return;
+		
+		if (player.psprites.CurState != prevState)
+		{
+			prevState = player.psprites.CurState;
+			
+			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+			{	
+				sprite.tics *= 2;
+			}
+		}
+	}
+}
+
+Class GZC_RandomWeaponFrameDuration : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "sv_fastweapons ???";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+
+	state prevState;
+	
+	override void onWorldTick()
+	{
+		PlayerInfo player = players[consoleplayer];
+		
+		if (player.psprites.CurState != prevState)
+		{
+			prevState = player.psprites.CurState;
+			int tics = random(1, 10);
+			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+			{	
+				sprite.tics = tics;
+			}
+		}
+	}
+}
+
+Class GZC_InventorySickness : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Inventory sickness";
+		GZC_Effect.duration 35 * 7;
+	}
+	
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.bPickup = false;
+		player.A_StartSound("BIG/BELCH", Chan_Auto);
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		let item = player.inv;
+		actor newitem;
+		
+		for (inventory item = player.inv; item != null; item = item.inv)
+		{
+			if (item is "GZC_BaseItem" || item is "Fist" || item is "Doggie" || item is "beak") continue;
+			else
+			{
+				Vector3 newpos = player.pos;
+				newpos.z += 20;
+				if (item is "weapon")
+				{
+					let gun = weapon(item);
+					if (gun.ammo1)
+					{
+						if (player.countInv(gun.ammo1.getClassName()))
+						{
+							string ammotype = gun.ammo1.getClassName();
+							newitem = Actor.spawn(ammotype, newpos);
+							player.takeInventory(gun.ammo1.getClassName(), inventory(newitem).amount);
+							break;
+						}
+					}
+					if (gun.ammo2)
+					{
+						if (player.countInv(gun.ammo2.getClassName()))
+						{
+							string ammotype = gun.ammo2.getClassName();
+							newitem = Actor.spawn(ammotype, newpos);
+							player.takeInventory(gun.ammo2.getClassName(), inventory(newitem).amount);
+							break;
+						}
+					}
+					string guntype = item.getClassName();
+					newitem = Actor.spawn(guntype, newpos);
+					player.takeInventory(guntype, 1);
+					break;
+				}
+				if (item is "key")
+				{
+					string keytype = item.getClassName();
+					newitem = Actor.spawn(keytype, newpos);
+					player.takeInventory(keytype, 1);
+					break;
+				}
+			}
+		}
+		
+		if (newitem)
+		{
+			newitem.thrust(5 + random(0, 10), player.angle + random(-15, 15));
+		}
+		
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		player.bPickup = true;
+	}
+}
+
+Class GZC_TakeAllKeysAway : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Can't find my keys!";
+		GZC_Effect.duration 35 * 90;
+	}
+
+	Array<String> keys;
+	
+	override void onOpen()
+	{
+		keys.clear();
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		
+		for (inventory item = player.inv; item != null; item = item.inv)
+		{
+			if (item is "key")
+			{
+				keys.push(item.getClassName());
+			}
+		}
+		
+		for (int i = 0; i < keys.size(); ++i)
+		{
+			player.takeInventory(keys[i], 1);
+		}
+	}
+	
+	override void onClose()
+	{
+		if (keys.size())
+		{
+			let player = players[consoleplayer].mo;
+			
+			for (int i = 0; i < keys.size(); ++i)
+			{
+				player.giveInventory(keys[i], 1);
+			}
+		}
+	}
+}
+
+Class GZC_GiveRandomInventory : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Give a random item";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override bool verify()
+	{
+		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).EffectProperties;
+		if (properties.at(self.getClassName() .. '_enabled') == "false") return false;
+		return true;
+	}
+	
+	Array<Class<Actor> > items;
+	
+	override void onOpen()
+	{
+		items.clear();
+		
+		foreach(thing : AllActorClasses)
+		{
+			if (thing is "GZC_BaseItem") continue;
+			if (thing is "inventory") items.push(thing);
+		}
+		
+		int itemrng = random(0, items.size() - 1);
+		let select = items[itemrng];
+		
+		let player = players[consoleplayer].mo;
+		let def = Inventory(getDefaultByType(select));
+		
+		int countrng = random(1, def.MaxAmount);
+		
+		player.GiveInventory(def.getClassName(), countrng);
+		
+		title = "Give " .. countrng .. " " .. def.getClassName() .. (countrng > 1 ? "s" : "");
+	}
+}
+
+Class GZC_GiveRandomWeapon : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Give a random weapon";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override bool verify()
+	{
+		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).EffectProperties;
+		if (properties.at(self.getClassName() .. '_enabled') == "false") return false;
+		return true;
+	}
+	
+	Array<Class<Actor> > items;
+	
+	override void onOpen()
+	{
+		items.clear();
+		
+		foreach(thing : AllActorClasses)
+		{
+			if (thing is "weapon") items.push(thing);
+		}
+		
+		int itemrng = random(0, items.size() - 1);
+		let select = items[itemrng];
+		
+		let player = players[consoleplayer].mo;
+		let def = Weapon(getDefaultByType(select));
+		
+		player.GiveInventory(def.getClassName(), 1);
+		player.A_SelectWeapon(def.getClassName());
+		
+		title = "Give " .. def.getClassName();
+	}
+}

@@ -1,0 +1,1109 @@
+Class GZC_AutoSave : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Autosave";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		Autosave();
+	}
+}
+
+Class GZC_RearView : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Rear View Mirror";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	GZC_Camera camera;
+	
+	override void onOpen()
+	{
+		camera = GZC_Camera(Actor.spawn('GZC_Camera'));
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		camera = GZC_Camera(Actor.spawn('GZC_Camera'));
+	}
+	
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+	
+		TexMan.SetCameraToTexture(camera, 'TCAMTEX1', 90);
+		FLineTraceData shot;
+		player.LineTrace(player.angle, 48, -80, TRF_THRUACTORS, 0, 0, 0, shot);
+		camera.setOrigin(shot.hitLocation, true);
+		camera.A_FaceTarget();
+	}
+	
+	override void drawEffect(RenderEvent _event)
+	{
+		let mirror = TexMan.CheckForTexture('TCAMTEX1');
+		
+		double xscale = double(Screen.getWidth()) / 2560.0;
+		double yscale = double(Screen.getHeight()) / 1440.0;
+	
+		Screen.DrawTexture(mirror, false, (Screen.getWidth() / 2) - (320 / 2 * 3 * xscale), 0, DTA_ScaleX, 3 * xscale, DTA_ScaleY, 3 * yscale);
+	}
+	
+	override void onClose()
+	{
+		camera.destroy();
+	}
+}
+
+Class GZC_Camera : Actor
+{
+	Default
+	{
+		+NoGravity;
+	}
+}
+
+Class GZC_MacroMissiles : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Macro-Missiles";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			shrinkMissile(mo);
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		shrinkMissile(_event.thing);
+	}
+	
+	void shrinkMissile(Actor _mo)
+	{
+		double scale = 2;
+		_mo.scale.x *= scale;
+		_mo.scale.y *= scale;
+		_mo.A_SetSize(_mo.radius * scale, _mo.height * scale);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = ACtor(it.next()))
+		{
+			if (!mo.bMissile) return;
+		
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+			mo.A_SetSize(def.radius, def.height);
+		}
+	}
+}
+
+Class GZC_MicroMissiles : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Micro-Missiles";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			shrinkMissile(mo);
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		shrinkMissile(_event.thing);
+	}
+	
+	void shrinkMissile(Actor _mo)
+	{
+		double scale = 0.25;
+		_mo.scale.x *= scale;
+		_mo.scale.y *= scale;
+		_mo.A_SetSize(_mo.radius * scale, _mo.height * scale);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = ACtor(it.next()))
+		{
+			if (!mo.bMissile) return;
+		
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+			mo.A_SetSize(def.radius, def.height);
+		}
+	}
+}
+
+Class GZC_DetonateAllBarrels : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Detonate All Barrels";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("ExplosiveBarrel");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.A_DamageSelf(99999);
+		}
+	}
+}
+
+Class GZC_CompanionImpEvent : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Companion Imp";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.type GZC_Instant;
+	}
+	
+	Actor companion;
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		companion = Actor.spawn('GZC_CompanionImp', player.pos);
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		let player = players[consoleplayer].mo;
+		companion = Actor.spawn('GZC_CompanionImp', player.pos);
+	}
+	
+	override void onWorldTick()
+	{
+		if (companion) return;
+		
+		life = duration;
+	}
+}
+
+Class GZC_CompanionImp : DoomImp
+{
+	Default
+	{
+		Translation "CompanionImp";
+		+Friendly;
+	}
+	
+	override void tick()
+	{
+		Super.tick();
+		
+		if (self.health <= 0) return;
+		
+		if (gametic % (35 * 10) != 0) return;
+		
+		let player = players[consoleplayer].mo;
+		if (self.distance3D(player) > 1024 || !(player.isVisible(self, true) && self.isVisible(player, true)))
+		{
+			Self.SetOrigin(player.pos, false);
+			Actor.spawn('TeleportFog', player.pos);
+		}
+	}
+	
+	States
+	{
+		Melee:
+		Missile:
+			TNT1 A 0;
+			Goto See;
+	}
+}
+
+Class GZC_BouncyProjectiles : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Bouncy! Bouncy! Bouncy!"; //Insyncopated style!
+		GZC_Effect.duration 35 * 60 * 4;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			setBounceOnActor(mo);
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		setBounceOnActor(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.bBounceOnWalls = def.bBounceOnWalls;
+			mo.bBounceOnFloors = def.bBounceOnFloors;
+			mo.bBounceOnCeilings = def.bBounceOnCeilings;
+			mo.bAllowBounceOnActors = def.bAllowBounceOnActors;
+			mo.BounceFactor = def.BounceFactor;
+			mo.WallBounceFactor = def.WallBounceFactor;
+			mo.BounceSound = def.BounceSound;
+		}
+	}
+	
+	void setBounceOnActor(Actor mo)
+	{
+		mo.bBounceOnWalls = true;
+		mo.bBounceOnFloors = true;
+		mo.bBounceOnCeilings = true;
+		mo.bAllowBounceOnActors = true;
+		mo.BounceFactor = 1.0;
+		mo.WallBounceFactor = 1.0;
+		mo.BounceSound = "bounce/boing";
+	}
+}
+
+Class GZC_JitterSkull : GZC_RoomClearEvent
+{
+	default
+	{
+		GZC_Effect.title "The Ghoul's Forest";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.ignore false;
+	}
+
+	Array<ActorTracker> pointers;
+	Actor Jitter;
+	
+	String levelmus;
+	
+	override void onOpen()
+	{
+		sweep();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		sweep();
+	}
+	
+	void sweep()
+	{
+		pointers.clear();
+		
+		levelmus = level.music;
+		
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+				
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "EmptyActor") continue;
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			let tracker = ActorTracker(Actor.spawn("ActorTracker", (0, 0, 0)));
+			tracker.type = mo.getClass();
+			tracker.pos = mo.pos;
+			pointers.push(tracker);
+			morphActor(mo, "EmptyActor");
+		}
+		
+		let player = players[consoleplayer].mo;
+		player.S_ChangeMusic("");
+			
+		spawnJitterSkull();
+	}
+	
+	override void onWorldTick()
+	{
+		if (jitter.health > 0) return;
+		
+		onClose();
+		closed = true;
+	}
+	
+	void spawnJitterSkull()
+	{
+		if (!verify()) return;
+	
+		Jitter = Actor.spawn('JitterSkull', (0,0,0));
+		let player = players[consoleplayer].mo;
+		
+		while (true)
+		{
+			int place = random(0, pointers.size() - 1);
+			Vector3 pos = pointers[place].pos;
+			Jitter.setOrigin(pos, false);
+			if (Jitter.isVisible(player, true)) continue;
+			Jitter.A_DamageSelf(0);
+			break;
+		}
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		player.S_ChangeMusic(levelmus);
+		
+		life = duration;
+		
+		if (Jitter) Jitter.destroy();
+	}
+}
+
+Class GZC_ContainmentBreach : GZC_RoomClearEvent
+{
+	default
+	{
+		GZC_Effect.title "Containment Breach";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	Array<ActorTracker> pointers;
+	SCP173 scp;
+	
+	String levelmus;
+	
+	override void onOpen()
+	{
+		sweep();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		sweep();
+	}
+	
+	void sweep()
+	{
+		levelmus = level.music;
+		
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+				
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "EmptyActor") continue;
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			let tracker = ActorTracker(Actor.spawn("ActorTracker", (0, 0, 0)));
+			tracker.type = mo.getClass();
+			tracker.pos = mo.pos;
+			pointers.push(tracker);
+			morphActor(mo, "EmptyActor");
+		}
+		
+		levelmus = Level.music;
+		S_ChangeMusic("");
+		
+		spawnpeanut();
+	}
+	
+	void spawnpeanut()
+	{
+		if (!verify()) return;
+		
+		scp = SCP173(Actor.spawn('SCP173', (0,0,0)));
+		let player = players[consoleplayer].mo;
+		
+		while (true)
+		{
+			int place = random(0, pointers.size() - 1);
+			Vector3 pos = pointers[place].pos;
+			scp.setOrigin(pos, false);
+			if (scp.isVisible(player, true)) continue;
+			break;
+		}
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		player.S_ChangeMusic(levelmus);
+		
+		if (scp) scp.destroy();
+	}
+}
+
+Class GZC_ChaosDevice : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Chaos Device";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		Vector3 location;
+		int face;
+		[location, face] = level.pickPlayerStart(player.playerNumber());
+		player.teleport(location, face, 1);
+	}
+}
+
+Class GZC_ShuffleAmmoTypes : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Shuffled ammo pool";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onOpen()
+	{
+		Array<Class<Ammo> > types;
+		
+		let player = players[consoleplayer].mo;
+		WeaponSlots weapons = players[consoleplayer].weapons;
+		
+		for (int slot = 0; slot < 10; ++slot)
+		{
+			int numWeaps = weapons.slotSize(slot);
+			
+			if (numWeaps == 0) continue;
+			
+			for (int index = 0; index < numWeaps; ++index)
+			{
+				Class<weapon> gun = weapons.getWeapon(slot, index);
+				
+				let def = getDefaultByType(gun);
+				
+				if (def.ammoType1) types.push(def.ammoType1);
+				if (def.ammoType2) types.push(def.ammoType2);
+			}
+		}
+		
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "weapon" && Inventory(mo).owner is "PlayerPawn")
+			{
+				let gun = Weapon(mo);
+				
+				if (gun.AmmoType1)
+				{
+					while (true)
+					{
+						let selected = types[random(0, types.size() - 1)];
+						if (selected is gun.AmmoType1) continue;
+						
+						gun.AmmoType1 = (Class<Ammo>)(selected);
+						gun.Ammo1 = Ammo(player.FindInventory(selected));
+						
+						break;
+					}
+				}
+			
+				if (gun.AmmoType2)
+				{
+					while (true)
+					{
+						let selected = types[random(0, types.size() - 1)];
+						if (selected is gun.AmmoType2) continue;
+					
+						gun.AmmoType2 = (Class<Ammo>)(selected);
+						gun.Ammo2 = Ammo(player.FindInventory(selected));
+						break;
+					}
+				}
+			}
+		}
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "weapon" && Inventory(mo).owner is "PlayerPawn")
+			{
+				let gun = Weapon(mo);
+				let def = getDefaultByType(gun.getClass());
+				
+				if (gun.ammoType1)
+				{
+					gun.ammoType1 = def.ammoType1;
+					gun.ammo1 = Ammo(Player.findInventory(gun.ammoType1.getClassName()));
+				}
+				
+				if (gun.ammoType2)
+				{
+					gun.ammoType2 = def.ammoType2;
+					gun.ammo2 = Ammo(Player.findInventory(gun.ammoType2.getClassName()));
+				}
+			}
+		}
+	}
+}
+
+Class GZC_LimpProjectiles : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Limp enemy projectiles";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		_event.thing.bNoGravity = false;
+	}
+}
+
+Class GZC_JupiterGravity : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Jupiter Gravity";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (player.findInventory("GZC_MoonGravity")) return false;
+		
+		return super.verify();
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			applyeffect(mo);
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			applyeffect(mo);
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		applyeffect(_event.thing);
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.A_SetGravity(10);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.A_SetGravity(1);
+		}
+	}
+}
+
+Class GZC_MoonGravity : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Moon Gravity";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (player.findInventory("GZC_JupiterGravity")) return false;
+		
+		return super.verify();
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			applyeffect(mo);
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			applyeffect(mo);
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		applyeffect(_event.thing);
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.A_LowGravity();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.A_SetGravity(1);
+		}
+	}
+}
+
+Class GZC_FartingMonsters : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Farting Monsters";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster && mo.health > 0)
+			{
+				double zfloor = mo.getZAt();
+				if (zfloor != mo.pos.z) continue;
+				if ((gametic + random(0, 35)) % (35 * 2) == 0)
+				{
+					if (!random(0, 5)) continue;
+				
+					double angle = random(0, 359);
+					Double xspeed = cos(angle) * 5;
+					Double yspeed = sin(angle) * 5;
+					
+					mo.vel.x = xspeed;
+					mo.vel.y = yspeed;
+					mo.vel.z = 15 + random(-5, 5);
+					
+					mo.A_StartSound("poot/poot", CHAN_AUTO);
+				}
+			}
+		}
+	}
+}
+
+Class GZC_FartingItems : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Farting items";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "inventory")
+			{
+				if (Inventory(mo).owner) continue;
+				double zfloor = mo.getZAt();
+				if (zfloor != mo.pos.z) continue;
+				if ((gametic + random(0, 35)) % (35 * 2) == 0)
+				{
+					if (!random(0, 5)) continue;
+				
+					double angle = random(0, 359);
+					Double xspeed = cos(angle) * 5;
+					Double yspeed = sin(angle) * 5;
+					
+					mo.vel.x = xspeed;
+					mo.vel.y = yspeed;
+					mo.vel.z = 15 + random(-5, 5);
+					
+					mo.A_StartSound("poot/poot", CHAN_AUTO);
+				}
+			}
+		}
+	}
+}
+
+Class GZC_FartingPlayer : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Farting player";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		
+		double zfloor = player.getZAt();
+		if (zfloor != player.pos.z) return;
+		if ((gametic + random(0, 35)) % (35 * 2) == 0)
+		{
+			if (!random(0, 5)) return;
+		
+			double angle = random(0, 359);
+			Double xspeed = cos(angle) * 5;
+			Double yspeed = sin(angle) * 5;
+			
+			player.vel.x = xspeed;
+			player.vel.y = yspeed;
+			player.vel.z = 15 + random(-5, 5);
+			
+			player.A_StartSound("poot/poot", CHAN_AUTO);
+		}
+	}
+}
+
+Class GZC_FastProjectiles : GZC_ProjectileModifier
+{
+	default
+	{
+		GZC_Effect.title "Fast projectiles";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.A_ScaleVelocity(1.5);
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.Vel3DFromAngle(def.speed, mo.angle, mo.pitch);
+		}
+	}
+}
+
+
+Class GZC_SlowProjectiles : GZC_ProjectileModifier
+{
+
+	default
+	{
+		GZC_Effect.title "Slow projectiles";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.A_ScaleVelocity(0.5);
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.Vel3DFromAngle(def.speed, mo.angle, mo.pitch);
+		}
+	}
+
+}
+
+Class GZC_ExtraSlowProjectiles : GZC_ProjectileModifier
+{
+	default
+	{
+		GZC_Effect.title "Slower projectiles";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.A_ScaleVelocity(0.25);
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.Vel3DFromAngle(def.speed, mo.angle, mo.pitch);
+		}
+	}
+
+}
+
+Class GZC_PainfullySlowProjectiles : GZC_ProjectileModifier
+{
+	default
+	{
+		GZC_Effect.title "Painfully projectiles";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.A_ScaleVelocity(0.01);
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.Vel3DFromAngle(def.speed, mo.angle, mo.pitch);
+		}
+	}
+}
+
+Class GZC_ExplodingBulletPuffs : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "All bullet puffs explode";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing is "BulletPuff") _event.thing.A_Explode(32, 128, 0);
+	}
+}
+
+Class GZC_SeekerProjectiles : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "All projectiles seek player";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		let player = players[consoleplayer].mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (!mo.bMissile) continue;
+			
+			if (!mo.target) continue;
+			
+			if (!(mo.target.bIsMonster || mo.target is "PlayerPawn")) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+				
+			if (def.bSeekerMissile) continue;
+					
+			mo.bSeekerMissile = true;
+			mo.tracer = player;
+			mo.A_Tracer();
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bMissile)
+			{
+				mo.bSeekerMissile = false;
+			}
+		}
+	}
+}
+
+Class GZC_FakeLagCrash : GZC_Effect
+{
+	int delay;
+	bool disabled;
+	
+	default
+	{
+		GZC_Effect.title "Fake crash";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onOpen()
+	{
+		String fakenames[] = {"Slow and Wet", "The Penultimate Event", "Boof Scootle", "Serial PName Toucher", "Age of Heck", "Project Abstinence", "Neon Ochre", "Dunn & Dunner", "Oh no way, it's Fred Clegg"};
+		delay = 35 * random(10, 20);
+		title = fakenames[random(0, 8)];
+	}
+
+	override void onWorldTick()
+	{
+		if (life > delay && !disabled)
+		{
+			string music = level.music;
+			
+			let player = players[consoleplayer].mo;
+			player.S_PauseSound(false, false);
+			
+			for (int i = 0; i < 30000000; ++i) //30 Million
+			{
+				let idiot = new('thinker');
+				idiot.destroy();
+			}
+			
+			title = "Fake crash";
+			disabled = true;
+			self.life = self.duration;
+		}
+	}
+}
+
+Class GZC_RestartLevel : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Restarting level";
+		GZC_Effect.duration 35 * 10;
+	}
+	
+	override void onClose()
+	{
+		if (!random(0, 2)) level.changeLevel(level.mapname);	
+		else title = "Fake level restart";
+	}
+}

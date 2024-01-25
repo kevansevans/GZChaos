@@ -1,0 +1,957 @@
+Class GZC_AbstractHell : GZC_TextureSwapEffect
+{
+	default
+	{
+		GZC_Effect.title "It's an abstract kind of hell";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+	
+	Array<String> textures;
+	
+	void getAllTextures()
+	{
+		for (int i = 0; i < Wads.getNumLumps(); ++i)
+		{
+			TextureID _locTexture = TexMan.checkForTexture(Wads.getLumpName(i));
+			String texturename = TexMan.getName(_locTexture);
+			
+			if (texturename)
+			{
+				textures.push(texturename);
+			}
+		}
+	}
+
+	override void onOpen()
+	{
+		init();
+		getAllTextures();
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		resetMap();
+	}
+	
+	void applyeffect()
+	{
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				int index = random(0, textures.size() - 1);
+				TextureID newtex = TexMan.checkForTexture(textures[index]);
+				
+				sidedef.setTexture(i, newtex);
+			}
+		}
+		
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
+			{
+				int index = random(0, textures.size() - 1);
+				TextureID newtex = TexMan.checkForTexture(textures[index]);
+			
+				sec.setTexture(0, newtex);
+			}
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
+			{
+				int index = random(0, textures.size() - 1);
+				TextureID newtex = TexMan.checkForTexture(textures[index]);
+			
+				sec.setTexture(1, newtex);
+			}
+		}
+	}
+}
+
+Class GZC_ShootToActivate : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Shoot to activate";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	Array<Line> lines;
+	
+	void iterate()
+	{
+		lines.clear();
+		
+		foreach (linedef : level.lines)
+		{
+			if (linedef.activation != SPAC_Use) continue;
+			lines.push(linedef);
+			linedef.activation = SPAC_Impact;
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		foreach (index : lines)
+		{
+			index.activation = SPAC_Use;
+		}
+	}
+}
+
+Class GZC_LockedIn : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "There is no escape...";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	override void onWorldLinePreActivated(WorldEvent event)
+	{
+		let player = players[consoleplayer].mo;
+		
+		if (event.thing != player) return;
+	
+		line linedef = event.ActivatedLine;
+		if (linedef.special == 243 || linedef.special == 244)
+		{
+			event.shouldActivate = false;
+			player.A_StartSound("world/spark", CHAN_AUTO);
+		}
+	}
+}
+
+Class GZC_FaultySwitches : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Faulty Doors and Switches";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldLinePreActivated(WorldEvent event)
+	{
+		if (event.ActivationType != 2) return;
+	
+		bool activate = !random(0, 2);
+		event.shouldActivate = activate;
+		if (event.thing is 'PlayerPawn' && !activate)
+		{
+			event.thing.A_StartSound("world/spark", CHAN_AUTO);
+		}
+	}
+}
+
+Class GZC_KryptoniteFog : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Superman 64";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	Array<int> foglevels;
+	Array<Color> colors;
+	
+	override void onOpen()
+	{
+		applyfog();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		applyfog();
+	}
+	
+	void applyfog()
+	{
+		foglevels.clear();
+		colors.clear();
+		
+		foreach (sec : level.sectors)
+		{
+			foglevels.push(sec.colormap.fogDensity);
+			colors.push(sec.colormap.fadeColor);
+			sec.setFogDensity(0x100);
+			sec.setFade(Color(0xACFFCD));
+		}
+	}
+	
+	override void onClose()
+	{
+		int index = 0;
+		
+		foreach (sec : level.sectors)
+		{
+			sec.setFogDensity(foglevels[index]);
+			sec.setFade(colors[index]);
+			++index;
+		}
+	}
+}
+
+Class GZC_MurderInTheDark : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Murder In The Dark";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	Array<Int> lights;
+	int levelnum;
+	
+	void applyeffect()
+	{
+		lights.clear();
+		levelnum = level.levelnum;
+		
+		foreach (sec : level.sectors)
+		{
+			lights.push(sec.lightlevel);
+			sec.lightlevel = 24;
+		}
+	}
+	
+	override void onOpen()
+	{
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		if (levelNum != level.levelnum) return;
+		
+		int index = 0;
+		foreach (sec : level.sectors)
+		{
+			sec.lightlevel = lights[index];
+			++index;
+		}
+	}
+}
+
+Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
+{
+	default
+	{
+		GZC_Effect.title "Please install Counter Strike";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	override void onOpen()
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		resetMap();
+	}
+	
+	void applyeffect()
+	{
+		TextureID newtex = TexMan.checkForTexture("MISSING");
+		level.ChangeSky(newtex, TexMan.checkForTexture(''));
+		
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
+			}
+		}
+		
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
+			{
+				sec.setTexture(0, newtex);
+			}
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
+			{
+				sec.setTexture(1, newtex);
+			}
+		}
+	}
+}
+
+Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
+{
+	default
+	{
+		GZC_Effect.title "MyFirstMap.wad";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	override void onOpen()
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		resetMap();
+	}
+
+	void applyeffect()
+	{
+		TextureID newtex = TexMan.checkForTexture("STARTAN2");
+	
+		level.ChangeSky(TexMan.checkForTexture("SKY1"), TexMan.checkForTexture(''));
+	
+		foreach (sidedef : level.sides)
+		{
+			flags.push(sidedef.linedef.flags);
+			sidedef.linedef.flags &= ~(Line.ML_DONTPEGTOP | Line.ML_DONTPEGBOTTOM);
+		
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
+			}
+		}
+		
+		TextureID floortex = TexMan.CheckForTexture("FLOOR0_1");
+		TextureID ceiltex = TexMan.CheckForTexture("CEIL1_1");
+		
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
+			{
+				sec.setTexture(0, floortex);
+			}
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
+			{
+				sec.setTexture(1, ceiltex);
+			}
+		}
+	}
+}
+
+Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
+{
+	default
+	{
+		GZC_Effect.title "Everyone's favorite texture";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+	
+	override void onOpen()
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		resetMap();
+	}
+
+	void applyeffect()
+	{
+		TextureID newtex = TexMan.checkForTexture("FIREBLU1");
+		level.ChangeSky(newtex, TexMan.checkForTexture(''));
+		
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
+			}
+		}
+		
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
+			{
+				sec.setTexture(0, newtex);
+			}
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
+			{
+				sec.setTexture(1, newtex);
+			}
+		}
+	}
+}
+
+Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
+{
+	default
+	{
+		GZC_Effect.title "Doom Alpha 0.2";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	override void onOpen()
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		resetMap();
+	}
+
+	void applyeffect()
+	{
+		TextureID jule = TexMan.checkForTexture("JULESUCK");
+		TextureID tom = TexMan.checkForTexture("TOMKING");
+		
+		level.ChangeSky(jule, TexMan.checkForTexture(''));
+		
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, jule);
+			}
+		}
+		
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
+			{
+				sec.setTexture(0, tom);
+			}
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
+			{
+				sec.setTexture(1, tom);
+			}
+		}
+	}
+}
+
+Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
+{
+	default
+	{
+		GZC_Effect.title "I suck at making maps";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	override void onOpen()
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		resetMap();
+	}
+
+	void applyeffect()
+	{
+		TextureID newtex = TexMan.checkForTexture("ISUCK");
+		level.ChangeSky(newtex, TexMan.checkForTexture(''));
+		
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
+			}
+		}
+		
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
+			{
+				sec.setTexture(0, newtex);
+			}
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
+			{
+				sec.setTexture(1, newtex);
+			}
+		}
+	}
+}
+
+Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
+{
+	default
+	{
+		GZC_Effect.title "Testing... 1, 2, 3, testing...";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	override void onOpen()
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		init();
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		resetMap();
+	}
+
+	void applyeffect()
+	{
+		TextureID newtex = TexMan.checkForTexture("-noflat-");
+		level.ChangeSky(newtex, TexMan.checkForTexture(''));
+		
+		foreach (sidedef : level.sides)
+		{
+			GZC_SideDef g_side = GZC_SideDef.create(sidedef.GetTexture(0), sidedef.GetTexture(1), sidedef.GetTexture(2));
+			sides.insert(sidedef.index(), g_side);
+			
+			for (int i = 0; i < 3; ++i)
+			{
+				TextureID walltex = sidedef.getTexture(i);
+				if (!walltex) continue;
+				if (!checkIfReplaceable(TexMan.getName(walltex))) continue;
+				
+				sidedef.setTexture(i, newtex);
+			}
+		}
+		
+		foreach (sec : level.sectors)
+		{
+			if (sec.damageamount > 0) continue;
+			let plane = GZC_SecPlane.create(sec.getTexture(0), sec.getTexture(1));
+			planes.insert(sec.index(), plane);
+			
+			if (TexMan.getName(plane.floortex) != "F_SKY1")
+			{
+				sec.setTexture(0, newtex);
+			}
+			
+			if (TexMan.getName(plane.ceiltex) != "F_SKY1")
+			{
+				sec.setTexture(1, newtex);
+			}
+		}
+	}
+}
+
+Class GZC_DiscoSkybox : GZC_Effect
+{
+	TextureID oldskyA;
+	TextureID oldskyB;
+	
+	Array<String> textures;
+	int interval;
+	
+	default
+	{
+		GZC_Effect.title "Disco Skybox";
+		GZC_Effect.duration 35 * 60;
+	}
+	
+	override void onOpen()
+	{
+		for (int i = 0; i < Wads.getNumLumps(); ++i)
+		{
+			TextureID _locTexture = TexMan.checkForTexture(Wads.getLumpName(i));
+			String texturename = TexMan.getName(_locTexture);
+			
+			if (texturename)
+			{
+				textures.push(texturename);
+			}
+		}
+	}
+	
+	override void onWorldTick()
+	{
+		if (!oldskyA) {
+		
+			oldskyA = level.skytexture1;
+			oldskyB = level.skytexture2;
+			textures.clear();
+			
+			interval = random(1, 10);
+		
+		}
+		
+		if (gametic % interval == 0)
+		{
+			interval = random(1, 10);
+			int index = random(0, textures.size() - 1);
+			level.changeSky(TexMan.checkForTexture(textures[index]), TexMan.checkForTexture(''));
+		}
+	}
+	
+	override void onClose()
+	{
+		level.changeSky(oldSkyA, oldSkyB);
+	}
+}
+
+Class GZC_SuperSecretsEverywhere : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Everything is a secret";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		for (int i = 0; i < level.sectors.size(); ++i)
+		{
+			sector sec = level.sectors[i];
+			sec.flags |= Sector.SECF_SECRET;
+		}
+		
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo is "Inventory")
+			{
+				mo.bCountSecret = true;
+			}
+			
+		}
+	}
+}
+
+Class GZC_IncreasedSectorFriction : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Increased Sector Friction";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	Array<Sector> applied;
+	int factor;
+	
+	override void onOpen()
+	{
+		applied.clear();
+		factor = random(2, 10);
+		title = factor .. "x sector friction";
+		
+		for (int i = 0; i < level.sectors.size(); ++i)
+		{
+			sector sec = level.sectors[i];
+			
+			if (applied.size() == 0 || applied.find(sec) == applied.size())
+			{
+				sec.friction /= factor;
+				sec.flags |= Sector.SECF_FRICTION;
+				applied.push(sec);
+			}
+		}
+	}
+	
+	override void onClose()
+	{
+		for (int i = 0; i < applied.size(); ++i)
+		{
+			if (!applied[i]) continue;
+			
+			sector sec = applied[i];
+			
+			sec.friction *= factor;
+			sec.flags &= ~(Sector.SECF_FRICTION);
+		}
+	}
+}
+
+Class GZC_FaultyAutomap : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Faulty Automap";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		for (int i = 0; i < level.lines.size(); ++i)
+		{
+			level.lines[i].flags &= ~(Line.ML_MAPPED);
+		}
+	}
+}
+
+Class GZC_TheFloorIsLava : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "The floor is lava!";
+		GZC_Effect.duration 35 * 10;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
+		player.cursector.damageType = 'slime';
+		player.cursector.damageinterval = 35;
+		player.cursector.damageamount = 20;
+	}
+}
+
+Class GZC_TheFloorIsNukage : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "The floor is nukage!";
+		GZC_Effect.duration 35 * 10;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.cursector.setTexture(0, TexMan.CheckForTexture("NUKAGE1"));
+		player.cursector.damageType = 'slime';
+		player.cursector.damageinterval = 35;
+		player.cursector.damageamount = 10;
+	}
+}
+
+Class GZC_TheFloorIsSludge : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "The floor is sludge!";
+		GZC_Effect.duration 35 * 10;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.cursector.setTexture(0, TexMan.CheckForTexture("SLIME01"));
+		player.cursector.damageType = 'slime';
+		player.cursector.damageinterval = 35;
+		player.cursector.damageamount = 5;
+	}
+}
+
+Class GZC_ShuffleKeyTextures : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Shuffle key color textures";
+		GZC_Effect.duration 35 * 5;
+	}
+
+	override void onWorldTick()
+	{
+		for (int si = 0; si < level.sides.size(); ++si)
+		{
+			side sidedef = level.sides[si];
+	
+			for (int wall = 0; wall < 3; ++wall)
+			{
+				int rng = random(0, 1);
+				if (rng == 1) continue;
+				TextureID walltex = sidedef.GetTexture(wall);
+				if (walltex)
+				{
+					string texname = TexMan.getName(walltex);
+					texname.truncate(4);
+					if (texname != "DOOR") continue;
+					else
+					{
+						switch (name(TexMan.getName(walltex)))
+						{
+							case 'DOORBLU':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORRED2'));
+								if (random(1, 10) != 10) break;
+							case 'DOORRED2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORYEL'));
+								if (random(1, 10) != 10) break;
+							case 'DOORYEL':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORBLU2'));
+								if (random(1, 10) != 10) break;
+							case 'DOORBLU2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORRED'));
+								if (random(1, 10) != 10) break;
+							case 'DOORRED':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORYEL2'));
+								if (random(1, 10) != 10) break;
+							case 'DOORYEL2':
+								sidedef.setTexture(wall, TexMan.checkForTexture('DOORBLU'));
+								break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+Class GZC_MisalignAllTextures : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Misalign textures";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		int odds = random(1, 10);
+		double amount = (double(odds) / 10) * 100;
+		title = "I forgot to align " .. int(amount) .. "% of my textures";
+		
+		for (int i = 0; i < level.sides.size(); ++i)
+		{
+			int rng = random(1, 10);
+			if (rng > odds) continue;
+			side sidedef = level.sides[i];
+			
+			for (int j = 0; j < 3; ++j)
+			{
+				if (sidedef.getTexture(j))
+				{
+					double x = sidedef.getTextureXOffset(j);
+					double y = sidedef.getTextureXOffset(j);
+					sidedef.setTextureXOffset(j, x + random(-4, 4));
+					sidedef.setTextureYOffset(j, y + random(-4, 4));
+				}
+			}
+		}
+	}
+}

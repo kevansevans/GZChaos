@@ -1,0 +1,56 @@
+Class CoffeePlayer : PlayerPawn
+{
+	Default
+	{
+		Player.MorphWeapon "CoffeeMug";
+	}
+	
+	override void tick()
+	{
+		Super.tick();
+		
+		if (self.health > 100)
+		{
+			self.unmorph(self, 0, true);
+		}
+	}
+}
+
+Class CoffeeMug : Weapon
+{
+	String lastweapon;
+	
+	Default
+	{
+		Weapon.SlotNumber 0;
+		+Weapon.CheatNotWeapon;
+		+Weapon.NoAutoSwitchTo;
+	}
+
+	States
+	{
+		Ready:
+		Spawn:
+			COFF A random(35, (7 * 35));
+			COFF AAAAAAAAAAAA 1;
+			COFF A 35 A_Sip();
+			COFF AAAAAAAAAAAA 1;
+			Loop;
+		Fire:
+			TNT1 A 0;
+			goto Ready;
+		Select:
+			TNT1 A 0;
+			goto Ready;
+		Deselect:
+			COFF A 1 A_Lower();
+			loop;
+	}
+	
+	Action void A_Sip()
+	{
+		let player = PlayerPawn(self);
+		player.giveBody(random(5, 15), 110);
+		A_StartSound("coffee/slurp", CHAN_AUTO);
+	}
+}

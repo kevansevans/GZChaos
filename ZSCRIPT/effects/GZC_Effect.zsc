@@ -1,0 +1,626 @@
+enum GZC_EffectType
+{
+	GZC_Timed,
+	GZC_Instant,
+	GZC_HiddenTimer,
+}
+
+enum GZC_GameComp
+{
+	GZC_Any,
+	GZC_Doom,
+	GZC_Heretic,
+	GZC_Strife,
+	GZC_Hexen,
+	GZC_Chex
+}
+
+Class GZC_Effect : GZC_BaseItem
+{
+	bool ignore;
+	property ignore: ignore;
+
+	int duration;
+	property duration: Duration;
+	
+	string title;
+	property title: title;
+	
+	double value;
+	property value: value;
+	
+	GZC_EffectType type;
+	property type: type;
+	
+	bool seedfriendly;
+	property seedfriendly: seedfriendly;
+	
+	bool pure;
+	property pure: pure;
+	
+	double life;
+	bool closed;
+	bool deleteme;
+	
+	GZC_GameComp gamecomp;
+	property gamecomp: gamecomp;
+	
+	Default
+	{
+		Inventory.MaxAmount 1;
+		
+		GZC_Effect.seedfriendly true;
+		GZC_Effect.type GZC_Timed;
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.title "GZC_UnamedEffect";
+		GZC_Effect.gamecomp GZC_Any;
+	}
+	
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		
+		let debug = Cvar.getCvar('GZC_LastRolledEffect');
+		debug.setString(self.getClassName());
+	}
+	
+	static int seed()
+	{
+		let cvarseed = Cvar.getCvar('GZC_ActiveSeed');
+		return cvarseed.getInt();
+	}
+	
+	clearscope static int getEffectCount()
+	{
+		int count = 0;
+		
+		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			++count;
+		}
+		
+		return count;
+	}
+	
+	void adjustTimer(Double _amount)
+	{
+		let tracker = GZC_GameTracker(owner.FindInventory('GZC_GameTracker'));
+		tracker.time += _amount;
+		
+		if (tracker.time < 0) tracker.time = 0;
+	}
+	
+	void advanceEffect(Double _amount)
+	{
+		life += _amount;
+		if (life >= duration + (35 * 15))
+		{
+			deleteme = true;
+		}
+	}
+	
+	virtual bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (!player) return false;
+		
+		if (player.countInv(self.getClass()) > 1) return false;
+		
+		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).EffectProperties;
+		if (properties.at(self.getClassName() .. '_enabled') == "false") return false;
+		
+		/*if (gamecomp != GZC_Any)
+		{
+			switch (GameInfo.GameType)
+			{
+				case GAME_Doom:
+					if (gamecomp != GZC_Doom) return false;
+				case GAME_
+			}
+		}*/
+		
+		return true;
+	}
+	
+	virtual void onOpen()
+	{}
+	
+	virtual void onClose()
+	{}
+	
+	virtual void onWorldLoad(WorldEvent _event)
+	{}
+	
+	virtual void onWorldThingSpawn(WorldEvent _event)
+	{}
+	
+	virtual void onWorldThingDied(WorldEvent _event)
+	{}
+	
+	virtual void onWorldThingDamaged(WorldEvent _event)
+	{}
+	
+	virtual void onWorldTick()
+	{}
+	
+	virtual void onWorldLinePreActivated(WorldEvent _event)
+	{}
+	
+	virtual ui void drawEffect(RenderEvent _event)
+	{}
+	
+	virtual void morphActor(Actor mo, Class<Actor> type)
+	{
+		bool ambush = mo.bAmbush;
+		bool hasTarget = mo.target == null;
+	
+		mo.bDontMorph = false;
+		mo.A_Morph(type, int(self.duration - self.life));
+		mo.bAmbush = ambush;
+		if (!hasTarget) mo.A_ClearTarget();
+	}
+}
+
+/*
+Reserve this area for base effects that need their verify function to trigger
+on a wide range of effects.
+*/
+
+Class GZC_MorphEffect : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.ignore true;
+	}
+
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_MorphEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		return super.verify();
+	}
+}
+
+class GZC_ShaderEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+
+	static void DisableShaders()
+	{
+		PPShader.SetEnabled("lowres", false);
+		PPShader.SetEnabled("gb_shader", false);
+		PPShader.SetEnabled("blur", false);
+		PPShader.SetEnabled("liquid", false);
+		PPShader.SetEnabled("negative", false);
+		PPShader.SetEnabled("shrooms", false);
+	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_ShaderEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		return super.verify();
+	}
+}
+
+Class GZC_EffectEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		int count = GZC_Effect.getEffectCount();
+		if (count <= 1) return false;
+	
+		return Super.verify();
+	}
+}
+
+class GZC_TimerEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+}
+
+class GZC_EffectModifier : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+}
+
+Class GZC_HealthPickupModifier : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_HealthPickupModifier');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+	
+		return Super.verify();
+	}
+}
+
+class GZC_TextureSwapEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_TextureSwapEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+	
+		return Super.verify();
+	}
+	
+	Map<Int, GZC_SideDef> sides;
+	Map<Int, GZC_SecPlane> planes;
+	
+	Array<String> oldnames;
+	Array<Int> oldlights;
+	Array<Int> flags;
+	TextureID oldskyA;
+	TextureID oldskyB;
+	
+	int levelnum;
+	
+	void init()
+	{
+		sides.clear();
+		planes.clear();
+		oldnames.clear();
+		oldlights.clear();
+	
+		oldskyA = level.SkyTexture1;
+		oldskyB = level.SkyTexture2;
+	}
+	
+	void resetMap()
+	{
+		level.ChangeSky(oldSkyA, oldSkyB);
+		
+		foreach (sidedef : level.sides)
+		{
+			if (!sides.checkKey(sidedef.index())) continue;
+			
+			let sideinfo = sides.get(sidedef.index());
+			
+			sidedef.setTexture(0, sideinfo.up);
+			sidedef.setTexture(1, sideinfo.mid);
+			sidedef.setTexture(2, sideinfo.low);
+		}
+		
+		foreach (sec : level.sectors)
+		{
+			if (!planes.checkKey(sec.index())) continue;
+			
+			let secinfo = planes.get(sec.index());
+			
+			sec.setTexture(0, secinfo.floortex);
+			sec.setTexture(1, secinfo.ceiltex);
+		}
+	}
+	
+	bool checkIfReplaceable(String _textureName)
+	{
+		string texname = _texturename;
+		switch (name(texname))
+		{
+			case 'BIGDOOR1':
+			case 'BIGDOOR2':
+			case 'BIGDOOR3':
+			case 'BIGDOOR4':
+			case 'BIGDOOR6':
+			case 'BIGDOOR7':
+			case 'DOOR1':
+			case 'DOOR3':
+			case 'DOORBLU':
+			case 'DOORBLU2':
+			case 'DOORRED':
+			case 'DOORRED2':
+			case 'DOORTRAK':
+			case 'DOORYEL':
+			case 'DOORYEL2':
+			case 'EXITDOOR':
+			case 'SPCDOOR1':
+			case 'SPCDOOR2':
+			case 'SPCDOOR3':
+			case 'SPCDOOR4':
+			case 'TEKBRON1':
+			case 'TEKBRON2':
+			case 'GATE1':
+			case 'GATE2':
+			case 'GATE3':
+			case 'GATE4':
+				return false;
+		}
+		
+		texname.truncate(2);
+		if (texname == "SW") return false;
+		
+		return true;
+	}
+}
+
+Class GZC_RoomClearEvent : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_RoomClearEvent');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		it = ThinkerIterator.create('Actor');
+		actor mo;
+		count = 0;
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health > 0) ++count;
+		}
+		
+		if (!count) return false;
+		
+		return super.verify();
+	}
+}
+
+Class GZC_ProjectileModifier : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.ignore true;
+	}
+
+	override bool verify()
+	{
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_ProjectileModifier');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		return super.verify();
+	}
+}
+
+Class GZC_EnemySpeedEffect : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.ignore true;
+	}
+
+	override bool verify()
+	{
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_EnemySpeedEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		return super.verify();
+	}
+}
+
+class GZC_MorphImpEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_MorphImpEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		it = ThinkerIterator.create('DoomImp');
+		actor mo;
+		count = 0;
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health > 0) ++count;
+		}
+		
+		if (!count) return false;
+		
+		return super.verify();
+	}
+}
+
+class GZC_MorphZombiemanEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_MorphZombiemanEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		it = ThinkerIterator.create('Zombieman');
+		actor mo;
+		count = 0;
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health > 0) ++count;
+		}
+		
+		if (!count) return false;
+		
+		return super.verify();
+	}
+}
+
+class GZC_MorphShotgunnerEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_MorphShotgunnerEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		it = ThinkerIterator.create('Shotgunguy');
+		actor mo;
+		count = 0;
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health > 0) ++count;
+		}
+		
+		if (!count) return false;
+		
+		return super.verify();
+	}
+}
+
+class GZC_MorphChaingunnerEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_MorphChaingunnerEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		it = ThinkerIterator.create('ChaingunGuy');
+		actor mo;
+		count = 0;
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health > 0) ++count;
+		}
+		
+		if (!count) return false;
+		
+		return super.verify();
+	}
+}
+
+class GZC_MorphCacodemonEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_MorphCacodemonEffect');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		it = ThinkerIterator.create('Cacodemon');
+		actor mo;
+		count = 0;
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health > 0) ++count;
+		}
+		
+		if (!count) return false;
+		
+		return super.verify();
+	}
+}
+
+Class ActorTracker : Actor
+{
+	Actor pointer;
+	Class<Actor> type;
+	Vector3 Pos;
+}
+
+Class EmptyActor : MorphedMonster
+{
+	default
+	{
+		-Solid;
+		-Shootable;
+		-CountKill;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+			Loop;
+	}
+}

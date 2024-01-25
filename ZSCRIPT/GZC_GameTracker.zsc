@@ -1,0 +1,28 @@
+class GZC_GameTracker : GZC_BaseItem
+{
+	Default
+	{
+		Inventory.MaxAmount 1;
+	}
+	
+	int seed;
+
+	double timelimit;
+	double time;
+	
+	Array<Class<GZC_Effect> > history;
+	
+	void addEffectToHistory(Class<GZC_Effect> _effect)
+	{
+		history.insert(0, _effect);
+		history.resize(Cvar.getCvar('GZC_MemoryBuffer').getInt());
+	}
+	
+	clearscope static float getTime()
+	{
+		let player = players[consoleplayer].mo;
+		let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
+		return tracker.time;
+	}
+	
+}

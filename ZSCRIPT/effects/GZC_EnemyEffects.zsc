@@ -1,0 +1,1920 @@
+Class GZC_ZeroEnemySpeed : GZC_EnemySpeedEffect
+{
+	default
+	{
+		GZC_Effect.title "0x Speed Monsters";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		let def = getDefaultByType(_mo.getClass());
+		_mo.speed = def.speed * 0;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+		
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed;
+		}
+	}
+}
+
+Class GZC_FriendlyArchviles : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Friendly Archviles";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override bool verify()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Archvile');
+		Actor vile;
+		while (vile = Actor(it.next()))
+		{
+			return super.verify();
+		}
+		
+		return false;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Archvile');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			mo.bFriendly = true;
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Archvile');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bFriendly = def.bFriendly;
+		}
+	}
+}
+
+Class GZC_NoFunAllowed : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "No fun allowed";
+		GZC_Effect.duration 35 * 60 * 5;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.A_DamageSelf(0x7FFFFFFF);
+		}
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		life = duration;
+		closed = true;
+	}
+}
+
+Class GZC_ZergRush : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Zerg rush";
+		GZC_Effect.duration 35 * 60 * 5;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	Actor camera;
+	int count;
+	int limit;
+	
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		
+		if (!camera) 
+		{
+			camera = Actor.spawn('Actor', player.pos);
+			limit = random(1, 5) * 100;
+		}
+		
+		if (count < limit && life < duration)
+		{
+			int seccount = level.sectors.size() - 1;
+			for (int i = 0; i < 10; ++i)
+			{
+				let sec = level.sectors[random(0, seccount)];
+				Vector3 pos = (sec.centerspot.x + random(-64, 64), sec.centerspot.y + random(-64, 64), sec.floorplane.ZAtPoint(sec.centerspot) + random(-10, 10));
+				
+				camera.setOrigin(pos, false);
+				
+				if (player.isVisible(camera, true))
+				{
+					++count;
+					let spider = Actor.spawn("GZC_SpiderImpHead", pos);
+					spider.target = player;
+					spider.A_FaceTarget();
+				}
+			}
+		}
+		
+		else
+		{
+			life = duration;
+		}
+	}
+}
+
+Class GZC_PlutoniaExperience : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "The Plutonia Experience";
+		GZC_Effect.duration 35 * 30;
+	}
+	
+	void applyeffect()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo is 'GZC_Chaingunner') continue;
+			if (mo.health <= 0) continue;
+			
+			mo.A_Morph("GZC_Chaingunner", 35 * 30);
+		}
+	}
+
+	override void onOpen()
+	{
+		applyeffect();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		applyeffect();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.unmorph(mo, 0, true);
+		}
+	}
+}
+
+Class GZC_ElementOfPain : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Element Of Pain";
+		GZC_Effect.duration 35 * 30;
+	}
+	
+	void iterate()
+	{
+	
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo is 'GZC_PainElemental') continue;
+			if (mo.health <= 0) continue;
+			
+			mo.A_Morph("GZC_PainElemental", 35 * 30);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.unmorph(mo, 0, true);
+		}
+	}
+}
+
+Class GZC_MegaHurts : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "200 Mega Hurts";
+		GZC_Effect.duration 35 * 30;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo is 'GZC_Archvile') continue;
+			if (mo.health <= 0) continue;
+			
+			mo.A_Morph("GZC_Archvile", 35 * 30);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.unmorph(mo, 0, true);
+		}
+	}
+}
+
+Class GZC_DiminifiedDamage : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Diminified Damage";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldThingDamaged(WorldEvent _event)
+	{
+		let def = getDefaultByType(_event.thing.getClass());
+		
+		double ratio = double(_event.thing.health) / double(def.health);
+		
+		_event.thing.A_SetSize(def.height * ratio, def.radius * ratio);
+		_event.thing.scale.x = def.scale.x * ratio;
+		_event.thing.scale.y = def.scale.y * ratio;
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+		}
+	}
+}
+
+Class GZC_EmbiggeningDamage : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Embiggening Damage";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldThingDamaged(WorldEvent _event)
+	{
+		let def = getDefaultByType(_event.thing.getClass());
+		
+		double ratio = 1 + (1 - (double(_event.thing.health) / double(def.health)));
+		
+		_event.thing.A_SetSize(def.height * ratio, def.radius * ratio);
+		_event.thing.scale.x = def.scale.x * ratio;
+		_event.thing.scale.y = def.scale.y * ratio;
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale.x = def.scale.x;
+			mo.scale.y = def.scale.y;
+		}
+	}
+}
+
+Class GZC_Mitosis : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Mitosis";
+		GZC_Effect.duration 35;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		Array<Actor> list;
+		list.clear();
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			list.push(mo);
+		}
+		
+		foreach (mo : list)
+		{
+			Name mon = mo.getClassName();
+			int angle = random(0, 360);
+			
+			let mobj_a = Actor.spawn(mon, mo.pos);
+			mobj_a.angle = mo.angle;
+			mobj_a.health = int(mo.health / 2);
+			mobj_a.Thrust(5, 180);
+			mobj_a.bThruActors = true;
+			list.push(mobj_a);
+			
+			let mobj_b = Actor.spawn(mon, mo.pos);
+			mobj_b.angle = mo.angle;
+			mobj_b.health = int(mo.health / 2);
+			mobj_b.Thrust(-5, 180);
+			mobj_b.bThruActors = true;
+			list.push(mobj_b);
+			
+			mo.A_DamageSelf(0x7FFFFFFF);
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bThruActors = def.bThruActors;
+		}
+	}
+}
+
+Class GZC_RubberEnemies : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Projectiles bounce off enemies";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			applyeffect(mo);
+		}
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		_mo.bReflective = true;
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			let def = getDefaultByType(mo.getClass());
+			mo.bReflective = def.bReflective;
+		}
+	}
+}
+
+Class GZC_UnfriendlyFire : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "(un)Friendly Fire";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.bDoHarmSpecies = true;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			applyeffect(mo);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bDoHarmSpecies = def.bDoHarmSpecies;
+		}
+	}
+}
+
+Class GZC_NoSplashDamage : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Ineffective Splash Damage";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	void applyeffect(Actor mo)
+	{
+		mo.bNoRadiusDMG = true;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bNoRadiusDMG = def.bNoRadiusDMG;
+		}
+	}
+}
+
+Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
+{
+	default
+	{
+		GZC_Effect.title "??? Speed Monsters";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		let def = getDefaultByType(_mo.getClass());
+		_mo.speed = random(int(-def.speed * 2), int(def.speed * 2));
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+		
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed;
+		}
+	}
+}
+
+Class GZC_NegativeEnemySpeed : GZC_EnemySpeedEffect
+{
+	default
+	{
+		GZC_Effect.title "-1x Speed Monsters";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		let def = getDefaultByType(_mo.getClass());
+		_mo.speed = def.speed * -1;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+		
+			let def = getDefaultByType(mo.getClass());
+			mo.speed = def.speed;
+		}
+	}
+}
+
+Class GZC_HalfEnemySpeed : GZC_EnemySpeedEffect
+{
+	default
+	{
+		GZC_Effect.title "1/2 Speed Monsters";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		let def = getDefaultByType(_mo.getClass());
+		_mo.speed = def.speed * 0.5;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+}
+
+Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
+{
+	default
+	{
+		GZC_Effect.title "2x Speed Monsters";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		let def = getDefaultByType(_mo.getClass());
+		_mo.speed = def.speed * 2;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+}
+
+Class GZC_AAAAAHHHHH : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "AAAAAHHHHH";
+		GZC_Effect.duration 35 * 5;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		let player = players[consoleplayer].mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			if (mo is 'GZC_KamikaziGuy') continue;
+			
+			morphActor(mo, 'GZC_KamikaziGuy');
+			
+			mo.target = player;
+			mo.A_FaceTarget();
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_KamikaziGuy");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.unmorph(mo, 0, true);
+		}
+	}
+}
+
+Class GZC_BarrelsOFun : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Barrels o' fun";
+		GZC_Effect.duration 35 * 10;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			if (mo is 'GZC_ExplosiveBarrel') continue;
+			mo.A_Morph('GZC_ExplosiveBarrel', duration);
+		}
+	}
+}
+
+Class GZC_OneTicMonsters : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "SV_Fastmonsters 1";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			if (mo.tics > 1) mo.tics = 1;
+		}
+	}
+}
+
+Class GZC_FastMonsters : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Nightmare Monsters";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.bAlwaysFast = true;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.bAlwaysFast = def.bAlwaysFast;
+		}
+	}
+
+	override bool verify()
+	{
+		bool fastmode = !!G_SkillPropertyInt(SKILLP_FastMonsters);
+		if (!fastmode) return false;
+		
+		return super.verify();
+	}
+}
+
+Class GZC_NotTheBees : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Not the bees!";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		if (!_event.thing.bIsMonster) return;
+		
+		int amount = random(5, 15);
+		
+		for (int i = 0; i < amount; ++i)
+		{
+			let thebee = _event.thing.A_DropItem("Bee");
+			thebee.bNoGravity = true;
+			thebee.bFloat = true;
+			
+			int rng = random(1, 360);
+			thebee.vel.x = cos(rng) * 5;
+			thebee.vel.y = sin(rng) * 5;
+			
+		}
+	}
+}
+
+Class GZC_ShuffleMonsters : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Shuffle Monsters";
+		GZC_Effect.duration 35 * 5;
+	}
+
+	Array<Actor> monsters;
+	
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		player.bNoTarget = true;
+		
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		monsters.clear();
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.target = null;
+			monsters.push(mo);
+		}
+		
+		for (int i = 0; i < monsters.size(); ++i)
+		{
+			int index_a = -1;
+			int index_b = -1;
+		
+			while (index_a == index_b)
+			{
+				index_a = random(0, monsters.size() - 1);
+				index_b = random(0, monsters.size() - 1);
+			}
+			
+			vector3 pos_a = monsters[index_a].pos;
+			vector3 pos_b = monsters[index_b].pos;
+			
+			monsters[index_a].setOrigin(pos_b, false);
+			monsters[index_b].setOrigin(pos_a, false);
+		}
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		player.bNoTarget = false;
+	}
+}
+
+Class GZC_NoMoreInfighting : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable infighting";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.bNoInFighting = true;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.bNoInFighting = def.bNoInFighting;
+		}
+	}
+}
+
+Class GZC_ExplosionOnDeath : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Explosive Deaths";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		if (!_event.thing.bIsMonster) return;
+		
+		let pos = _event.thing.pos;
+		pos.z += (_event.thing.height / 2);
+		let kaboomie = Actor.spawn('Kablooie', pos);
+		kaboomie.target = _event.thing;
+	}
+}
+
+Class Kablooie : Actor
+{
+	default
+	{
+		-RocketTrail;
+		+NoGravity;
+		+OldRadiusDmg;
+		+Missile;
+	}
+
+	States
+	{
+		Spawn:
+			MISL B 4 Bright;
+			MISL B 4 Bright
+			{
+				if (target) target.A_Explode();
+			}
+			MISL C 6 Bright;
+			MISL D 4 Bright;
+			stop;
+	}
+}
+
+Class GZC_RussianDollEnemies : GZC_Effect
+{
+	double scalefactor;
+	
+	default
+	{
+		GZC_Effect.title "Matryoshka";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onOpen()
+	{
+		scalefactor = 0.75;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		if (!_event.thing.bIsMonster) return;
+		if (_event.thing.scale.x <= 0.4) return;
+		if (_event.thing.target is 'PlayerPawn')
+		{
+			let doll = _event.thing.A_DropItem(_event.thing.getClass());
+			doll.scale.x = _event.thing.scale.x * scalefactor;
+			doll.scale.y = _event.thing.scale.y * scalefactor;
+			let def = getDefaultByType(_event.thing.getClass());
+			doll.Health = int(double(def.health) * min(doll.scale.x, 1));
+			doll.target = _event.thing.target;
+			doll.angle = _event.thing.angle;
+		}
+	}
+}
+
+Class GZC_AggressiveMissileMore : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Aggressive Enemies";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		_mo.bMissileMore = true;
+		_mo.bMissileEvenMore = true;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldthingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = GetDefaultByType(mo.getClass());
+			
+			mo.bMissileMore = def.bMissileMore;
+			mo.bMissileEvenMore = def.bMissileEvenMore;
+		}
+	}
+}
+
+Class GZC_YouveBeenStruck : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Cyberfuck";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		
+		FLineTraceData shot;
+		player.LineTrace(player.angle, 512, 0, 0, 0, 0, 0, shot);
+		
+		let cybie = Actor.spawn("GZC_Cyberfuck", shot.hitlocation);
+		cybie.target = player;
+		cybie.A_FaceTarget();
+	}
+}
+
+Class GZC_BetaSkulls : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Beta Lost Souls";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override bool verify()
+	{
+		ThinkerIterator it = ThinkerIterator.create("LostSoul");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			if (mo.getClassName() == 'LostSoul') return super.verify();
+		}
+		
+		return false;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			morphActor(mo, 'GZC_BetaSkull');
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.getClassName() != 'LostSoul') return;
+		morphActor(_event.thing, 'GZC_BetaSkull');
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is 'GZC_BetaSkull') mo.unmorph(mo, 0, true);
+		}
+	}
+}
+
+Class GZC_FullPainChances : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Enemies always flinch";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		_mo.painChance = 256;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.painChance = def.painChance;
+		}
+	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (player.findInventory('GZC_ZeroPainChances')) return false;
+		
+		return super.verify();
+	}
+}
+
+Class GZC_ZeroPainChances : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Enemies never flinch";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.painChance = 0;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = getDefaultByType(mo.getClass());
+				mo.painChance = def.painChance;
+			}
+		}
+	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (player.findInventory('GZC_FullPainChances')) return false;
+		
+		return super.verify();
+	}
+}
+
+Class GZC_InverseFlyingRules : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Inverted flying rules";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		let def = getDefaultByType(_mo.getClass());
+		_mo.bFloat = !def.bFloat;
+		_mo.bNoGravity = !def.bNoGravity;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = getDefaultByType(mo.getClass());
+				mo.bFloat = def.bFloat;
+				mo.bNoGravity = def.bNoGravity;
+			}
+		}
+	}
+}
+
+Class GZC_AllMonstersWakeUp : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "All monsters wake up";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		let player = players[consoleplayer].mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.target = player;
+				mo.lastheard = player;
+				mo.bAmbush = false;
+				mo.A_damageSelf(0);
+			}
+		}
+	}
+}
+
+Class GZC_ArachnotronGrowthSpurt : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Arachnotron Growth Spurt";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.type GZC_Instant;
+	}
+	
+	override bool verify()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Arachnotron');
+		Actor spider;
+		while (spider = Actor(it.next()))
+		{
+			return super.verify();
+		}
+		
+		return false;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo is "Arachnotron" && mo.health > 0)
+			{
+				let momma = Actor.spawn("SpiderMastermind", mo.pos);
+				momma.health = mo.health;
+				momma.bMap07Boss2 = true;
+				mo.destroy();
+			}
+		}
+	}
+}
+
+
+Class GZC_FrictionlessEnemies : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Enemies have no friction";
+		GZC_Effect.duration (35 * 60 * 2) + (35 * 30);
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		_mo.bNoFriction = true;
+		_mo.bPushable = true;
+		_mo.bSlidesOnWalls = true;
+		_mo.pushFactor = 0.9;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+		
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.Next ()))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = GetDefaultByType(mo.getClass());
+			
+				mo.bNoFriction = def.bNoFriction;
+				mo.bPushable = def.bPushable;
+				mo.bSlidesOnWalls = def.bSlidesOnWalls;
+				mo.pushFactor = def.pushFactor;
+			}
+		}
+	}
+}
+
+Class GZC_AnkleBiterEnemies : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Ankle Biters";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		_mo.scale.x /= 3;
+		_mo.scale.y /= 3;
+		_mo.A_SetSize(_mo.height / 3, _mo.radius / 3, false);
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose() 
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = GetDefaultByType(mo.getClass());
+			
+				mo.scale.x = def.scale.x;
+				mo.scale.y = def.scale.y;
+				mo.A_SetSize(def.radius, def.height, false);
+			}
+		}
+	}
+}
+
+Class GZC_StatueEnemies : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Statue enemies";
+		GZC_Effect.duration 35 * 30;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.Next ()))
+		{
+			if (mo.bIsMonster)
+			{
+				mo.bPushable = true;
+				mo.bShootable = false;
+				mo.pushFactor = 0.9;
+				mo.tics = -1;
+			}
+		}
+		
+		let player = players[consoleplayer];
+		player.mo.bNoTarget = true;
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = GetDefaultByType(mo.getClass());
+				
+				mo.bPushable = def.bPushable;
+				mo.bShootable = def.bShootable;
+				mo.pushFactor = def.pushFactor;
+				mo.tics = 1;
+			}
+		}
+		
+		let player = players[consoleplayer];
+		player.mo.bNoTarget = false;
+	}
+}
+
+Class GZC_StealthMonsters : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Stealth Monsters";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	void applyeffect(Actor _mo)
+	{
+		_mo.bStealth = true;
+	}
+
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.Next ()))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			let def = GetDefaultByType(mo.getClass());
+		
+			if (!def.bStealth)
+			{
+				mo.bStealth = def.bStealth;
+				mo.A_SetRenderStyle(def.Alpha, mo.getRenderStyle());
+			}
+		}
+	}
+}
+
+Class GZC_NightmareRespawns : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Respawning monsters";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override bool verify()
+	{
+		if (G_SkillPropertyInt(SKILLP_ACSReturn) == 4) return false;
+		
+		return Super.verify();
+	}
+	
+	void applyeffect(Actor _mo)
+	{
+		_mo.bAlwaysRespawn = true;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while ((mo = Actor(it.Next ())))
+		{
+			if (mo.bIsMonster) applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		iterate();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyeffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+	
+		while (mo = Actor(it.Next ()))
+		{
+			if (mo.bIsMonster)
+			{
+				let def = GetDefaultByType(mo.getClass());
+			
+				mo.bAlwaysRespawn = def.bAlwaysRespawn;
+			}
+		}
+	}
+}
+
+Class GZC_SpawnGreatGodImp : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "The Great God Imp";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	Array<DoomImp> imps;
+	
+	override bool verify()
+	{
+		ThinkerIterator it = ThinkerIterator.create("DoomImp");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			if (mo.getClassName() == 'DoomImp') return super.verify();
+		}
+		
+		return false;
+	}
+
+	override void onOpen()
+	{
+		imps.clear();
+	
+		ThinkerIterator it = ThinkerIterator.create("DoomImp");
+		Actor mo;
+		
+		while (mo = DoomImp(it.next())) imps.push(DoomImp(mo));
+		
+		if (imps.Size() == 0) return;
+		
+		int rng = random(0, imps.Size() - 1);
+		imps[rng].A_Morph('GZC_GreatGodImp', int(duration - life));
+	}
+}

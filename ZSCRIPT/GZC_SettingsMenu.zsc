@@ -1,0 +1,79 @@
+Class OptionMenuGZChaosSettings: OptionMenu
+{
+	Override void Init(Menu _parent, OptionMenuDescriptor _desc)
+	{
+		if (_desc.mItems.size() == 0)
+		{
+			foreach (effect : GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).effects)
+			{
+				let def = GZC_Effect(getDefaultByType(effect));
+		
+				if (def.ignore) continue;
+		
+				GZC_EffectOptionItemMenu item = GZC_EffectOptionItemMenu(new('GZC_EffectOptionItemMenu'));
+				item.create(def.getClassName(), def.title, '');
+				_desc.mItems.push(item);
+			}
+		}
+		
+		Super.Init(_parent, _desc);
+	}
+}
+
+class GZC_EffectOptionItemMenu : OptionMenuItemOption
+{
+	bool enabled;
+	
+	string classname;
+	string setting;
+
+	void create(String _classname, String _setting, Name _values)
+	{
+		init(_setting, '', '');
+		
+		classname = _classname;
+		setting = _setting;
+		
+		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).effectProperties;
+		let onoff = properties.at(_classname .. '_' .. _setting);
+		
+		enabled = (onoff == "false" ? false : true);
+	}
+	
+	override bool MenuEvent (int mkey, bool fromcontroller)
+	{
+		if (mkey == Menu.MKEY_Left || mkey == Menu.MKEY_Right || mkey == Menu.MKEY_Enter)
+		{
+			Menu.MenuSound("menu/change");
+			enabled = !enabled;
+			saveProperties();
+		}
+		
+		return Super.MenuEvent(mkey, fromcontroller);
+	}
+	
+	override int Draw(OptionMenuDescriptor desc, int y, int indent, bool selected)
+	{
+		if (mCenter)
+		{
+			indent = (screen.GetWidth() / 2);
+		}
+		drawLabel(indent, y, selected? OptionMenuSettings.mFontColorSelection : OptionMenuSettings.mFontColor, isGrayed());
+
+		int Selection = GetSelection();
+		String text = enabled ? "On" : "Off";
+		drawValue(indent, y, OptionMenuSettings.mFontColorValue, text, isGrayed());
+		return indent;
+	}
+	
+	void saveProperties()
+	{
+		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).effectProperties;
+		let onoff = enabled ? "true" : "false";
+		
+		properties.insert(classname .. '_' .. setting, onoff);
+		
+		let cvarsave = Cvar.getCvar("GZC_EffectProperties");
+		cvarsave.SetString(properties.toString());
+	}
+}

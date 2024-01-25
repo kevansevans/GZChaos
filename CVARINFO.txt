@@ -1,21 +1,26 @@
-server noarchive bool gzc_debug = false;
 server noarchive bool gzc_pausemaintimer = false;
 server noarchive bool gzc_pauseeffecttimer = false;
-server noarchive string gzc_addeffect = "";
 
-user string GZC_TimerBarClassName = "GZC_TimerBar_Green";
-user int GZC_TimerBarHeight = 15;
-user float GZC_EffectScaleAmount = 10;
-user float GZC_EffectWidthScale = 1.0;
+server bool GZC_UseSeed = false;
+server string GZC_UserSeedValue = "dingle";
+server bool GZC_UseRandomSeed = false;
+server string GZC_EffectProperties = "";
+server noarchive int GZC_ActiveSeed = -1;
+server noarchive int GZC_SystemTime = -1;
 server int GZC_TimerDuration = 30;
 server float GZC_MaxEffectDuration = 0.0;
-server int GZC_MinTimeFlux = 3;
-server int GZC_MaxTimeFlux = 3;
 server int GZC_MemoryBuffer = 50;
 server int GZC_MaxEffects = 0;
 
-server bool GZC_UseSeed = false;
-server bool GZC_UseRandomSeed = false;
-server string GZC_SeedValue = "LetTheChaosBegin";
-user bool GZC_ShowSeedAtStart = true;
+user int GZC_TimerBarHeight = 15;
+user float GZC_EffectScaleAmount = 10;
+user float GZC_EffectWidthScale = 1.0;
+user string GZC_TimerBarClassName = "GZC_TimerBar_Green";
 user bool GZC_HideEverything = false;
+
+server noarchive string gzc_addeffect = "";
+server string GZC_LastRolledEffect = "none";
+
+server noarchive bool GZC_PureWeapons = true;
+server noarchive bool GZC_PurePlayer = true;
+server noarchive bool GZC_PureActors = true;

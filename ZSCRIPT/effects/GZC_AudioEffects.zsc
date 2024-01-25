@@ -1,0 +1,306 @@
+Class GZC_DigDugWalking : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "DIG DUG";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onOpen()
+	{
+		let player = players[consoleplayer];
+		player.mo.S_ChangeMusic('DIGDUG');
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		let player = players[consoleplayer];
+		player.mo.S_ChangeMusic('DIGDUG');
+	}
+	
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer];
+		if (!(player.cmd.buttons & (BT_Forward | BT_Back | BT_Left | BT_Right | BT_MoveLeft | BT_MoveRight)))
+		{
+			S_PauseSound(false, true);
+		}
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer];
+		player.mo.S_ChangeMusic(Level.music);
+	}
+}
+
+Class GZC_RandomActorSoundPitch : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Smack my pitch up";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	double randomvalue;
+	
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			for (int i = 0; i < 8; ++i)
+			{
+				mo.A_SoundPitch(i, randomvalue);
+			}
+		}
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		randomvalue = frandom(0.25, 2);
+	}
+}
+
+Class GZC_TheEddsAreComing : GZC_Effect //More like GZC_Eddffect, hue hue hue
+{
+	default
+	{
+		GZC_Effect.title "The Edds Are Coming!";
+		GZC_Effect.duration 35 * 60 * 5;
+	}
+
+	override void onOpen()
+	{
+		startReassignment();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsmonster) return;
+		reassignDeathSound(_event.thing);
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		startReassignment();
+	}
+	
+	void startReassignment()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			reassignDeathSound(mo);
+		}
+	}
+	
+	void reassignDeathSound(Actor _mo)
+	{
+		_mo.DeathSound = "EEnE/kill";
+		_mo.bFullVolDeath = true;
+	}
+	
+	override void onWorldLinePreActivated(WorldEvent _event)
+	{
+		let player = players[consoleplayer].mo;
+		player.A_StartSound("EEnE/Line", CHAN_AUTO);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			
+			let def = getDefaultByType(mo.getClass());
+			mo.DeathSound = def.DeathSound;
+			mo.bFullVolDeath = def.bFullVolDeath;
+		}
+	}
+}
+
+Class GZC_QuipItGood : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Quip it Good";
+		GZC_Effect.duration 35 * 60 * 5;
+	}
+
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		if (!_event.thing.bIsMonster) return;
+		
+		let player = players[consoleplayer].mo;
+		player.A_StartSound("Quip/Quip", CHAN_AUTO);
+	}
+}
+
+Class GZC_WhipCrack : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Johnny Test";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	bool spawned;
+	bool whip;
+	
+	int buttons;
+	
+	override void onWorldTick()
+	{
+		if (whip)
+		{
+			WhipCrack();
+			whip = false;
+		}
+	
+		if (!spawned)
+		{
+			spawned = true;
+			whip = true;
+		}
+		
+		let player = players[consoleplayer];
+		if (self.buttons != player.buttons)
+		{
+			whip = true;
+			self.buttons = player.buttons;
+		}
+	}
+	
+	override void onClose()
+	{
+		whip = true;
+	}
+
+	override void onWorldLinePreActivated(WorldEvent event)
+	{
+		whip = true;
+	}
+
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		whipCrack();
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bIsMonster) return;
+		whip = true;
+	}
+	
+	void WhipCrack()
+	{
+		let player = players[consoleplayer].mo;
+		player.A_StartSound("Whip/Crack", CHAN_AUTO);
+	}
+}
+
+Class GZC_SetMusicToCursedMidi : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Cursed music";
+		GZC_Effect.duration 35 * 30 * 5;
+	}
+	
+	int rng;
+
+	override void onOpen()
+	{
+		rng = random(0, E_NumSongs - 1);
+		applymusic();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		applymusic();
+	}
+	
+	void applymusic()
+	{
+		let player = players[consoleplayer].mo;
+	
+		switch (rng)
+		{
+			case E_RUNNNN:
+				player.S_ChangeMusic('D_RUNNNN');
+				title = "D_RUNNNN";
+				break;
+			case E_DURGEN:
+				player.S_ChangeMusic('DRGNFRCE');
+				title = "TRO DA FER AN DA FWAMES";
+				break;
+			case E_MEGALO:
+				player.S_ChangeMusic('MEGALODOOMIA');
+				title = "Megalodoomia";
+				break;
+			case E_VENFLOW:
+				player.S_ChangeMusic('EVENFLOW');
+				title = "Evenflow (Pearl Jam)";
+				break;
+			case E_SKRILLEX:
+				player.S_ChangeMusic('SKRILLEX');
+				title = "Scary Monsters and Nice Sprites (Skrillex)";
+				break;
+		}
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		player.S_ChangeMusic(level.music);
+	}
+}
+
+enum E_Music
+{
+	E_RUNNNN,
+	E_DURGEN,
+	E_MEGALO,
+	E_VENFLOW,
+	E_SKRILLEX,
+	E_NumSongs
+}
+
+Class GZC_FakeNotification : GZC_Effect
+{
+	bool set;
+	int ticcount;
+	int interval;
+	
+	Default
+	{
+		GZC_Effect.title "Nothing.";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.type GZC_Instant;
+	}
+	
+	override void onWorldTick()
+	{
+		if (!set)
+		{
+			ticcount = gametic;
+			interval = random(5, 10);
+			set = true;
+		}
+		if (gametic - ticcount == 35 * interval)
+		{
+			let player = players[consoleplayer].mo;
+			player.A_StartSound("disc/ord", CHAN_AUTO, 0, 1, ATTN_NONE);
+			title = "Nothing?";
+		}
+	}
+}

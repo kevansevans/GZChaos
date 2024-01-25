@@ -1,0 +1,557 @@
+Class GZC_TimerBarBase
+{
+	bool isTexture;
+
+	Array<Color> colors;
+	
+	double ratio;
+	double scaleuv;
+	double yOffset;
+	
+	TextureID texture;
+
+	virtual ui void drawBar(double _time, double _limit)
+	{
+		Screen.DrawText(SMALLFONT, Font.CR_WHITE, 0, 0, 'Undefined bar present! ' .. self.getClassName());
+	}
+	
+	virtual void initBar()
+	{}
+	
+	ui Shape2D getBar(Double _ratio, Double _min, Double _max, Double _scaleuv = 1.0)
+	{
+		let square = new("Shape2D");
+		
+		double x = min(_ratio, _max);
+		double uvx = (160.0 * _scaleuv);
+
+		square.PushVertex((_min, 0));
+		square.PushVertex((_min, 1));
+		square.PushVertex((x, 0));
+		square.PushVertex((x, 1));
+		
+		square.PushCoord((0, 0 + yOffset));
+		square.PushCoord((0, _scaleuv + yOffset));
+		square.PushCoord((_ratio * uvx, 0 + yOffset));
+		square.PushCoord((_ratio * uvx, _scaleuv + yOffset));
+
+		square.PushTriangle(0, 1, 2);
+		square.PushTriangle(1, 2, 3);
+
+		let transformation = new("Shape2DTransform");
+
+		transformation.Scale((Screen.getWidth(), Cvar.getCvar("GZC_TimerBarHeight", players[consoleplayer]).getInt()));
+		transformation.Translate((0, 0));
+
+		square.SetTransform(transformation);
+
+		return square;
+	}
+}
+
+Class GZC_TimerBar : GZC_TimerBarBase
+{
+	string timername;
+
+	override void InitBar()
+	{
+		Super.InitBar();
+	}
+	
+	override void drawBar(double _time, double _limit)
+	{
+		if (Cvar.getCvar("GZC_HideEverything", players[consoleplayer]).getBool()) return;
+	
+		if (_time == 0 || _limit == 0) return;
+	
+		if (isTexture)
+		{
+			drawTexture(_time, _limit);
+			return;
+		}
+		
+		drawColors(_time, _limit);
+	}
+	
+	ui void drawColors(double _time, double _limit)
+	{
+		ratio = _time / _limit;
+		double width = ratio * Screen.getWidth();
+		
+		int slices = colors.size();
+		double frac = 1 / double(colors.size());
+		int fill = int(slices * ratio) + 1;
+		
+		for (int i = 0; i < fill; ++i)
+		{
+			if (i >= colors.size()) break; // weird null fix
+			Screen.drawShapeFill(colors[i], 1.0, getBar(ratio, double(i) * frac, double(i + 1) * frac));
+		}
+	}
+	
+	ui void drawTexture(double _time, double _limit)
+	{
+		ratio = _time / _limit;
+		double width = ratio * Screen.getWidth();
+		
+		int slices = colors.size();
+		double frac = 1 / double(colors.size());
+		int fill = int(slices * ratio) + 1;
+		
+		int tWidth, tHeight = TexMan.GetSize(texture);
+		
+		Screen.drawShape(texture, true, getBar(ratio, 0.0, 1.0, scaleuv));
+	}
+}
+
+/*
+	Notice! Due to weird GZDoom fuckery, Screen.DrawShapeFill expects colors
+	in BGR format, not RGB. This means if you want "Red", you must push the
+	color value Color("0000FF"). This has been brought up to the GZDoom devs,
+	and at the time of this comment, no fix is planned.
+	
+	Again, it's #BBGGRR, not #RRGGBB
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Solid color
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Class GZC_TimerBar_Green : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("00FF00"));
+		
+		timername = "Green";
+	}
+}
+
+Class GZC_TimerBar_Red : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("0000FF"));
+		
+		timername = "Red";
+	}
+}
+
+Class GZC_TimerBar_Blue : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FF0000"));
+		
+		timername = "Blue";
+	}
+}
+
+Class GZC_TimerBar_Yellow : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("00FFFF"));
+		
+		timername = "Yellow";
+	}
+}
+
+Class GZC_TimerBar_Cyan : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FFFF00"));
+		
+		timername = "Cyan";
+	}
+}
+
+Class GZC_TimerBar_Magenta : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FF00FF"));
+		
+		timername = "Magenta";
+	}
+}
+
+Class GZC_TimerBar_Purple : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("800080"));
+		
+		timername = "Purple";
+	}
+}
+
+Class GZC_TimerBar_Pink : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("CBC0FF"));
+		
+		timername = "Pink";
+	}
+}
+
+Class GZC_TimerBar_White : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FFFFFF"));
+		
+		timername = "White";
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Pride Flags
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Class GZC_TimerBar_LGBT : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("0000E5"));
+		colors.push(Color("008DFF"));
+		colors.push(Color("00EEFF"));
+		colors.push(Color("218100"));
+		colors.push(Color("FF4C00"));
+		colors.push(Color("880176"));
+		
+		timername = "LGBT+ Pride";
+	}
+}
+
+Class GZC_TimerBar_Lesbian : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("251DE6"));
+		colors.push(Color("226FF4"));
+		colors.push(Color("4E92F7"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("4E92F7"));
+		colors.push(Color("226FF4"));
+		colors.push(Color("251DE6"));
+		
+		timername = "Lesbian Pride";
+	}
+}
+
+Class GZC_TimerBar_Gay : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("FFBE7A"));
+		colors.push(Color("FFEC9C"));
+		colors.push(Color("FEE4C6"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("FEE4C6"));
+		colors.push(Color("FFEC9C"));
+		colors.push(Color("FFBE7A"));
+		
+		timername = "Gay Pride";
+	}
+}
+
+Class GZC_TimerBar_Bisexual : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("7002D6"));
+		colors.push(Color("974F9B"));
+		colors.push(Color("A73800"));
+		
+		timername = "Bisexual Pride";
+	}
+}
+
+Class GZC_TimerBar_Pansexual : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("8C21FF"));
+		colors.push(Color("00D8FF"));
+		colors.push(Color("FEB121"));
+		
+		timername = "Pansexual Pride";
+	}
+}
+
+Class GZC_TimerBar_Asexual : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("070707"));
+		colors.push(Color("A2A2A2"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("7F287E"));
+		
+		timername = "Asexual Pride";
+	}
+}
+
+Class GZC_TimerBar_Trans : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("F9CF5B"));
+		colors.push(Color("B8A8F5"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("B8A8F5"));
+		colors.push(Color("F9CF5B"));
+		
+		timername = "Trans Pride";
+	}
+}
+
+Class GZC_TimerBar_Nonbinary : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		colors.clear();
+		
+		colors.push(Color("36F4FD"));
+		colors.push(Color("FFFFFF"));
+		colors.push(Color("D2599D"));
+		colors.push(Color("2C2C2C"));
+		
+		timername = "Nonbinary Pride";
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Textures
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Class GZC_TimerBar_Fireblu : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("FIREBLU1");
+		
+		timername = "Fireblu";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_Water : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("FWATER1");
+		
+		timername = "Water";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_Nukage : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("NUKAGE1");
+		
+		timername = "Nukage";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_Blood : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("Blood1");
+		
+		timername = "Boiling Blood";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_Lava : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("LAVA1");
+		
+		timername = "Lava";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_Marble : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("Marble1");
+		
+		timername = "Marble";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_SkullMarble : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("Marble2");
+		
+		timername = "Skull Marble";
+		
+		scaleuv = 1.0 / 8.0;
+	}
+}
+
+Class GZC_TimerBar_WallOfFaces : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("SP_FACE1");
+		
+		timername = "Wall Of Faces";
+		
+		scaleuv = 1.0 / 8.0;
+		
+		yOffset = 0.15;
+	}
+}
+
+Class GZC_TimerBar_GZMissing : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("-noflat-");
+		
+		timername = "GZDoom Missing Texture";
+		
+		scaleuv = 1.0;
+	}
+}
+
+Class GZC_TimerBar_SourceMissing : GZC_TimerBar
+{
+	override void InitBar()
+	{
+		Super.InitBar();
+		
+		isTexture = true;
+		
+		texture = TexMan.CheckForTexture("MISSING");
+		
+		timername = "Source Engine Missing Texture";
+		
+		scaleuv = 1.0;
+	}
+}

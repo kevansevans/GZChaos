@@ -1,46 +1,21 @@
 AddOptionMenu "OptionsMenu"
 {
-	Submenu "GZChaos Options", "GZCMenu"
+	Submenu "GZChaos: Main Options", "GZCMenuMain"
+	Submenu "GZChaos: Toggle Effects", "GZCMenuEffects"
 }
 
-LISTMENU "MainMenu"
+OptionMenu "GZCMenuEffects"
 {
-	IfGame(Doom, Chex)
-	{
-		StaticPatch 94, 2, "M_DOOM"
-		Position 97, 72
-		IfOption(ReadThis)
-		{
-			Position 97, 64
-		}
-	}
-
-	IfGame(Doom, Strife, Chex)
-	{
-		PatchItem "M_NGAME", "n", "PlayerclassMenu"
-		ifOption(SwapMenu)
-		{
-			PatchItem "M_LOADG", "l", "LoadGameMenu"
-			PatchItem "M_SAVEG", "s", "SaveGameMenu"
-			PatchItem "M_OPTION","o", "OptionsMenu"
-			TextItem "GZChaos Options","g", "GZCMenu"
-		}
-		else
-		{
-			PatchItem "M_OPTION","o", "OptionsMenu"
-			TextItem "GZChaos Options","g", "GZCMenu"
-			PatchItem "M_LOADG", "l", "LoadGameMenu"
-			PatchItem "M_SAVEG", "s", "SaveGameMenu"
-		}
-		ifOption(ReadThis)
-		{
-			PatchItem "M_RDTHIS","r", "ReadThisMenu"
-		}
-		PatchItem "M_QUITG", "q", "QuitMenu"
-	}
+	Class "OptionMenuGZChaosSettings"
 }
 
-OptionMenu "GZCMenu"
+OptionValue "EnabledEffect"
+{
+    0, "Yes"
+	1, "No"
+}
+
+OptionMenu "GZCMenuMain"
 {
 	Class "OptionMenuGZChaosMenu"
 	
@@ -54,19 +29,16 @@ OptionMenu "GZCMenu"
 	
 	StaticText " "
 	StaticText "Gameplay settings"
-	Slider "Roll effect frequency (Seconds)", "GZC_TimerDuration", 20, 90, 5, 0
+	Slider "Effect frequency (Seconds)", "GZC_TimerDuration", 20, 180, 5, 0
 	ScaleSlider "Max rolled effects", "GZC_MaxEffects", 0, 15, 1, "Infinite"
 	ScaleSlider "Max effect duration (minutes)", "GZC_MaxEffectDuration", 0, 5, 1, "Default"
 	Slider "Repeat effect buffer", "GZC_MemoryBuffer", 0, 100, 1, 0
-	StaticText "Randomly add or subtract effect duration (Seconds). Adds a smidge of unpredictability."
-	Slider "Decrease duration", "GZC_MinTimeFlux", 0, 30, 1, 0
-	Slider "Increase duration", "GZC_MaxTimeFlux", 0, 30, 1, 0
 	
 	StaticText " "
 	StaticText "Seed options" 
 	StaticText "(requires new game to take effect)"
 	Option "Use seed for RNG", "GZC_UseSeed", "YesNo"
 	Option "Use Random Seed", "GZC_UseRandomSeed", "NoYes", "GZC_UseSeed"
-	TextField "Seed", "GZC_SeedValue", "GZC_UseSeed"
+	TextField "Seed", "GZC_SeedValue", "GZC_UserSeedValue"
 	Option "Show seed on new game", "GZC_ShowSeedAtStart", "YesNo", "GZC_UseSeed"
 }

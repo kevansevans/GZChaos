@@ -1,0 +1,391 @@
+class GZC_EventHandler : StaticEventHandler
+{
+	Dictionary EffectProperties;
+	Array<Class<GZC_Effect> > effects;
+	Array<String> classnames;
+	
+	GZC_GameTracker tracker;
+	
+	override void OnRegister()
+	{
+		console.printf("Let's make some noise");
+	
+		effects.clear();
+		classnames.clear();
+		
+		foreach (classtype : AllActorClasses)
+		{
+			if (!(classtype is "GZC_Effect")) continue;
+			
+			string classname = classtype.getClassName();
+			if (classname == "GZC_Effect") continue;
+			
+			class<GZC_Effect> effect = classname;
+			let def = getDefaultByType(effect);
+			
+			if (def.ignore) continue;
+			
+			effects.push(effect);
+			classnames.push(classname.makeUpper());
+		}
+		
+		console.printf(classnames.size() .. " Effects registered");
+		
+		//Active seed will launch with -1 if this isn't first set
+		let cvarseed = Cvar.getCvar('GZC_ActiveSeed');
+		int rng = int(frandom(0, 1) * 0x7FFFFFFF);
+		cvarseed.setInt(rng);
+		
+		EffectProperties = Dictionary.fromString(Cvar.getCvar("GZC_EffectProperties").getString());
+	}
+
+	override void NewGame()
+	{
+		GZC_ShaderEffect.DisableShaders();
+		
+		let debug = Cvar.getCvar('GZC_LastRolledEffect');
+		debug.setString("none");
+		
+		updateSeed();
+	}
+	
+	override void WorldTick()
+	{
+		tracker.timelimit = 35 * Cvar.getCvar('GZC_TimerDuration').getInt();
+	
+		switch (gamestate)
+		{
+			case GS_TitleLevel:
+			default:
+				return;
+			case GS_Level:
+			
+				let player = players[consoleplayer].mo;
+				if (player.health <= 0) return;
+			
+				processConsole();
+				tickEvents();
+				advanceMainTimer();
+				advanceEffectTimers();
+				clearDeadEffects();
+				
+				break;
+		}
+	}
+	
+	override void WorldThingDied(WorldEvent _event)
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.life > effect.duration) continue;
+			effect.onWorldThingDied(_event);
+		}
+	}
+	
+	override void WorldLoaded(WorldEvent _event)
+	{
+		tracker = GZC_GameTracker(players[consoleplayer].mo.FindInventory('GZC_GameTracker'));
+		updateSeed();
+	
+		if (_event.isSaveGame) return; //Only call onWorldLoad when it's a new map
+	
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.life > effect.duration) continue;
+			effect.onWorldLoad(_event);
+		}
+
+	}
+	
+	override void WorldThingSpawned(WorldEvent _event)
+	{
+		if (_event.thing is "GZC_BaseItem") return;
+	
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.life > effect.duration) continue;
+			effect.onWorldThingSpawn(_event);
+		}
+	}
+	
+	override void RenderOverlay(RenderEvent _event)
+	{
+		
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.life > effect.duration) continue;
+			effect.drawEffect(_event);
+		}
+	
+	}
+	
+	//Purity checkers. If any mods are found, this disables incompatible effects
+	//from being rolled.
+	
+	override void PlayerSpawned(PlayerEvent _event)
+	{
+		let player = players[consoleplayer].mo;
+		if (!(player is 'GZC_PlayerClass'))
+		{
+			Cvar.getCvar("GZC_PurePlayer").setBool(false);
+		}
+		
+		player.giveInventory('GZC_GameTracker', 1);
+		tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
+	}
+	
+	override void CheckReplacement(ReplaceEvent _event)
+	{
+		if (_event.replacement)
+		{
+			if (_event.replacee is "weapon")
+			{
+				if (!(_event.replacement is "GZC_ChaosWeapon"))
+				{
+					Cvar.getCvar("GZC_PureWeapons").setBool(false);
+				}
+			}
+			else if (_event.replacee is "PlayerPawn")
+			{
+				if (!(_event.replacement is "GZC_PlayerClass"))
+				{
+					Cvar.getCvar("GZC_PurePlayer").setBool(false);
+				}
+			}
+			else
+			{
+				let def = getDefaultByType(_event.replacee);
+				if (def.painchance) //Hacky check, but default decorations don't have a painchance
+				{
+					if (!(_event.replacement is "GZC_ChaosMonster"))
+					{
+						Cvar.getCvar("GZC_PureActors").setBool(false);
+					}
+				}
+			}
+		}
+	}
+	
+	void processConsole()
+	{
+		if (cvar.getCvar('gzc_addeffect') && cvar.getCvar('gzc_addeffect').getString() != "")
+		{
+			string value = cvar.getCvar('gzc_addeffect').getString();
+			cvar.getCvar('gzc_addeffect').setString("");
+			foreach (classname : classnames)
+			{
+				string cname = classname.makeUpper();
+				string input = value.makeUpper();
+				int index = cname.indexOf(input);
+			
+				if (index != -1)
+				{
+					let player = players[consoleplayer].mo;
+					let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
+					
+					player.giveInventory(cname, 1);
+					let effect = GZC_Effect(player.FindInventory(cname));
+					tracker.addEffectToHistory(effect.getClass());
+					effect.onOpen();
+					
+					if (!effect.verify())
+					{
+						console.printf('Effect failed verification');
+					}
+					
+					return;
+				}
+			}
+			console.printf('No effect ' .. value .. ' found');
+		}
+	}
+	
+	void tickEvents()
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.closed) continue;
+			effect.onWorldTick();
+		}
+	}
+	
+	void advanceMainTimer()
+	{
+		if (Cvar.getCvar("gzc_pausemaintimer").getBool()) return;
+		
+		int effectcount = GZC_Effect.getEffectCount();
+		int limit = Cvar.getCvar('GZC_MaxEffects').getInt();
+		
+		if (effectcount >= limit && limit != 0) return;
+	
+		let player = players[consoleplayer].mo;
+		let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
+	
+		double timerrate = calculateTimeRate();
+		if (player.countInv('GZC_TimerRunsOnKills')) timerrate = 0;
+		
+		tracker.time += timerrate;
+		
+		if (tracker.time >= tracker.timelimit)
+		{
+			tracker.time -= tracker.timelimit;
+			giveEffect();
+		}
+	}
+	
+	void advanceEffectTimers()
+	{
+		if (Cvar.getCvar("gzc_pauseeffecttimer").getBool()) return;
+		
+		let player = players[consoleplayer].mo;
+		
+		double effectrate = calculateEffectRate();
+		if (player.countInv('GZC_TimerRunsOnKills')) effectrate = 0;
+		
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			effect.advanceEffect(effectrate);
+			if (effect.closed) continue;
+			if (effect.life >= effect.duration)
+			{
+				effect.onClose();
+				effect.closed = true;
+			}
+		}
+	}
+	
+	void clearDeadEffects()
+	{
+		let player = players[consoleplayer].mo;
+	
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.deleteme)
+			{
+				effect.destroy();
+			}
+		}
+	}
+	
+	double calculateTimeRate()
+	{
+		double rate = 1.0;
+		
+		ThinkerIterator it = ThinkerIterator.create("GZC_TimerEffect");
+		GZC_TimerEffect effect;
+		
+		while (effect = GZC_TimerEffect(it.next()))
+		{
+			if (effect.ignore) continue;
+			if (effect.closed) continue;
+			rate *= effect.value;
+		}
+		
+		return rate;
+	}
+	
+	double calculateEffectRate()
+	{
+		double rate = 1.0;
+		
+		ThinkerIterator it = ThinkerIterator.create("GZC_EffectModifier");
+		GZC_EffectModifier effect;
+		
+		while (effect = GZC_EffectModifier(it.next()))
+		{
+			if (effect.ignore) continue;
+			if (effect.closed) continue;
+			rate *= effect.value;
+		}
+		
+		return rate;
+	}
+	
+	void giveEffect()
+	{
+		let player = players[consoleplayer].mo;
+		let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
+	
+		int safety = 0;
+	
+		while (true)
+		{
+			++safety;
+			if (safety >= 500) 
+			{
+				console.printf('I had to break!');
+				break;
+			}
+			
+			let effect = effects[random[GZ_Chaos](0, effects.size() - 1)];
+			
+			if (tracker.history.size() != 0 && tracker.history.find(effect) != tracker.history.size()) continue;
+			
+			if (player.countInv(effect)) continue;
+			
+			player.giveInventory(effect, 1);
+			let invEffect = GZC_Effect(player.FindInventory(effect));
+		
+			if (!invEffect.verify())
+			{
+				invEffect.destroy();
+				continue;
+			}
+			
+			invEffect.onOpen();
+			
+			tracker.addEffectToHistory(effect);
+			
+			break;
+		}
+	}
+	
+	void updateSeed()
+	{
+		let useseed = Cvar.getCvar('GZC_UseSeed').getBool();
+		
+		int seedvalue;
+		
+		if (useseed)
+		{
+			seedvalue = int(name(Cvar.getCvar('GZC_UserSeedValue').getString()));
+			if (Cvar.getCvar('GZC_UseRandomSeed').getBool())
+			{
+				seedvalue = int(frandom[GZ_Chaos](0, 1) * 0x7FFFFFFF);
+			}
+		}
+		else
+		{
+			seedvalue = Cvar.getCvar('GZC_SystemTime').getInt();
+		}
+		
+		SetRandomSeed[GZ_Chaos](seedvalue);
+		Cvar.getCvar('GZC_ActiveSeed').setInt(seedvalue);
+	}
+	
+	override void UITick()
+	{
+		Cvar.getCvar('GZC_SystemTime').setInt(SystemTime.Now());
+	}
+}

@@ -10,6 +10,8 @@ investigate how to better measure timer so changing speed/requirements looks smo
 //Effects to explore
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+Force player to switch to an unswitchable weapon
+
 ignite
 
 Anechoic chamber: All line defs block sound
@@ -27,8 +29,6 @@ Opening doors does... something?
 let it snow
 
 101 Legally Distinct Canines
-
-Make sprites draw the same size regardless of distance
 
 Force player to exit to random map. Make it potentially fake like fake level restart.
 

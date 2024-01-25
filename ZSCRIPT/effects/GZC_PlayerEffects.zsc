@@ -1,0 +1,1066 @@
+//Thank you tango for permission
+Class GZC_DiabolistCurse : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Diabolist Curse";
+		GZC_Effect.duration 35 * 60;
+	}
+	
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.A_SetBlend("Red", .25, 35);
+	}
+	
+	override void onWorldTick()
+	{
+		if (gametic % 3 != 0) return;
+		
+		let player = players[consoleplayer].mo;
+		if (player.health <= 0) return;
+		
+		Actor.spawn('GZC_FiabolistFireSingle', player.pos);
+	}
+}
+
+class GZC_FiabolistFireSingle : Actor
+{
+	default
+	{
+		+NoInteraction;
+	}
+	
+	states
+	{
+		Spawn:
+			PLUM KLMNOPQRST 2 NoDelay A_SpawnItemEx("GZC_DiabolistFireDust", 0, 0, 0, frandom(-2, 2), frandom(-2, 2), frandom(2, 6), 0);
+		WaitLoop:
+			TNT1 AAAAAAAAAAAA 2 A_SpawnItemEx("GZC_DiabolistFireDust", 0, 0, 0, frandom(-2, 2), frandom(-2, 2), frandom(2, 6), 0);
+		Death:
+			TNT1 A 0 A_SpawnItemEx("GZC_DiabolistExplosionSingle", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_NOCHECKPOSITION);
+			stop;
+	}
+}
+
+class GZC_DiabolistExplosionSingle : Actor
+{
+	default
+	{
+		Height 16;
+		Radius 8;
+		+NoInteraction;
+		+MThruSpecies;
+		Obituary "%o was blown up by a Diabolist.";
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_StartSound("diabolist/plumeexplode");
+			PLUM ABCDEFG 2 A_Explode(28, 28, XF_NOTMISSILE | XF_THRUSTZ);
+			PLUM HIJ 2;
+			stop;
+	}
+}
+
+Class GZC_DiabolistFireDust : Actor
+{
+	default
+	{
+		+NoInteraction;
+		+Missile;
+		+NoGravity;
+		+ClientSideOnly;
+		Speed 0;
+		Scale 0.7;
+	}
+	
+	States
+	{
+		PLMD ABCDEF 2 A_Weave(random(-1, 1), 0, random(-2, 2), 0);
+		stop;
+	}
+}
+
+Class GZC_YouAreTheHorror : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "You are the horror";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.bFrightening = true;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.bFrightening = def.bFrightening;
+	}
+}
+
+Class GZC_LeadFeet : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Get the lead out!";
+		GZC_Effect.duration 35 * 5;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove1 = def.forwardMove1 * 0;
+		player.forwardMove2 = def.forwardMove2 * 0;
+		player.sideMove1 = def.sideMove1 * 0;
+		player.sideMove2 = def.sideMove2 * 0;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove1 = def.forwardMove1;
+		player.forwardMove2 = def.forwardMove2;
+		player.sideMove1 = def.sideMove1;
+		player.sideMove2 = def.sideMove2;
+	}
+}
+
+class GZC_TopDownView : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Um ackshually...";
+		GZC_Effect.duration 35 * 60;
+	}
+	
+	Actor ChaseCam;
+	
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		
+		if (!chasecam) 
+		{
+			chasecam = Actor.Spawn('Actor', player.pos);
+			chasecam.bNoGravity = true;
+			chasecam.target = player;
+			chasecam.bNoClip = true;
+			player.SetCamera(chasecam);
+		}
+		
+		chasecam.pitch = player.pitch;
+		
+		let pos = player.pos;
+		pos.z += 256;
+		
+		chasecam.setOrigin(pos, true);
+		chasecam.pitch = 90;
+		chasecam.angle = player.angle;
+		player.pitch = 0;
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.bForceXYBillboard = true;
+		}
+	}
+	
+	override void onClose()
+	{
+		players[consoleplayer].mo.setCamera(players[consoleplayer].mo);
+		chasecam.destroy();
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bForceXYBillboard = def.bForceXYBillboard;
+		}
+	}
+}
+
+class GZC_Regeneration : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Health Regeneration";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldTick()
+	{
+		if (gametic % (35 * 3) != 0) return;
+		
+		let player = players[consoleplayer].mo;
+		player.GiveBody(random(1, 5), 100);
+	}
+}
+
+Class GZC_ShootingNotAllowed : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "No Shooting Allowed";
+		GZC_Effect.duration 35 * 5;
+	}
+
+	override void onWorldTick()
+	{
+		let pinfo = players[consoleplayer];
+		if (!pinfo.readyWeapon.ammo1 && !pinfo.readyWeapon.ammo2) return;
+		if (pinfo.buttons & (BT_ATTACK | BT_ALTATTACK))
+		{
+			pinfo.mo.A_DamageSelf(0x1);
+		}
+	}
+}
+
+Class GZC_GyroscopicCamera : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Gyroscopic camera roll";
+		GZC_Effect.duration 35 * 60 * 60;
+	}
+
+	override void onWorldTick()
+	{
+		if (gametic % 35 == 0)
+		{
+			let player = players[consoleplayer].mo;
+			player.A_SetRoll(player.roll += 0.004);
+		}
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		player.A_SetRoll(0);
+	}
+}
+
+Class GZC_PlayerIsAGhost : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Walk through actors";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.bThruActors = true;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		player.bThruActors = false;
+	}
+}
+
+Class GZC_NotQuiteInvulnerability : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Not quite invulnerability...";
+		GZC_Effect.duration 35 * 60;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.GiveBody(999, 999);
+	}
+}
+
+Class GZC_EarthquakeMode : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Earthquake!";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		player.A_Quake(9, 9, 0, 5, "");
+	}
+}
+
+Class GZC_AggressiveWeaponBobbing : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Whacky Wavey Inflatable Doomguy";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		
+		player.viewbob = (10.0 * sin(gametic)) + (5.0 * cos(gametic));
+		player.player.weaponstate |= WF_WeaponBobbing;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.viewbob = def.viewbob;
+		player.player.weaponstate &= ~(WF_WeaponBobbing);
+	}
+}
+
+Class GZC_DoomThreeNightmare : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Doom 3 Nightmare";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onWorldTick()
+	{
+		if (gametic % (35 * 5) != 0) return;
+		
+		let player = players[consoleplayer].mo;
+		
+		if (player.health <= 25) return;
+		
+		int drain = min(player.health - 25, 5);
+		player.A_DamageSelf(drain, 'Melee');
+		player.A_StartSound("Doom3/TakeHealth", CHAN_AUTO);
+	}
+}
+
+Class GZC_Aimbot : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Aimbot";
+		GZC_Effect.duration 35 * 90;
+	}
+
+	double distance;
+	Actor closest;
+	
+	override void onWorldTick()
+	{
+		distance = 0x7FFFFFFF;
+		closest = null;
+		
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		let player = players[consoleplayer].mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo is "Inventory") continue;
+			if (mo.health <= 0) continue;
+			if (!player.isVisible(mo, true)) continue;
+			
+			double dist = player.distance3D(mo);
+			if (dist < distance)
+			{
+				distance = dist;
+				closest = mo;
+			}
+		}
+		
+		if (!closest) return;
+		
+		player.angle = atan2(closest.pos.y - player.pos.y, closest.pos.x - player.pos.x);
+		if (!player.player.centering) player.pitch = PitchTo(player, closest, 0.6);
+	}
+	
+	double PitchTo( Actor a, Actor b, double hfact = 1. )
+    {
+        if ( !a || !b ) return 0;
+        Vector3 thispos = a.player?a.Vec2OffsetZ(0,0,a.player.viewz):a.Vec3Offset(0,0,a.missileheight);
+        Vector3 otherpos = b.Vec3Offset(0,0,b.height*hfact);
+        Vector3 diff = level.Vec3Diff(thispos,otherpos);
+        double dist = diff.length();
+        if ( dist > 0 ) return -asin(diff.z/dist);
+        return 0;
+    }
+}
+
+Class GZC_ReducedFieldOfView : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Reduced FOV";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (player.findInventory('GZC_QuakeFOV')) return false;
+		
+		return super.verify();
+	}
+
+	override void onWorldTick()
+	{
+		let inf = players[consoleplayer];
+		inf.FOV = 30;
+	}
+	
+	override void onClose()
+	{
+		players[consoleplayer].FOV = players[consoleplayer].desiredFOV;
+	}
+}
+
+Class GZC_QuakeFOV : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Quake PRO";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (player.findInventory('GZC_ReducedFieldOfView')) return false;
+		
+		return super.verify();
+	}
+
+	override void onWorldTick()
+	{
+		let inf = players[consoleplayer];
+		inf.FOV = 150;
+	}
+	
+	override void onClose()
+	{
+		players[consoleplayer].FOV = players[consoleplayer].desiredFOV;
+	}
+}
+
+Class GZC_ThirdPerson : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Chase Cam";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	Actor ChaseCam;
+	
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+	
+		chasecam = Actor.Spawn('Actor', player.pos);
+		chasecam.bNoGravity = true;
+		chasecam.target = player;
+		player.SetCamera(chasecam);
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		chasecam.pitch = player.pitch;
+		
+		FLineTraceData shot;
+		player.LineTrace(player.angle, -64, player.pitch, 0, player.viewheight, 0, 0, shot);
+		
+		chasecam.setOrigin(shot.HitLocation, true);
+		chasecam.A_FaceTarget();
+	}
+	
+	override void onClose()
+	{
+		players[consoleplayer].mo.setCamera(players[consoleplayer].mo);
+		chasecam.destroy();
+	}
+}
+
+Class GZC_DrowsyDooming : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Drowsy Dooming";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+
+	int prevHealth;
+	double tiredness;
+	
+	override void onWorldTick()
+	{
+		if (gametic % 3 == 0) ++tiredness;
+	
+		let player = players[consoleplayer].mo;
+		
+		if (player.health < prevHealth) tiredness = 0;
+		
+		prevHealth = player.health;
+		
+		if (player.curstate == player.resolveState('Missile')) tiredness -= 10;
+		if (player.curstate == player.resolveState('Melee')) tiredness -= 10;
+		
+		tiredness = max(0, tiredness);
+	}
+	
+	override void drawEffect(RenderEvent _event)
+	{
+		Screen.dim(Color("000000"), tiredness / 100, 0, 0, Screen.getWidth(), Screen.getHeight());
+	}
+}
+
+Class GZC_ShrunkTheDoomguy : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Honey, I shrunk the Doomguy!";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		
+		player.A_SetSize(player.radius * 0.1, player.height * 0.1);
+		player.viewHeight *= 0.1;
+		player.player.viewHeight *= 0.01;
+		player.forwardMove1 *= 0.1;
+		player.forwardMove2 *= 0.1;
+		player.sideMove1 *= 0.1;
+		player.sideMove2 *= 0.1;
+		player.MaxStepHeight *= 0.1;
+		player.ViewBob *= 0.1;
+		player.scale.x *= 0.1;
+		player.scale.y *= 0.1;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		let def = GetDefaultByType(player.getClass());
+		player.A_SetSize(def.radius, def.height);
+		player.viewHeight = def.viewHeight;
+		player.player.viewHeight = def.viewHeight;
+		player.forwardMove1 = def.forwardMove1;
+		player.forwardMove2 = def.forwardMove2;
+		player.sideMove1 = def.sideMove1;
+		player.sideMove2 = def.sideMove2;
+		player.MaxStepHeight = def.MaxStepHeight;
+		player.viewBob = def.viewBob;
+		player.scale.x = def.scale.x;
+		player.scale.y = def.scale.y;
+	}
+}
+
+Class GZC_MorphIntoDog : GZC_MorphEffect
+{
+	default
+	{
+		GZC_Effect.title "Dog mode!";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+	
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		player.A_Morph('DogPlayer', int(duration - life));
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		let player = players[consoleplayer].mo;
+		player.A_Morph('DogPlayer', int(duration - life));
+	}
+}
+
+Class GZC_MorphIntoChicken : GZC_MorphEffect
+{
+	default
+	{
+		GZC_Effect.title "cockadoodledoo!";
+		GZC_Effect.duration 35 * 60 * 2;
+		GZC_Effect.ignore false;
+	}
+
+	override void onOpen()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		player.A_Morph('ChickenPlayer', int(duration - life));
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		player.A_Morph('ChickenPlayer', int(duration - life));
+	}
+}
+
+Class GZC_DoubleRunning : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Give it the gas!";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove1 = def.forwardMove1 * 4;
+		player.forwardMove2 = def.forwardMove2 * 2;
+		player.sideMove1 = def.sideMove1 * 4;
+		player.sideMove2 = def.sideMove2 * 2;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove1 = def.forwardMove1;
+		player.forwardMove2 = def.forwardMove2;
+		player.sideMove1 = def.sideMove1;
+		player.sideMove2 = def.sideMove2;
+	}
+}
+
+Class GZC_DisableRunning : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "No need to rush";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove2 = def.forwardMove2 / 2;
+		player.sideMove2 = def.sideMove2 / 2;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove2 = def.forwardMove2;
+		player.sideMove2 = def.sideMove2;
+	}
+}
+
+Class GZC_StartRecording : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Recording";
+		GZC_Effect.duration 35 * 15;
+	}
+
+	//stupid gzdoom not letting me use vector3's in an array
+	Array<Double> posx;
+	Array<Double> posy;
+	Array<Double> posz;
+	Array<Double> angles;
+	Array<Double> pitches;
+	
+	int st;
+
+	override void onWorldTick()
+	{
+		if (!posx.size())
+		{
+			posx.clear();
+			posy.clear();
+			posz.clear();
+			angles.clear();
+			pitches.clear();
+			st = 0;
+		}
+		
+		PlayerPawn player = players[consoleplayer].mo;
+		
+		switch (st)
+		{
+			case 0:
+			
+				Vector3 checkpoint = player.pos;
+				Double checkangle = player.angle;
+				
+				posx.push(checkpoint.x);
+				posy.push(checkpoint.y);
+				posz.push(checkpoint.z);
+				
+				angles.push(checkangle);
+				pitches.push(player.pitch);
+				
+				if (life == duration - 1)
+				{
+					st = 1;
+					life = 0;
+					title = "<< Rewinding";
+				}
+				break;
+			case 1:
+			
+				int index = posx.size() - 1;
+				
+				player.setOrigin((posx[index], posy[index], posz[index]), true);
+				player.angle = angles[index];
+				player.pitch = pitches[index];
+				
+				posx.delete(index);
+				posy.delete(index);
+				posz.delete(index);
+				
+				angles.delete(index);
+				pitches.delete(index);
+				
+				posx.shrinkToFit();
+				posy.shrinkToFit();
+				posz.shrinkToFit();
+				
+				angles.shrinkToFit();
+				pitches.shrinkToFit();
+				
+				break;
+		}
+	}
+}
+
+Class GZC_ScardeyItems : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Pickups are scared of player";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+
+	override void onWorldTick()
+	{
+		PlayerPawn player = players[consoleplayer].mo;
+		
+		ThinkerIterator it = ThinkerIterator.create('Inventory');
+		Actor mo;
+		
+		while (mo = Inventory(it.Next ()))
+		{
+			if (player.distance3D(mo) < 256)
+			{
+				mo.bSlidesOnWalls = true;
+				mo.bNoBlockMonst = true;
+				mo.thrust(15, player.angleTo(mo));
+			}
+		}
+	}
+}
+
+Class GZC_RightJoyconDrift : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Right Joycon drift";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+
+	double drift;
+	double angle;
+	
+	override void onOpen()
+	{
+		drift = random(400, 600);
+		angle = random(0, 359);
+	}
+	
+	override void onWorldTick()
+	{
+		PlayerInfo player = players[consoleplayer];
+		double xspeed = cos(angle) * drift;
+		double yspeed = sin(angle) * drift;
+		
+		if (player.cmd.pitch == 0 && player.cmd.yaw == 0)
+		{
+			player.mo.angle += (xspeed / 1000);
+			if (!player.centering) player.mo.pitch += (yspeed / 1000);
+		
+			player.mo.CheckPitch();
+		}
+	}
+}
+
+Class GZC_LeftJoyconDrift : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Left Joycon drift";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+
+	double drift;
+	double angle;
+	
+	override void onOpen()
+	{
+		drift = random(400, 600);
+		angle = random(0, 359);
+	}
+	
+	override void onWorldTick()
+	{
+		PlayerInfo player = players[consoleplayer];
+		double xspeed = cos(angle) * drift;
+		
+		if (player.cmd.forwardmove == 0 && player.cmd.sidemove == 0)
+		{
+			player.mo.thrust(xspeed / 2000, (xspeed / 2000) + player.mo.angle);
+		}
+	}
+}
+
+Class GZC_DisableForwardBackwards : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable Forward/Backwards movement";
+		GZC_Effect.duration 35 * 60;
+	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (player.findInventory('GZC_DisableStrafingMovement')) return false;
+		
+		return super.verify();
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		player.forwardMove1 = player.forwardMove2 = 0;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.forwardMove1 = def.ForwardMove1;
+		player.forwardMove2 = def.ForwardMove2;
+	}
+}
+
+Class GZC_DisableStrafingMovement : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable strafing movement";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		if (player.findInventory('GZC_DisableForwardBackwards')) return false;
+		
+		return super.verify();
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		player.sideMove1 = player.sideMove2 = 0;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		let def = getDefaultByType(player.getClass());
+		
+		player.sideMove1 = def.sideMove1;
+		player.sideMove2 = def.sideMove2;
+	}
+}
+
+Class GZC_GameEndPlayer : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Player commits suicide";
+		GZC_Effect.duration 35;
+	}
+	
+	bool screm;
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		if (!screm)
+		{
+			player.A_PlayerScream();
+			screm = true;
+		}
+		
+		Player.A_SetMugshotState("Ouch");
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer].mo;
+		player.A_Explode(0x7FFFFFFF, 1);
+	}
+}
+
+Class GZC_FakeEndPlayer : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Player fakes suicide";
+		GZC_Effect.duration 35;
+	}
+	
+	bool screm;
+	
+	override void onOpen()
+	{
+		title = "Player commits suicide";
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer].mo;
+		if (!screm)
+		{
+			player.A_PlayerScream();
+			screm = true;
+		}
+		
+		Player.A_SetMugshotState("Ouch");
+	}
+	
+	override void onClose()
+	{
+		title = "Fake suicide";
+	}
+}
+
+Class GZC_CantStopFiring : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Can't stop shooting!";
+		GZC_Effect.duration 35 * 60;
+	}
+
+	override void onWorldTick()
+	{
+		let player = players[consoleplayer];
+		player.cmd.buttons |= (BT_ATTACK | BT_ALTATTACK);
+		player.mo.checkWeaponFire();
+	}
+}
+
+Class GZC_NoPlayerFriction : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disabled player friction";
+		GZC_Effect.duration (35 * 60 * 2) + (35 * 30);
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer];
+		player.mo.bNoFriction = true;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer];
+		player.mo.bNoFriction = false;
+	}
+}
+
+Class GZC_FallDamage : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Player takes fall damage";
+		GZC_Effect.duration (35 * 60 * 2) + (35 * 30);
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer];
+		player.mo.bFallDamage = true;
+	}
+	
+	override void onClose()
+	{
+		let player = players[consoleplayer];
+		player.mo.bFallDamage = false;
+	}
+}
+
+Class GZC_TeleportPlayer : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Teleport to random sector";
+		GZC_Effect.duration 35 * 90;
+		GZC_Effect.type GZC_Instant;
+	}
+
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		
+		while (true)
+		{
+			int rng = random(0, level.Sectors.size() - 1);
+			let c = level.Sectors[rng].centerspot;
+			if (level.IsPointInLevel((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c))))
+			{
+				double ceilheight = level.Sectors[rng].ceilingplane.ZAtPoint(c);
+				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
+				if (ceilheight - floorheight > 64)
+				{
+					player.teleport((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)), player.angle, 1);
+					break;
+				}
+			}
+		}
+	}
+}
