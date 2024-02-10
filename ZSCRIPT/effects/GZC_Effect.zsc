@@ -110,7 +110,7 @@ Class GZC_Effect : GZC_BaseItem
 		if (player.countInv(self.getClass()) > 1) return false;
 		
 		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).EffectProperties;
-		if (properties.at(self.getClassName() .. '_enabled') == "false") return false;
+		if (properties.at(self.getClassName()) == "false") return false;
 		
 		/*if (gamecomp != GZC_Any)
 		{

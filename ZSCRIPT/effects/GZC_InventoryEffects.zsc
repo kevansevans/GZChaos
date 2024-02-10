@@ -354,7 +354,7 @@ Class GZC_GiveRandomInventory : GZC_Effect
 	override bool verify()
 	{
 		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).EffectProperties;
-		if (properties.at(self.getClassName() .. '_enabled') == "false") return false;
+		if (properties.at(self.getClassName()) == "false") return false;
 		return true;
 	}
 	

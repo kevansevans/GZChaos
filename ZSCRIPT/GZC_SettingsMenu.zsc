@@ -35,7 +35,7 @@ class GZC_EffectOptionItemMenu : OptionMenuItemOption
 		setting = _setting;
 		
 		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).effectProperties;
-		let onoff = properties.at(_classname .. '_' .. _setting);
+		let onoff = properties.at(_classname);
 		
 		enabled = (onoff == "false" ? false : true);
 	}
@@ -71,7 +71,7 @@ class GZC_EffectOptionItemMenu : OptionMenuItemOption
 		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).effectProperties;
 		let onoff = enabled ? "true" : "false";
 		
-		properties.insert(classname .. '_' .. setting, onoff);
+		properties.insert(classname, onoff);
 		
 		let cvarsave = Cvar.getCvar("GZC_EffectProperties");
 		cvarsave.SetString(properties.toString());
