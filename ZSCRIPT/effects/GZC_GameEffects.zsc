@@ -1,3 +1,89 @@
+Class GZC_RandomProjectileVel : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Set random projectile velocity";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+	
+	override bool verify()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bMissile) return super.verify();
+		}
+		
+		return false;
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bMissile) continue;
+			
+			mo.vel.x = frandom(-100.0, 100.0);
+			mo.vel.y = frandom(-100.0, 100.0);
+			mo.vel.z = frandom(-100.0, 100.0);
+		}
+	}
+}
+
+Class GZC_SpawnFriendlyMonster : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Spawn companion monster";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+	
+	Actor friend;
+	
+	override void onOpen()
+	{
+		Array<Class<Actor> > monsters;
+		monsters.clear();
+		
+		foreach (type : AllActorClasses)
+		{
+			let def = getDefaultByType(type);
+			if (!def.bIsMonster) continue;
+			monsters.push(type);
+		}
+		
+		int rng = random(0, monsters.size() -1);
+		
+		let player = players[consoleplayer].mo;
+		friend = Actor.spawn(monsters[rng], player.pos);
+		friend.bFriendly = true;
+		
+		title = "Spawn companion " .. friend.getClassName();
+		
+		let def = GetDefaultByType(friend.getClass());
+		if (def.spawnstate.ValidateSpriteFrame()) return;
+		
+		let missing = Actor.spawn('GZC_MissingActor', friend.pos);
+		missing.master = friend;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		let def = GetDefaultByType(_event.thing.getClass());
+		if (def.spawnstate.ValidateSpriteFrame()) return;
+		
+		let missing = Actor.spawn('GZC_MissingActor', _event.thing.pos);
+		_event.thing.master = friend;
+	}
+}
+
 Class GZC_AutoSave : GZC_Effect
 {
 	default

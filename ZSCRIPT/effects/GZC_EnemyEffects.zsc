@@ -1,3 +1,61 @@
+class GZC_GiantEnemies : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Giant enemies";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	double scale;
+	
+	void applyeffect(Actor _mo)
+	{
+		let def = getDefaultByType(_mo.getClass());
+		_mo.A_SetSize(def.radius * scale, def.height * scale);
+		_mo.scale *= scale;
+	}
+	
+	void iterate()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.health <= 0) continue;
+			if (!mo.bIsMonster) continue;
+			
+			applyeffect(mo);
+		}
+	}
+	
+	override void onOpen()
+	{
+		scale = frandom(5.0, 8.0);
+	
+		iterate();
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.bIsMonster) applyEffect(_event.thing);
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			
+			mo.scale = def.scale;
+			mo.A_setSize(def.radius, def.height);
+		}
+	}
+}
+
 Class GZC_ZeroEnemySpeed : GZC_EnemySpeedEffect
 {
 	default

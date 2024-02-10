@@ -1,3 +1,63 @@
+Class GZC_IncreaseCurrentVelocity : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Increase current velocity";
+		GZC_effect.Duration 35 * 30;
+		GZC_Effect.Type GZC_Instant;
+	}
+	
+	override void onOpen()
+	{
+		let player = players[consoleplayer].mo;
+		let rng = frandom(2.0, 4.0);
+		
+		player.vel.x *= rng;
+		player.vel.y *= rng;
+		player.vel.z *= rng;
+	}
+}
+Class GZC_KillsTeleportPlayer : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Kills teleport player";
+		GZC_Effect.duration 35 * 60;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		if (!(_event.thing.target is "PlayerPawn")) return;
+		if (!_event.thing.bIsMonster) return;
+		
+		let player = players[consoleplayer].mo;
+		
+		player.setOrigin(_event.thing.pos, true);
+		let fog = Actor.spawn('TeleportFog', player.pos);
+		fog.bInvisible = true;
+	}
+}
+
+Class GZC_PlayerRandomVel : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Set random player velocity";
+		GZC_Effect.duration 35 * 30;
+		GZC_Effect.type GZC_Instant;
+	}
+	
+	override void onOpen()
+	{
+		double x = frandom(-100, 100);
+		double y = frandom(-100, 100);
+		double z = frandom(-100, 100);
+		
+		let player = players[consoleplayer].mo;
+		player.vel = (x, y, z);
+	}
+}
+
 //Thank you tango for permission
 Class GZC_DiabolistCurse : GZC_Effect
 {
