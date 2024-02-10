@@ -218,39 +218,6 @@ class GZC_MissingWad : GZC_Effect
 	}
 }
 
-Class GZC_MissingActor : Actor
-{
-	Default
-	{
-		+NoBlockmap;
-	}
-
-	States
-	{
-		Spawn:
-			UNKN AA 1 A_Mimic();
-			Loop;
-	}
-	
-	Action void A_Mimic()
-	{
-		if (!invoker.master) {
-			self.destroy();
-			return;
-		}
-		
-		if (master.sprite == master.getSpriteIndex('TNT1'))
-		{
-			invoker.sprite = master.getSpriteIndex('TNT1');
-			return;
-		}
-		
-		invoker.setOrigin(master.pos, true);
-		
-		invoker.bBright = master.curState.bFullBright;
-	}
-}
-
 class GZC_RainbowBlood : GZC_Effect
 {
 	default

@@ -1,0 +1,32 @@
+Class GZC_MissingActor : Actor
+{
+	Default
+	{
+		+NoBlockmap;
+	}
+
+	States
+	{
+		Spawn:
+			UNKN A 1 NoDelay A_Mimic();
+			Loop;
+	}
+	
+	Action void A_Mimic()
+	{
+		if (!invoker.master) {
+			self.destroy();
+			return;
+		}
+		
+		if (master.sprite == master.getSpriteIndex('TNT1'))
+		{
+			invoker.sprite = master.getSpriteIndex('TNT1');
+			return;
+		}
+		
+		invoker.setOrigin(master.pos, true);
+		
+		invoker.bBright = master.curState.bFullBright;
+	}
+}
