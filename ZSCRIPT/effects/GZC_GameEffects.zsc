@@ -344,8 +344,6 @@ Class GZC_JitterSkull : GZC_RoomClearEvent
 	{
 		pointers.clear();
 		
-		levelmus = level.music;
-		
 		ThinkerIterator it = ThinkerIterator.create("Actor");
 		Actor mo;
 				
@@ -397,7 +395,7 @@ Class GZC_JitterSkull : GZC_RoomClearEvent
 	override void onClose()
 	{
 		let player = players[consoleplayer].mo;
-		player.S_ChangeMusic(levelmus);
+		player.S_ChangeMusic(level.music);
 		
 		life = duration;
 		
@@ -431,10 +429,10 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 	
 	void sweep()
 	{
-		levelmus = level.music;
-		
 		ThinkerIterator it = ThinkerIterator.create("Actor");
 		Actor mo;
+		
+		pointers.clear();
 				
 		while (mo = Actor(it.next()))
 		{
@@ -449,7 +447,6 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 			morphActor(mo, "EmptyActor");
 		}
 		
-		levelmus = Level.music;
 		S_ChangeMusic("");
 		
 		spawnpeanut();
@@ -467,7 +464,9 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 			int place = random(0, pointers.size() - 1);
 			Vector3 pos = pointers[place].pos;
 			scp.setOrigin(pos, false);
+			
 			if (scp.isVisible(player, true)) continue;
+			
 			break;
 		}
 	}
@@ -475,7 +474,7 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 	override void onClose()
 	{
 		let player = players[consoleplayer].mo;
-		player.S_ChangeMusic(levelmus);
+		player.S_ChangeMusic(level.music);
 		
 		if (scp) scp.destroy();
 	}
