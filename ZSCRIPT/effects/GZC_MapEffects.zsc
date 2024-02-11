@@ -669,7 +669,7 @@ Class GZC_DiscoSkybox : GZC_Effect
 	TextureID oldskyA;
 	TextureID oldskyB;
 	
-	Array<String> textures;
+	Array<TextureID> textures;
 	int interval;
 	
 	default
@@ -680,35 +680,32 @@ Class GZC_DiscoSkybox : GZC_Effect
 	
 	override void onOpen()
 	{
+		textures.clear();
+	
 		for (int i = 0; i < Wads.getNumLumps(); ++i)
 		{
 			TextureID _locTexture = TexMan.checkForTexture(Wads.getLumpName(i));
-			String texturename = TexMan.getName(_locTexture);
+			if (_locTexture.isNull()) continue;
 			
-			if (texturename)
-			{
-				textures.push(texturename);
-			}
+			textures.push(_locTexture);
 		}
+		
+		interval = random(1, 10);
+		
+		oldskyA = level.skytexture1;
+		oldskyB = level.skytexture2;
 	}
 	
 	override void onWorldTick()
 	{
-		if (!oldskyA) {
-		
-			oldskyA = level.skytexture1;
-			oldskyB = level.skytexture2;
-			textures.clear();
-			
-			interval = random(1, 10);
-		
-		}
-		
 		if (gametic % interval == 0)
 		{
 			interval = random(1, 10);
 			int index = random(0, textures.size() - 1);
-			level.changeSky(TexMan.checkForTexture(textures[index]), TexMan.checkForTexture(''));
+			
+			console.printf('' .. textures.size());
+			
+			level.changeSky(textures[index], TexMan.checkForTexture(''));
 		}
 	}
 	
