@@ -31,3 +31,22 @@ class GZC_ExplosiveBarrel : MorphedMonster
 		stop;
 	}
 }
+
+class GZC_DecorativeBarrel : MorphedMonster
+{
+	Default
+	{
+		Radius 10;
+		Height 42;
+		ProjectilePassHeight -16;
+		+Solid;
+		-Shootable;
+		+DontThrust;
+	}
+	States
+	{
+	Spawn:
+		BAR1 C -1;
+		stop;
+	}
+}

@@ -1,3 +1,26 @@
+Class GZC_BarrelsOfNotSoMuchFun : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Barrels of not so much fun";
+		GZC_Effect.duration 35 * 10;
+	}
+
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			if (mo is 'GZC_DecorativeBarrel') continue;
+			mo.A_Morph('GZC_DecorativeBarrel', duration);
+		}
+	}
+}
+
 class GZC_GiantEnemies : GZC_Effect
 {
 	default
