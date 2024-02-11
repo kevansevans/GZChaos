@@ -535,7 +535,7 @@ Class GZC_ThirdPerson : GZC_Effect
 	
 	Actor ChaseCam;
 	
-	override void onOpen()
+	void camerainit()
 	{
 		let player = players[consoleplayer].mo;
 	
@@ -543,6 +543,16 @@ Class GZC_ThirdPerson : GZC_Effect
 		chasecam.bNoGravity = true;
 		chasecam.target = player;
 		player.SetCamera(chasecam);
+	}
+	
+	override void onOpen()
+	{
+		camerainit();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		camerainit();
 	}
 
 	override void onWorldTick()
