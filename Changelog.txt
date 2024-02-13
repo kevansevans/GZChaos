@@ -1,4 +1,21 @@
 
+GZChaos 1.1.1
+
+General Changes
+	- Fixed two effects from crashing game
+	- Fixed toggle effect menu not actually toggling effects
+	- Fixed "Disco Skybox" from crashing the game on roll
+	- Fixed "Chase Cam" crashing game on loading new level
+	- Fixed "Cyberfuck" incorrectly being displayed as a timed effect
+	
+New Effects:
+	- Set random player velocity
+	- Increase player velocity
+	- Set random projectile velocity
+	- Kills teleport player
+	- Spawn companion
+	- Giant Enemies
+
 GZChaos 1.1
 
 General changes:
