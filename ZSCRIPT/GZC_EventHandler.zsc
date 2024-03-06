@@ -51,14 +51,14 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldTick()
 	{
-		tracker.timelimit = 35 * Cvar.getCvar('GZC_TimerDuration').getInt();
-	
 		switch (gamestate)
 		{
 			case GS_TitleLevel:
 			default:
 				return;
 			case GS_Level:
+			
+				tracker.timelimit = 35 * Cvar.getCvar('GZC_TimerDuration').getInt();
 			
 				let player = players[consoleplayer].mo;
 				if (player.health <= 0) return;

@@ -1,5 +1,4 @@
 GameInfo
 {
 	AddEventHandlers = "GZC_EventHandler", "GZC_InfoDraw", "GZC_TimerDisplay"
-	PlayerClasses = "GZC_PlayerClass"
 }

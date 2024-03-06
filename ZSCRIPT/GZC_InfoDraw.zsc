@@ -120,6 +120,8 @@ Class GZC_TimerDisplay : EventHandler
 
 	override void RenderUnderlay(RenderEvent event)
 	{
+		if (gamestate != GS_Level) return;
+	
 		if (Cvar.getCvar("GZC_HideEverything", players[consoleplayer]).getBool()) return;
 	
 		let player = players[consoleplayer].mo;
