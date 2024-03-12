@@ -794,15 +794,15 @@ Class GZC_FaultyAutomap : GZC_Effect
 {
 	default
 	{
-		GZC_Effect.title "Faulty Automap";
+		GZC_Effect.title "Disabled Automap";
 		GZC_Effect.duration 35 * 60 * 3;
 	}
-
-	override void onWorldTick()
+	
+	override void DrawEffect(RenderEvent _event)
 	{
-		for (int i = 0; i < level.lines.size(); ++i)
+		if (AutomapActive)
 		{
-			level.lines[i].flags &= ~(Line.ML_MAPPED);
+			Screen.Dim(0, 1, 0, 0, Screen.getWidth(), Screen.getHeight());
 		}
 	}
 }
