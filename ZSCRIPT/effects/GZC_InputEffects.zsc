@@ -222,3 +222,25 @@ class GZC_SwapFiringMode : GZC_Effect
 		buttons &= ~(_flag);
 	}
 }
+
+class GZC_InvertedMouselook : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Inverted Mouselook";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override void onUiTick()
+	{
+		updatePlayerPitch();
+	}
+	
+	play void updatePlayerPitch() const
+	{
+		let player = players[consoleplayer];
+		player.cmd.pitch *= -1;
+		
+		player.mo.CheckPitch();
+	}
+}
