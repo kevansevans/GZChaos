@@ -131,6 +131,9 @@ Class GZC_Effect : GZC_BaseItem
 	virtual void onClose()
 	{}
 	
+	virtual clearscope void onUiClose()
+	{}
+	
 	virtual void onWorldLoad(WorldEvent _event)
 	{}
 	
@@ -148,6 +151,11 @@ Class GZC_Effect : GZC_BaseItem
 	
 	virtual void onWorldLinePreActivated(WorldEvent _event)
 	{}
+	
+	virtual ui bool onInputProcess(InputEvent _event)
+	{
+		return false;
+	}
 	
 	virtual ui void drawEffect(RenderEvent _event)
 	{}

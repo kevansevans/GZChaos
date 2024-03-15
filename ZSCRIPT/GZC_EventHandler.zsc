@@ -131,6 +131,27 @@ class GZC_EventHandler : StaticEventHandler
 	
 	}
 	
+	override bool InputProcess(InputEvent _event)
+	{
+		bool result = false;
+		
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.life > effect.duration) continue;
+			bool value = effect.onInputProcess(_event);
+			if (value) result = true;
+		}
+		
+		let bind = Bindings.GetBinding(_event.keyscan);
+		
+		console.printf(bind);
+		
+		return result;
+	}
+	
 	//Purity checkers. If any mods are found, this disables incompatible effects
 	//from being rolled.
 	

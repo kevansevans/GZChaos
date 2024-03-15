@@ -1,0 +1,166 @@
+class GZC_NoStrafing : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable strafing";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "+moveleft" || bind ~== "+moveright") return true;
+		
+		return false;
+	}
+}
+
+class GZC_NoStrafingLeft : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable strafing left";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "+moveleft") return true;
+		
+		return false;
+	}
+}
+
+class GZC_NoStrafingRight : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable strafing right";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "+moveright") return true;
+		
+		return false;
+	}
+}
+
+class GZC_NoForwardBackwards : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable forward/backward";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "+forward" || bind ~== "+back") return true;
+		
+		return false;
+	}
+}
+
+class GZC_NoForward : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable moving forward";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "+forward") return true;
+		
+		return false;
+	}
+}
+
+class GZC_NoBackwards : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disable moving backward";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "+back") return true;
+		
+		return false;
+	}
+}
+
+class GZC_NoWeaponScrolling : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "No weapon scrolling";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "weapprev" || bind ~== "weapnext") return true;
+		
+		return false;
+	}
+}
+
+class GZC_NoJumping : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disabled jumping";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool verify()
+	{
+		if (!level.isJumpingAllowed()) return false;
+		
+		return super.verify();
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "+jump") return true;
+		
+		return false;
+	}
+}
+
+class GZC_NoCrouching : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Disabled crouching";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override bool verify()
+	{
+		if (!level.IsCrouchingAllowed()) return false;
+		
+		return super.verify();
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		if (bind ~== "+crouch") return true;
+		
+		return false;
+	}
+}
