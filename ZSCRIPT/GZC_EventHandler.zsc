@@ -152,6 +152,30 @@ class GZC_EventHandler : StaticEventHandler
 		return result;
 	}
 	
+	override void uiTick()
+	{
+		Cvar.getCvar('GZC_SystemTime').setInt(SystemTime.Now());
+	
+		switch (gamestate)
+		{
+			case GS_TitleLevel:
+			default:
+				return;
+			case GS_Level:
+				
+				ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+				GZC_Effect effect;
+		
+				while (effect = GZC_Effect(it.next()))
+				{
+					if (effect.life > effect.duration) continue;
+					effect.onUiTick();
+				}
+			
+				break;
+		}
+	}
+	
 	//Purity checkers. If any mods are found, this disables incompatible effects
 	//from being rolled.
 	
@@ -403,10 +427,5 @@ class GZC_EventHandler : StaticEventHandler
 		
 		SetRandomSeed[GZ_Chaos](seedvalue);
 		Cvar.getCvar('GZC_ActiveSeed').setInt(seedvalue);
-	}
-	
-	override void UITick()
-	{
-		Cvar.getCvar('GZC_SystemTime').setInt(SystemTime.Now());
 	}
 }

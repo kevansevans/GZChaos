@@ -157,6 +157,9 @@ Class GZC_Effect : GZC_BaseItem
 		return false;
 	}
 	
+	virtual ui void onUiTick()
+	{}
+	
 	virtual ui void drawEffect(RenderEvent _event)
 	{}
 	

@@ -164,3 +164,61 @@ class GZC_NoCrouching : GZC_Effect
 		return false;
 	}
 }
+
+class GZC_SwapFiringMode : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Swapped firing input";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	int buttons;
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		let bind = Bindings.getBinding(_event.KeyScan);
+		
+		if (bind ~== "+attack" || bind ~== "+altattack")
+		{
+			if (bind ~== "+attack")
+			{
+				if (_event.type == InputEvent.Type_KeyDown) setFlag(BT_ALTATTACK);
+				else if (_event.type == InputEvent.Type_KeyUp) unsetFlag(BT_ALTATTACK);
+			}
+			
+			if (bind ~== "+altattack")
+			{
+				if (_event.type == InputEvent.Type_KeyDown) setFlag(BT_ATTACK);
+				else if (_event.type == InputEvent.Type_KeyUp) unsetFlag(BT_ATTACK);
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	override void onUiTick()
+	{
+		checkPlayerFire();
+	}
+	
+	play void checkPlayerFire() const
+	{
+		let player = players[consoleplayer];
+		player.cmd.buttons |= buttons;
+		
+		player.mo.checkWeaponFire();
+	}
+	
+	play void setFlag(Int _flag) const
+	{
+		buttons |= _flag;
+	}
+	
+	play void unsetFlag(Int _flag) const
+	{	
+		buttons &= ~(_flag);
+	}
+}
