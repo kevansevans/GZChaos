@@ -115,7 +115,7 @@ class GZC_InconsistentDoom64Knockback : GZC_Effect
 	Default
 	{
 		GZC_Effect.ignore false;
-		GZC_Effect.title "Doom 64 Knockback";
+		GZC_Effect.title "Inconsistent Doom 64 Knockback";
 		GZC_Effect.Duration 35 * 90;
 	}
 	
