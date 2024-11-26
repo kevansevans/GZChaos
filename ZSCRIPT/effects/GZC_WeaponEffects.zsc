@@ -1,0 +1,141 @@
+class GZC_Doom64Knockback : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Doom 64 Knockback";
+		GZC_Effect.Duration 35 * 90;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		if (!(_event.thing.target is "PlayerPawn")) return;
+		
+		_event.thing.target.A_Recoil(2);
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (_event.thing is "PlayerPawn")
+		{
+			_event.thing.A_Recoil(2);
+		}
+		
+		return false;
+	}
+}
+
+class GZC_Doom64KnockbackEnemies : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Doom 64 Knockback for monsters";
+		GZC_Effect.Duration 35 * 90;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		if (_event.thing.target is "PlayerPawn") return;
+		
+		_event.thing.target.A_Recoil(2);
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "PlayerPawn"))
+		{
+			_event.thing.A_Recoil(2);
+		}
+		
+		return false;
+	}
+}
+
+class GZC_NegativeDoom64Knockback : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Negative Doom 64 Knockback";
+		GZC_Effect.Duration 35 * 90;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		if (!(_event.thing.target is "PlayerPawn")) return;
+		
+		_event.thing.target.A_Recoil(-2);
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (_event.thing is "PlayerPawn")
+		{
+			_event.thing.A_Recoil(-2);
+		}
+		
+		return false;
+	}
+}
+
+class GZC_NegativeDoom64KnockbackEnemies : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Negative Doom 64 Knockback for monsters";
+		GZC_Effect.Duration 35 * 90;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		if (_event.thing.target is "PlayerPawn") return;
+		
+		_event.thing.target.A_Recoil(-2);
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "PlayerPawn"))
+		{
+			_event.thing.A_Recoil(-2);
+		}
+		
+		return false;
+	}
+}
+
+class GZC_InconsistentDoom64Knockback : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Doom 64 Knockback";
+		GZC_Effect.Duration 35 * 90;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		if (!(_event.thing.target is "PlayerPawn")) return;
+		
+		double rnd = frandom(-2.0, 2.);
+		_event.thing.target.A_Recoil(rnd);
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (_event.thing is "PlayerPawn")
+		{
+			double rnd = frandom(-2.0, 2.);
+			_event.thing.target.A_Recoil(rnd);
+		}
+		
+		return false;
+	}
+}

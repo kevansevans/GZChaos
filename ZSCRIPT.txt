@@ -23,6 +23,7 @@ version "4.11"
 #include "ZSCRIPT/effects/GZC_ShaderEffects.zsc"
 #include "ZSCRIPT/effects/GZC_SpriteEffects.zsc"
 #include "ZSCRIPT/effects/GZC_TimerEffects.zsc"
+#include "ZSCRIPT/effects/GZC_WeaponEffects.zsc"
 
 #include "ZSCRIPT/enemies/morphs/Zombieman.zsc"
 #include "ZSCRIPT/enemies/morphs/Shotgunner.zsc"

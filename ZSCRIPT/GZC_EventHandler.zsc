@@ -147,8 +147,6 @@ class GZC_EventHandler : StaticEventHandler
 		
 		let bind = Bindings.GetBinding(_event.keyscan);
 		
-		console.printf(bind);
-		
 		return result;
 	}
 	
@@ -174,6 +172,23 @@ class GZC_EventHandler : StaticEventHandler
 			
 				break;
 		}
+	}
+	
+	override bool WorldHitscanPreFired(WorldEvent _event)
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		bool result;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.life > effect.duration) continue;
+			bool value = effect.onWorldHitscanPreFired(_event);
+			if (value) result = value;
+		}
+		
+		return result;
 	}
 	
 	//Purity checkers. If any mods are found, this disables incompatible effects

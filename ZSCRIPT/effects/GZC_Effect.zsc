@@ -152,6 +152,11 @@ Class GZC_Effect : GZC_BaseItem
 	virtual void onWorldLinePreActivated(WorldEvent _event)
 	{}
 	
+	virtual bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		return false;
+	}
+	
 	virtual ui bool onInputProcess(InputEvent _event)
 	{
 		return false;
