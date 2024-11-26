@@ -15,7 +15,7 @@ Class GZC_TimerBarBase
 		Screen.DrawText(SMALLFONT, Font.CR_WHITE, 0, 0, 'Undefined bar present! ' .. self.getClassName());
 	}
 	
-	virtual void initBar()
+	virtual void InitBar()
 	{}
 	
 	ui Shape2D getBar(Double _ratio, Double _min, Double _max, Double _scaleuv = 1.0)
@@ -95,7 +95,6 @@ Class GZC_TimerBar : GZC_TimerBarBase
 		double width = ratio * Screen.getWidth();
 		
 		int slices = colors.size();
-		double frac = 1 / double(colors.size());
 		int fill = int(slices * ratio) + 1;
 		
 		int tWidth, tHeight = TexMan.GetSize(texture);
