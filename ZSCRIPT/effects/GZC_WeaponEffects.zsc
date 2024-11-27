@@ -139,3 +139,34 @@ class GZC_InconsistentDoom64Knockback : GZC_Effect
 		return false;
 	}
 }
+
+class GZC_FreezeTag : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "Freeze tag";
+		GZC_Effect.Duration 35 * 60 * 2;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.target is "PlayerPawn")
+		{
+			_event.thing.damageType = "Ice";
+		}
+		
+		return;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (_event.damageType != "Ice")
+		{
+			_event.thing.LineAttack(_event.attackangle, _event.attackdistance, _event.attackpitch, _event.damage, "Ice", _event.attackpufftype, _event.DamageFlags, null, _event.attackz, _event.AttackOffsetForward, _event.attackoffsetside); 
+			return true;
+		}
+		
+		return false;
+	}
+}
