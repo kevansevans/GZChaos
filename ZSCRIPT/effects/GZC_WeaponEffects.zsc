@@ -4,7 +4,7 @@ class GZC_Doom64Knockback : GZC_Effect
 	{
 		GZC_Effect.ignore false;
 		GZC_Effect.title "Doom 64 Knockback";
-		GZC_Effect.Duration 35 * 90;
+		GZC_Effect.Duration 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -32,7 +32,7 @@ class GZC_Doom64KnockbackEnemies : GZC_Effect
 	{
 		GZC_Effect.ignore false;
 		GZC_Effect.title "Doom 64 Knockback for monsters";
-		GZC_Effect.Duration 35 * 90;
+		GZC_Effect.Duration 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -60,7 +60,7 @@ class GZC_NegativeDoom64Knockback : GZC_Effect
 	{
 		GZC_Effect.ignore false;
 		GZC_Effect.title "Negative Doom 64 Knockback";
-		GZC_Effect.Duration 35 * 90;
+		GZC_Effect.Duration 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -88,7 +88,7 @@ class GZC_NegativeDoom64KnockbackEnemies : GZC_Effect
 	{
 		GZC_Effect.ignore false;
 		GZC_Effect.title "Negative Doom 64 Knockback for monsters";
-		GZC_Effect.Duration 35 * 90;
+		GZC_Effect.Duration 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -116,7 +116,7 @@ class GZC_InconsistentDoom64Knockback : GZC_Effect
 	{
 		GZC_Effect.ignore false;
 		GZC_Effect.title "Inconsistent Doom 64 Knockback";
-		GZC_Effect.Duration 35 * 90;
+		GZC_Effect.Duration 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
