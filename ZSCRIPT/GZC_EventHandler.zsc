@@ -62,6 +62,7 @@ class GZC_EventHandler : StaticEventHandler
 			
 				let player = players[consoleplayer].mo;
 				if (player.health <= 0) return;
+				if (cc_check()) return;
 			
 				processConsole();
 				tickEvents();
@@ -71,6 +72,21 @@ class GZC_EventHandler : StaticEventHandler
 				
 				break;
 		}
+	}
+	
+	//Corruption cards check
+	bool cc_check()
+	{
+		name cc_class = 'CCards_Global';
+		Class<Thinker> cc_instance = cc_class;
+		if (!cc_instance) return false;
+		else
+		{
+			let pinfo = players[consoleplayer];
+			if (pinfo.cheats & CF_TOTALLYFROZEN) return true;
+		}
+		
+		return false;
 	}
 	
 	override void WorldThingDied(WorldEvent _event)
