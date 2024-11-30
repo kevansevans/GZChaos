@@ -1,0 +1,12 @@
+Model GZC_Snail
+{
+	Path models
+	Model 0 snail.obj 
+	SurfaceSkin 0 0 "MODELS/texture.png"
+	Scale 0.5 0.5 0.5
+	Offset 0 0 0 
+	AngleOffset 0 
+
+    FrameIndex SNAI L 0 0 
+
+}

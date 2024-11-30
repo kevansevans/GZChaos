@@ -1,0 +1,42 @@
+class GZC_Snail : Actor
+{
+	Default
+	{
+		+NoClip;
+		+InterpolateAngles;
+		
+		Speed 1;
+		radius 1;
+		
+		Obituary "%o was shellacked by the snail";
+	}
+	
+	Override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		
+		self.target = players[consoleplayer].mo;
+	}
+	
+	override void Tick()
+	{
+		if (Level.IsPointInLevel(self.pos)) self.speed = 1;
+		else self.speed = 20;
+	
+		Super.tick();
+		
+		let pinfo = players[consoleplayer];
+		
+		if (distance3D(pinfo.mo) > 8) return;
+		
+		pinfo.cheats &= ~(CF_GODMODE | CF_BUDDHA | CF_GODMODE2 | CF_BUDDHA2);
+		pinfo.mo.DamageMobj(self, self, 0x7FFFFFFF, "Snail");
+	}
+	
+	States
+	{
+		Spawn:
+			SNAI L 6 Bright A_Chase();
+			Loop;
+	}
+}

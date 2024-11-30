@@ -1,3 +1,24 @@
+class GZC_TheImmortalSnail : GZC_Effect
+{
+	GZC_Snail TheSnail;
+	
+	Default
+	{
+		GZC_Effect.title "The immortal snail";
+		GZC_Effect.duration 35 * 60 * 10;
+		GZC_Effect.type GZC_Timed;
+	}
+
+	override void onOpen()
+	{
+		TheSnail = GZC_Snail(Actor.spawn("GZC_Snail"));
+		TheSnail.A_DamageSelf(0);
+		
+		let pinfo = players[consoleplayer];
+		pinfo.cheats |= (CF_GODMODE | CF_BUDDHA | CF_GODMODE2 | CF_BUDDHA2);
+	}
+}
+
 Class GZC_RandomProjectileVel : GZC_Effect
 {
 	Default

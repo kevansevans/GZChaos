@@ -1,0 +1,2 @@
+sprite SNAIL0, 16, 16
+{}

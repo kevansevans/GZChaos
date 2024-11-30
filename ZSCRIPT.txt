@@ -1,6 +1,7 @@
 version "4.11"
 
 #include "ZSCRIPT/actors/monsters/GZC_ChaosMonster.zsc"
+#include "ZSCRIPT/actors/monsters/GZC_Snail.zsc"
 #include "ZSCRIPT/actors/weapons/GZC_ChaosShotgun.zsc"
 #include "ZSCRIPT/actors/weapons/GZC_ChaosWeapon.zsc"
 #include "ZSCRIPT/actors/GZC_MissingActor.zsc"
