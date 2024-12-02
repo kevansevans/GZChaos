@@ -7,8 +7,6 @@ pong/wall "sounds/WALLBOOP.ogg"
 
 coffee/slurp "sounds/SLURP.ogg"
 
-BIG/BELCH "sounds/7secburp.wav"
-
 chicken/pain CHICPAI
 chicken/death CHICDTH
 $Random chicken/peck { CHICPK1 CHICPK2 CHICPK3 }
@@ -122,3 +120,5 @@ vile/firecrkl "Sounds/rips/DSFLAME"
 
 diabolist/plumeexplode dsplumxp
 $limit diabolist/plumeexplode 4
+
+Josh/Belch "Sounds/JELCH.ogg"

@@ -220,14 +220,14 @@ Class GZC_InventorySickness : GZC_Effect
 	default
 	{
 		GZC_Effect.title "Inventory sickness";
-		GZC_Effect.duration 35 * 7;
+		GZC_Effect.duration 35 * 10;
 	}
 	
 	override void onOpen()
 	{
 		let player = players[consoleplayer].mo;
 		player.bPickup = false;
-		player.A_StartSound("BIG/BELCH", Chan_Auto);
+		player.A_StartSound("JOSH/BELCH", Chan_Auto);
 	}
 
 	override void onWorldTick()
