@@ -102,6 +102,20 @@ Class GZC_Effect : GZC_BaseItem
 		}
 	}
 	
+	bool mapHasThisActor(String _classname)
+	{
+		ThinkerIterator it = ThinkerIterator.create(_classname);
+		Actor mo;
+		
+		//this loop will literally not execute if the map lacks the provided class name
+		while (mo = Actor(it.next()))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	virtual bool verify()
 	{
 		let player = players[consoleplayer].mo;
