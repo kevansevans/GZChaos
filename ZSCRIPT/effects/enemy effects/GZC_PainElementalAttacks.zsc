@@ -9,10 +9,29 @@ class GZC_PainElementalAttackEffect : GZC_Effect
 	{
 		return mapHasThisActor("PainElemental");
 	}
+	
+	Static Actor getNearestElemental(Actor _soul)
+	{
+		double dist = 0x7FFFFFF;
+		Actor closest = null;
+	
+		for (let i = BlockThingsIterator.Create(_soul, 64); i.Next();)
+		{
+			actor thing = i.thing;
+			if (thing == _soul) continue;
+			
+			if (thing.distance3D(_soul) < dist)
+			{
+				closest = thing;
+				dist = thing.distance3D(_soul);
+			}
+		}
+		
+		return closest;
+	}
 }
 
-//putting these on hold until I can figure out how to reliably grab a pain elemental that performs an attack
-/*class GZC_PainElementalRepeater : GZC_Effect
+class GZC_PainElementalRepeater : GZC_Effect
 {
 	default
 	{
@@ -23,15 +42,26 @@ class GZC_PainElementalAttackEffect : GZC_Effect
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
 		if (!(_event.thing is "LostSoul")) return;
-		if (!(_event.thing.master is "PainElemental")) return;
 		
-		let grumpy = _event.thing.DamageSource;
+		let grumpy = GZC_PainElementalAttackEffect.getNearestElemental(_event.thing);
 		
-		console.printf('yarhar');
+		if (grumpy.isVisible(grumpy.target, true) && grumpy.target.health > 0)
+		{
+			grumpy.setStateLabel("Missile");
+		}
+		else
+		{
+			int rnd = random(0, 255);
+			if (rnd < 40) grumpy.SetStateLabel("See");
+			else
+			{
+				grumpy.setStateLabel("Missile");
+			}
+		}
 	}
 
 	override bool verify()
 	{
 		return mapHasThisActor("PainElemental");
 	}
-}*/
+}
