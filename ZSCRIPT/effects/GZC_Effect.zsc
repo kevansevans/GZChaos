@@ -62,6 +62,7 @@ Class GZC_Effect : GZC_BaseItem
 		
 		let debug = Cvar.getCvar('GZC_LastRolledEffect');
 		debug.setString(self.getClassName());
+		Cvar.SaveConfig();
 	}
 	
 	static int seed()
