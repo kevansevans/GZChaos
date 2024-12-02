@@ -1,0 +1,200 @@
+//this is here as a substitute so checking if an attack is a bullet based
+//attack won't cause an infinite loop.
+class GZC_BulletPuff : Actor
+{
+	Default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+ALLOWPARTICLES
+		+RANDOMIZE
+		+ZDOOMTRANS
+		RenderStyle "Translucent";
+		Alpha 0.5;
+		VSpeed 1;
+		Mass 5;
+	}
+	States
+	{
+	Spawn:
+		PUFF A 4 Bright;
+		PUFF B 4;
+	Melee:
+		PUFF CD 4;
+		Stop;
+	}
+}
+
+/*
+The following classes below are holdovers for legacy effects that still rely on
+morphing a mass quantity of enemies. GZDoom cannot morph an actor into another,
+unless destination actor inherits from MorphedMonster (as of GZDoom 4.14).
+*/
+
+class GZC_PainElemental : MorphedMonster
+{
+	Default
+	{
+		Health 400;
+		Radius 31;
+		Height 56;
+		Mass 400;
+		Speed 8;
+		PainChance 128;
+		Monster;
+		+FLOAT 
+		+NOGRAVITY
+		SeeSound "pain/sight";
+		PainSound "pain/pain";
+		DeathSound "pain/death";
+		ActiveSound "pain/active";
+		Tag "$FN_PAIN";
+	}
+	States
+	{
+	Spawn:
+		PAIN A 10 A_Look;
+		Loop;
+	See:
+		PAIN AABBCC 3 A_Chase;
+		Loop;
+	Missile:
+		PAIN D 5 A_FaceTarget;
+		PAIN E 5 A_FaceTarget;
+		PAIN F 5 BRIGHT A_FaceTarget;
+		PAIN F 0 BRIGHT A_PainAttack;
+		Goto See;
+	Pain:
+		PAIN G 6;
+		PAIN G 6 A_Pain;
+		Goto See;
+	Death:
+		PAIN H 8 BRIGHT;
+		PAIN I 8 BRIGHT A_Scream;
+		PAIN JK 8 BRIGHT;
+		PAIN L 8 BRIGHT A_PainDie;
+		PAIN M 8 BRIGHT;
+		Stop;
+	Raise:
+		PAIN MLKJIH 8;
+		Goto See;
+	}
+}
+
+class GZC_Chaingunner : MorphedMonster
+{
+	Default
+	{
+		Health 70;
+		Radius 20;
+		Height 56;
+		Mass 100;
+		Speed 8;
+		PainChance 170;
+		Monster;
+		+FLOORCLIP
+		SeeSound "chainguy/sight";
+		PainSound "chainguy/pain";
+		DeathSound "chainguy/death";
+		ActiveSound "chainguy/active";
+		AttackSound "chainguy/attack";
+		Obituary "$OB_CHAINGUY";
+		Tag "$FN_HEAVY";
+		Dropitem "Chaingun";
+	}
+	States
+	{
+	Spawn:
+		CPOS AB 10 A_Look;
+		Loop;
+	See:
+		CPOS AABBCCDD 3 A_Chase;
+		Loop;
+	Missile:
+		CPOS E 10 A_FaceTarget;
+		CPOS FE 4 BRIGHT A_CPosAttack;
+		CPOS F 1 A_CPosRefire;
+		Goto Missile+1;
+	Pain:
+		CPOS G 3;
+		CPOS G 3 A_Pain;
+		Goto See;
+	Death:
+		CPOS H 5;
+		CPOS I 5 A_Scream;
+		CPOS J 5 A_NoBlocking;
+		CPOS KLM 5;
+		CPOS N -1;
+		Stop;
+	XDeath:
+		CPOS O 5;
+		CPOS P 5 A_XScream;
+		CPOS Q 5 A_NoBlocking;
+		CPOS RS 5;
+		CPOS T -1;
+		Stop;
+	Raise:
+		CPOS N 5;
+		CPOS MLKJIH 5;
+		Goto See;
+	}
+}
+
+class GZC_DoomImp : MorphedMonster
+{
+	Default
+	{
+		Health 60;
+		Radius 20;
+		Height 56;
+		Mass 100;
+		Speed 8;
+		PainChance 200;
+		Monster;
+		+FLOORCLIP
+		SeeSound "imp/sight";
+		PainSound "imp/pain";
+		DeathSound "imp/death";
+		ActiveSound "imp/active";
+		HitObituary "$OB_IMPHIT";
+		Obituary "$OB_IMP";
+		Tag "$FN_IMP";
+	}
+	States
+	{
+	Spawn:
+		TROO AB 10 A_Look;
+		Loop;
+	See:
+		TROO AABBCCDD 3 A_Chase;
+		Loop;
+	Melee:
+	Missile:
+		TROO EF 8 A_FaceTarget;
+		TROO G 6 A_TroopAttack;
+		Goto See;
+	Pain:
+		TROO H 2;
+		TROO H 2 A_Pain;
+		Goto See;
+	Death:
+		TROO I 8;
+		TROO J 8 A_Scream;
+		TROO K 6;
+		TROO L 6 A_NoBlocking;
+		TROO M -1;
+		Stop;
+	XDeath:
+		TROO N 5;
+		TROO O 5 A_XScream;
+		TROO P 5;
+		TROO Q 5 A_NoBlocking;
+		TROO RST 5;
+		TROO U -1;
+		Stop;
+	Raise:
+		TROO ML 8;
+		TROO KJI 6;
+		Goto See;
+	}
+}
