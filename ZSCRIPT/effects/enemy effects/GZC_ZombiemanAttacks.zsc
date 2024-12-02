@@ -75,7 +75,7 @@ class GZC_ZombiemenFireFireballs : GZC_ZombiemanAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Zombiemen fire shotguns";
+		GZC_Effect.title "Zombiemen shoot fireballs";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}

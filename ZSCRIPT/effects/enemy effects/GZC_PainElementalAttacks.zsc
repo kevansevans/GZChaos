@@ -1,0 +1,37 @@
+class GZC_PainElementalAttackEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		return mapHasThisActor("PainElemental");
+	}
+}
+
+//putting these on hold until I can figure out how to reliably grab a pain elemental that performs an attack
+/*class GZC_PainElementalRepeater : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Pain Elementals repeat attack";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "LostSoul")) return;
+		if (!(_event.thing.master is "PainElemental")) return;
+		
+		let grumpy = _event.thing.DamageSource;
+		
+		console.printf('yarhar');
+	}
+
+	override bool verify()
+	{
+		return mapHasThisActor("PainElemental");
+	}
+}*/
