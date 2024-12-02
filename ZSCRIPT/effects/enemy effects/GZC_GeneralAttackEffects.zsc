@@ -1,3 +1,80 @@
+class GZC_ArmedWithBFG : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Placeholder";
+		GZC_Effect.duration 35 * 60 * 5;
+	}
+	
+	Array<Actor> chosen;
+	
+	override void onOpen()
+	{
+		chosen.clear();
+		
+		int rnd = random(1, min(Level.Total_Monsters - Level.Killed_Monsters, int(Level.Total_Monsters * 0.05)));
+		self.title = "Armed " .. rnd .. " monsters with the BFG9000";
+		
+		while (true)
+		{
+			ThinkerIterator it = ThinkerIterator.create("Actor");
+			Actor mo;
+			
+			while (mo = Actor(it.next()))
+			{
+				if (!(mo.bIsMonster)) continue;
+				
+				let def = getDefaultByType(mo.getClass());
+				if (!def.FindState("Missile")) continue;
+			
+				int rng = random(0, 9);
+				if (!rng) 
+				{
+					chosen.push(mo);
+				}
+				
+				if (chosen.size() == rnd) break;
+			}
+			
+			if (chosen.size() == rnd) break;
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing is "BFGBall") return;
+		if (_event.thing.target is "PlayerPawn") return;
+		if (_event.thing.bMissile)
+		{
+			foreach (mo : chosen)
+			{
+				if (mo == _event.thing)
+				{
+					_event.Thing.Target.A_CustomComboAttack("BFGBall", 32, 3 * random(1, 8), _event.thing.meleesound);
+					_event.thing.Destroy();
+					break;
+				}
+			}
+		}
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!_event.thing.bIsMonster) return false;
+	
+		foreach (mo : chosen)
+		{
+			if (mo == _event.thing)
+			{
+				_event.thing.A_CustomComboAttack("BFGBall", 32, 3 * random(1, 8), _event.thing.meleesound);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+}
+
 //this is here as a substitute so checking if an attack is a bullet based
 //attack won't cause an infinite loop.
 class GZC_BulletPuff : Actor
