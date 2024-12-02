@@ -511,36 +511,6 @@ class GZC_MorphImpEffect : GZC_Effect
 	}
 }
 
-class GZC_MorphZombiemanEffect : GZC_Effect
-{
-	Default
-	{
-		GZC_Effect.ignore true;
-	}
-	
-	override bool verify()
-	{
-		int count = 0;
-		ThinkerIterator it = ThinkerIterator.create('GZC_MorphZombiemanEffect');
-		actor item;
-		while (item = Actor(it.next())) ++count;
-		if (count > 1) return false;
-		
-		it = ThinkerIterator.create('Zombieman');
-		actor mo;
-		count = 0;
-		while (mo = Actor(it.next()))
-		{
-			if (!mo.bIsMonster) continue;
-			if (mo.health > 0) ++count;
-		}
-		
-		if (!count) return false;
-		
-		return super.verify();
-	}
-}
-
 class GZC_MorphShotgunnerEffect : GZC_Effect
 {
 	Default
