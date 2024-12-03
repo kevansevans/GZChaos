@@ -9,9 +9,11 @@ version "4.11"
 #include "ZSCRIPT/backend/GZC_SideDef.zsc"
 #include "ZSCRIPT/backend/GZC_SecPlane.zsc"
 
-#include "ZSCRIPT/effects/enemy effects/GZC_DoomImpAttackEffects.zsc"
+#include "ZSCRIPT/effects/enemy effects/GZC_ChaingunnerAttacks.zsc"
+#include "ZSCRIPT/effects/enemy effects/GZC_DoomImpAttacks.zsc"
 #include "ZSCRIPT/effects/enemy effects/GZC_GeneralAttackEffects.zsc"
 #include "ZSCRIPT/effects/enemy effects/GZC_PainElementalAttacks.zsc"
+#include "ZSCRIPT/effects/enemy effects/GZC_ShotgunGuyAttacks.zsc"
 #include "ZSCRIPT/effects/enemy effects/GZC_ZombiemanAttacks.zsc"
 
 #include "ZSCRIPT/effects/GZC_AudioEffects.zsc"
