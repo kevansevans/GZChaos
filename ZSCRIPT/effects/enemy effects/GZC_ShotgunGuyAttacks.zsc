@@ -1,0 +1,248 @@
+class GZC_ShotgunGuyAttackEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		return mapHasThisActor("ShotgunGuy");
+	}
+}
+
+class GZC_ShotgunGuyRepeater : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunners repeat fire";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+
+		let mon = _event.thing;
+		
+		if (mon.isVisible(mon.target, true) && mon.target.health > 0)
+		{
+			mon.setStateLabel("Missile");
+			return false;
+		}
+		else
+		{
+			int rnd = random(0, 255);
+			if (rnd < 40) mon.SetStateLabel("See");
+			else
+			{
+				mon.setStateLabel("Missile");
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	override bool verify()
+	{
+		return mapHasThisActor("ShotgunGuy");
+	}
+}
+
+class GZC_ShotgunGuyFireBullets : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunners Fire Bullets";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		_event.thing.A_CustomBulletAttack(22.5, 0, 1, random(1, 5) * 3, "GZC_BulletPuff", 0, CBAF_NORANDOM);
+		_event.thing.A_StartSound("shotguy/attack", CHAN_WEAPON);
+		
+		return true;
+	}
+}
+
+class GZC_SuperShotgunGuy : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Super Shotgunners";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		_event.thing.A_CustomBulletAttack(22.5, 0, 2, random(1, 5) * 6, "GZC_BulletPuff", 0, CBAF_NORANDOM);
+		_event.thing.A_StartSound("shotguy/attack", CHAN_WEAPON);
+		
+		return true;
+	}
+}
+
+class GZC_ShotgunGuyFireImpBalls : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunnsers shoot fireballs";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		A_SpawnProjectile("DoomImpBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_StartSound("Doomimp/attack", CHAN_WEAPON);
+		
+		return true;
+	}
+}
+
+class GZC_ShotgunGuyFireBaronBalls : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunnsers shoot Baron Balls";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		A_SpawnProjectile("BaronBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_StartSound("Baron/attack", CHAN_WEAPON);
+		
+		return true;
+	}
+}
+
+class GZC_ShotgunGuyFirePlasma : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunnsers shoot Plasma";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		A_SpawnProjectile("ArachnotronPlasma", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_StartSound("Baby/attack", CHAN_WEAPON);
+		
+		return true;
+	}
+}
+
+class GZC_ShotgunGuyFireMissile : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunnsers shoot Missiles";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		A_SpawnProjectile("RevenantTracer", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_StartSound("Skeleton/attack", CHAN_WEAPON);
+		
+		return true;
+	}
+}
+
+class GZC_ShotgunGuyFireRockets : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunnsers shoot Missiles";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		A_SpawnProjectile("Rocket", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_StartSound("weapons/rocklf", CHAN_WEAPON);
+		
+		return true;
+	}
+}
+
+class GZC_ShotgunGuyFireCacoballs : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunnsers shoot Caco-balls";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		A_SpawnProjectile("CacodemonBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_StartSound("caco/attack", CHAN_WEAPON);
+		
+		return true;
+	}
+}
+
+class GZC_ShotgunGuyFireLostSouls : GZC_ShotgunGuyAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Shotgunnsers shoot Lost Souls";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!(_event.thing is "ShotgunGuy")) return false;
+		if (_event.attackpufftype == "GZC_BulletPuff") return false;
+		
+		double otherradius = GetDefaultByType("LostSoul").radius;
+		double prestep = 4 + (_event.thing.radius + otherradius) * 1.5;
+
+		Vector2 move = AngleToVector(_event.thing.angle, prestep);
+		Vector3 spawnpos = _event.thing.pos + (0, 0, 8);
+		Vector3 destpos = spawnpos + move;
+		
+		Actor soul = Spawn("LostSoul", destpos, ALLOW_REPLACE);
+		soul.angle = _event.thing.angle + frandom(-11.25, 11.25);
+		soul.A_SkullAttack();
+		
+		return true;
+	}
+}

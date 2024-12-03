@@ -46,6 +46,7 @@ class GZC_PainElementalAttackEffect : GZC_Effect
 		else other.thrust(20, _grumpy.angle);
 		
 		other.bFriendly = _grumpy.bFriendly;
+		other.target = _grumpy.target;
 	}
 }
 
