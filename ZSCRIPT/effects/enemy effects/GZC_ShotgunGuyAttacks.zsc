@@ -96,7 +96,7 @@ class GZC_ShotgunGuyFireImpBalls : GZC_ShotgunGuyAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Shotgunnsers shoot fireballs";
+		GZC_Effect.title "Shotgunners shoot fireballs";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}
@@ -117,7 +117,7 @@ class GZC_ShotgunGuyFireBaronBalls : GZC_ShotgunGuyAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Shotgunnsers shoot Baron Balls";
+		GZC_Effect.title "Shotgunners shoot Baron Balls";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}
@@ -138,7 +138,7 @@ class GZC_ShotgunGuyFirePlasma : GZC_ShotgunGuyAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Shotgunnsers shoot Plasma";
+		GZC_Effect.title "Shotgunners shoot Plasma";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}
@@ -159,7 +159,7 @@ class GZC_ShotgunGuyFireMissile : GZC_ShotgunGuyAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Shotgunnsers shoot Missiles";
+		GZC_Effect.title "Shotgunners shoot Missiles";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}
@@ -180,7 +180,7 @@ class GZC_ShotgunGuyFireRockets : GZC_ShotgunGuyAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Shotgunnsers shoot Missiles";
+		GZC_Effect.title "Shotgunners shoot Missiles";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}
@@ -201,7 +201,7 @@ class GZC_ShotgunGuyFireCacoballs : GZC_ShotgunGuyAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Shotgunnsers shoot Caco-balls";
+		GZC_Effect.title "Shotgunners shoot Caco-balls";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}
@@ -222,7 +222,7 @@ class GZC_ShotgunGuyFireLostSouls : GZC_ShotgunGuyAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Shotgunnsers shoot Lost Souls";
+		GZC_Effect.title "Shotgunners shoot Lost Souls";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}
