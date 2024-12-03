@@ -106,7 +106,7 @@ class GZC_ShotgunGuyFireImpBalls : GZC_ShotgunGuyAttackEffect
 		if (!(_event.thing is "ShotgunGuy")) return false;
 		if (_event.attackpufftype == "GZC_BulletPuff") return false;
 		
-		A_SpawnProjectile("DoomImpBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_SpawnProjectile("DoomImpBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
 		_event.thing.A_StartSound("Doomimp/attack", CHAN_WEAPON);
 		
 		return true;
@@ -127,7 +127,7 @@ class GZC_ShotgunGuyFireBaronBalls : GZC_ShotgunGuyAttackEffect
 		if (!(_event.thing is "ShotgunGuy")) return false;
 		if (_event.attackpufftype == "GZC_BulletPuff") return false;
 		
-		A_SpawnProjectile("BaronBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_SpawnProjectile("BaronBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
 		_event.thing.A_StartSound("Baron/attack", CHAN_WEAPON);
 		
 		return true;
@@ -148,7 +148,7 @@ class GZC_ShotgunGuyFirePlasma : GZC_ShotgunGuyAttackEffect
 		if (!(_event.thing is "ShotgunGuy")) return false;
 		if (_event.attackpufftype == "GZC_BulletPuff") return false;
 		
-		A_SpawnProjectile("ArachnotronPlasma", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_SpawnProjectile("ArachnotronPlasma", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
 		_event.thing.A_StartSound("Baby/attack", CHAN_WEAPON);
 		
 		return true;
@@ -190,7 +190,7 @@ class GZC_ShotgunGuyFireRockets : GZC_ShotgunGuyAttackEffect
 		if (!(_event.thing is "ShotgunGuy")) return false;
 		if (_event.attackpufftype == "GZC_BulletPuff") return false;
 		
-		A_SpawnProjectile("Rocket", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_SpawnProjectile("Rocket", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
 		_event.thing.A_StartSound("weapons/rocklf", CHAN_WEAPON);
 		
 		return true;
@@ -211,7 +211,7 @@ class GZC_ShotgunGuyFireCacoballs : GZC_ShotgunGuyAttackEffect
 		if (!(_event.thing is "ShotgunGuy")) return false;
 		if (_event.attackpufftype == "GZC_BulletPuff") return false;
 		
-		A_SpawnProjectile("CacodemonBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		_event.thing.A_SpawnProjectile("CacodemonBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
 		_event.thing.A_StartSound("caco/attack", CHAN_WEAPON);
 		
 		return true;
