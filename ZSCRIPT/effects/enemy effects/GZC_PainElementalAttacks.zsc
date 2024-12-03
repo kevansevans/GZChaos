@@ -29,6 +29,24 @@ class GZC_PainElementalAttackEffect : GZC_Effect
 		
 		return closest;
 	}
+	
+	static void CustomSpawnAttack(Actor _grumpy, Class<Actor> _type)
+	{
+		double otherradius = GetDefaultByType(_type).radius;
+		double prestep = 4 + (_grumpy.radius + otherradius) * 1.5;
+
+		Vector2 move = AngleToVector(_grumpy.angle, prestep);
+		Vector3 spawnpos = _grumpy.pos + (0, 0, 8);
+		Vector3 destpos = spawnpos + move;
+
+		Actor other = Spawn(_type, destpos, ALLOW_REPLACE);
+		other.master = _grumpy;
+		
+		if (other is "LostSoul") other.A_SkullAttack();
+		else other.thrust(20, _grumpy.angle);
+		
+		other.bFriendly = _grumpy.bFriendly;
+	}
 }
 
 class GZC_PainElementalRepeater : GZC_Effect
@@ -44,6 +62,8 @@ class GZC_PainElementalRepeater : GZC_Effect
 		if (!(_event.thing is "LostSoul")) return;
 		
 		let grumpy = GZC_PainElementalAttackEffect.getNearestElemental(_event.thing);
+		
+		if (!grumpy) return;
 		
 		if (grumpy.isVisible(grumpy.target, true) && grumpy.target.health > 0)
 		{
@@ -63,5 +83,80 @@ class GZC_PainElementalRepeater : GZC_Effect
 	override bool verify()
 	{
 		return mapHasThisActor("PainElemental");
+	}
+}
+
+class GZC_PainElementalPukesEnemies : GZC_PainElementalAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Pain Elementals puke random enemies";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	Array<Class<Actor> > monsters;
+	
+	override void OnOpen()
+	{
+		monsters.clear();
+	
+		foreach (classtype : AllActorClasses)
+		{
+			if (classtype is "GZC_Effect") continue;
+			
+			string classname = classtype.getClassName();
+			
+			class<Actor> monster = classname;
+			let def = getDefaultByType(monster);
+			if (!def.bIsMonster) continue;
+			if (def.bStealth) continue;
+			
+			if (def is "GZC_JitterSkull") continue;
+			
+			let spr = def.spawnstate.getSpriteTexture(0);
+			let sprname = TexMan.getName(spr);
+			if (sprname == "TNT1A0") continue;
+			
+			monsters.push(monster);
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (_event.thing.master is "PainElemental") return;
+		if (!(_event.thing is "LostSoul")) return;
+		
+		let grumpy = GZC_PainElementalAttackEffect.getNearestElemental(_event.thing);
+		if (!grumpy) return;
+		
+		_event.thing.destroy();
+		
+		int rnd = random(0, monsters.size() - 1);
+		
+		GZC_PainElementalAttackEffect.customspawnattack(grumpy, monsters[rnd]);
+	}
+}
+
+class GZC_PainElementalPukesBarrels : GZC_PainElementalAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Pain Elementals puke Explosive Barrels";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "LostSoul")) return;
+		if (_event.thing is "LostSoul" && _event.thing.master is "PainElemental") return;
+		
+		let grumpy = GZC_PainElementalAttackEffect.getNearestElemental(_event.thing);
+		if (!grumpy) return;
+		
+		_event.thing.destroy();
+		
+		GZC_PainElementalAttackEffect.customspawnattack(grumpy, "ExplosiveBarrel");
 	}
 }
