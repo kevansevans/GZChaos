@@ -150,7 +150,7 @@ class GZC_DoomImpFireRockets : GZC_DoomImpAttackEffect
 {
 	default
 	{
-		GZC_Effect.title "Imps fire missiles";
+		GZC_Effect.title "Imps fire Rockets";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}

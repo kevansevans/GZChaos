@@ -1,0 +1,209 @@
+class GZC_CacodemonAttackEffect : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore true;
+	}
+	
+	override bool verify()
+	{
+		return mapHasThisActor("Cacodemon");
+	}
+}
+
+class GZC_CacodemonRepeater : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemons repeat fire";
+		GZC_Effect.duration 35 * 60 * 3;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		
+		if (caco.isVisible(caco.target, true) && caco.target.health > 0)
+		{
+			caco.setStateLabel("Missile");
+		}
+		else
+		{
+			int rnd = random(0, 255);
+			if (rnd < 40) caco.SetStateLabel("See");
+			else
+			{
+				caco.setStateLabel("Missile");
+			}
+		}
+	}
+}
+
+class GZC_CacodemonFireBullets : GZC_CacodemonAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemon fire bullets";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		caco.A_PosAttack();
+		caco.A_StartSound("grunt/attack");
+		
+		_event.thing.destroy();
+	}
+}
+
+class GZC_CacodemonFireShotgun : GZC_CacodemonAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemon fire shotguns";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		caco.A_CPosAttack();
+		caco.A_StartSound("shotguy/attack");
+		
+		_event.thing.destroy();
+	}
+}
+
+class GZC_CacodemonFireBaronBalls : GZC_CacodemonAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemon fire Baron Balls";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		caco.A_BruisAttack();
+		caco.A_StartSound("baron/attack");
+		
+		_event.thing.destroy();
+	}
+}
+
+class GZC_CacodemonFirePlasma : GZC_CacodemonAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemon fire plasma";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		caco.A_BSpiAttack();
+		caco.A_StartSound("baby/attack");
+		
+		_event.thing.destroy();
+	}
+}
+
+class GZC_CacodemonFireMissiles : GZC_CacodemonAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemon fire missiles";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		caco.A_SkelMissile();
+		caco.A_PlaySound("skeleton/attack", CHAN_WEAPON);
+		
+		_event.thing.destroy();
+	}
+}
+
+class GZC_CacodemonFireRockets : GZC_CacodemonAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemon fire Rockets";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		caco.A_CyberAttack();
+		caco.A_PlaySound("weapons/rocklf", CHAN_WEAPON);
+		
+		_event.thing.destroy();
+	}
+}
+
+class GZC_CacodemonShootFireballs : GZC_CacodemonAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemon shoot fireballs";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		caco.A_TroopAttack();
+		caco.A_PlaySound("doomimp/attack", CHAN_WEAPON);
+		
+		_event.thing.destroy();
+	}
+}
+
+class GZC_CacodemonFireLostSouls : GZC_CacodemonAttackEffect
+{
+	default
+	{
+		GZC_Effect.title "Cacodemon fire Lost Souls";
+		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.ignore false;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "CacodemonBall")) return;
+		
+		let caco = _event.thing.target;
+		caco.A_PainAttack();
+		
+		_event.thing.destroy();
+	}
+}
