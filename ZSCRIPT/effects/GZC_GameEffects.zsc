@@ -1,3 +1,22 @@
+class GZC_SavingNotAllowed : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Quicksaves add effects";
+		GZC_Effect.duration 35 * 60 * 5;
+		GZC_Effect.type GZC_Timed;
+	}
+	
+	override void OnWorldTick()
+	{
+		if (gameaction == GA_SaveGame)
+		{
+			let event = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+			event.giveEffect();
+		}
+	}
+}
+
 class GZC_TheImmortalSnail : GZC_Effect
 {
 	GZC_Snail TheSnail;
