@@ -133,7 +133,7 @@ class GZC_InconsistentDoom64Knockback : GZC_Effect
 		if (_event.thing is "PlayerPawn")
 		{
 			double rnd = frandom(-2.0, 2.);
-			_event.thing.target.A_Recoil(rnd);
+			_event.thing.A_Recoil(rnd);
 		}
 		
 		return false;
