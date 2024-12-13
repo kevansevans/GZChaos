@@ -1,4 +1,4 @@
-version "4.11"
+version "4.14"
 
 #include "ZSCRIPT/actors/monsters/GZC_ChaosMonster.zsc"
 #include "ZSCRIPT/actors/monsters/GZC_Snail.zsc"
@@ -9,6 +9,7 @@ version "4.11"
 #include "ZSCRIPT/backend/GZC_SideDef.zsc"
 #include "ZSCRIPT/backend/GZC_SecPlane.zsc"
 
+#include "ZSCRIPT/effects/enemy effects/GZC_CacodemonAttacks.zsc"
 #include "ZSCRIPT/effects/enemy effects/GZC_ChaingunnerAttacks.zsc"
 #include "ZSCRIPT/effects/enemy effects/GZC_DoomImpAttacks.zsc"
 #include "ZSCRIPT/effects/enemy effects/GZC_GeneralAttackEffects.zsc"
