@@ -1,5 +1,58 @@
 
-GZChaos 1.1.1
+GZChaos 1.4
+
+General changes
+	- Fixed divide by zero bug
+	- Added WorldHitscanPreFired event function
+	- Added corruption card detection to prevent timer from advancing during card selection
+	- Reworked several alternative attack effects so they don't use unstable morph actors
+	- Improved the naming convention of these effects to make it more clear what they're doing
+	- Improved "GZC_LastRolledEffect" cvar
+		- If your game freezes on an effect roll, this CVAR will store that effect and make
+		it easier for debugging purposes. Please provide this when reporting game crashes.
+	- Removed deprectaed functions/code in favor of newer standards
+	
+Effect Changes
+	- "Aggressive Enemies" now multiplies attack chance by a factor of 4 across enemies
+	
+New Effects
+	- Doom 64 Knockback
+	- Doom 64 Knockback for monsters
+	- Negative Doom 64 Knockback
+	- Negative Doom 64 Knockback for monsters
+	- Inconsistent Doom 64 Knockback
+	- Freeze tag
+	- The Immortal Snail
+	- Armed with the BFG9000
+	- Armed with A Railgun
+	- Zombiemen fire missiles
+	- Imps fire bullets
+	- Imps fire missiles
+	- Pain Elementals repeat attack
+	- Pain Elementals puke random enemies
+	- Pain Elementals puke Explosive Barrels
+	- Super Shotgunners
+	- Quicksaves add effects
+
+GZChaos 1.3
+
+General changes
+	- Added InputProcess event function
+	- Reworked "disable forward/backwards movement"
+	- Reworked "disable strafing movement"
+	
+New Effects
+	- Disable left strafing
+	- Disable right strafing
+	- Disable forward
+	- Disable backward
+	- Disable jumping
+	- Disable crouching
+	- Disable weapon scrolling
+	- Swapped firing input
+	- Inverted Mouselook
+
+GZChaos 1.2
 
 General Changes
 	- Fixed two effects from crashing game
