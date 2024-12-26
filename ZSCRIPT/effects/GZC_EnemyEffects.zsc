@@ -1276,8 +1276,7 @@ Class GZC_AggressiveMissileMore : GZC_Effect
 
 	void applyeffect(Actor _mo)
 	{
-		_mo.bMissileMore = true;
-		_mo.bMissileEvenMore = true;
+		_mo.MissileChanceMult *= 4;
 	}
 
 	void iterate()
@@ -1317,8 +1316,7 @@ Class GZC_AggressiveMissileMore : GZC_Effect
 			
 			let def = GetDefaultByType(mo.getClass());
 			
-			mo.bMissileMore = def.bMissileMore;
-			mo.bMissileEvenMore = def.bMissileEvenMore;
+			mo.MissileChanceMult = def.MissileChanceMult;
 		}
 	}
 }
