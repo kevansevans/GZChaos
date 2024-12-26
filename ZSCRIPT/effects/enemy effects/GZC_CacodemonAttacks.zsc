@@ -140,7 +140,7 @@ class GZC_CacodemonFireMissiles : GZC_CacodemonAttackEffect
 		
 		let caco = _event.thing.target;
 		caco.A_SkelMissile();
-		caco.A_PlaySound("skeleton/attack", CHAN_WEAPON);
+		caco.A_StartSound("skeleton/attack", CHAN_WEAPON);
 		
 		_event.thing.destroy();
 	}
@@ -161,7 +161,7 @@ class GZC_CacodemonFireRockets : GZC_CacodemonAttackEffect
 		
 		let caco = _event.thing.target;
 		caco.A_CyberAttack();
-		caco.A_PlaySound("weapons/rocklf", CHAN_WEAPON);
+		caco.A_StartSound("weapons/rocklf", CHAN_WEAPON);
 		
 		_event.thing.destroy();
 	}
@@ -182,7 +182,7 @@ class GZC_CacodemonShootFireballs : GZC_CacodemonAttackEffect
 		
 		let caco = _event.thing.target;
 		caco.A_TroopAttack();
-		caco.A_PlaySound("doomimp/attack", CHAN_WEAPON);
+		caco.A_StartSound("doomimp/attack", CHAN_WEAPON);
 		
 		_event.thing.destroy();
 	}

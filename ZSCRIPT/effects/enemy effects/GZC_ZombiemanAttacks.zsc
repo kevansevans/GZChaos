@@ -65,7 +65,7 @@ class GZC_ZombiemenFireShotguns : GZC_ZombiemanAttackEffect
 		if (_event.attackpufftype == "GZC_BulletPuff") return false;
 		
 		_event.thing.A_CustomBulletAttack(22.5, 0, 3, random(1,5)*3, "GZC_BulletPuff", 0, CBAF_NORANDOM);
-		_event.thing.A_PlaySound("shotguy/attack", CHAN_WEAPON);
+		_event.thing.A_StartSound("shotguy/attack", CHAN_WEAPON);
 		
 		return true;
 	}
@@ -85,7 +85,7 @@ class GZC_ZombiemenFireFireballs : GZC_ZombiemanAttackEffect
 		if (!(_event.thing is "ZombieMan")) return false;
 
 		_event.thing.A_TroopAttack();
-		_event.thing.A_PlaySound("doomimp/attack", CHAN_WEAPON);
+		_event.thing.A_StartSound("doomimp/attack", CHAN_WEAPON);
 		
 		return true;
 	}
@@ -105,7 +105,7 @@ class GZC_ZombiemenFireBaronballs : GZC_ZombiemanAttackEffect
 		if (!(_event.thing is "ZombieMan")) return false;
 
 		_event.thing.A_BruisAttack();
-		_event.thing.A_PlaySound("baron/attack", CHAN_WEAPON);
+		_event.thing.A_StartSound("baron/attack", CHAN_WEAPON);
 		
 		return true;
 	}
@@ -125,7 +125,7 @@ class GZC_ZombiemanFirePlasma : GZC_ZombiemanAttackEffect
 		if (!(_event.thing is "ZombieMan")) return false;
 
 		_event.thing.A_BSPIAttack();
-		_event.thing.A_PlaySound("baby/attack", CHAN_WEAPON);
+		_event.thing.A_StartSound("baby/attack", CHAN_WEAPON);
 		
 		return true;
 	}
@@ -145,7 +145,7 @@ class GZC_ZombiemanFireMissiles : GZC_ZombiemanAttackEffect
 		if (!(_event.thing is "ZombieMan")) return false;
 
 		_event.thing.A_SkelMissile();
-		_event.thing.A_PlaySound("skeleton/attack", CHAN_WEAPON);
+		_event.thing.A_StartSound("skeleton/attack", CHAN_WEAPON);
 		
 		return true;
 	}
@@ -165,7 +165,7 @@ class GZC_ZombiemanFireRockets : GZC_ZombiemanAttackEffect
 		if (!(_event.thing is "ZombieMan")) return false;
 
 		_event.thing.A_CyberAttack();
-		_event.thing.A_PlaySound("weapons/rocklf", CHAN_WEAPON);
+		_event.thing.A_StartSound("weapons/rocklf", CHAN_WEAPON);
 		
 		return true;
 	}
@@ -185,7 +185,7 @@ class GZC_ZombiemanFireCacoballs : GZC_ZombiemanAttackEffect
 		if (!(_event.thing is "ZombieMan")) return false;
 
 		_event.thing.A_HeadAttack();
-		_event.thing.A_PlaySound("caco/attack", CHAN_WEAPON);
+		_event.thing.A_StartSound("caco/attack", CHAN_WEAPON);
 		
 		return true;
 	}

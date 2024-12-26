@@ -140,7 +140,7 @@ class GZC_DoomImpFireMissiles : GZC_DoomImpAttackEffect
 		
 		let imp = _event.thing.target;
 		imp.A_SkelMissile();
-		imp.A_PlaySound("skeleton/attack", CHAN_WEAPON);
+		imp.A_StartSound("skeleton/attack", CHAN_WEAPON);
 		
 		_event.thing.destroy();
 	}
@@ -161,7 +161,7 @@ class GZC_DoomImpFireRockets : GZC_DoomImpAttackEffect
 		
 		let imp = _event.thing.target;
 		imp.A_CyberAttack();
-		imp.A_PlaySound("weapons/rocklf", CHAN_WEAPON);
+		imp.A_StartSound("weapons/rocklf", CHAN_WEAPON);
 		
 		_event.thing.destroy();
 	}
@@ -182,7 +182,7 @@ class GZC_DoomImpFireCacoballs : GZC_DoomImpAttackEffect
 		
 		let imp = _event.thing.target;
 		imp.A_HeadAttack();
-		imp.A_PlaySound("caco/attack", CHAN_WEAPON);
+		imp.A_StartSound("caco/attack", CHAN_WEAPON);
 		
 		_event.thing.destroy();
 	}
