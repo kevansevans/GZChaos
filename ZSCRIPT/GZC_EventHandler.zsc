@@ -105,6 +105,11 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		tracker = GZC_GameTracker(players[consoleplayer].mo.FindInventory('GZC_GameTracker'));
 		updateSeed();
+		
+		GZC_ShaderEffect.DisableShaders();
+		ThinkerIterator sh = ThinkerIterator.create('GZC_ShaderEffect');
+		GZC_ShaderEffect se;
+		while (se = GZC_ShaderEffect(sh.next())) se.onOpen();
 	
 		if (_event.isSaveGame) return; //Only call onWorldLoad when it's a new map
 	
