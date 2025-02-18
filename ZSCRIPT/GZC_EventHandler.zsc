@@ -138,6 +138,18 @@ class GZC_EventHandler : StaticEventHandler
 		}
 	}
 	
+	override void WorldLinePreActivated(WorldEvent _event)
+	{
+		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
+		GZC_Effect effect;
+		
+		while (effect = GZC_Effect(it.next()))
+		{
+			if (effect.life > effect.duration) continue;
+			effect.onWorldLinePreActivated(_event);
+		}
+	}
+	
 	override void RenderOverlay(RenderEvent _event)
 	{
 		
