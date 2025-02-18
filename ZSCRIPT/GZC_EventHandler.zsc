@@ -60,7 +60,7 @@ class GZC_EventHandler : StaticEventHandler
 			
 				tracker.timelimit = 35 * Cvar.getCvar('GZC_TimerDuration').getInt();
 			
-				let player = players[consoleplayer].mo;
+				let player = players[0].mo;
 				if (player.health <= 0) return;
 				if (cc_check()) return;
 			
@@ -82,7 +82,7 @@ class GZC_EventHandler : StaticEventHandler
 		if (!cc_instance) return false;
 		else
 		{
-			let pinfo = players[consoleplayer];
+			let pinfo = players[0];
 			if (pinfo.cheats & CF_TOTALLYFROZEN) return true;
 		}
 		
@@ -103,7 +103,7 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldLoaded(WorldEvent _event)
 	{
-		tracker = GZC_GameTracker(players[consoleplayer].mo.FindInventory('GZC_GameTracker'));
+		tracker = GZC_GameTracker(players[0].mo.FindInventory('GZC_GameTracker'));
 		updateSeed();
 		
 		GZC_ShaderEffect.DisableShaders();
@@ -217,7 +217,10 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void PlayerSpawned(PlayerEvent _event)
 	{
-		let player = players[consoleplayer].mo;
+		if (_event.playernumber != 0) return;
+	
+		let player = players[_event.playernumber].mo;
+		
 		if (!(player is 'GZC_PlayerClass'))
 		{
 			Cvar.getCvar("GZC_PurePlayer").setBool(false);
@@ -273,7 +276,7 @@ class GZC_EventHandler : StaticEventHandler
 			
 				if (index != -1)
 				{
-					let player = players[consoleplayer].mo;
+					let player = players[0].mo;
 					let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
 					
 					player.giveInventory(cname, 1);
@@ -314,7 +317,7 @@ class GZC_EventHandler : StaticEventHandler
 		
 		if (effectcount >= limit && limit != 0) return;
 	
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
 	
 		double timerrate = calculateTimeRate();
@@ -333,7 +336,7 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		if (Cvar.getCvar("gzc_pauseeffecttimer").getBool()) return;
 		
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		
 		double effectrate = calculateEffectRate();
 		if (player.countInv('GZC_TimerRunsOnKills')) effectrate = 0;
@@ -355,7 +358,7 @@ class GZC_EventHandler : StaticEventHandler
 	
 	void clearDeadEffects()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 	
 		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
 		GZC_Effect effect;
@@ -405,7 +408,7 @@ class GZC_EventHandler : StaticEventHandler
 	
 	void giveEffect()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
 	
 		int safety = 0;

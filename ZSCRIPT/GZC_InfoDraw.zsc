@@ -124,7 +124,7 @@ Class GZC_TimerDisplay : EventHandler
 	
 		if (Cvar.getCvar("GZC_HideEverything", players[consoleplayer]).getBool()) return;
 	
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		if (player.countInv('GZC_HideTimer')) return;
 		
 		let tracker = GZC_GameTracker(player.findInventory('GZC_GameTracker'));

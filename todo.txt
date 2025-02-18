@@ -4,33 +4,15 @@
 
 set up cvars to filter out specific/categorized effects
 
-investigate how to better measure timer so changing speed/requirements looks smoother
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Effects to explore
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Force player to switch to an unswitchable weapon
-
-ignite
-
-Anechoic chamber: All line defs block sound
-
-echo chamber: All line defs pass sound
-
-short sighted demons: All lines block sight
-
 Too much information
 
-Monsters throw items at player (curstate.sprite and curstate.frame)
+Shared ammo pool
 
-Opening doors does... something?
-
-let it snow
-
-101 Legally Distinct Canines
-
-Force player to exit to random map. Make it potentially fake like fake level restart.
+everyone controls everyone
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Ideas that can't be done because GZDoom can't do them, or require way too much effort
@@ -38,8 +20,14 @@ Force player to exit to random map. Make it potentially fake like fake level res
 
 Turret monsters (all monsters hold their ground and start rapid firing)
 
-Weapon recoil
-
 Mirror weapon sprites
 
 Autosave on player death
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Multiplayer fixes
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Implement multiplayer flag for effects that require multiplayer
+
+Timer stops if host's health is zero.
