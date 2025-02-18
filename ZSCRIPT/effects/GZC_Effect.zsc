@@ -117,6 +117,18 @@ Class GZC_Effect : GZC_BaseItem
 		return false;
 	}
 	
+	PlayerPawn getRandomPlayer()
+	{
+		if (players.size() == 1) return players[0].mo;
+	
+		Array<PlayerPawn> rplayers;
+		rplayers.clear();
+		
+		foreach (player : players) rplayers.push(player.mo);
+		
+		return rplayers[random(0, rplayers.size() -1)];
+	}
+	
 	virtual bool verify()
 	{
 		let player = players[consoleplayer].mo;
