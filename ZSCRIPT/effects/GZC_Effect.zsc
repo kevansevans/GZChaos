@@ -142,7 +142,7 @@ Class GZC_Effect : GZC_BaseItem
 	
 	virtual bool verify()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		if (!player) return false;
 		
 		if (player.countInv(self.getClass()) > 1) return false;

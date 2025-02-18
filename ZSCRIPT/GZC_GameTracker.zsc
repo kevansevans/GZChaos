@@ -20,7 +20,7 @@ class GZC_GameTracker : GZC_BaseItem
 	
 	clearscope static float getTime()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
 		return tracker.time;
 	}
