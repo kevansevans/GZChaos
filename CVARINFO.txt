@@ -6,7 +6,6 @@ server string GZC_UserSeedValue = "dingle";
 server bool GZC_UseRandomSeed = false;
 server string GZC_EffectProperties = "";
 server noarchive int GZC_ActiveSeed = -1;
-server noarchive int GZC_SystemTime = -1;
 server int GZC_TimerDuration = 30;
 server float GZC_MaxEffectDuration = 0.0;
 server int GZC_MemoryBuffer = 50;

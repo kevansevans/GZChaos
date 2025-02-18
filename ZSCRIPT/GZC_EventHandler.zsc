@@ -185,8 +185,6 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void uiTick()
 	{
-		Cvar.getCvar('GZC_SystemTime').setInt(SystemTime.Now());
-	
 		switch (gamestate)
 		{
 			case GS_TitleLevel:
@@ -473,7 +471,7 @@ class GZC_EventHandler : StaticEventHandler
 		}
 		else
 		{
-			seedvalue = Cvar.getCvar('GZC_SystemTime').getInt();
+			seedvalue = int(frandom[GZ_Chaos](0, 1) * 0x7FFFFFFF);
 		}
 		
 		SetRandomSeed[GZ_Chaos](seedvalue);

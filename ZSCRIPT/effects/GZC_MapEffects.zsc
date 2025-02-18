@@ -137,15 +137,13 @@ Class GZC_LockedIn : GZC_Effect
 
 	override void onWorldLinePreActivated(WorldEvent event)
 	{
-		let player = players[consoleplayer].mo;
-		
-		if (event.thing != player) return;
+		if (!(event.thing is "PlayerPawn")) return;
 	
 		line linedef = event.ActivatedLine;
 		if (linedef.special == 243 || linedef.special == 244)
 		{
 			event.shouldActivate = false;
-			player.A_StartSound("world/spark", CHAN_AUTO);
+			event.thing.A_StartSound("world/spark", CHAN_AUTO);
 		}
 	}
 }
@@ -818,11 +816,14 @@ Class GZC_TheFloorIsLava : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
-		player.cursector.damageType = 'slime';
-		player.cursector.damageinterval = 35;
-		player.cursector.damageamount = 20;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
+			player.cursector.damageType = 'slime';
+			player.cursector.damageinterval = 35;
+			player.cursector.damageamount = 20;
+		}
 	}
 }
 
@@ -837,11 +838,14 @@ Class GZC_TheFloorIsNukage : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		player.cursector.setTexture(0, TexMan.CheckForTexture("NUKAGE1"));
-		player.cursector.damageType = 'slime';
-		player.cursector.damageinterval = 35;
-		player.cursector.damageamount = 10;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.cursector.setTexture(0, TexMan.CheckForTexture("NUKAGE1"));
+			player.cursector.damageType = 'slime';
+			player.cursector.damageinterval = 35;
+			player.cursector.damageamount = 10;
+		}
 	}
 }
 
@@ -856,11 +860,14 @@ Class GZC_TheFloorIsSludge : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		player.cursector.setTexture(0, TexMan.CheckForTexture("SLIME01"));
-		player.cursector.damageType = 'slime';
-		player.cursector.damageinterval = 35;
-		player.cursector.damageamount = 5;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.cursector.setTexture(0, TexMan.CheckForTexture("SLIME01"));
+			player.cursector.damageType = 'slime';
+			player.cursector.damageinterval = 35;
+			player.cursector.damageamount = 5;
+		}
 	}
 }
 

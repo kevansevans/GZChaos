@@ -105,8 +105,6 @@ class GZC_AutoPong : GZC_Effect
 	
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer].mo;
-		
 		ballpos += ballspeed;
 		
 		if (ballpos.x < -20 || ballpos.x > Screen.getWidth() + 20)
@@ -127,7 +125,7 @@ class GZC_AutoPong : GZC_Effect
 		if (ballpos.y - ballradius < 0 || ballpos.y + ballradius > Screen.getHeight()) 
 		{
 			ballspeed.y *= -1;
-			player.A_StartSound("pong/wall", CHAN_AUTO);
+			S_StartSound("pong/wall", CHAN_AUTO);
 		}
 		
 		if (ballspeed.x < 0 && ballPos.x < Screen.getWidth() / 2)
@@ -158,7 +156,7 @@ class GZC_AutoPong : GZC_Effect
 					
 					ballspeed = (xspeed, yspeed);
 					
-					player.A_StartSound("pong/paddle", CHAN_AUTO);
+					S_StartSound("pong/paddle", CHAN_AUTO);
 				}
 			}
 		}
@@ -192,7 +190,7 @@ class GZC_AutoPong : GZC_Effect
 					
 					ballspeed = (xspeed, yspeed);
 					
-					player.A_StartSound("pong/paddle", CHAN_AUTO);
+					S_StartSound("pong/paddle", CHAN_AUTO);
 				}
 			}
 			

@@ -39,7 +39,8 @@ Class GZC_HostileDecorations : GZC_Effect
 			
 			cansee.clear();
 			
-			let player = players[consoleplayer].mo;
+			
+			let player = getRandomPlayer();
 			
 			foreach (dec : decorations)
 			{
@@ -94,6 +95,28 @@ Class GZC_ParanoidOfBarrels : GZC_Effect
 		GZC_Effect.title "Did that barrel just move?";
 		GZC_Effect.duration 35 * 60 * 5;
 	}
+	
+	override void onOpen()
+	{
+		setBarrelTargets();
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		setBarrelTargets();
+	}
+	
+	void setBarrelTargets()
+	{
+		ThinkerIterator it = ThinkerIterator.create("ExplosiveBarrel");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.target = getRandomPlayer();
+			mo.speed = 1;
+		}
+	}
 
 	override void onWorldTick()
 	{
@@ -102,13 +125,11 @@ Class GZC_ParanoidOfBarrels : GZC_Effect
 			ThinkerIterator it = ThinkerIterator.create("ExplosiveBarrel");
 			Actor mo;
 		
-			let player = players[consoleplayer].mo;
+			let player = getRandomPlayer();
 		
 			while (mo = Actor(it.next()))
 			{
-				mo.target = player;
-				mo.speed = 1;
-				if (!player.isVisible(mo, false))
+				if (!mo.target.isVisible(mo, false))
 				{
 					mo.A_Chase();
 					if (mo.distance3D(player) <= 64)

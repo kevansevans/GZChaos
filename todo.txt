@@ -31,3 +31,5 @@ Autosave on player death
 Implement multiplayer flag for effects that require multiplayer
 
 Timer stops if host's health is zero.
+
+DIG DUG effect needs rework

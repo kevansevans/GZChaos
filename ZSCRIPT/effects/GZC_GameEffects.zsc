@@ -19,8 +19,6 @@ class GZC_SavingNotAllowed : GZC_Effect
 
 class GZC_TheImmortalSnail : GZC_Effect
 {
-	GZC_Snail TheSnail;
-	
 	Default
 	{
 		GZC_Effect.title "The immortal snail";
@@ -30,11 +28,27 @@ class GZC_TheImmortalSnail : GZC_Effect
 
 	override void onOpen()
 	{
-		TheSnail = GZC_Snail(Actor.spawn("GZC_Snail"));
-		TheSnail.A_DamageSelf(0);
+		foreach (iplayer : players)
+		{
+			let snail = GZC_Snail(Actor.spawn("GZC_Snail"));
+			snail.A_DamageSelf(0);
+			snail.target = iplayer.mo;
 		
-		let pinfo = players[consoleplayer];
-		pinfo.cheats |= (CF_GODMODE | CF_BUDDHA | CF_GODMODE2 | CF_BUDDHA2);
+			iplayer.cheats |= (CF_GODMODE | CF_BUDDHA | CF_GODMODE2 | CF_BUDDHA2);
+		}
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create('GZC_Snail');
+		Actor mo;
+		
+		while (mo = Actor(it.next())) mo.destroy();
+		
+		foreach (iplayer : players)
+		{
+			iplayer.cheats &= ~(CF_GODMODE | CF_BUDDHA | CF_GODMODE2 | CF_BUDDHA2);
+		}
 	}
 }
 
@@ -101,7 +115,7 @@ Class GZC_SpawnFriendlyMonster : GZC_Effect
 		
 		int rng = random(0, monsters.size() -1);
 		
-		let player = players[consoleplayer].mo;
+		let player = getRandomPlayer();
 		friend = Actor.spawn(monsters[rng], player.pos);
 		friend.bFriendly = true;
 		
@@ -161,13 +175,16 @@ Class GZC_RearView : GZC_Effect
 	
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer].mo;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
 	
-		TexMan.SetCameraToTexture(camera, 'TCAMTEX1', 90);
-		FLineTraceData shot;
-		player.LineTrace(player.angle, 48, -80, TRF_THRUACTORS, 0, 0, 0, shot);
-		camera.setOrigin(shot.hitLocation, true);
-		camera.A_FaceTarget();
+			TexMan.SetCameraToTexture(camera, 'TCAMTEX1', 90);
+			FLineTraceData shot;
+			player.LineTrace(player.angle, 48, -80, TRF_THRUACTORS, 0, 0, 0, shot);
+			camera.setOrigin(shot.hitLocation, true);
+			camera.A_FaceTarget();
+		}
 	}
 	
 	override void drawEffect(RenderEvent _event)
@@ -331,14 +348,15 @@ Class GZC_CompanionImpEvent : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
+		let player = getRandomPlayer();
 		companion = Actor.spawn('GZC_CompanionImp', player.pos);
 	}
 	
 	override void onWorldLoad(WorldEvent _event)
 	{
-		let player = players[consoleplayer].mo;
+		let player = getRandomPlayer();
 		companion = Actor.spawn('GZC_CompanionImp', player.pos);
+		companion.master = player;
 	}
 	
 	override void onWorldTick()
@@ -365,7 +383,7 @@ Class GZC_CompanionImp : DoomImp
 		
 		if (gametic % (35 * 10) != 0) return;
 		
-		let player = players[consoleplayer].mo;
+		let player = self.master;
 		if (self.distance3D(player) > 1024 || !(player.isVisible(self, true) && self.isVisible(player, true)))
 		{
 			Self.SetOrigin(player.pos, false);
@@ -486,8 +504,7 @@ Class GZC_JitterSkull : GZC_RoomClearEvent
 			morphActor(mo, "EmptyActor");
 		}
 		
-		let player = players[consoleplayer].mo;
-		player.S_ChangeMusic("");
+		S_ChangeMusic("");
 			
 		spawnJitterSkull();
 	}
@@ -505,7 +522,7 @@ Class GZC_JitterSkull : GZC_RoomClearEvent
 		if (!verify()) return;
 	
 		Jitter = Actor.spawn('JitterSkull', (0,0,0));
-		let player = players[consoleplayer].mo;
+		let player = getRandomPlayer();
 		
 		while (true)
 		{
@@ -520,8 +537,7 @@ Class GZC_JitterSkull : GZC_RoomClearEvent
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		player.S_ChangeMusic(level.music);
+		S_ChangeMusic(level.music);
 		
 		life = duration;
 		
@@ -583,7 +599,7 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 		if (!verify()) return;
 		
 		scp = SCP173(Actor.spawn('SCP173', (0,0,0)));
-		let player = players[consoleplayer].mo;
+		let player = getRandomPlayer();
 		
 		while (true)
 		{
@@ -599,8 +615,7 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		player.S_ChangeMusic(level.music);
+		S_ChangeMusic(level.music);
 		
 		if (scp) scp.destroy();
 	}
@@ -617,11 +632,14 @@ Class GZC_ChaosDevice : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		Vector3 location;
-		int face;
-		[location, face] = level.pickPlayerStart(player.playerNumber());
-		player.teleport(location, face, 1);
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			Vector3 location;
+			int face;
+			[location, face] = level.pickPlayerStart(player.playerNumber());
+			player.teleport(location, face, 1);
+		}
 	}
 }
 
@@ -637,59 +655,64 @@ Class GZC_ShuffleAmmoTypes : GZC_Effect
 	{
 		Array<Class<Ammo> > types;
 		
-		let player = players[consoleplayer].mo;
-		WeaponSlots weapons = players[consoleplayer].weapons;
-		
-		for (int slot = 0; slot < 10; ++slot)
+		foreach (iplayer : players)
 		{
-			int numWeaps = weapons.slotSize(slot);
-			
-			if (numWeaps == 0) continue;
-			
-			for (int index = 0; index < numWeaps; ++index)
-			{
-				Class<weapon> gun = weapons.getWeapon(slot, index);
-				
-				let def = getDefaultByType(gun);
-				
-				if (def.ammoType1) types.push(def.ammoType1);
-				if (def.ammoType2) types.push(def.ammoType2);
-			}
-		}
+			let player = iplayer.mo;
+			WeaponSlots weapons = iplayer.weapons;
 		
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
-		{
-			if (mo is "weapon" && Inventory(mo).owner is "PlayerPawn")
+			for (int slot = 0; slot < 10; ++slot)
 			{
-				let gun = Weapon(mo);
-				
-				if (gun.AmmoType1)
+				int numWeaps = weapons.slotSize(slot);
+			
+				if (numWeaps == 0) continue;
+			
+				for (int index = 0; index < numWeaps; ++index)
 				{
-					while (true)
-					{
-						let selected = types[random(0, types.size() - 1)];
-						if (selected is gun.AmmoType1) continue;
-						
-						gun.AmmoType1 = (Class<Ammo>)(selected);
-						gun.Ammo1 = Ammo(player.FindInventory(selected));
-						
-						break;
-					}
+					Class<weapon> gun = weapons.getWeapon(slot, index);
+				
+					let def = getDefaultByType(gun);
+				
+					if (def.ammoType1) types.push(def.ammoType1);
+					if (def.ammoType2) types.push(def.ammoType2);
 				}
-			
-				if (gun.AmmoType2)
+			}
+		
+			ThinkerIterator it = ThinkerIterator.create("Actor");
+			Actor mo;
+		
+			while (mo = Actor(it.next()))
+			{
+				if (mo is "weapon" && Inventory(mo).owner == player)
 				{
-					while (true)
+					let gun = Weapon(mo);
+				
+					if (gun.AmmoType1)
 					{
-						let selected = types[random(0, types.size() - 1)];
-						if (selected is gun.AmmoType2) continue;
+						while (true)
+						{
+							let selected = types[random(0, types.size() - 1)];
+							if (selected is gun.AmmoType1) continue;
+						
+							gun.AmmoType1 = (Class<Ammo>)(selected);
+							if (!player.findInventory(selected)) player.giveInventory(selected, 0);
+							gun.Ammo1 = Ammo(player.FindInventory(selected));
+						
+							break;
+						}
+					}
+			
+					if (gun.AmmoType2)
+					{
+						while (true)
+						{
+							let selected = types[random(0, types.size() - 1)];
+							if (selected is gun.AmmoType2) continue;
 					
-						gun.AmmoType2 = (Class<Ammo>)(selected);
-						gun.Ammo2 = Ammo(player.FindInventory(selected));
-						break;
+							gun.AmmoType2 = (Class<Ammo>)(selected);
+							if (!player.findInventory(selected)) player.giveInventory(selected, 0);
+							gun.Ammo2 = Ammo(player.FindInventory(selected));
+							break;
+						}
 					}
 				}
 			}
@@ -698,27 +721,30 @@ Class GZC_ShuffleAmmoTypes : GZC_Effect
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		ThinkerIterator it = ThinkerIterator.create("Actor");
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
+		foreach (iplayer : players)
 		{
-			if (mo is "weapon" && Inventory(mo).owner is "PlayerPawn")
+			let player = iplayer.mo;
+			ThinkerIterator it = ThinkerIterator.create("Actor");
+			Actor mo;
+		
+			while (mo = Actor(it.next()))
 			{
-				let gun = Weapon(mo);
-				let def = getDefaultByType(gun.getClass());
-				
-				if (gun.ammoType1)
+				if (mo is "weapon" && Inventory(mo).owner == player)
 				{
-					gun.ammoType1 = def.ammoType1;
-					gun.ammo1 = Ammo(Player.findInventory(gun.ammoType1.getClassName()));
-				}
-				
-				if (gun.ammoType2)
-				{
-					gun.ammoType2 = def.ammoType2;
-					gun.ammo2 = Ammo(Player.findInventory(gun.ammoType2.getClassName()));
+					let gun = Weapon(mo);
+					let def = getDefaultByType(gun.getClass());
+					
+					if (gun.ammoType1)
+					{
+						gun.ammoType1 = def.ammoType1;
+						gun.ammo1 = Ammo(Player.findInventory(gun.ammoType1.getClassName()));
+					}
+					
+					if (gun.ammoType2)
+					{
+						gun.ammoType2 = def.ammoType2;
+						gun.ammo2 = Ammo(Player.findInventory(gun.ammoType2.getClassName()));
+					}
 				}
 			}
 		}
@@ -750,7 +776,7 @@ Class GZC_JupiterGravity : GZC_Effect
 
 	override bool verify()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		if (player.findInventory("GZC_MoonGravity")) return false;
 		
 		return super.verify();
@@ -810,7 +836,7 @@ Class GZC_MoonGravity : GZC_Effect
 
 	override bool verify()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		if (player.findInventory("GZC_JupiterGravity")) return false;
 		
 		return super.verify();
@@ -947,23 +973,26 @@ Class GZC_FartingPlayer : GZC_Effect
 
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer].mo;
-		
-		double zfloor = player.getZAt();
-		if (zfloor != player.pos.z) return;
-		if ((gametic + random(0, 35)) % (35 * 2) == 0)
+		foreach (iplayer : players)
 		{
-			if (!random(0, 5)) return;
+			let player = iplayer.mo;
 		
-			double angle = random(0, 359);
-			Double xspeed = cos(angle) * 5;
-			Double yspeed = sin(angle) * 5;
+			double zfloor = player.getZAt();
+			if (zfloor != player.pos.z) return;
+			if ((gametic + random(0, 35)) % (35 * 2) == 0)
+			{
+				if (!random(0, 5)) return;
+		
+				double angle = random(0, 359);
+				Double xspeed = cos(angle) * 5;
+				Double yspeed = sin(angle) * 5;
 			
-			player.vel.x = xspeed;
-			player.vel.y = yspeed;
-			player.vel.z = 15 + random(-5, 5);
+				player.vel.x = xspeed;
+				player.vel.y = yspeed;
+				player.vel.z = 15 + random(-5, 5);
 			
-			player.A_StartSound("poot/poot", CHAN_AUTO);
+				player.A_StartSound("poot/poot", CHAN_AUTO);
+			}
 		}
 	}
 }
@@ -1143,7 +1172,7 @@ Class GZC_SeekerProjectiles : GZC_Effect
 		ThinkerIterator it = ThinkerIterator.create("Actor");
 		Actor mo;
 		
-		let player = players[consoleplayer].mo;
+		let player = getRandomPlayer();
 		
 		while ((mo = Actor(it.Next ())))
 		{

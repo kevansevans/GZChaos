@@ -47,7 +47,7 @@ Class GZC_FloorSprites : GZC_Effect
 	
 	override bool verify()
 	{
-		if (players[consoleplayer].mo.countInv('GZC_WallSprites')) return false;
+		if (players[0].mo.countInv('GZC_WallSprites')) return false;
 		
 		return Super.verify();
 	}
@@ -106,7 +106,7 @@ Class GZC_WallSprites : GZC_Effect
 	
 	override bool verify()
 	{
-		if (players[consoleplayer].mo.countInv('GZC_FloorSprites')) return false;
+		if (players[0].mo.countInv('GZC_FloorSprites')) return false;
 		
 		return Super.verify();
 	}
@@ -245,29 +245,36 @@ class GZC_TallWeaponSprites : GZC_Effect
 	
 	override void onWorldTick()
 	{
-		PlayerInfo player = players[consoleplayer];
-		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
-		
-		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		foreach (iplayer : players)
 		{
-			sprite.scale.Y = def.WeaponScaleY * 3;
-			sprite.scale.X = def.WeaponScaleX * 0.5;
-			sprite.VAlign = PSPA_BOTTOM;
-			sprite.HAlign = PSPA_CENTER;
+			PlayerInfo player = iplayer;
+			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
+		
+			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+			{
+				sprite.scale.Y = def.WeaponScaleY * 3;
+				sprite.scale.X = def.WeaponScaleX * 0.5;
+				sprite.VAlign = PSPA_BOTTOM;
+				sprite.HAlign = PSPA_CENTER;
+			
+			}
 		}
 	}
 	
 	override void onClose()
 	{
-		PlayerInfo player = players[consoleplayer];
-		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
-		
-		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		foreach (iplayer : players)
 		{
-			sprite.scale.y = def.WeaponScaleY;
-			sprite.scale.x = def.WeaponScaleX;
-			sprite.VAlign = PSPA_TOP;
-			sprite.HAlign = PSPA_Left;
+			PlayerInfo player = iplayer;
+			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
+		
+			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+			{
+				sprite.scale.y = def.WeaponScaleY;
+				sprite.scale.x = def.WeaponScaleX;
+				sprite.VAlign = PSPA_TOP;
+				sprite.HAlign = PSPA_Left;
+			}
 		}
 	}
 }
@@ -282,29 +289,35 @@ class GZC_WideWeaponSprites : GZC_Effect
 	
 	override void onWorldTick()
 	{
-		PlayerInfo player = players[consoleplayer];
-		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
-		
-		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		foreach (iplayer : players)
 		{
-			sprite.scale.x = def.WeaponScaleX * 4;
-			sprite.scale.Y = def.WeaponScaleY * 0.5;
-			sprite.HAlign = PSPA_CENTER;
-			sprite.VAlign = PSPA_BOTTOM;
+			PlayerInfo player = iplayer;
+			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
+		
+			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+			{
+				sprite.scale.x = def.WeaponScaleX * 4;
+				sprite.scale.Y = def.WeaponScaleY * 0.5;
+				sprite.HAlign = PSPA_CENTER;
+				sprite.VAlign = PSPA_BOTTOM;
+			}
 		}
 	}
 	
 	override void onClose()
 	{
-		PlayerInfo player = players[consoleplayer];
-		let def = getDefaultByType(Weapon(players[consoleplayer].readyWeapon).getClass());
-		
-		for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+		foreach (iplayer : players)
 		{
-			sprite.scale.x = def.WeaponScaleX;
-			sprite.scale.y = def.WeaponScaleX;
-			sprite.HAlign = PSPA_Left;
-			sprite.VAlign = PSPA_TOP;
+			PlayerInfo player = iplayer;
+			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
+		
+			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+			{
+				sprite.scale.x = def.WeaponScaleX;
+				sprite.scale.y = def.WeaponScaleX;
+				sprite.HAlign = PSPA_Left;
+				sprite.VAlign = PSPA_TOP;
+			}
 		}
 	}
 }

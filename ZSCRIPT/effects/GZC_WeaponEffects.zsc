@@ -170,3 +170,38 @@ class GZC_FreezeTag : GZC_Effect
 		return false;
 	}
 }
+
+class GZC_AllAttacksPlasma : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "All attacks are plasma";
+		GZC_Effect.Duration 35 * 60 * 2;
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing.bMissile) return;
+		if (_event.thing is "ArachnotronPlasma" || _event.thing is "PlasmaBall") return;
+		
+		let miss = _event.thing;
+		let owner = _event.thing.target;
+		
+		owner.A_SpawnProjectile("PlasmaBall", 32, 0, miss.angle, CMF_AIMOFFSET);
+		_event.thing.destroy();
+		
+		return;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (_event.thing is "PlayerPawn")
+		{
+			PlayerPawn(_event.thing).SpawnPlayerMissile("PlasmaBall");
+		}
+		else _event.thing.A_SpawnProjectile("PlasmaBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
+		
+		return true;
+	}
+}

@@ -115,6 +115,7 @@ class GZC_FastTimerToHealth : GZC_TimerEffect
 		GZC_Effect.ignore false;
 		GZC_Effect.title "More health = Faster Timer";
 		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
 	override void onWorldTick()
@@ -133,6 +134,7 @@ class GZC_SlowTimerToHealth : GZC_TimerEffect
 		GZC_Effect.ignore false;
 		GZC_Effect.title "More health = Slower Timer";
 		GZC_Effect.Duration 35 * 60 * 3;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
 	override void onWorldTick()

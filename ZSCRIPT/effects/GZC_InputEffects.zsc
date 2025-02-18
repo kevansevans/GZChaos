@@ -206,10 +206,13 @@ class GZC_SwapFiringMode : GZC_Effect
 	
 	play void checkPlayerFire() const
 	{
-		let player = players[consoleplayer];
-		player.cmd.buttons |= buttons;
+		foreach (iplayer : players)
+		{
+			let player = iplayer;
+			player.cmd.buttons |= buttons;
 		
-		player.mo.checkWeaponFire();
+			player.mo.checkWeaponFire();
+		}
 	}
 	
 	play void setFlag(Int _flag) const
@@ -231,6 +234,13 @@ class GZC_InvertedMouselook : GZC_Effect
 		GZC_Effect.duration 35 * 60 * 2;
 	}
 	
+	override bool verify()
+	{
+		if (!level.IsFreelookAllowed()) return false;
+		
+		return super.verify();
+	}
+	
 	override void onUiTick()
 	{
 		updatePlayerPitch();
@@ -238,9 +248,64 @@ class GZC_InvertedMouselook : GZC_Effect
 	
 	play void updatePlayerPitch() const
 	{
-		let player = players[consoleplayer];
-		player.cmd.pitch *= -1;
+		foreach (iplayer : players)
+		{
+			let player = iplayer;
+			player.cmd.pitch *= -1.0;
 		
-		player.mo.CheckPitch();
+			player.mo.CheckPitch();
+		}
 	}
 }
+
+/*class GZC_KeyboardControls : GZC_Effect
+{
+	//200 up arrow
+	//208 down arrow
+	//203 left
+	//205 right
+
+	default
+	{
+		GZC_Effect.title "Keyboard only!";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	int buttons;
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		switch (_event.keyscan)
+		{
+			case 200:
+				if (_event.type == InputEvent.Type_KeyDown) setFlag(BT_FORWARD);
+				else if (_event.type == InputEvent.Type_KeyUp) unsetFlag(BT_FORWARD);
+				break;
+		}
+		
+		return false;
+	}
+	
+	override void onUiTick()
+	{
+		setPlayerFlags();
+	}
+	
+	play void setPlayerFlags() const
+	{
+		let player = players[consoleplayer];
+		player.cmd.buttons |= buttons;
+		
+		player.mo.PlayerThink();
+	}
+	
+	play void setFlag(Int _flag) const
+	{
+		buttons |= _flag;
+	}
+	
+	play void unsetFlag(Int _flag) const
+	{	
+		buttons &= ~(_flag);
+	}
+}*/

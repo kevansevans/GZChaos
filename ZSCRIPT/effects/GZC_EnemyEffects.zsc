@@ -235,39 +235,48 @@ Class GZC_ZergRush : GZC_Effect
 	int count;
 	int limit;
 	
+	override void onOpen()
+	{
+		limit = random(1, 5) * 100;
+		camera = Actor.spawn('Actor');
+	}
+	
+	override void onClose()
+	{
+		if (camera) camera.destroy();
+	}
+	
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer].mo;
-		
-		if (!camera) 
+		foreach (iplayer : players)
 		{
-			camera = Actor.spawn('Actor', player.pos);
-			limit = random(1, 5) * 100;
-		}
+			let player = getRandomPlayer();
+			if (!player) continue;
 		
-		if (count < limit && life < duration)
-		{
-			int seccount = level.sectors.size() - 1;
-			for (int i = 0; i < 10; ++i)
+			if (count < limit && life < duration)
 			{
-				let sec = level.sectors[random(0, seccount)];
-				Vector3 pos = (sec.centerspot.x + random(-64, 64), sec.centerspot.y + random(-64, 64), sec.floorplane.ZAtPoint(sec.centerspot) + random(-10, 10));
-				
-				camera.setOrigin(pos, false);
-				
-				if (player.isVisible(camera, true))
+				int seccount = level.sectors.size() - 1;
+				for (int i = 0; i < 10; ++i)
 				{
-					++count;
-					let spider = Actor.spawn("GZC_SpiderImpHead", pos);
-					spider.target = player;
-					spider.A_FaceTarget();
+					let sec = level.sectors[random(0, seccount)];
+					Vector3 pos = (sec.centerspot.x + random(-64, 64), sec.centerspot.y + random(-64, 64), sec.floorplane.ZAtPoint(sec.centerspot) + random(-10, 10));
+				
+					camera.setOrigin(pos, false);
+				
+					if (player.isVisible(camera, true))
+					{
+						++count;
+						let spider = Actor.spawn("GZC_SpiderImpHead", pos);
+						spider.target = player;
+						spider.A_FaceTarget();
+					}
 				}
 			}
-		}
 		
-		else
-		{
-			life = duration;
+			else
+			{
+				life = duration;
+			}
 		}
 	}
 }
@@ -919,8 +928,6 @@ Class GZC_AAAAAHHHHH : GZC_Effect
 		ThinkerIterator it = ThinkerIterator.create("Actor");
 		Actor mo;
 		
-		let player = players[consoleplayer].mo;
-		
 		while (mo = Actor(it.next()))
 		{
 			if (!mo.bIsMonster) continue;
@@ -929,7 +936,7 @@ Class GZC_AAAAAHHHHH : GZC_Effect
 			
 			morphActor(mo, 'GZC_KamikaziGuy');
 			
-			mo.target = player;
+			mo.target = getRandomPlayer();
 			mo.A_FaceTarget();
 		}
 	}
@@ -1093,9 +1100,6 @@ Class GZC_ShuffleMonsters : GZC_Effect
 	
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer].mo;
-		player.bNoTarget = true;
-		
 		ThinkerIterator it = ThinkerIterator.create("Actor");
 		Actor mo;
 		
@@ -1127,12 +1131,6 @@ Class GZC_ShuffleMonsters : GZC_Effect
 			monsters[index_a].setOrigin(pos_b, false);
 			monsters[index_b].setOrigin(pos_a, false);
 		}
-	}
-	
-	override void onClose()
-	{
-		let player = players[consoleplayer].mo;
-		player.bNoTarget = false;
 	}
 }
 
@@ -1332,14 +1330,17 @@ Class GZC_YouveBeenStruck : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
 		
-		FLineTraceData shot;
-		player.LineTrace(player.angle, 512, 0, 0, 0, 0, 0, shot);
+			FLineTraceData shot;
+			player.LineTrace(player.angle, 512, 0, 0, 0, 0, 0, shot);
 		
-		let cybie = Actor.spawn("GZC_Cyberfuck", shot.hitlocation);
-		cybie.target = player;
-		cybie.A_FaceTarget();
+			let cybie = Actor.spawn("GZC_Cyberfuck", shot.hitlocation);
+			cybie.target = player;
+			cybie.A_FaceTarget();
+		}
 	}
 }
 
@@ -1459,7 +1460,7 @@ Class GZC_FullPainChances : GZC_Effect
 	
 	override bool verify()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		if (player.findInventory('GZC_ZeroPainChances')) return false;
 		
 		return super.verify();
@@ -1522,7 +1523,7 @@ Class GZC_ZeroPainChances : GZC_Effect
 	
 	override bool verify()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		if (player.findInventory('GZC_FullPainChances')) return false;
 		
 		return super.verify();
@@ -1601,7 +1602,7 @@ Class GZC_AllMonstersWakeUp : GZC_Effect
 		ThinkerIterator it = ThinkerIterator.create("Actor");
 		Actor mo;
 		
-		let player = players[consoleplayer].mo;
+		let player = getRandomPlayer();
 		
 		while (mo = Actor(it.next()))
 		{
@@ -1802,8 +1803,11 @@ Class GZC_StatueEnemies : GZC_Effect
 			}
 		}
 		
-		let player = players[consoleplayer];
-		player.mo.bNoTarget = true;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.bNoTarget = true;
+		}
 	}
 	
 	override void onOpen()
@@ -1834,8 +1838,11 @@ Class GZC_StatueEnemies : GZC_Effect
 			}
 		}
 		
-		let player = players[consoleplayer];
-		player.mo.bNoTarget = false;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.bNoTarget = false;
+		}
 	}
 }
 

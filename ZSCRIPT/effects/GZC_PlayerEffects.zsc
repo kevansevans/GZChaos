@@ -9,12 +9,15 @@ Class GZC_IncreaseCurrentVelocity : GZC_Effect
 	
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		let rng = frandom(2.0, 4.0);
-		
-		player.vel.x *= rng;
-		player.vel.y *= rng;
-		player.vel.z *= rng;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let rng = frandom(2.0, 4.0);
+			
+			player.vel.x *= rng;
+			player.vel.y *= rng;
+			player.vel.z *= rng;
+		}
 	}
 }
 Class GZC_KillsTeleportPlayer : GZC_Effect
@@ -30,7 +33,7 @@ Class GZC_KillsTeleportPlayer : GZC_Effect
 		if (!(_event.thing.target is "PlayerPawn")) return;
 		if (!_event.thing.bIsMonster) return;
 		
-		let player = players[consoleplayer].mo;
+		let player = _event.thing.target;
 		
 		player.setOrigin(_event.thing.pos, true);
 		let fog = Actor.spawn('TeleportFog', player.pos);
@@ -49,12 +52,15 @@ Class GZC_PlayerRandomVel : GZC_Effect
 	
 	override void onOpen()
 	{
-		double x = frandom(-100, 100);
-		double y = frandom(-100, 100);
-		double z = frandom(-100, 100);
+		foreach (iplayer : players)
+		{
+			double x = frandom(-100, 100);
+			double y = frandom(-100, 100);
+			double z = frandom(-100, 100);
 		
-		let player = players[consoleplayer].mo;
-		player.vel = (x, y, z);
+			let player = iplayer.mo;
+			player.vel = (x, y, z);
+		}
 	}
 }
 
@@ -69,18 +75,24 @@ Class GZC_DiabolistCurse : GZC_Effect
 	
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		player.A_SetBlend("Red", .25, 35);
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.A_SetBlend("Red", .25, 35);
+		}
 	}
 	
 	override void onWorldTick()
 	{
 		if (gametic % 3 != 0) return;
 		
-		let player = players[consoleplayer].mo;
-		if (player.health <= 0) return;
-		
-		Actor.spawn('GZC_FiabolistFireSingle', player.pos);
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			if (player.health <= 0) return;
+			
+			Actor.spawn('GZC_FiabolistFireSingle', player.pos);
+		}
 	}
 }
 
@@ -153,16 +165,22 @@ Class GZC_YouAreTheHorror : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		player.bFrightening = true;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.bFrightening = true;
+		}
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		let def = getDefaultByType(player.getClass());
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = getDefaultByType(player.getClass());
 		
-		player.bFrightening = def.bFrightening;
+			player.bFrightening = def.bFrightening;
+		}
 	}
 }
 
@@ -176,24 +194,30 @@ Class GZC_LeadFeet : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		let def = getDefaultByType(player.getClass());
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = getDefaultByType(player.getClass());
 		
-		player.forwardMove1 = def.forwardMove1 * 0;
-		player.forwardMove2 = def.forwardMove2 * 0;
-		player.sideMove1 = def.sideMove1 * 0;
-		player.sideMove2 = def.sideMove2 * 0;
+			player.forwardMove1 = def.forwardMove1 * 0;
+			player.forwardMove2 = def.forwardMove2 * 0;
+			player.sideMove1 = def.sideMove1 * 0;
+			player.sideMove2 = def.sideMove2 * 0;
+		}
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		let def = getDefaultByType(player.getClass());
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = getDefaultByType(player.getClass());
 		
-		player.forwardMove1 = def.forwardMove1;
-		player.forwardMove2 = def.forwardMove2;
-		player.sideMove1 = def.sideMove1;
-		player.sideMove2 = def.sideMove2;
+			player.forwardMove1 = def.forwardMove1;
+			player.forwardMove2 = def.forwardMove2;
+			player.sideMove1 = def.sideMove1;
+			player.sideMove2 = def.sideMove2;
+		}
 	}
 }
 
@@ -203,6 +227,7 @@ class GZC_TopDownView : GZC_Effect
 	{
 		GZC_Effect.title "Um ackshually...";
 		GZC_Effect.duration 35 * 60;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
 	Actor ChaseCam;
@@ -267,8 +292,11 @@ class GZC_Regeneration : GZC_Effect
 	{
 		if (gametic % (35 * 3) != 0) return;
 		
-		let player = players[consoleplayer].mo;
-		player.GiveBody(random(1, 5), 100);
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.GiveBody(random(1, 5), 100);
+		}
 	}
 }
 
@@ -282,11 +310,14 @@ Class GZC_ShootingNotAllowed : GZC_Effect
 
 	override void onWorldTick()
 	{
-		let pinfo = players[consoleplayer];
-		if (!pinfo.readyWeapon.ammo1 && !pinfo.readyWeapon.ammo2) return;
-		if (pinfo.buttons & (BT_ATTACK | BT_ALTATTACK))
+		foreach (iplayer : players)
 		{
-			pinfo.mo.A_DamageSelf(0x1);
+			let pinfo = iplayer;
+			if (!pinfo.readyWeapon.ammo1 && !pinfo.readyWeapon.ammo2) return;
+			if (pinfo.buttons & (BT_ATTACK | BT_ALTATTACK))
+			{
+				pinfo.mo.A_DamageSelf(0x1);
+			}
 		}
 	}
 }
@@ -303,15 +334,21 @@ Class GZC_GyroscopicCamera : GZC_Effect
 	{
 		if (gametic % 35 == 0)
 		{
-			let player = players[consoleplayer].mo;
-			player.A_SetRoll(player.roll += 0.004);
+			foreach (iplayer : players)
+			{
+				let player = iplayer.mo;
+				player.A_SetRoll(player.roll += 0.004);
+			}
 		}
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		player.A_SetRoll(0);
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.A_SetRoll(0);
+		}
 	}
 }
 
@@ -321,6 +358,7 @@ Class GZC_PlayerIsAGhost : GZC_Effect
 	{
 		GZC_Effect.title "Walk through actors";
 		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 
 	override void onOpen()
@@ -347,8 +385,11 @@ Class GZC_NotQuiteInvulnerability : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		player.GiveBody(999, 999);
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.GiveBody(999, 999);
+		}
 	}
 }
 
@@ -362,8 +403,11 @@ Class GZC_EarthquakeMode : GZC_Effect
 
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer].mo;
-		player.A_Quake(9, 9, 0, 5, "");
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			player.A_Quake(9, 9, 0, 5, "");
+		}
 	}
 }
 
@@ -377,19 +421,25 @@ Class GZC_AggressiveWeaponBobbing : GZC_Effect
 
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer].mo;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
 		
-		player.viewbob = (10.0 * sin(gametic)) + (5.0 * cos(gametic));
-		player.player.weaponstate |= WF_WeaponBobbing;
+			player.viewbob = (10.0 * sin(gametic)) + (5.0 * cos(gametic));
+			player.player.weaponstate |= WF_WeaponBobbing;
+		}
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		let def = getDefaultByType(player.getClass());
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = getDefaultByType(player.getClass());
 		
-		player.viewbob = def.viewbob;
-		player.player.weaponstate &= ~(WF_WeaponBobbing);
+			player.viewbob = def.viewbob;
+			player.player.weaponstate &= ~(WF_WeaponBobbing);
+		}
 	}
 }
 
@@ -405,13 +455,16 @@ Class GZC_DoomThreeNightmare : GZC_Effect
 	{
 		if (gametic % (35 * 5) != 0) return;
 		
-		let player = players[consoleplayer].mo;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
 		
-		if (player.health <= 25) return;
+			if (player.health <= 25) return;
 		
-		int drain = min(player.health - 25, 5);
-		player.A_DamageSelf(drain, 'Melee');
-		player.A_StartSound("Doom3/TakeHealth", CHAN_AUTO);
+			int drain = min(player.health - 25, 5);
+			player.A_DamageSelf(drain, 'Melee');
+			player.A_StartSound("Doom3/TakeHealth", CHAN_AUTO);
+		}
 	}
 }
 
@@ -428,33 +481,35 @@ Class GZC_Aimbot : GZC_Effect
 	
 	override void onWorldTick()
 	{
-		distance = 0x7FFFFFFF;
-		closest = null;
-		
-		ThinkerIterator it = ThinkerIterator.create('Actor');
-		Actor mo;
-		
-		let player = players[consoleplayer].mo;
-		
-		while (mo = Actor(it.next()))
+		foreach (iplayer : players)
 		{
-			if (!mo.bIsMonster) continue;
-			if (mo is "Inventory") continue;
-			if (mo.health <= 0) continue;
-			if (!player.isVisible(mo, true)) continue;
-			
-			double dist = player.distance3D(mo);
-			if (dist < distance)
+			let player = iplayer.mo;
+			distance = 0x7FFFFFFF;
+			closest = null;
+		
+			ThinkerIterator it = ThinkerIterator.create('Actor');
+			Actor mo;
+		
+			while (mo = Actor(it.next()))
 			{
-				distance = dist;
-				closest = mo;
+				if (!mo.bIsMonster) continue;
+				if (mo is "Inventory") continue;
+				if (mo.health <= 0) continue;
+				if (!player.isVisible(mo, true)) continue;
+			
+				double dist = player.distance3D(mo);
+				if (dist < distance)
+				{
+					distance = dist;
+					closest = mo;
+				}
 			}
+		
+			if (!closest) return;
+		
+			player.angle = atan2(closest.pos.y - player.pos.y, closest.pos.x - player.pos.x);
+			if (!player.player.centering) player.pitch = PitchTo(player, closest, 0.6);
 		}
-		
-		if (!closest) return;
-		
-		player.angle = atan2(closest.pos.y - player.pos.y, closest.pos.x - player.pos.x);
-		if (!player.player.centering) player.pitch = PitchTo(player, closest, 0.6);
 	}
 	
 	double PitchTo( Actor a, Actor b, double hfact = 1. )
@@ -479,7 +534,7 @@ Class GZC_ReducedFieldOfView : GZC_Effect
 	
 	override bool verify()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		if (player.findInventory('GZC_QuakeFOV')) return false;
 		
 		return super.verify();
@@ -487,13 +542,12 @@ Class GZC_ReducedFieldOfView : GZC_Effect
 
 	override void onWorldTick()
 	{
-		let inf = players[consoleplayer];
-		inf.FOV = 30;
+		foreach (iplayer : players) iplayer.FOV = 30;
 	}
 	
 	override void onClose()
 	{
-		players[consoleplayer].FOV = players[consoleplayer].desiredFOV;
+		 foreach (iplayer : players) iplayer.FOV = iplayer.desiredFOV;
 	}
 }
 
@@ -507,7 +561,7 @@ Class GZC_QuakeFOV : GZC_Effect
 	
 	override bool verify()
 	{
-		let player = players[consoleplayer].mo;
+		let player = players[0].mo;
 		if (player.findInventory('GZC_ReducedFieldOfView')) return false;
 		
 		return super.verify();
@@ -515,13 +569,12 @@ Class GZC_QuakeFOV : GZC_Effect
 
 	override void onWorldTick()
 	{
-		let inf = players[consoleplayer];
-		inf.FOV = 150;
+		foreach (iplayer : players) iplayer.fov = 150;
 	}
 	
 	override void onClose()
 	{
-		players[consoleplayer].FOV = players[consoleplayer].desiredFOV;
+		foreach (iplayer : players) iplayer.FOV = iplayer.desiredFOV;
 	}
 }
 
@@ -531,6 +584,7 @@ Class GZC_ThirdPerson : GZC_Effect
 	{
 		GZC_Effect.title "Chase Cam";
 		GZC_Effect.duration 35 * 60 * 3;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
 	Actor ChaseCam;
@@ -582,28 +636,31 @@ Class GZC_DrowsyDooming : GZC_Effect
 		GZC_Effect.duration 35 * 60 * 2;
 	}
 
-	int prevHealth;
-	double tiredness;
+	Array<int> prevHealth;
+	Array<double> tiredness;
 	
 	override void onWorldTick()
 	{
-		if (gametic % 3 == 0) ++tiredness;
-	
-		let player = players[consoleplayer].mo;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
 		
-		if (player.health < prevHealth) tiredness = 0;
+			if (gametic % 3 == 0) ++tiredness[player.PlayerNumber()];
 		
-		prevHealth = player.health;
+			if (player.health < prevHealth[player.PlayerNumber()]) tiredness[player.PlayerNumber()] = 0;
 		
-		if (player.curstate == player.resolveState('Missile')) tiredness -= 10;
-		if (player.curstate == player.resolveState('Melee')) tiredness -= 10;
+			prevHealth[player.PlayerNumber()] = player.health;
 		
-		tiredness = max(0, tiredness);
+			if (player.curstate == player.resolveState('Missile')) tiredness[player.PlayerNumber()] -= 10;
+			if (player.curstate == player.resolveState('Melee')) tiredness[player.PlayerNumber()] -= 10;
+		
+			tiredness[player.PlayerNumber()] = max(0, tiredness[player.PlayerNumber()]);
+		}
 	}
 	
 	override void drawEffect(RenderEvent _event)
 	{
-		Screen.dim(Color("000000"), tiredness / 100, 0, 0, Screen.getWidth(), Screen.getHeight());
+		Screen.dim(Color("000000"), tiredness[consoleplayer] / 100, 0, 0, Screen.getWidth(), Screen.getHeight());
 	}
 }
 
@@ -617,36 +674,42 @@ Class GZC_ShrunkTheDoomguy : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
 		
-		player.A_SetSize(player.radius * 0.1, player.height * 0.1);
-		player.viewHeight *= 0.1;
-		player.player.viewHeight *= 0.01;
-		player.forwardMove1 *= 0.1;
-		player.forwardMove2 *= 0.1;
-		player.sideMove1 *= 0.1;
-		player.sideMove2 *= 0.1;
-		player.MaxStepHeight *= 0.1;
-		player.ViewBob *= 0.1;
-		player.scale.x *= 0.1;
-		player.scale.y *= 0.1;
+			player.A_SetSize(player.radius * 0.1, player.height * 0.1);
+			player.viewHeight *= 0.1;
+			player.player.viewHeight *= 0.01;
+			player.forwardMove1 *= 0.1;
+			player.forwardMove2 *= 0.1;
+			player.sideMove1 *= 0.1;
+			player.sideMove2 *= 0.1;
+			player.MaxStepHeight *= 0.1;
+			player.ViewBob *= 0.1;
+			player.scale.x *= 0.1;
+			player.scale.y *= 0.1;
+		}
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		let def = GetDefaultByType(player.getClass());
-		player.A_SetSize(def.radius, def.height);
-		player.viewHeight = def.viewHeight;
-		player.player.viewHeight = def.viewHeight;
-		player.forwardMove1 = def.forwardMove1;
-		player.forwardMove2 = def.forwardMove2;
-		player.sideMove1 = def.sideMove1;
-		player.sideMove2 = def.sideMove2;
-		player.MaxStepHeight = def.MaxStepHeight;
-		player.viewBob = def.viewBob;
-		player.scale.x = def.scale.x;
-		player.scale.y = def.scale.y;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = GetDefaultByType(player.getClass());
+			player.A_SetSize(def.radius, def.height);
+			player.viewHeight = def.viewHeight;
+			player.player.viewHeight = def.viewHeight;
+			player.forwardMove1 = def.forwardMove1;
+			player.forwardMove2 = def.forwardMove2;
+			player.sideMove1 = def.sideMove1;
+			player.sideMove2 = def.sideMove2;
+			player.MaxStepHeight = def.MaxStepHeight;
+			player.viewBob = def.viewBob;
+			player.scale.x = def.scale.x;
+			player.scale.y = def.scale.y;
+		}
 	}
 }
 
@@ -657,6 +720,7 @@ Class GZC_MorphIntoDog : GZC_MorphEffect
 		GZC_Effect.title "Dog mode!";
 		GZC_Effect.duration 35 * 60 * 2;
 		GZC_Effect.ignore false;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
 	override void onOpen()
@@ -679,6 +743,7 @@ Class GZC_MorphIntoChicken : GZC_MorphEffect
 		GZC_Effect.title "cockadoodledoo!";
 		GZC_Effect.duration 35 * 60 * 2;
 		GZC_Effect.ignore false;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 
 	override void onOpen()
@@ -704,24 +769,30 @@ Class GZC_DoubleRunning : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		let def = getDefaultByType(player.getClass());
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = getDefaultByType(player.getClass());
 		
-		player.forwardMove1 = def.forwardMove1 * 4;
-		player.forwardMove2 = def.forwardMove2 * 2;
-		player.sideMove1 = def.sideMove1 * 4;
-		player.sideMove2 = def.sideMove2 * 2;
+			player.forwardMove1 = def.forwardMove1 * 4;
+			player.forwardMove2 = def.forwardMove2 * 2;
+			player.sideMove1 = def.sideMove1 * 4;
+			player.sideMove2 = def.sideMove2 * 2;
+		}
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		let def = getDefaultByType(player.getClass());
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = getDefaultByType(player.getClass());
 		
-		player.forwardMove1 = def.forwardMove1;
-		player.forwardMove2 = def.forwardMove2;
-		player.sideMove1 = def.sideMove1;
-		player.sideMove2 = def.sideMove2;
+			player.forwardMove1 = def.forwardMove1;
+			player.forwardMove2 = def.forwardMove2;
+			player.sideMove1 = def.sideMove1;
+			player.sideMove2 = def.sideMove2;
+		}
 	}
 }
 
@@ -735,20 +806,26 @@ Class GZC_DisableRunning : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		let def = getDefaultByType(player.getClass());
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = getDefaultByType(player.getClass());
 		
-		player.forwardMove2 = def.forwardMove2 / 2;
-		player.sideMove2 = def.sideMove2 / 2;
+			player.forwardMove2 = def.forwardMove2 / 2;
+			player.sideMove2 = def.sideMove2 / 2;
+		}
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		let def = getDefaultByType(player.getClass());
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			let def = getDefaultByType(player.getClass());
 		
-		player.forwardMove2 = def.forwardMove2;
-		player.sideMove2 = def.sideMove2;
+			player.forwardMove2 = def.forwardMove2;
+			player.sideMove2 = def.sideMove2;
+		}
 	}
 }
 
@@ -758,6 +835,7 @@ Class GZC_StartRecording : GZC_Effect
 	{
 		GZC_Effect.title "Recording";
 		GZC_Effect.duration 35 * 15;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 
 	//stupid gzdoom not letting me use vector3's in an array
@@ -841,18 +919,21 @@ Class GZC_ScardeyItems : GZC_Effect
 
 	override void onWorldTick()
 	{
-		PlayerPawn player = players[consoleplayer].mo;
-		
-		ThinkerIterator it = ThinkerIterator.create('Inventory');
-		Actor mo;
-		
-		while (mo = Inventory(it.Next ()))
+		foreach (iplayer : players)
 		{
-			if (player.distance3D(mo) < 256)
+			let player = iplayer.mo;
+		
+			ThinkerIterator it = ThinkerIterator.create('Inventory');
+			Actor mo;
+		
+			while (mo = Inventory(it.Next ()))
 			{
-				mo.bSlidesOnWalls = true;
-				mo.bNoBlockMonst = true;
-				mo.thrust(15, player.angleTo(mo));
+				if (player.distance3D(mo) < 256)
+				{
+					mo.bSlidesOnWalls = true;
+					mo.bNoBlockMonst = true;
+					mo.thrust(15, player.angleTo(mo));
+				}
 			}
 		}
 	}
@@ -877,16 +958,19 @@ Class GZC_RightJoyconDrift : GZC_Effect
 	
 	override void onWorldTick()
 	{
-		PlayerInfo player = players[consoleplayer];
-		double xspeed = cos(angle) * drift;
-		double yspeed = sin(angle) * drift;
-		
-		if (player.cmd.pitch == 0 && player.cmd.yaw == 0)
+		foreach (iplayer : players)
 		{
-			player.mo.angle += (xspeed / 1000);
-			if (!player.centering) player.mo.pitch += (yspeed / 1000);
+			let player = iplayer;
+			double xspeed = cos(angle) * drift;
+			double yspeed = sin(angle) * drift;
 		
-			player.mo.CheckPitch();
+			if (player.cmd.pitch == 0 && player.cmd.yaw == 0)
+			{
+				player.mo.angle += (xspeed / 1000);
+				if (!player.centering) player.mo.pitch += (yspeed / 1000);
+		
+				player.mo.CheckPitch();
+			}
 		}
 	}
 }
@@ -910,12 +994,15 @@ Class GZC_LeftJoyconDrift : GZC_Effect
 	
 	override void onWorldTick()
 	{
-		PlayerInfo player = players[consoleplayer];
-		double xspeed = cos(angle) * drift;
-		
-		if (player.cmd.forwardmove == 0 && player.cmd.sidemove == 0)
+		foreach (iplayer : players)
 		{
-			player.mo.thrust(xspeed / 2000, (xspeed / 2000) + player.mo.angle);
+			let player = iplayer;
+			double xspeed = cos(angle) * drift;
+		
+			if (player.cmd.forwardmove == 0 && player.cmd.sidemove == 0)
+			{
+				player.mo.thrust(xspeed / 2000, (xspeed / 2000) + player.mo.angle);
+			}
 		}
 	}
 }
@@ -926,6 +1013,7 @@ Class GZC_GameEndPlayer : GZC_Effect
 	{
 		GZC_Effect.title "Player commits suicide";
 		GZC_Effect.duration 35;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
 	bool screm;
@@ -955,6 +1043,7 @@ Class GZC_FakeEndPlayer : GZC_Effect
 	{
 		GZC_Effect.title "Player fakes suicide";
 		GZC_Effect.duration 35;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
 	bool screm;
@@ -992,9 +1081,12 @@ Class GZC_CantStopFiring : GZC_Effect
 
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer];
-		player.cmd.buttons |= (BT_ATTACK | BT_ALTATTACK);
-		player.mo.checkWeaponFire();
+		foreach (iplayer : players)
+		{
+			let player = iplayer;
+			player.cmd.buttons |= (BT_ATTACK | BT_ALTATTACK);
+			player.mo.checkWeaponFire();
+		}
 	}
 }
 
@@ -1008,14 +1100,12 @@ Class GZC_NoPlayerFriction : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer];
-		player.mo.bNoFriction = true;
+		foreach (iplayer : players) iplayer.mo.bNoFriction = true;
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer];
-		player.mo.bNoFriction = false;
+		foreach (iplayer : players) iplayer.mo.bNoFriction = false;
 	}
 }
 
@@ -1029,14 +1119,12 @@ Class GZC_FallDamage : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer];
-		player.mo.bFallDamage = true;
+		foreach (iplayer : players) iplayer.mo.bFallDamage = true;
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer];
-		player.mo.bFallDamage = false;
+		foreach (iplayer : players) iplayer.mo.bFallDamage = false;
 	}
 }
 
@@ -1051,20 +1139,22 @@ Class GZC_TeleportPlayer : GZC_Effect
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		
-		while (true)
+		foreach (iplayer : players)
 		{
-			int rng = random(0, level.Sectors.size() - 1);
-			let c = level.Sectors[rng].centerspot;
-			if (level.IsPointInLevel((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c))))
+			let player = iplayer.mo;
+			while (true)
 			{
-				double ceilheight = level.Sectors[rng].ceilingplane.ZAtPoint(c);
-				double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
-				if (ceilheight - floorheight > 64)
+				int rng = random(0, level.Sectors.size() - 1);
+				let c = level.Sectors[rng].centerspot;
+				if (level.IsPointInLevel((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c))))
 				{
-					player.teleport((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)), player.angle, 1);
-					break;
+					double ceilheight = level.Sectors[rng].ceilingplane.ZAtPoint(c);
+					double floorheight = level.Sectors[rng].floorplane.ZAtPoint(c);
+					if (ceilheight - floorheight > 64)
+					{
+						player.teleport((c.x, c.y, level.Sectors[rng].floorplane.ZAtPoint(c)), player.angle, 1);
+						break;
+					}
 				}
 			}
 		}

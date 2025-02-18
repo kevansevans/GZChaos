@@ -5,6 +5,13 @@ enum GZC_EffectType
 	GZC_HiddenTimer,
 }
 
+enum GZC_MultSafe
+{
+	GZC_Neutral,
+	GZC_MultiplayerOnly,
+	GZC_SingleplayerOnly
+}
+
 enum GZC_GameComp
 {
 	GZC_Any,
@@ -32,6 +39,9 @@ Class GZC_Effect : GZC_BaseItem
 	GZC_EffectType type;
 	property type: type;
 	
+	GZC_MultSafe NetMode;
+	property NetMode: NetMode;
+	
 	bool seedfriendly;
 	property seedfriendly: seedfriendly;
 	
@@ -54,6 +64,7 @@ Class GZC_Effect : GZC_BaseItem
 		GZC_Effect.duration 35 * 30;
 		GZC_Effect.title "GZC_UnamedEffect";
 		GZC_Effect.gamecomp GZC_Any;
+		GZC_Effect.NetMode GZC_Neutral;
 	}
 	
 	override void PostBeginPlay()
@@ -138,6 +149,18 @@ Class GZC_Effect : GZC_BaseItem
 		
 		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).EffectProperties;
 		if (properties.at(self.getClassName()) == "false") return false;
+		
+		switch (NetMode)
+		{
+			case GZC_Neutral:
+				break;
+			case GZC_MultiplayerOnly:
+				if (players.size() <= 1) return false;
+				break;
+			case GZC_SingleplayerOnly:
+				if (players.size() > 1) return false;
+				break;
+		}
 		
 		/*if (gamecomp != GZC_Any)
 		{

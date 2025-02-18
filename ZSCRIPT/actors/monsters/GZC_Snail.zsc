@@ -14,8 +14,6 @@ class GZC_Snail : Actor
 	Override void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
-		
-		self.target = players[consoleplayer].mo;
 	}
 	
 	override void Tick()
@@ -25,7 +23,7 @@ class GZC_Snail : Actor
 	
 		Super.tick();
 		
-		let pinfo = players[consoleplayer];
+		let pinfo = target.player;
 		
 		if (distance3D(pinfo.mo) > 8) return;
 		
