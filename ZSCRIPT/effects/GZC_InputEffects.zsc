@@ -209,6 +209,7 @@ class GZC_SwapFiringMode : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer;
+			if (!player.mo) continue;
 			player.cmd.buttons |= buttons;
 		
 			player.mo.checkWeaponFire();
@@ -251,6 +252,7 @@ class GZC_InvertedMouselook : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer;
+			if (!player.mo) continue;
 			player.cmd.pitch *= -1.0;
 		
 			player.mo.CheckPitch();

@@ -59,9 +59,14 @@ class GZC_EventHandler : StaticEventHandler
 			case GS_Level:
 			
 				tracker.timelimit = 35 * Cvar.getCvar('GZC_TimerDuration').getInt();
-			
-				let player = players[0].mo;
-				if (player.health <= 0) return;
+				
+				int hl = 0;
+				foreach (player : players)
+				{
+					if (!player.mo) continue;
+					hl += player.health;
+				}
+				if (hl <= 0) return;
 				if (cc_check()) return;
 			
 				processConsole();

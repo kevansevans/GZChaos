@@ -178,7 +178,8 @@ Class GZC_RearView : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
-	
+			if (!player) continue;
+			
 			TexMan.SetCameraToTexture(camera, 'TCAMTEX1', 90);
 			FLineTraceData shot;
 			player.LineTrace(player.angle, 48, -80, TRF_THRUACTORS, 0, 0, 0, shot);
@@ -634,6 +635,8 @@ Class GZC_ChaosDevice : GZC_Effect
 	{
 		foreach (iplayer : players)
 		{
+			if (!iplayer.mo) continue;
+			
 			let player = iplayer.mo;
 			Vector3 location;
 			int face;
@@ -976,7 +979,8 @@ Class GZC_FartingPlayer : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
-		
+			if (!player) continue;
+			
 			double zfloor = player.getZAt();
 			if (zfloor != player.pos.z) return;
 			if ((gametic + random(0, 35)) % (35 * 2) == 0)
@@ -1113,7 +1117,7 @@ Class GZC_PainfullySlowProjectiles : GZC_ProjectileModifier
 {
 	default
 	{
-		GZC_Effect.title "Painfully projectiles";
+		GZC_Effect.title "Painfully slow projectiles";
 		GZC_Effect.duration 35 * 60 * 3;
 		GZC_Effect.ignore false;
 	}

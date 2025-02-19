@@ -155,6 +155,7 @@ Class GZC_WhipCrack : GZC_Effect
 	{
 		GZC_Effect.title "Johnny Test";
 		GZC_Effect.duration 35 * 60;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 
 	bool spawned;

@@ -12,6 +12,8 @@ Class GZC_FeelingGenerous : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
+			
 			player.CheatGive('All', 1);
 		}
 	}
@@ -52,6 +54,7 @@ Class GZC_CantHaveShitInDetroit : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.TakeInventory(items[rng], 0x7FFFFFFF);
 		}
 		
@@ -163,6 +166,7 @@ Class GZC_FastWeapons : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer;
+			if (!player.mo) continue;
 		
 			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
 			{
@@ -230,7 +234,7 @@ Class GZC_RandomWeaponFrameDuration : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer;
-			if (!player) return;
+			if (!player.mo) continue;
 			
 			if (player.psprites.CurState != prevState[player.mo.PlayerNumber()])
 			{
@@ -258,6 +262,7 @@ Class GZC_InventorySickness : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.bPickup = false;
 			player.A_StartSound("JOSH/BELCH", Chan_Auto);
 		}
@@ -268,6 +273,7 @@ Class GZC_InventorySickness : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			let item = player.inv;
 			actor newitem;
 		
@@ -328,6 +334,8 @@ Class GZC_InventorySickness : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
+			
 			player.bPickup = true;
 		}
 	}
@@ -409,6 +417,7 @@ Class GZC_GiveRandomInventory : GZC_Effect
 		
 		foreach (iplayer : players)
 		{
+			if (!iplayer.mo) continue;
 			iplayer.mo.GiveInventory(def.getClassName(), countrng);
 		}
 		

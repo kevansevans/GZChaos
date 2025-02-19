@@ -11,11 +11,9 @@ class GZC_NoDepthPerception : GZC_Effect
 		ThinkerIterator it = ThinkerIterator.create("Actor");
 		Actor mo;
 		
-		if (!owner) return;
-		
 		while (mo = Actor(it.next()))
 		{
-			double dist = mo.distance3D(owner);
+			double dist = mo.distance3D(players[consoleplayer].mo);
 			mo.scale.x = max(1.0, dist / 128.0);
 			mo.scale.y = max(1.0, dist / 128.0);
 		}
@@ -30,7 +28,7 @@ class GZC_NoDepthPerception : GZC_Effect
 		
 		while (mo = Actor(it.next()))
 		{
-			let def = getDefaultByType(mo.getClass());
+			let def = getDefaultByType(players[consoleplayer].mo);
 			mo.scale.x = def.scale.x;
 			mo.scale.y = def.scale.y;
 		}
@@ -247,7 +245,8 @@ class GZC_TallWeaponSprites : GZC_Effect
 	{
 		foreach (iplayer : players)
 		{
-			PlayerInfo player = iplayer;
+			let player = iplayer;
+			if (!player.mo) continue;
 			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
 		
 			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
@@ -266,6 +265,7 @@ class GZC_TallWeaponSprites : GZC_Effect
 		foreach (iplayer : players)
 		{
 			PlayerInfo player = iplayer;
+			if (!player.mo) continue;
 			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
 		
 			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
@@ -292,6 +292,7 @@ class GZC_WideWeaponSprites : GZC_Effect
 		foreach (iplayer : players)
 		{
 			PlayerInfo player = iplayer;
+			if (!player.mo) continue;
 			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
 		
 			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)

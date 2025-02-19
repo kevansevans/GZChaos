@@ -33,3 +33,5 @@ Implement multiplayer flag for effects that require multiplayer
 Timer stops if host's health is zero.
 
 DIG DUG effect needs rework
+
+Quip it Good doesn't play sounds

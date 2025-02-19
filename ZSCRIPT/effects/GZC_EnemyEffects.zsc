@@ -227,7 +227,7 @@ Class GZC_ZergRush : GZC_Effect
 	default
 	{
 		GZC_Effect.title "Zerg rush";
-		GZC_Effect.duration 35 * 60 * 5;
+		GZC_Effect.duration 35 * 60;
 		GZC_Effect.type GZC_Instant;
 	}
 

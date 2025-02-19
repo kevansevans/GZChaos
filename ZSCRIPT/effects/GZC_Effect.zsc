@@ -135,7 +135,11 @@ Class GZC_Effect : GZC_BaseItem
 		Array<PlayerPawn> rplayers;
 		rplayers.clear();
 		
-		foreach (player : players) rplayers.push(player.mo);
+		foreach (player : players) 
+		{
+			if (!player.mo) continue;
+			rplayers.push(player.mo);
+		}
 		
 		return rplayers[random(0, rplayers.size() -1)];
 	}

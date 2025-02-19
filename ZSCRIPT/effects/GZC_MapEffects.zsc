@@ -819,6 +819,7 @@ Class GZC_TheFloorIsLava : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
 			player.cursector.damageType = 'slime';
 			player.cursector.damageinterval = 35;
@@ -841,6 +842,7 @@ Class GZC_TheFloorIsNukage : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.cursector.setTexture(0, TexMan.CheckForTexture("NUKAGE1"));
 			player.cursector.damageType = 'slime';
 			player.cursector.damageinterval = 35;
@@ -863,6 +865,7 @@ Class GZC_TheFloorIsSludge : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.cursector.setTexture(0, TexMan.CheckForTexture("SLIME01"));
 			player.cursector.damageType = 'slime';
 			player.cursector.damageinterval = 35;
