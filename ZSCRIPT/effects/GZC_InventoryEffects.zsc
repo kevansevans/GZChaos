@@ -45,6 +45,7 @@ Class GZC_CantHaveShitInDetroit : GZC_Effect
 			if (item is 'PuzzleItem' || item is 'Key') continue;
 			if (item is 'Fist' || item is 'Pistol') continue;
 			if (item is 'GZC_Effect') continue;
+			if (item is 'GZC_GameTracker') continue;
 			
 			items.push(item.getClassName());
 		}
