@@ -467,7 +467,7 @@ class GZC_TallMonsters : GZC_Effect
 {
 	default
 	{
-		GZC_Effect.title "Wide Monster Sprites";
+		GZC_Effect.title "Tall Monster Sprites";
 		GZC_Effect.duration 35 * 60 * 2;
 	}
 	
