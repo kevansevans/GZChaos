@@ -58,7 +58,7 @@ class GZC_EffectOptionItemMenu : OptionMenuItemOption
 		{
 			indent = (screen.GetWidth() / 2);
 		}
-		drawLabel(indent, y, selected? OptionMenuSettings.mFontColorSelection : OptionMenuSettings.mFontColor, isGrayed());
+		drawLabel(indent, y, (enabled ? Font.CR_Green : Font.CR_Red), isGrayed());
 
 		int Selection = GetSelection();
 		String text = enabled ? "On" : "Off";
