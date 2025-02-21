@@ -2,7 +2,7 @@ class GZC_ArmedWithBFG : GZC_Effect
 {
 	default
 	{
-		GZC_Effect.title "Placeholder";
+		GZC_Effect.title "Armed # monsters with the BFG9000";
 		GZC_Effect.duration 35 * 60 * 5;
 	}
 	
@@ -86,7 +86,7 @@ class GZC_ArmedWithRailgun : GZC_Effect
 {
 	default
 	{
-		GZC_Effect.title "Placeholder";
+		GZC_Effect.title "Armed # monsters with a railgun";
 		GZC_Effect.duration 35 * 60 * 5;
 	}
 	

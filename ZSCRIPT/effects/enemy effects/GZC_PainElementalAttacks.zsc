@@ -7,7 +7,8 @@ class GZC_PainElementalAttackEffect : GZC_Effect
 	
 	override bool verify()
 	{
-		return mapHasThisActor("PainElemental");
+		if (!mapHasThisActor("PainElemental")) return false;
+		else return Super.verify();
 	}
 	
 	Static Actor getNearestElemental(Actor _soul)
