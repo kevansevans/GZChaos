@@ -67,13 +67,16 @@ Class GZC_Effect : GZC_BaseItem
 		GZC_Effect.NetMode GZC_Neutral;
 	}
 	
-	override void PostBeginPlay()
+	override void BeginPlay()
 	{
-		Super.PostBeginPlay();
+		Super.BeginPlay();
 		
-		let debug = Cvar.getCvar('GZC_LastRolledEffect');
-		debug.setString(self.getClassName());
-		Cvar.SaveConfig();
+		if (!multiplayer)
+		{
+			let debug = Cvar.getCvar('GZC_LastRolledEffect');
+			debug.setString(self.getClassName());
+			Cvar.SaveConfig();
+		}
 	}
 	
 	static int seed()
@@ -128,20 +131,21 @@ Class GZC_Effect : GZC_BaseItem
 		return false;
 	}
 	
-	PlayerPawn getRandomPlayer()
+	Actor getRandomPlayer()
 	{
-		if (players.size() == 1) return players[0].mo;
-	
-		Array<PlayerPawn> rplayers;
-		rplayers.clear();
+		Array<PlayerInfo> list;
+		list.clear();
 		
-		foreach (player : players) 
+		foreach (player : players)
 		{
 			if (!player.mo) continue;
-			rplayers.push(player.mo);
+			list.push(player);
 		}
 		
-		return rplayers[random(0, rplayers.size() -1)];
+		if (list.size() == 1) return list[0].mo;
+
+		int rng = random(0, list.size() - 1);
+		return list[rng].mo;
 	}
 	
 	virtual bool verify()
@@ -159,10 +163,10 @@ Class GZC_Effect : GZC_BaseItem
 			case GZC_Neutral:
 				break;
 			case GZC_MultiplayerOnly:
-				if (players.size() <= 1) return false;
+				if (!multiplayer) return false;
 				break;
 			case GZC_SingleplayerOnly:
-				if (players.size() > 1) return false;
+				if (multiplayer) return false;
 				break;
 		}
 		

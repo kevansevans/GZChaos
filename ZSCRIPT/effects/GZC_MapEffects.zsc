@@ -701,8 +701,6 @@ Class GZC_DiscoSkybox : GZC_Effect
 			interval = random(1, 10);
 			int index = random(0, textures.size() - 1);
 			
-			console.printf('' .. textures.size());
-			
 			level.changeSky(textures[index], TexMan.checkForTexture(''));
 		}
 	}
@@ -820,6 +818,7 @@ Class GZC_TheFloorIsLava : GZC_Effect
 		{
 			let player = iplayer.mo;
 			if (!player) continue;
+			
 			player.cursector.setTexture(0, TexMan.CheckForTexture("LAVA1"));
 			player.cursector.damageType = 'slime';
 			player.cursector.damageinterval = 35;

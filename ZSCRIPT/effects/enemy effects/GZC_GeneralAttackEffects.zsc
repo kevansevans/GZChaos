@@ -48,8 +48,9 @@ class GZC_ArmedWithBFG : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing is "BFGBall") return;
-		if (_event.thing.target is "PlayerPawn") return;
+		if (_event.thing.target && _event.thing.target is "PlayerPawn") return;
 		if (_event.thing.bMissile)
 		{
 			foreach (mo : chosen)
@@ -132,8 +133,9 @@ class GZC_ArmedWithRailgun : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
-		if (_event.thing.target is "PlayerPawn") return;
+		if (_event.thing.target && _event.thing.target is "PlayerPawn") return;
 		
 		foreach (mo : chosen)
 		{

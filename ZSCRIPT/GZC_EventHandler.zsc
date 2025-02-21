@@ -126,7 +126,6 @@ class GZC_EventHandler : StaticEventHandler
 			if (effect.life > effect.duration) continue;
 			effect.onWorldLoad(_event);
 		}
-
 	}
 	
 	override void WorldThingSpawned(WorldEvent _event)
@@ -424,7 +423,7 @@ class GZC_EventHandler : StaticEventHandler
 	void giveEffect()
 	{
 		let player = players[0].mo;
-		let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
+		if (!tracker) tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
 	
 		int safety = 0;
 	
@@ -439,7 +438,10 @@ class GZC_EventHandler : StaticEventHandler
 			
 			let effect = effects[random[GZ_Chaos](0, effects.size() - 1)];
 			
-			if (tracker.history.size() != 0 && tracker.history.find(effect) != tracker.history.size()) continue;
+			if (tracker.history.size() != 0)
+			{
+				 if(tracker.history.find(effect) != tracker.history.size()) continue;
+			}
 			
 			if (player.countInv(effect)) continue;
 			

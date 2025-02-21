@@ -79,6 +79,7 @@ Class GZC_TheEddsAreComing : GZC_Effect //More like GZC_Eddffect, hue hue hue
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsmonster) return;
 		reassignDeathSound(_event.thing);
 	}
@@ -204,6 +205,7 @@ Class GZC_WhipCrack : GZC_Effect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bIsMonster) return;
 		whip = true;
 	}

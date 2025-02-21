@@ -60,6 +60,7 @@ class GZC_PainElementalRepeater : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "LostSoul")) return;
 		
 		let grumpy = GZC_PainElementalAttackEffect.getNearestElemental(_event.thing);
@@ -125,6 +126,7 @@ class GZC_PainElementalPukesEnemies : GZC_PainElementalAttackEffect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.master is "PainElemental") return;
 		if (!(_event.thing is "LostSoul")) return;
 		
@@ -150,6 +152,7 @@ class GZC_PainElementalPukesBarrels : GZC_PainElementalAttackEffect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "LostSoul")) return;
 		if (_event.thing is "LostSoul" && _event.thing.master is "PainElemental") return;
 		

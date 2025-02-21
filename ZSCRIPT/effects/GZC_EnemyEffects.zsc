@@ -61,6 +61,7 @@ class GZC_GiantEnemies : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyEffect(_event.thing);
 	}
 	
@@ -117,6 +118,7 @@ Class GZC_ZeroEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -591,6 +593,7 @@ Class GZC_RubberEnemies : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -645,6 +648,7 @@ Class GZC_UnfriendlyFire : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 
@@ -701,6 +705,7 @@ Class GZC_NoSplashDamage : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -757,6 +762,7 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -813,6 +819,7 @@ Class GZC_NegativeEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -869,6 +876,7 @@ Class GZC_HalfEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 }
@@ -911,6 +919,7 @@ Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 }
@@ -1034,6 +1043,7 @@ Class GZC_FastMonsters : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -1170,6 +1180,7 @@ Class GZC_NoMoreInfighting : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -1300,6 +1311,7 @@ Class GZC_AggressiveMissileMore : GZC_Effect
 	
 	override void onWorldthingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -1333,6 +1345,7 @@ Class GZC_YouveBeenStruck : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 		
 			FLineTraceData shot;
 			player.LineTrace(player.angle, 512, 0, 0, 0, 0, 0, shot);
@@ -1389,6 +1402,7 @@ Class GZC_BetaSkulls : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.getClassName() != 'LostSoul') return;
 		morphActor(_event.thing, 'GZC_BetaSkull');
 	}
@@ -1441,6 +1455,7 @@ Class GZC_FullPainChances : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return; //rare projectile check
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -1503,6 +1518,7 @@ Class GZC_ZeroPainChances : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -1568,6 +1584,7 @@ Class GZC_InverseFlyingRules : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -1696,6 +1713,7 @@ Class GZC_FrictionlessEnemies : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 		
@@ -1757,6 +1775,7 @@ Class GZC_AnkleBiterEnemies : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -1806,6 +1825,7 @@ Class GZC_StatueEnemies : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.bNoTarget = true;
 		}
 	}
@@ -1841,6 +1861,7 @@ Class GZC_StatueEnemies : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.bNoTarget = false;
 		}
 	}
@@ -1882,6 +1903,7 @@ Class GZC_StealthMonsters : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	
@@ -1946,6 +1968,7 @@ Class GZC_NightmareRespawns : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.bIsMonster) applyeffect(_event.thing);
 	}
 	

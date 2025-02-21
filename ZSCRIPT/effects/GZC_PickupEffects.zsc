@@ -36,6 +36,7 @@ Class GZC_PickupsCanDie : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing is 'key') return;
 		if (_event.thing is 'Inventory') applyeffect(_event.thing);
 	}
@@ -354,6 +355,7 @@ Class GZC_ShrinkPickups : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing is 'Inventory') applyeffect(_event.thing);
 	}
 	

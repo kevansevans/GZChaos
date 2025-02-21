@@ -9,6 +9,7 @@ class GZC_Doom64Knockback : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		if (!(_event.thing.target is "PlayerPawn")) return;
 		
@@ -37,6 +38,7 @@ class GZC_Doom64KnockbackEnemies : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		if (_event.thing.target is "PlayerPawn") return;
 		
@@ -65,6 +67,7 @@ class GZC_NegativeDoom64Knockback : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		if (!(_event.thing.target is "PlayerPawn")) return;
 		
@@ -93,6 +96,7 @@ class GZC_NegativeDoom64KnockbackEnemies : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		if (_event.thing.target is "PlayerPawn") return;
 		
@@ -121,6 +125,7 @@ class GZC_InconsistentDoom64Knockback : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		if (!(_event.thing.target is "PlayerPawn")) return;
 		
@@ -151,6 +156,7 @@ class GZC_FreezeTag : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing.target is "PlayerPawn")
 		{
 			_event.thing.damageType = "Ice";
@@ -182,6 +188,7 @@ class GZC_AllAttacksPlasma : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		if (_event.thing is "ArachnotronPlasma" || _event.thing is "PlasmaBall") return;
 		

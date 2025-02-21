@@ -21,6 +21,7 @@ class GZC_DoomImpRepeater : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;
@@ -52,6 +53,7 @@ class GZC_DoomImpFireBullets : GZC_DoomImpAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;
@@ -73,6 +75,7 @@ class GZC_DoomImpFireShotgun : GZC_DoomImpAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;
@@ -94,6 +97,7 @@ class GZC_DoomImpFireBaronBalls : GZC_DoomImpAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;
@@ -115,6 +119,7 @@ class GZC_DoomImpFirePlasma : GZC_DoomImpAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;
@@ -136,6 +141,7 @@ class GZC_DoomImpFireMissiles : GZC_DoomImpAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;
@@ -157,6 +163,7 @@ class GZC_DoomImpFireRockets : GZC_DoomImpAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;
@@ -178,6 +185,7 @@ class GZC_DoomImpFireCacoballs : GZC_DoomImpAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;
@@ -199,6 +207,7 @@ class GZC_DoomImpFireLostSouls : GZC_DoomImpAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "DoomImpBall")) return;
 		
 		let imp = _event.thing.target;

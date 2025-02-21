@@ -21,6 +21,7 @@ class GZC_CacodemonRepeater : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "CacodemonBall")) return;
 		
 		let caco = _event.thing.target;
@@ -52,6 +53,7 @@ class GZC_CacodemonFireBullets : GZC_CacodemonAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "CacodemonBall")) return;
 		
 		let caco = _event.thing.target;
@@ -73,6 +75,7 @@ class GZC_CacodemonFireShotgun : GZC_CacodemonAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "CacodemonBall")) return;
 		
 		let caco = _event.thing.target;
@@ -115,6 +118,7 @@ class GZC_CacodemonFirePlasma : GZC_CacodemonAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "CacodemonBall")) return;
 		
 		let caco = _event.thing.target;
@@ -136,6 +140,7 @@ class GZC_CacodemonFireMissiles : GZC_CacodemonAttackEffect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!(_event.thing is "CacodemonBall")) return;
 		
 		let caco = _event.thing.target;

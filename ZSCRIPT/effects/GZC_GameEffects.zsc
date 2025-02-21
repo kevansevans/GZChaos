@@ -30,6 +30,8 @@ class GZC_TheImmortalSnail : GZC_Effect
 	{
 		foreach (iplayer : players)
 		{
+			if (!iplayer.mo) continue;
+			
 			let snail = GZC_Snail(Actor.spawn("GZC_Snail"));
 			snail.A_DamageSelf(0);
 			snail.target = iplayer.mo;
@@ -130,6 +132,8 @@ Class GZC_SpawnFriendlyMonster : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
+	
 		let def = GetDefaultByType(_event.thing.getClass());
 		if (def.spawnstate.ValidateSpriteFrame()) return;
 		
@@ -234,6 +238,7 @@ Class GZC_MacroMissiles : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		shrinkMissile(_event.thing);
 	}
@@ -286,6 +291,7 @@ Class GZC_MicroMissiles : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		shrinkMissile(_event.thing);
 	}
@@ -343,20 +349,21 @@ Class GZC_CompanionImpEvent : GZC_Effect
 		GZC_Effect.title "Companion Imp";
 		GZC_Effect.duration 35 * 60;
 		GZC_Effect.type GZC_Instant;
+		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
-	Actor companion;
+	GZC_CompanionImp companion;
 
 	override void onOpen()
 	{
 		let player = getRandomPlayer();
-		companion = Actor.spawn('GZC_CompanionImp', player.pos);
+		companion = GZC_CompanionImp(Actor.spawn('GZC_CompanionImp', player.pos));
 	}
 	
 	override void onWorldLoad(WorldEvent _event)
 	{
 		let player = getRandomPlayer();
-		companion = Actor.spawn('GZC_CompanionImp', player.pos);
+		companion = GZC_CompanionImp(Actor.spawn('GZC_CompanionImp', player.pos));
 		companion.master = player;
 	}
 	
@@ -424,6 +431,7 @@ Class GZC_BouncyProjectiles : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		setBounceOnActor(_event.thing);
 	}
@@ -661,6 +669,8 @@ Class GZC_ShuffleAmmoTypes : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
+			
 			WeaponSlots weapons = iplayer.weapons;
 		
 			for (int slot = 0; slot < 10; ++slot)
@@ -727,6 +737,7 @@ Class GZC_ShuffleAmmoTypes : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			ThinkerIterator it = ThinkerIterator.create("Actor");
 			Actor mo;
 		
@@ -764,6 +775,7 @@ Class GZC_LimpProjectiles : GZC_Effect
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		_event.thing.bNoGravity = false;
 	}
@@ -809,6 +821,7 @@ Class GZC_JupiterGravity : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		applyeffect(_event.thing);
 	}
 	
@@ -869,6 +882,7 @@ Class GZC_MoonGravity : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		applyeffect(_event.thing);
 	}
 	
@@ -1017,6 +1031,7 @@ Class GZC_FastProjectiles : GZC_ProjectileModifier
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		applyeffect(_event.thing);
 	}
@@ -1055,6 +1070,7 @@ Class GZC_SlowProjectiles : GZC_ProjectileModifier
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		applyeffect(_event.thing);
 	}
@@ -1092,6 +1108,7 @@ Class GZC_ExtraSlowProjectiles : GZC_ProjectileModifier
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		applyeffect(_event.thing);
 	}
@@ -1129,6 +1146,7 @@ Class GZC_PainfullySlowProjectiles : GZC_ProjectileModifier
 
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (!_event.thing.bMissile) return;
 		applyeffect(_event.thing);
 	}
@@ -1159,6 +1177,7 @@ Class GZC_ExplodingBulletPuffs : GZC_Effect
 	
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
+		if (!_event.thing) return;
 		if (_event.thing is "BulletPuff") _event.thing.A_Explode(32, 128, 0);
 	}
 }

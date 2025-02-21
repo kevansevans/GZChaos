@@ -190,6 +190,7 @@ Class GZC_NegativeFastWeapons : GZC_Effect
 	override void onOpen()
 	{
 		prevState.clear();
+		prevState.reserve(16);
 	}
 	
 	override void onWorldTick()
@@ -198,8 +199,9 @@ Class GZC_NegativeFastWeapons : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer;
-			if (!player) return;
+			if (!player.mo) return;
 			
+			if (!player.psprites.CurState) continue;
 			if (player.psprites.CurState != prevState[player.mo.PlayerNumber()])
 			{
 				prevState[player.mo.PlayerNumber()] = player.psprites.CurState;
@@ -226,6 +228,7 @@ Class GZC_RandomWeaponFrameDuration : GZC_Effect
 	override void onOpen()
 	{
 		prevState.clear();
+		prevState.reserve(16);
 	}
 	
 	override void onWorldTick()
@@ -454,6 +457,8 @@ Class GZC_GiveRandomWeapon : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
+			
 			player.GiveInventory(def.getClassName(), 1);
 			player.A_SelectWeapon(def.getClassName());
 		}

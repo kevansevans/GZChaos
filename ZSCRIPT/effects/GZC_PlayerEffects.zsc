@@ -12,6 +12,7 @@ Class GZC_IncreaseCurrentVelocity : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			let rng = frandom(2.0, 4.0);
 			
 			player.vel.x *= rng;
@@ -54,11 +55,13 @@ Class GZC_PlayerRandomVel : GZC_Effect
 	{
 		foreach (iplayer : players)
 		{
+			let player = iplayer.mo;
+			if (!player) continue;
+		
 			double x = frandom(-100, 100);
 			double y = frandom(-100, 100);
 			double z = frandom(-100, 100);
-		
-			let player = iplayer.mo;
+			
 			player.vel = (x, y, z);
 		}
 	}
@@ -78,6 +81,7 @@ Class GZC_DiabolistCurse : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.A_SetBlend("Red", .25, 35);
 		}
 	}
@@ -89,14 +93,15 @@ Class GZC_DiabolistCurse : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			if (player.health <= 0) return;
 			
-			Actor.spawn('GZC_FiabolistFireSingle', player.pos);
+			Actor.spawn('GZC_DiabolistFireSingle', player.pos);
 		}
 	}
 }
 
-class GZC_FiabolistFireSingle : Actor
+class GZC_DiabolistFireSingle : Actor
 {
 	default
 	{
@@ -168,6 +173,7 @@ Class GZC_YouAreTheHorror : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.bFrightening = true;
 		}
 	}
@@ -177,6 +183,7 @@ Class GZC_YouAreTheHorror : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			let def = getDefaultByType(player.getClass());
 		
 			player.bFrightening = def.bFrightening;
@@ -197,6 +204,7 @@ Class GZC_LeadFeet : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			let def = getDefaultByType(player.getClass());
 		
 			player.forwardMove1 = def.forwardMove1 * 0;
@@ -211,6 +219,7 @@ Class GZC_LeadFeet : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			let def = getDefaultByType(player.getClass());
 		
 			player.forwardMove1 = def.forwardMove1;
@@ -315,6 +324,8 @@ Class GZC_ShootingNotAllowed : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let pinfo = iplayer;
+			if (!pinfo.mo) continue;
+			
 			if (!pinfo.readyWeapon.ammo1 && !pinfo.readyWeapon.ammo2) return;
 			if (pinfo.buttons & (BT_ATTACK | BT_ALTATTACK))
 			{
@@ -392,6 +403,7 @@ Class GZC_NotQuiteInvulnerability : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			player.GiveBody(999, 999);
 		}
 	}
@@ -541,6 +553,8 @@ Class GZC_ReducedFieldOfView : GZC_Effect
 		GZC_Effect.duration 35 * 60 * 3;
 	}
 	
+	Array<Int> fovs;
+	
 	override bool verify()
 	{
 		let player = players[0].mo;
@@ -549,21 +563,25 @@ Class GZC_ReducedFieldOfView : GZC_Effect
 		return super.verify();
 	}
 
-	override void onWorldTick()
+	override void onOpen()
 	{
+		fovs.clear();
+		fovs.Reserve(16);
+	
 		foreach (iplayer : players) 
 		{
 			if (!iplayer.mo) continue;
-			iplayer.FOV = 30;
+			fovs[iplayer.mo.PlayerNumber()] = iplayer.desiredFOV;
+			iplayer.desiredFOV = 30;
 		}
 	}
 	
 	override void onClose()
 	{
-		 foreach (iplayer : players)
-		 {
+		foreach (iplayer : players)
+		{
 			if (!iplayer.mo) continue;
-			iplayer.FOV = iplayer.desiredFOV;
+			iplayer.desiredFOV = fovs[iplayer.mo.PlayerNumber()];
 		}
 	}
 }
@@ -576,6 +594,8 @@ Class GZC_QuakeFOV : GZC_Effect
 		GZC_Effect.duration 35 * 60 * 3;
 	}
 	
+	Array<Int> fovs;
+	
 	override bool verify()
 	{
 		let player = players[0].mo;
@@ -584,21 +604,25 @@ Class GZC_QuakeFOV : GZC_Effect
 		return super.verify();
 	}
 
-	override void onWorldTick()
+	override void onOpen()
 	{
+		fovs.clear();
+		fovs.Reserve(16);
+	
 		foreach (iplayer : players) 
 		{
 			if (!iplayer.mo) continue;
-			iplayer.FOV = 150;
+			fovs[iplayer.mo.PlayerNumber()] = iplayer.desiredFOV;
+			iplayer.desiredFOV = 150;
 		}
 	}
 	
 	override void onClose()
 	{
 		foreach (iplayer : players)
-		 {
+		{
 			if (!iplayer.mo) continue;
-			iplayer.FOV = iplayer.desiredFOV;
+			iplayer.desiredFOV = fovs[iplayer.mo.PlayerNumber()];
 		}
 	}
 }
@@ -663,6 +687,12 @@ Class GZC_DrowsyDooming : GZC_Effect
 
 	Array<int> prevHealth;
 	Array<double> tiredness;
+	
+	override void onOpen()
+	{
+		prevHealth.reserve(16);
+		tiredness.reserve(16);
+	}
 	
 	override void onWorldTick()
 	{
@@ -850,6 +880,7 @@ Class GZC_DisableRunning : GZC_Effect
 		foreach (iplayer : players)
 		{
 			let player = iplayer.mo;
+			if (!player) continue;
 			let def = getDefaultByType(player.getClass());
 		
 			player.forwardMove2 = def.forwardMove2;
