@@ -47,7 +47,8 @@ class GZC_ZombiemanRepeater : GZC_Effect
 	
 	override bool verify()
 	{
-		return mapHasThisActor("Zombieman");
+		if (!mapHasThisActor("Zombieman")) return false;
+		else return Super.verify();
 	}
 }
 

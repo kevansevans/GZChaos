@@ -47,7 +47,8 @@ class GZC_ShotgunGuyRepeater : GZC_Effect
 	
 	override bool verify()
 	{
-		return mapHasThisActor("ShotgunGuy");
+		if (!mapHasThisActor("ShotgunGuy")) return false;
+		else return Super.verify();
 	}
 }
 
