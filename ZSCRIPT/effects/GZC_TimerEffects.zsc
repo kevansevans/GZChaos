@@ -289,7 +289,7 @@ class GZC_AddTimeFromEffects : GZC_EffectEffect
 	{
 		GZC_Effect.ignore false;
 		GZC_Effect.type GZC_Instant;
-		GZC_Effect.title "Add # seconds from effects";
+		GZC_Effect.title "Add # seconds to effects";
 	}
 	
 	override void onOpen()
