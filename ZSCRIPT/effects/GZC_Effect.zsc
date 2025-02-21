@@ -5,7 +5,7 @@ enum GZC_EffectType
 	GZC_HiddenTimer,
 }
 
-enum GZC_MultSafe
+enum GZC_NetMode
 {
 	GZC_Neutral,
 	GZC_MultiplayerOnly,
@@ -39,7 +39,7 @@ Class GZC_Effect : GZC_BaseItem
 	GZC_EffectType type;
 	property type: type;
 	
-	GZC_MultSafe NetMode;
+	GZC_NetMode NetMode;
 	property NetMode: NetMode;
 	
 	bool seedfriendly;
