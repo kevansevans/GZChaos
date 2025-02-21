@@ -10,7 +10,7 @@ class GZC_InconsistentEffectSpeed : GZC_EffectModifier
 	
 	override void onWorldTick()
 	{
-		if (gametick % 35 != 0) return;
+		if (gametic % 35 != 0) return;
 		
 		self.value = frandom(0.0, 2.0);
 	}
@@ -50,7 +50,7 @@ class GZC_InconsistentTimerSpeed : GZC_TimerEffect
 	
 	override void onWorldTick()
 	{
-		if (gametick % 35 != 0) return;
+		if (gametic % 35 != 0) return;
 		
 		self.value = frandom(0.0, 2.0);
 	}
