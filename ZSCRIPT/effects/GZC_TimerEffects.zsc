@@ -1,3 +1,21 @@
+class GZC_InconsistentEffectSpeed : GZC_EffectModifier
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "??? effect speed";
+		GZC_Effect.Duration 35 * 30 * 3;
+		GZC_Effect.value 0.5;
+	}
+	
+	override void onWorldTick()
+	{
+		if (gametick % 35 != 0) return;
+		
+		self.value = frandom(0.0, 2.0);
+	}
+}
+
 class GZC_HalfEffectSpeed : GZC_EffectModifier
 {
 	Default
@@ -17,6 +35,24 @@ class GZC_DoubleEffectSpeed : GZC_EffectModifier
 		GZC_Effect.title "2x effect speed";
 		GZC_Effect.Duration 35 * 60 * 6;
 		GZC_Effect.value 2;
+	}
+}
+
+class GZC_InconsistentTimerSpeed : GZC_TimerEffect
+{
+	Default
+	{
+		GZC_Effect.ignore false;
+		GZC_Effect.title "??? timer speed";
+		GZC_Effect.Duration 35 * 30 * 3;
+		GZC_Effect.value 0.5;
+	}
+	
+	override void onWorldTick()
+	{
+		if (gametick % 35 != 0) return;
+		
+		self.value = frandom(0.0, 2.0);
 	}
 }
 
