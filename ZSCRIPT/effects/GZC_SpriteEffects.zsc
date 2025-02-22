@@ -1,3 +1,46 @@
+class GZC_IttyWeaponSprites : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "What is this? A gun for ants?";
+		GZC_Effect.duration 35 * 60 * 2;
+	}
+	
+	override void onWorldTick()
+	{
+		foreach (iplayer : players)
+		{
+			PlayerInfo player = iplayer;
+			if (!player.mo) continue;
+			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
+		
+			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+			{
+				sprite.scale.x = def.WeaponScaleX * 0.2;
+				sprite.scale.Y = def.WeaponScaleY * 0.2;
+				sprite.HAlign = PSPA_CENTER;
+			}
+		}
+	}
+	
+	override void onClose()
+	{
+		foreach (iplayer : players)
+		{
+			PlayerInfo player = iplayer;
+			if (!player.mo) continue;
+			let def = getDefaultByType(Weapon(player.readyWeapon).getClass());
+		
+			for (PSprite sprite = player.psprites; sprite != null; sprite = sprite.next)
+			{
+				sprite.scale.x = def.WeaponScaleX;
+				sprite.scale.y = def.WeaponScaleX;
+				sprite.HAlign = PSPA_Left;
+			}
+		}
+	}
+}
+
 class GZC_NoDepthPerception : GZC_Effect
 {
 	Default
@@ -196,6 +239,7 @@ class GZC_MissingWad : GZC_Effect
 	override void onWorldThingSPawn(WorldEvent _event)
 	{
 		if (!_event.thing) return;
+		if (_event.thing is "GZC_MissingActor") return;
 		applyeffect(_event.thing);
 	}
 	
