@@ -148,6 +148,7 @@ Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
 		while (mo = Inventory(it.next()))
 		{
 			if (!(mo is "health")) continue;
+			if (mo is "soulsphere") continue;
 		
 			let item = Actor.spawn('Soulsphere', mo.pos);
 			pointers.push(item);
@@ -265,12 +266,21 @@ Class GZC_DuplicatePickups : GZC_Effect
 
 	override void onOpen()
 	{
+		Array<Actor> items;
+		items.clear();
+	
 		ThinkerIterator it = ThinkerIterator.create("Inventory");
 		Inventory mo;
 		
 		while (mo = Inventory(it.next()))
 		{
-			let dupe = Actor.spawn(mo.getClassName(), mo.pos);
+			if (mo is "GZC_BaseItem") continue;
+			items.push(mo);
+		}
+		
+		foreach (item : items)
+		{
+			let dupe = Actor.spawn(item.getClassName(), item.pos);
 			dupe.thrust(15, random(0, 359));
 		}
 	}
