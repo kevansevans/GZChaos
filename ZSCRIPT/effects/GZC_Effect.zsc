@@ -131,7 +131,7 @@ Class GZC_Effect : GZC_BaseItem
 		return false;
 	}
 	
-	Actor getRandomPlayer()
+	Static Actor getRandomPlayer()
 	{
 		Array<PlayerInfo> list;
 		list.clear();
