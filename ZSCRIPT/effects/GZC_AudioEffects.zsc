@@ -1,3 +1,51 @@
+class GZC_GoodHeadphones : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Noise Canceling Headphones";
+		GZC_Effect.duration 35 * 60 * 5;
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+		
+		while (mo = Inventory(it.next()))
+		{
+			applyeffect(mo);
+		}
+	}
+	
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!(_event.thing is "inventory")) return;
+		applyeffect(Inventory(_event.thing));
+	}
+	
+	override void onWorldTick()
+	{
+		S_PauseSound(true, false);
+	}
+	
+	void applyeffect(Inventory _item)
+	{
+		_item.PickupSound = "";
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Inventory");
+		Inventory mo;
+		
+		while (mo = Inventory(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.PickupSound = def.PickupSound;
+		}
+	}
+}
+
 Class GZC_DigDugWalking : GZC_Effect
 {
 	default
