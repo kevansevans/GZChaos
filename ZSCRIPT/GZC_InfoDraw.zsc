@@ -53,6 +53,7 @@ class GZC_InfoDraw : StaticEventHandler
 	ui void drawEffectToScreen(GZC_Effect effect, Int index, double xscale, double yscale)
 	{
 		int fontcolor = Font.CR_White;
+		if (effect.awarded) fontcolor = Font.CR_LightBlue;
 			
 		if (effect.life >= effect.duration) fontcolor = Font.CR_DarkGray;
 		if (effect.life < 35) fontcolor = Font.CR_Yellow;
