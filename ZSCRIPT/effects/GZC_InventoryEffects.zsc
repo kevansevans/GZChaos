@@ -351,45 +351,36 @@ Class GZC_TakeAllKeysAway : GZC_Effect
 	{
 		GZC_Effect.title "Can't find my keys!";
 		GZC_Effect.duration 35 * 90;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
-
-	Array<String> keys;
+	
+	Array<GZC_ItemToken> items;
 	
 	override void onOpen()
 	{
-		keys.clear();
+		items.clear();
 	}
 
 	override void onWorldTick()
 	{
-		let player = players[consoleplayer].mo;
-		
-		for (inventory item = player.inv; item != null; item = item.inv)
+		foreach (iplayer : players)
 		{
-			if (item is "key")
+			let player = iplayer.mo;
+			if (!player) continue;
+		
+			for (inventory item = player.inv; item != null; item = item.inv)
 			{
-				keys.push(item.getClassName());
+				if (!(item is "key")) continue;
+				
+				items.push(GZC_ItemToken.create(player, item.getClassName(), 1));
+				
+				player.takeInventory(item.getClassName(), 1);
 			}
-		}
-		
-		for (int i = 0; i < keys.size(); ++i)
-		{
-			player.takeInventory(keys[i], 1);
 		}
 	}
 	
 	override void onClose()
 	{
-		if (keys.size())
-		{
-			let player = players[consoleplayer].mo;
-			
-			for (int i = 0; i < keys.size(); ++i)
-			{
-				player.giveInventory(keys[i], 1);
-			}
-		}
+		foreach (token : items) token.restore();
 	}
 }
 

@@ -6,6 +6,7 @@ version "4.14"
 #include "ZSCRIPT/actors/weapons/GZC_ChaosWeapon.zsc"
 #include "ZSCRIPT/actors/GZC_MissingActor.zsc"
 
+#include "ZSCRIPT/backend/GZC_ItemToken.zsc"
 #include "ZSCRIPT/backend/GZC_SideDef.zsc"
 #include "ZSCRIPT/backend/GZC_SecPlane.zsc"
 

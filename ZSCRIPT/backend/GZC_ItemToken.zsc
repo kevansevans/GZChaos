@@ -1,0 +1,21 @@
+class GZC_ItemToken : Object
+{
+	String item;
+	Int quantity;
+	Actor owner;
+	
+	static GZC_ItemToken create(Actor _owner, String _item, int _amount)
+	{
+		let tracker = GZC_ItemToken(new('GZC_ItemToken'));
+		tracker.owner = _owner;
+		tracker.item = _item;
+		tracker.quantity = _amount;
+		
+		return tracker;
+	}
+	
+	play void restore()
+	{
+		owner.giveInventory(item, quantity);
+	}
+}

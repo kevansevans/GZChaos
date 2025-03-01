@@ -30,8 +30,11 @@ class GZC_InfoDraw : StaticEventHandler
 		if (player.countInv('GZC_HideEffects'))
 		{
 			let effect = GZC_Effect(player.FindInventory('GZC_HideEffects'));
-			drawEffectToScreen(effect, 0, xscale, yscale);
-			return;
+			if (effect.life <= effect.duration)
+			{
+				drawEffectToScreen(effect, 0, xscale, yscale);
+				return;
+			}
 		}
 
 		int effectcount = players[consoleplayer].mo.countInv('GZC_Effect');

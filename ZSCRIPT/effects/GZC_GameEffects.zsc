@@ -349,29 +349,32 @@ Class GZC_CompanionImpEvent : GZC_Effect
 		GZC_Effect.title "Companion Imp";
 		GZC_Effect.duration 35 * 60;
 		GZC_Effect.type GZC_Instant;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
 	GZC_CompanionImp companion;
 
 	override void onOpen()
 	{
-		let player = getRandomPlayer();
-		companion = GZC_CompanionImp(Actor.spawn('GZC_CompanionImp', player.pos));
-	}
-	
-	override void onWorldLoad(WorldEvent _event)
-	{
-		let player = getRandomPlayer();
+		let player = GZC_Effect.getRandomPlayer();
 		companion = GZC_CompanionImp(Actor.spawn('GZC_CompanionImp', player.pos));
 		companion.master = player;
 	}
 	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		let player = GZC_Effect.getRandomPlayer();
+		companion = GZC_CompanionImp(Actor.spawn('GZC_CompanionImp', player.pos));
+		companion.master = player;
+	}
+	
+	override void onClose()
+	{
+		if (companion) companion.destroy();
+	}
+	
 	override void onWorldTick()
 	{
-		if (companion) return;
-		
-		life = duration;
+		if (companion) life = companion.health;
 	}
 }
 

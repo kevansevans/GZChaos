@@ -191,9 +191,9 @@ Class GZC_QuipItGood : GZC_Effect
 	{
 		if (!_event.thing.bIsMonster) return;
 		
-		if (_event.thing is "PlayerPawn")
+		if (_event.thing.target is "PlayerPawn")
 		{
-			PlayerPawn(_event.thing).A_StartSound("Quip/Quip", CHAN_AUTO);
+			_event.thing.target.A_StartSound("Quip/Quip", CHAN_AUTO);
 		}
 	}
 }
@@ -206,61 +206,34 @@ Class GZC_WhipCrack : GZC_Effect
 		GZC_Effect.duration 35 * 60;
 		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
-
-	bool spawned;
-	bool whip;
 	
-	int buttons;
+	Array<int> buttons;
 	
-	override void onWorldTick()
+	override void onOpen()
 	{
-		if (whip)
-		{
-			WhipCrack();
-			whip = false;
-		}
-	
-		if (!spawned)
-		{
-			spawned = true;
-			whip = true;
-		}
-		
-		foreach (player : players)
-		{
-			if (self.buttons != player.buttons)
-			{
-				whip = true;
-				self.buttons = player.buttons;
-			}
-		}
-	}
-	
-	override void onClose()
-	{
-		whip = true;
+		buttons.clear();
+		buttons.reserve(16);
 	}
 
-	override void onWorldLinePreActivated(WorldEvent event)
+	override void onWorldLinePreActivated(WorldEvent _event)
 	{
-		whip = true;
+		if (_event.thing is "PlayerPawn") _event.thing.A_StartSound("Whip/Crack", CHAN_AUTO);
 	}
 
 	override void onWorldThingDied(WorldEvent _event)
 	{
-		whipCrack();
+		if (_event.thing.target is "PlayerPawn") _event.thing.A_StartSound("Whip/Crack", CHAN_AUTO);
 	}
 
-	override void onWorldThingSpawn(WorldEvent _event)
+	override void OnWorldTick()
 	{
-		if (!_event.thing) return;
-		if (!_event.thing.bIsMonster) return;
-		whip = true;
-	}
-	
-	void WhipCrack()
-	{
-		owner.A_StartSound("Whip/Crack", CHAN_AUTO);
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			
+			if (buttons[iplayer.mo.playernumber()] != iplayer.cmd.buttons) iplayer.mo.A_StartSound("Whip/Crack", CHAN_AUTO);
+			buttons[iplayer.mo.playernumber()] = iplayer.cmd.buttons;
+		}
 	}
 }
 

@@ -1,3 +1,23 @@
+/*class GZC_WeightyAmmo : GZC_Effect
+{
+	default
+	{
+		GZC_Effect.title "Overencumbered";
+		GZC_effect.Duration 35 * 30 * 3;
+	}
+	
+	override void onWorldTick()
+	{
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			if (!player) continue;
+			
+			
+		}
+	}
+}*/
+
 Class GZC_IncreaseCurrentVelocity : GZC_Effect
 {
 	default
@@ -236,56 +256,71 @@ class GZC_TopDownView : GZC_Effect
 	{
 		GZC_Effect.title "Um ackshually...";
 		GZC_Effect.duration 35 * 60;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 	
-	Actor ChaseCam;
+	Array<Actor> cameras;
 	
-	override void onWorldTick()
+	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
+		cameras.clear();
+		cameras.reserve(16);
 		
-		if (!chasecam) 
-		{
-			chasecam = Actor.Spawn('Actor', player.pos);
-			chasecam.bNoGravity = true;
-			chasecam.target = player;
-			chasecam.bNoClip = true;
-			player.SetCamera(chasecam);
-		}
-		
-		chasecam.pitch = player.pitch;
-		
-		let pos = player.pos;
-		pos.z += 256;
-		
-		chasecam.setOrigin(pos, true);
-		chasecam.pitch = 90;
-		chasecam.angle = player.angle;
-		player.pitch = 0;
-		
+		billboard(true);
+	}
+	
+	override void onWorldLoad(WorldEvent _event)
+	{
+		billboard(true);
+	}
+	
+	void billboard(Bool _onoff)
+	{
 		ThinkerIterator it = ThinkerIterator.create('Actor');
 		Actor mo;
 		
 		while (mo = Actor(it.next()))
 		{
-			mo.bForceXYBillboard = true;
+			mo.bForceXYBillboard = _onoff;
+		}
+	}
+	
+	override void onWorldTick()
+	{
+		foreach (iplayer : players)
+		{
+			let player = players[consoleplayer].mo;
+			if (!player) continue;
+		
+			if (!cameras[player.playernumber()]) 
+			{
+				cameras[player.playernumber()] = Actor.Spawn('Actor', player.pos);
+				cameras[player.playernumber()].bNoGravity = true;
+				cameras[player.playernumber()].target = player;
+				cameras[player.playernumber()].bNoClip = true;
+				player.SetCamera(cameras[player.playernumber()]);
+			}
+			
+			let pos = player.pos;
+			pos.z += 256;
+		
+			cameras[player.playernumber()].setOrigin(pos, true);
+			cameras[player.playernumber()].pitch = 90;
+			cameras[player.playernumber()].angle = player.angle;
+			player.pitch = 0;
 		}
 	}
 	
 	override void onClose()
 	{
-		players[consoleplayer].mo.setCamera(players[consoleplayer].mo);
-		chasecam.destroy();
-		
-		ThinkerIterator it = ThinkerIterator.create('Actor');
-		Actor mo;
-		
-		while (mo = Actor(it.next()))
+		foreach (iplayer : players)
 		{
-			let def = getDefaultByType(mo.getClass());
-			mo.bForceXYBillboard = def.bForceXYBillboard;
+			let player = players[consoleplayer].mo;
+			if (!player) continue;
+			
+			player.setcamera(player);
 		}
+		
+		billboard(false);
 	}
 }
 
@@ -373,19 +408,28 @@ Class GZC_PlayerIsAGhost : GZC_Effect
 	{
 		GZC_Effect.title "Walk through actors";
 		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
 	}
 
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		player.bThruActors = true;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			if (!player) continue;
+			
+			player.bThruActors = true;
+		}
 	}
 	
 	override void onClose()
 	{
-		let player = players[consoleplayer].mo;
-		player.bThruActors = false;
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			if (!player) continue;
+			
+			player.bThruActors = false;
+		}
 	}
 }
 
