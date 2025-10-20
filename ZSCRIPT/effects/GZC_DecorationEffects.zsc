@@ -1,9 +1,9 @@
 Class GZC_HostileDecorations : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Hostile decorations";
-		GZC_Effect.duration 35 * 60 * 5;
+		title = "Hostile decorations";
+		duration = 35 * 60 * 5;
 	}
 
 	int rng_delay;
@@ -90,10 +90,10 @@ Class GZC_HostileDecorations : GZC_Effect
 
 Class GZC_ParanoidOfBarrels : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Did that barrel just move?";
-		GZC_Effect.duration 35 * 60 * 5;
+		title = "Did that barrel just move?";
+		duration = 35 * 60 * 5;
 	}
 	
 	override void onOpen()
@@ -144,10 +144,10 @@ Class GZC_ParanoidOfBarrels : GZC_Effect
 
 Class GZC_DuplicatingBarrels : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Barrels duplicate like rabbits";
-		GZC_Effect.duration 35 * 30;
+		title = "Barrels duplicate like rabbits";
+		duration = 35 * 30;
 	}
 
 	Array<ExplosiveBarrel> barrels;
