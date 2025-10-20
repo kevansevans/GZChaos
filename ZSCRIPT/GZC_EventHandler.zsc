@@ -420,7 +420,7 @@ class GZC_EventHandler : StaticEventHandler
 		return rate;
 	}
 	
-	void giveEffect()
+	void giveEffect(Bool _awarded = false)
 	{
 		let player = players[0].mo;
 		if (!tracker) tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
@@ -457,6 +457,7 @@ class GZC_EventHandler : StaticEventHandler
 			invEffect.onOpen();
 			
 			tracker.addEffectToHistory(effect);
+			invEffect.awarded = _awarded;
 			
 			break;
 		}

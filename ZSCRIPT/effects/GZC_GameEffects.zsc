@@ -12,7 +12,7 @@ class GZC_SavingNotAllowed : GZC_Effect
 		if (gameaction == GA_SaveGame)
 		{
 			let event = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
-			event.giveEffect();
+			event.giveEffect(true);
 		}
 	}
 }

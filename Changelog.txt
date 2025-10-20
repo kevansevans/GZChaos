@@ -1,4 +1,27 @@
 
+GZChaos 1.5
+
+General Changes
+	- GZDoom 4.15 required
+	- Multiplayer support!
+		- This includes an added verifcation for effects that can only work
+		exclusively in single player or multiplayer.
+	- Made toggling effects on and off in the options much more clear what state they're in
+	- Fixed "Can't have shit in detroit" from taking away critical GZChaos
+	tracking items.
+	- Fixed a bunch of monster attack effects from not properly verifying if it can be rolled
+	- Fixed a handful of major crashes that took the whole engine down with no error log
+	- Effects that are awarded because of an effect (IE roll for more effects) will now render with blue text to help distinguish them
+	
+New Effects
+	- ??? Effect Speed
+	- ??? Timer Speed
+	- What is this? A gun for ants?
+	- Noise Cancelling Headphones
+	- Player gunshots randomly add effects
+	- Player projectiles randomly add effects
+	- Line actions randomly add effects
+
 GZChaos 1.4
 
 General changes

@@ -52,6 +52,8 @@ Class GZC_Effect : GZC_BaseItem
 	bool closed;
 	bool deleteme;
 	
+	bool awarded;
+	
 	GZC_GameComp gamecomp;
 	property gamecomp: gamecomp;
 	
@@ -146,6 +148,23 @@ Class GZC_Effect : GZC_BaseItem
 
 		int rng = random(0, list.size() - 1);
 		return list[rng].mo;
+	}
+	
+	Static PlayerInfo getRandomPlayerInfo()
+	{
+		Array<PlayerInfo> list;
+		list.clear();
+		
+		foreach (player : players)
+		{
+			if (!player.mo) continue;
+			list.push(player);
+		}
+		
+		if (list.size() == 1) return list[0];
+
+		int rng = random(0, list.size() - 1);
+		return list[rng];
 	}
 	
 	virtual bool verify()

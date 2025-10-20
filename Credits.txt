@@ -3,7 +3,7 @@ This is a mod by kevansevans.
 For a full effect list, please visit:
 https://docs.google.com/spreadsheets/d/1_FarIhm3LaaHUOmkqm36kB92V1AFhplkZiHTHMG_oPE/edit?usp=sharing
 
-In general, many thanks to the Mad Hellforge crew for joining me along in the VC's
+In general, many thanks to the Beefwhistler's crew for joining me along in the VC's
 I streamed development on, pitching their ideas, their feedback, and their
 frustrated enjoyment as they play tested. Thanks guys!
 
@@ -48,3 +48,4 @@ Neoworm
 	- Imp Spider Head
 Tango
 	- Diabolist Curse, sprites and sounds
+	

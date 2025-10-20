@@ -275,6 +275,7 @@ Class GZC_DuplicatePickups : GZC_Effect
 		while (mo = Inventory(it.next()))
 		{
 			if (mo is "GZC_BaseItem") continue;
+			if (mo.owner) continue;
 			items.push(mo);
 		}
 		

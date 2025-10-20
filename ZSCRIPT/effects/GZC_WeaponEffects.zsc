@@ -2,7 +2,6 @@ class GZC_Doom64Knockback : GZC_Effect
 {
 	Default
 	{
-		GZC_Effect.ignore false;
 		GZC_Effect.title "Doom 64 Knockback";
 		GZC_Effect.Duration 35 * 60 * 2;
 	}
@@ -31,7 +30,6 @@ class GZC_Doom64KnockbackEnemies : GZC_Effect
 {
 	Default
 	{
-		GZC_Effect.ignore false;
 		GZC_Effect.title "Doom 64 Knockback for monsters";
 		GZC_Effect.Duration 35 * 60 * 2;
 	}
@@ -60,7 +58,6 @@ class GZC_NegativeDoom64Knockback : GZC_Effect
 {
 	Default
 	{
-		GZC_Effect.ignore false;
 		GZC_Effect.title "Negative Doom 64 Knockback";
 		GZC_Effect.Duration 35 * 60 * 2;
 	}
@@ -89,7 +86,6 @@ class GZC_NegativeDoom64KnockbackEnemies : GZC_Effect
 {
 	Default
 	{
-		GZC_Effect.ignore false;
 		GZC_Effect.title "Negative Doom 64 Knockback for monsters";
 		GZC_Effect.Duration 35 * 60 * 2;
 	}
@@ -118,7 +114,6 @@ class GZC_InconsistentDoom64Knockback : GZC_Effect
 {
 	Default
 	{
-		GZC_Effect.ignore false;
 		GZC_Effect.title "Inconsistent Doom 64 Knockback";
 		GZC_Effect.Duration 35 * 60 * 2;
 	}
@@ -149,7 +144,6 @@ class GZC_FreezeTag : GZC_Effect
 {
 	Default
 	{
-		GZC_Effect.ignore false;
 		GZC_Effect.title "Freeze tag";
 		GZC_Effect.Duration 35 * 60 * 2;
 	}
@@ -181,7 +175,6 @@ class GZC_AllAttacksPlasma : GZC_Effect
 {
 	Default
 	{
-		GZC_Effect.ignore false;
 		GZC_Effect.title "All attacks are plasma";
 		GZC_Effect.Duration 35 * 60 * 2;
 	}
@@ -210,5 +203,54 @@ class GZC_AllAttacksPlasma : GZC_Effect
 		else _event.thing.A_SpawnProjectile("PlasmaBall", 32, 0, frandom(-11.25, 11.25), CMF_AIMOFFSET);
 		
 		return true;
+	}
+}
+
+class GZC_GunshotsAddEffects : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Player gunshots randomly add effects";
+		GZC_Effect.Duration 35 * 60 * 3;
+	}
+	
+	override bool onWorldHitscanPreFired(WorldEvent _event)
+	{
+		if (_event.thing is "PlayerPawn")
+		{
+			int rnd = random(0, 49);
+			if (!rnd)
+			{
+				let event = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+				event.giveEffect(true);
+			}
+		}
+		
+		return false;
+	}
+}
+
+class GZC_ProjectilesAddEffects : GZC_Effect
+{
+	Default
+	{
+		GZC_Effect.title "Player projectiles randomly add effects";
+		GZC_Effect.Duration 35 * 60 * 3;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing) return;
+		if (_event.thing.target is "PlayerPawn")
+		{
+			int rnd = random(0, 29);
+			if (!rnd)
+			{
+				let event = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+				event.giveEffect(true);
+			}
+		}
+		
+		return;
 	}
 }

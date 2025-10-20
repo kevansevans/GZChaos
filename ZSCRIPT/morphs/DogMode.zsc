@@ -7,9 +7,30 @@ Class DogPlayer : PlayerPawn
 		maxstepheight 25;
 		Gravity 0.9;
 		Player.MorphWeapon "Doggie";
-		scale 0.25;
+		scale 0.5;
 		+NOPAIN;
 		+NODAMAGE;
+	}
+	
+	States
+	{
+		Spawn:
+			DOGW A -1;
+			Loop;
+		See:
+			DOGW BCD 4;
+			Loop;
+		Missile:
+		Melee:
+			DOGA A 6;
+			Goto Spawn;
+		AltSkinDeath:
+		AltSkinXDeath:
+		Death:
+		XDeath:
+		Pain:
+			TNT1 A 1;
+			goto Spawn;
 	}
 }
 

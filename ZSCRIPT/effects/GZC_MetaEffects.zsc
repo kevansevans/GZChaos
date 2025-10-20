@@ -46,7 +46,7 @@ class GZC_RollRandomEffects : GZC_Effect
 		if (gametic % 5 != 0) return;
 		
 		let event = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
-		event.giveEffect();
+		event.giveEffect(true);
 		
 		--self.value;
 	}

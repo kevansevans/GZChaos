@@ -825,14 +825,24 @@ Class GZC_MorphIntoDog : GZC_MorphEffect
 	
 	override void onOpen()
 	{
-		let player = players[consoleplayer].mo;
-		player.A_Morph('DogPlayer', int(duration - life));
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			if (!player) continue;
+			
+			player.A_Morph('DogPlayer', int(duration - life));
+		}
 	}
 	
 	override void onWorldLoad(WorldEvent _event)
 	{
-		let player = players[consoleplayer].mo;
-		player.A_Morph('DogPlayer', int(duration - life));
+		foreach (iplayer : players)
+		{
+			let player = iplayer.mo;
+			if (!player) continue;
+			
+			player.A_Morph('DogPlayer', int(duration - life));
+		}
 	}
 }
 

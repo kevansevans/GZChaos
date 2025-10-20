@@ -12,13 +12,22 @@ Too much information
 
 Shared ammo pool
 
-everyone controls everyone
+celeryman - Have tayne dance on player's screen
+
+BonziBuddy
+
+weapons recoil player's pitch
+
+more enemies = faster timer
+less enemies = faster timer
+
+Insanity Gibs
+
+Autosave every time you take damage
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Ideas that can't be done because GZDoom can't do them, or require way too much effort
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Turret monsters (all monsters hold their ground and start rapid firing)
 
 Mirror weapon sprites
 
