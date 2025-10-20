@@ -212,6 +212,7 @@ Class GZC_WhipCrack : GZC_Effect
 	{
 		buttons.clear();
 		buttons.reserve(16);
+		for (int i = 0; i < 16; ++i) buttons[i] = 0;
 	}
 
 	override void onWorldLinePreActivated(WorldEvent _event)

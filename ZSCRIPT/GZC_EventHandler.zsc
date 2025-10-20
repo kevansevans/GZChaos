@@ -54,6 +54,12 @@ class GZC_EventHandler : StaticEventHandler
 		let debug = Cvar.getCvar('GZC_LastRolledEffect');
 		debug.setString("none");
 		
+		active.clear();
+		history.clear();
+		classnames.clear();
+		
+		time = 0;
+		
 		updateSeed();
 	}
 	
@@ -370,18 +376,16 @@ class GZC_EventHandler : StaticEventHandler
 	
 	void clearDeadEffects()
 	{
-		let player = players[0].mo;
-	
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach (effect : active)
 		{
 			if (effect.deleteme)
 			{
+				active.delete(active.find(effect), 1);
 				effect.destroy();
 			}
 		}
+		
+		active.shrinkToFit();
 	}
 	
 	double calculateTimeRate()
@@ -475,7 +479,10 @@ class GZC_EventHandler : StaticEventHandler
 			
 			addEffectToHistory(effect);
 			active.push(rolled);
+			
 			rolled.awarded = _awarded;
+			rolled.duration *= Cvar.getCvar("GZC_EffectDurationScale").getFloat();
+			rolled.onOpen();
 			
 			break;
 		}
