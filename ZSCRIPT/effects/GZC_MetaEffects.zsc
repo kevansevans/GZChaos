@@ -1,37 +1,27 @@
 class GZC_HideTimer : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Hidden Timer";
-		GZC_Effect.Duration 35 * 60 * 3;
-	}
-	
-	override void PostBeginPlay()
-	{
-		self.duration = 35 * 60 * random(1, 3);
+		title = "Hidden Timer";
+		Duration = 35 * 60 * random(1, 3);
 	}
 }
 
 class GZC_HideEffects : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Hidden effects";
-		GZC_Effect.Duration 35 * 60 * 3;
-	}
-	
-	override void PostBeginPlay()
-	{
-		self.duration = 35 * 60 * random(1, 3);
+		title = "Hidden effects";
+		Duration = 35 * 60 * random(1, 3);
 	}
 }
 
 class GZC_RollRandomEffects : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Roll # effects";
-		GZC_Effect.type GZC_Instant;
+		title = "Roll # effects";
+		type = GZC_Instant;
 	}
 	
 	override void onOpen()
@@ -40,7 +30,7 @@ class GZC_RollRandomEffects : GZC_Effect
 		title = 'Roll ' .. int(self.value) .. ' effects';
 	}
 	
-	override void onWorldTick()
+	override void onworldtick()
 	{
 		if (self.value <= 0) return;
 		if (gametic % 5 != 0) return;
@@ -54,19 +44,19 @@ class GZC_RollRandomEffects : GZC_Effect
 
 class GZC_Nothing : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Nothing.";
-		GZC_Effect.type GZC_Instant;
+		title = "Nothing.";
+		type = GZC_Instant;
 	}
 }
 
 class GZC_AutoPong : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Pong";
-		GZC_Effect.Duration 35 * 60 * 2;
+		title = "Pong";
+		Duration = 35 * 60 * 2;
 	}
 	
 	vector2 padApos;

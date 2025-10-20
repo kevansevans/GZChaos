@@ -26,24 +26,23 @@ class GZC_InfoDraw : StaticEventHandler
 		double hudscale = Cvar.getCvar('hud_scale', players[consoleplayer]).getFloat();
 		xscale *= (hudscale <= 0 ? 1 * userscale : hudscale * userscale);
 		yscale *= (hudscale <= 0 ? 1 * userscale : hudscale * userscale);
-
-		if (player.countInv('GZC_HideEffects'))
+	
+		Array<GZC_Effect> drawlist;
+		drawlist.clear();
+		
+		let event = GZC_EventHandler(StaticEventHandler.find("GZC_EventHandler"));
+		foreach (e : event.active)
 		{
-			let effect = GZC_Effect(player.FindInventory('GZC_HideEffects'));
-			if (effect.life <= effect.duration)
+			if (e is 'GZC_HideEffects')
 			{
-				drawEffectToScreen(effect, 0, xscale, yscale);
+				drawEffectToScreen(e, 0, xscale, yscale);
 				return;
 			}
+			drawlist.push(e);
 		}
 
-		int effectcount = players[consoleplayer].mo.countInv('GZC_Effect');
-		
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
 		int index = 0;
-		while (effect = GZC_Effect(it.next()))
+		foreach (effect : drawlist)
 		{
 			drawEffectToScreen(effect, index, xscale, yscale);
 			++index;
@@ -128,11 +127,12 @@ Class GZC_TimerDisplay : EventHandler
 	
 		if (Cvar.getCvar("GZC_HideEverything", players[consoleplayer]).getBool()) return;
 	
-		let player = players[0].mo;
-		if (player.countInv('GZC_HideTimer')) return;
+		let event = GZC_EventHandler(StaticEventHandler.find("GZC_EventHandler"));
+		foreach (effect : event.active)
+		{
+			if (effect is 'GZC_HideTimer' && effect.life < effect.duration) return;
+		}
 		
-		let tracker = GZC_GameTracker(player.findInventory('GZC_GameTracker'));
-			
-		activeBar.drawBar(tracker.time, tracker.timelimit);
+		activeBar.drawBar(event.time, event.timelimit);
 	}
 }

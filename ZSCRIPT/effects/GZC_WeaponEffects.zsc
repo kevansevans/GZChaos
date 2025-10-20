@@ -1,9 +1,9 @@
 class GZC_Doom64Knockback : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Doom 64 Knockback";
-		GZC_Effect.Duration 35 * 60 * 2;
+		title = "Doom 64 Knockback";
+		Duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -28,10 +28,10 @@ class GZC_Doom64Knockback : GZC_Effect
 
 class GZC_Doom64KnockbackEnemies : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Doom 64 Knockback for monsters";
-		GZC_Effect.Duration 35 * 60 * 2;
+		title = "Doom 64 Knockback for monsters";
+		Duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -56,10 +56,10 @@ class GZC_Doom64KnockbackEnemies : GZC_Effect
 
 class GZC_NegativeDoom64Knockback : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Negative Doom 64 Knockback";
-		GZC_Effect.Duration 35 * 60 * 2;
+		title = "Negative Doom 64 Knockback";
+		Duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -84,10 +84,10 @@ class GZC_NegativeDoom64Knockback : GZC_Effect
 
 class GZC_NegativeDoom64KnockbackEnemies : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Negative Doom 64 Knockback for monsters";
-		GZC_Effect.Duration 35 * 60 * 2;
+		title = "Negative Doom 64 Knockback for monsters";
+		Duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -112,10 +112,10 @@ class GZC_NegativeDoom64KnockbackEnemies : GZC_Effect
 
 class GZC_InconsistentDoom64Knockback : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Inconsistent Doom 64 Knockback";
-		GZC_Effect.Duration 35 * 60 * 2;
+		title = "Inconsistent Doom 64 Knockback";
+		Duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -142,10 +142,10 @@ class GZC_InconsistentDoom64Knockback : GZC_Effect
 
 class GZC_FreezeTag : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Freeze tag";
-		GZC_Effect.Duration 35 * 60 * 2;
+		title = "Freeze tag";
+		Duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -173,10 +173,10 @@ class GZC_FreezeTag : GZC_Effect
 
 class GZC_AllAttacksPlasma : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "All attacks are plasma";
-		GZC_Effect.Duration 35 * 60 * 2;
+		title = "All attacks are plasma";
+		Duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -208,10 +208,10 @@ class GZC_AllAttacksPlasma : GZC_Effect
 
 class GZC_GunshotsAddEffects : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Player gunshots randomly add effects";
-		GZC_Effect.Duration 35 * 60 * 3;
+		title = "Player gunshots randomly add effects";
+		Duration = 35 * 60 * 3;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -232,10 +232,10 @@ class GZC_GunshotsAddEffects : GZC_Effect
 
 class GZC_ProjectilesAddEffects : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Player projectiles randomly add effects";
-		GZC_Effect.Duration 35 * 60 * 3;
+		title = "Player projectiles randomly add effects";
+		Duration = 35 * 60 * 3;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)

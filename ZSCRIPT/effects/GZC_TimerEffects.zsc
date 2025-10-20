@@ -1,11 +1,11 @@
 class GZC_InconsistentEffectSpeed : GZC_EffectModifier
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "??? effect speed";
-		GZC_Effect.Duration 35 * 30 * 3;
-		GZC_Effect.value 0.5;
+		ignore = false;
+		title = "??? effect speed";
+		duration = 35 * 30 * 3;
+		value = 0.5;
 	}
 	
 	override void onWorldTick()
@@ -18,34 +18,34 @@ class GZC_InconsistentEffectSpeed : GZC_EffectModifier
 
 class GZC_HalfEffectSpeed : GZC_EffectModifier
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "0.5x effect speed";
-		GZC_Effect.Duration 35 * 30 * 3;
-		GZC_Effect.value 0.5;
+		ignore = false;
+		title = "0.5x effect speed";
+		duration = 35 * 30 * 3;
+		value = 0.5;
 	}
 }
 
 class GZC_DoubleEffectSpeed : GZC_EffectModifier
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "2x effect speed";
-		GZC_Effect.Duration 35 * 60 * 6;
-		GZC_Effect.value 2;
+		ignore = false;
+		title = "2x effect speed";
+		duration = 35 * 60 * 6;
+		value = 2;
 	}
 }
 
 class GZC_InconsistentTimerSpeed : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "??? timer speed";
-		GZC_Effect.Duration 35 * 30 * 3;
-		GZC_Effect.value 0.5;
+		ignore = false;
+		title = "??? timer speed";
+		duration = 35 * 30 * 3;
+		value = 0.5;
 	}
 	
 	override void onWorldTick()
@@ -58,137 +58,155 @@ class GZC_InconsistentTimerSpeed : GZC_TimerEffect
 
 class GZC_ZeroTimerSpeed : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "Pause timer";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.value 0;
+		ignore = false;
+		title = "Pause timer";
+		duration = 35 * 60 * 3;
+		value = 0;
 	}
 }
 
 class GZC_TenthTimerSpeed : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "0.1x Timer Speed";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.value 0.1;
+		ignore = false;
+		title = "0.1x Timer Speed";
+		duration = 35 * 60 * 3;
+		value = 0.1;
 	}
 }
 
 class GZC_ThirdTimerSpeed : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "0.3x Timer Speed";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.value 0.3;
+		ignore = false;
+		title = "0.3x Timer Speed";
+		duration = 35 * 60 * 3;
+		value = 0.3;
 	}
 }
 
 class GZC_HalfTimerSpeed : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "0.5x Timer Speed";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.value 0.5;
+		ignore = false;
+		title = "0.5x Timer Speed";
+		duration = 35 * 60 * 3;
+		value = 0.5;
 	}
 }
 
 class GZC_QuarterTimerSpeed : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "0.25x Timer Speed";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.value 0.25;
+		ignore = false;
+		title = "0.25x Timer Speed";
+		duration = 35 * 60 * 3;
+		value = 0.25;
 	}
 }
 
 class GZC_DoubleTimerSpeed :GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "2x Timer Speed";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.value 2;
+		ignore = false;
+		title = "2x Timer Speed";
+		duration = 35 * 60 * 3;
+		value = 2;
 	}
 }
 
 class GZC_TripleTimerSpeed : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "3x Timer Speed";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.value 3;
+		ignore = false;
+		title = "3x Timer Speed";
+		duration = 35 * 60 * 3;
+		value = 3;
 	}
 }
 
 class GZC_QuadTimerSpeed : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "4x Timer Speed";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.value 4;
+		ignore = false;
+		title = "4x Timer Speed";
+		duration = 35 * 60 * 3;
+		value = 4;
 	}
 }
 
 class GZC_FastTimerToHealth : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "More health = Faster Timer";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		ignore = false;
+		title = "More health = Faster Timer";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldTick()
 	{
-		let player = self.owner;
-		if (!player) player = players[consoleplayer].mo;
+		double count = 0;
+		double pool = 0;
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			else
+			{
+				pool += iplayer.mo.health;
+				count += 1;
+			}
+		}
 		
-		self.value = double(player.health) / 100.0;
+		double average = pool / count;
+		self.value = average / 100.0;
 	}
 }
 
 class GZC_SlowTimerToHealth : GZC_TimerEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "More health = Slower Timer";
-		GZC_Effect.Duration 35 * 60 * 3;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		ignore = false;
+		title = "More health = Slower Timer";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldTick()
 	{
-		let player = self.owner;
-		if (!player) player = players[consoleplayer].mo;
+		double count = 0;
+		double pool = 0;
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			else
+			{
+				pool += iplayer.mo.health;
+				count += 1;
+			}
+		}
 		
-		self.value =  100.0 / double(player.health);
+		double average = pool / count;
+		self.value = 100.0 / average;
 	}
 }
 
 class GZC_TimerRunsOnKills : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "1 kill = 1 second";
-		GZC_Effect.Duration 35 * 90;
+		ignore = false;
+		title = "1 kill = 1 second";
+		duration = 35 * 90;
 	}
 	
 	override void onWorldThingDied(WorldEvent _event)
@@ -210,11 +228,11 @@ class GZC_TimerRunsOnKills : GZC_Effect
 
 Class GZC_ResetEffectDuration : GZC_EffectEffect 
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "Reset all effects";
-		GZC_Effect.type GZC_Instant;
+		ignore = false;
+		title = "Reset all effects";
+		type = GZC_Instant;
 	}
 	
 	override void onOpen()
@@ -233,11 +251,11 @@ Class GZC_ResetEffectDuration : GZC_EffectEffect
 
 class GZC_ShuffleEffectLife : GZC_EffectEffect 
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.title "Randomize all effect progression";
-		GZC_Effect.type GZC_Instant;
+		ignore = false;
+		title = "Randomize all effect progression";
+		type = GZC_Instant;
 	}
 	
 	override void onOpen()
@@ -257,11 +275,11 @@ class GZC_ShuffleEffectLife : GZC_EffectEffect
 
 class GZC_SubtractTimeFromEffects : GZC_EffectEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.type GZC_Instant;
-		GZC_Effect.title "Remove # seconds from effects";
+		ignore = false;
+		type = GZC_Instant;
+		title = "Remove # seconds from effects";
 	}
 	
 	override void onOpen()
@@ -285,11 +303,11 @@ class GZC_SubtractTimeFromEffects : GZC_EffectEffect
 
 class GZC_AddTimeFromEffects : GZC_EffectEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore false;
-		GZC_Effect.type GZC_Instant;
-		GZC_Effect.title "Add # seconds to effects";
+		ignore = false;
+		type = GZC_Instant;
+		title = "Add # seconds to effects";
 	}
 	
 	override void onOpen()
@@ -312,10 +330,10 @@ class GZC_AddTimeFromEffects : GZC_EffectEffect
 
 class GZC_KillsReduce : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Kills reduce effect progression";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Kills reduce effect progression";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingDied(WorldEvent _event)
@@ -336,10 +354,10 @@ class GZC_KillsReduce : GZC_Effect
 
 class GZC_KillsIncrease : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Kills increase effect progression";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Kills increase effect progression";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingDied(WorldEvent _event)
@@ -359,32 +377,30 @@ class GZC_KillsIncrease : GZC_Effect
 
 class GZC_KillsAccelerate : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Kills accelerate timer";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Kills accelerate timer";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingDied(WorldEvent _event)
 	{
 		let def = getDefaultByType(_event.thing.getClass());
-		
 		adjustTimer(def.health);
 	}
 }
 
 class GZC_KillsDecelerate : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Kills decelerate timer";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Kills decelerate timer";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingDied(WorldEvent _event)
 	{
 		let def = getDefaultByType(_event.thing.getClass());
-		
 		adjustTimer(-def.health);
 	}
 }

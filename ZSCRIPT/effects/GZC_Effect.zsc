@@ -22,56 +22,31 @@ enum GZC_GameComp
 	GZC_Chex
 }
 
-Class GZC_Effect : GZC_BaseItem
+Class GZC_Effect : Thinker
 {
 	bool ignore;
-	property ignore: ignore;
-
 	int duration;
-	property duration: Duration;
-	
 	string title;
-	property title: title;
-	
 	double value;
-	property value: value;
-	
 	GZC_EffectType type;
-	property type: type;
-	
 	GZC_NetMode NetMode;
-	property NetMode: NetMode;
-	
 	bool seedfriendly;
-	property seedfriendly: seedfriendly;
-	
 	bool pure;
-	property pure: pure;
-	
 	double life;
 	bool closed;
 	bool deleteme;
-	
 	bool awarded;
-	
 	GZC_GameComp gamecomp;
-	property gamecomp: gamecomp;
 	
-	Default
+	virtual void init()
 	{
-		Inventory.MaxAmount 1;
-		
-		GZC_Effect.seedfriendly true;
-		GZC_Effect.type GZC_Timed;
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.title "GZC_UnamedEffect";
-		GZC_Effect.gamecomp GZC_Any;
-		GZC_Effect.NetMode GZC_Neutral;
-	}
-	
-	override void BeginPlay()
-	{
-		Super.BeginPlay();
+		ignore = false;
+		seedfriendly = true;
+		type = GZC_Timed;
+		duration = 35 * 30;
+		title = "GZC_UnamedEffect";
+		gamecomp = GZC_Any;
+		NetMode = GZC_Neutral;
 		
 		if (!multiplayer)
 		{
@@ -102,12 +77,12 @@ Class GZC_Effect : GZC_BaseItem
 		return count;
 	}
 	
-	void adjustTimer(Double _amount)
+	play void adjustTimer(Double _amount)
 	{
-		let tracker = GZC_GameTracker(owner.FindInventory('GZC_GameTracker'));
-		tracker.time += _amount;
+		let event = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+		event.time += _amount;
 		
-		if (tracker.time < 0) tracker.time = 0;
+		if (event.time < 0) event.time = 0;
 	}
 	
 	void advanceEffect(Double _amount)
@@ -169,11 +144,6 @@ Class GZC_Effect : GZC_BaseItem
 	
 	virtual bool verify()
 	{
-		let player = players[0].mo;
-		if (!player) return false;
-		
-		if (player.countInv(self.getClass()) > 1) return false;
-		
 		let properties = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).EffectProperties;
 		if (properties.at(self.getClassName()) == "false") return false;
 		
@@ -202,34 +172,34 @@ Class GZC_Effect : GZC_BaseItem
 		return true;
 	}
 	
-	virtual void onOpen()
+	virtual play void onOpen()
 	{}
 	
-	virtual void onClose()
+	virtual play void onClose()
 	{}
 	
 	virtual clearscope void onUiClose()
 	{}
 	
-	virtual void onWorldLoad(WorldEvent _event)
+	virtual play void onWorldLoad(WorldEvent _event)
 	{}
 	
-	virtual void onWorldThingSpawn(WorldEvent _event)
+	virtual play void onWorldThingSpawn(WorldEvent _event)
 	{}
 	
-	virtual void onWorldThingDied(WorldEvent _event)
+	virtual play void onWorldThingDied(WorldEvent _event)
 	{}
 	
-	virtual void onWorldThingDamaged(WorldEvent _event)
+	virtual play void onWorldThingDamaged(WorldEvent _event)
 	{}
 	
-	virtual void onWorldTick()
+	virtual play void onWorldTick()
 	{}
 	
-	virtual void onWorldLinePreActivated(WorldEvent _event)
+	virtual play void onWorldLinePreActivated(WorldEvent _event)
 	{}
 	
-	virtual bool onWorldHitscanPreFired(WorldEvent _event)
+	virtual play bool onWorldHitscanPreFired(WorldEvent _event)
 	{
 		return false;
 	}
@@ -245,7 +215,7 @@ Class GZC_Effect : GZC_BaseItem
 	virtual ui void drawEffect(RenderEvent _event)
 	{}
 	
-	virtual void morphActor(Actor mo, Class<Actor> type)
+	virtual play void morphActor(Actor mo, Class<Actor> type)
 	{
 		bool ambush = mo.bAmbush;
 		bool hasTarget = mo.target == null;
@@ -257,6 +227,14 @@ Class GZC_Effect : GZC_BaseItem
 	}
 }
 
+class GZC_TestEffect : GZC_Effect
+{
+	override void init()
+	{
+		title = "Test effect";
+	}
+}
+
 /*
 Reserve this area for base effects that need their verify function to trigger
 on a wide range of effects.
@@ -264,9 +242,9 @@ on a wide range of effects.
 
 Class GZC_MorphEffect : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 
 	override bool verify()
@@ -285,9 +263,9 @@ Class GZC_MorphEffect : GZC_Effect
 
 class GZC_ShaderEffect : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 
 	static void DisableShaders()
@@ -316,9 +294,9 @@ class GZC_ShaderEffect : GZC_Effect
 
 Class GZC_EffectEffect : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 	
 	override bool verify()
@@ -332,25 +310,25 @@ Class GZC_EffectEffect : GZC_Effect
 
 class GZC_TimerEffect : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 }
 
 class GZC_EffectModifier : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 }
 
 Class GZC_HealthPickupModifier : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 
 	override bool verify()
@@ -369,11 +347,6 @@ Class GZC_HealthPickupModifier : GZC_Effect
 
 class GZC_TextureSwapEffect : GZC_Effect
 {
-	Default
-	{
-		GZC_Effect.ignore true;
-	}
-	
 	override bool verify()
 	{
 		let player = players[consoleplayer].mo;
@@ -398,8 +371,10 @@ class GZC_TextureSwapEffect : GZC_Effect
 	
 	int levelnum;
 	
-	void init()
+	override void init()
 	{
+		ignore = true;
+	
 		sides.clear();
 		planes.clear();
 		oldnames.clear();
@@ -409,7 +384,7 @@ class GZC_TextureSwapEffect : GZC_Effect
 		oldskyB = level.SkyTexture2;
 	}
 	
-	void resetMap()
+	play void resetMapVisuals()
 	{
 		level.ChangeSky(oldSkyA, oldSkyB);
 		
@@ -478,9 +453,9 @@ class GZC_TextureSwapEffect : GZC_Effect
 
 Class GZC_RoomClearEvent : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 	
 	override bool verify()
@@ -508,9 +483,9 @@ Class GZC_RoomClearEvent : GZC_Effect
 
 Class GZC_ProjectileModifier : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 
 	override bool verify()
@@ -527,9 +502,9 @@ Class GZC_ProjectileModifier : GZC_Effect
 
 Class GZC_EnemySpeedEffect : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 
 	override bool verify()
@@ -539,126 +514,6 @@ Class GZC_EnemySpeedEffect : GZC_Effect
 		actor item;
 		while (item = Actor(it.next())) ++count;
 		if (count > 1) return false;
-		
-		return super.verify();
-	}
-}
-
-class GZC_MorphImpEffect : GZC_Effect
-{
-	Default
-	{
-		GZC_Effect.ignore true;
-	}
-	
-	override bool verify()
-	{
-		int count = 0;
-		ThinkerIterator it = ThinkerIterator.create('GZC_MorphImpEffect');
-		actor item;
-		while (item = Actor(it.next())) ++count;
-		if (count > 1) return false;
-		
-		it = ThinkerIterator.create('DoomImp');
-		actor mo;
-		count = 0;
-		while (mo = Actor(it.next()))
-		{
-			if (!mo.bIsMonster) continue;
-			if (mo.health > 0) ++count;
-		}
-		
-		if (!count) return false;
-		
-		return super.verify();
-	}
-}
-
-class GZC_MorphShotgunnerEffect : GZC_Effect
-{
-	Default
-	{
-		GZC_Effect.ignore true;
-	}
-	
-	override bool verify()
-	{
-		int count = 0;
-		ThinkerIterator it = ThinkerIterator.create('GZC_MorphShotgunnerEffect');
-		actor item;
-		while (item = Actor(it.next())) ++count;
-		if (count > 1) return false;
-		
-		it = ThinkerIterator.create('Shotgunguy');
-		actor mo;
-		count = 0;
-		while (mo = Actor(it.next()))
-		{
-			if (!mo.bIsMonster) continue;
-			if (mo.health > 0) ++count;
-		}
-		
-		if (!count) return false;
-		
-		return super.verify();
-	}
-}
-
-class GZC_MorphChaingunnerEffect : GZC_Effect
-{
-	Default
-	{
-		GZC_Effect.ignore true;
-	}
-	
-	override bool verify()
-	{
-		int count = 0;
-		ThinkerIterator it = ThinkerIterator.create('GZC_MorphChaingunnerEffect');
-		actor item;
-		while (item = Actor(it.next())) ++count;
-		if (count > 1) return false;
-		
-		it = ThinkerIterator.create('ChaingunGuy');
-		actor mo;
-		count = 0;
-		while (mo = Actor(it.next()))
-		{
-			if (!mo.bIsMonster) continue;
-			if (mo.health > 0) ++count;
-		}
-		
-		if (!count) return false;
-		
-		return super.verify();
-	}
-}
-
-class GZC_MorphCacodemonEffect : GZC_Effect
-{
-	Default
-	{
-		GZC_Effect.ignore true;
-	}
-	
-	override bool verify()
-	{
-		int count = 0;
-		ThinkerIterator it = ThinkerIterator.create('GZC_MorphCacodemonEffect');
-		actor item;
-		while (item = Actor(it.next())) ++count;
-		if (count > 1) return false;
-		
-		it = ThinkerIterator.create('Cacodemon');
-		actor mo;
-		count = 0;
-		while (mo = Actor(it.next()))
-		{
-			if (!mo.bIsMonster) continue;
-			if (mo.health > 0) ++count;
-		}
-		
-		if (!count) return false;
 		
 		return super.verify();
 	}

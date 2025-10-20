@@ -2,31 +2,39 @@ class GZC_EventHandler : StaticEventHandler
 {
 	Dictionary EffectProperties;
 	Array<Class<GZC_Effect> > effects;
+	Array<Class<GZC_Effect> > history;
+	Array<GZC_Effect> active;
 	Array<String> classnames;
 	
-	GZC_GameTracker tracker;
+	double time;
+	double timelimit;
 	
 	override void OnRegister()
 	{
 		console.printf("Let's make some noise");
 	
 		effects.clear();
+		active.clear();
+		history.clear();
 		classnames.clear();
 		
-		foreach (classtype : AllActorClasses)
+		foreach (classtype : AllClasses)
 		{
 			if (!(classtype is "GZC_Effect")) continue;
 			
 			string classname = classtype.getClassName();
 			if (classname == "GZC_Effect") continue;
 			
-			class<GZC_Effect> effect = classname;
-			let def = getDefaultByType(effect);
+			GZC_Effect def = GZC_Effect(new(classtype));
+			def.init();
 			
 			if (def.ignore) continue;
 			
+			class<GZC_Effect> effect = def.getClass();
 			effects.push(effect);
 			classnames.push(classname.makeUpper());
+			
+			def.destroy();
 		}
 		
 		console.printf(classnames.size() .. " Effects registered");
@@ -58,7 +66,7 @@ class GZC_EventHandler : StaticEventHandler
 				return;
 			case GS_Level:
 			
-				tracker.timelimit = 35 * Cvar.getCvar('GZC_TimerDuration').getInt();
+				timelimit = 35 * Cvar.getCvar('GZC_TimerDuration').getInt();
 				
 				int hl = 0;
 				foreach (player : players)
@@ -108,7 +116,6 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldLoaded(WorldEvent _event)
 	{
-		tracker = GZC_GameTracker(players[0].mo.FindInventory('GZC_GameTracker'));
 		updateSeed();
 		
 		GZC_ShaderEffect.DisableShaders();
@@ -130,12 +137,7 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldThingSpawned(WorldEvent _event)
 	{
-		if (_event.thing is "GZC_BaseItem") return;
-	
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach(effect : active)
 		{
 			if (effect.life > effect.duration) continue;
 			effect.onWorldThingSpawn(_event);
@@ -144,10 +146,7 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldLinePreActivated(WorldEvent _event)
 	{
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach(effect : active)
 		{
 			if (effect.life > effect.duration) continue;
 			effect.onWorldLinePreActivated(_event);
@@ -157,10 +156,7 @@ class GZC_EventHandler : StaticEventHandler
 	override void RenderOverlay(RenderEvent _event)
 	{
 		
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach(effect : active)
 		{
 			if (effect.life > effect.duration) continue;
 			effect.drawEffect(_event);
@@ -172,10 +168,7 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		bool result = false;
 		
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach(effect : active)
 		{
 			if (effect.life > effect.duration) continue;
 			bool value = effect.onInputProcess(_event);
@@ -196,10 +189,7 @@ class GZC_EventHandler : StaticEventHandler
 				return;
 			case GS_Level:
 				
-				ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-				GZC_Effect effect;
-		
-				while (effect = GZC_Effect(it.next()))
+				foreach(effect : active)
 				{
 					if (effect.life > effect.duration) continue;
 					effect.onUiTick();
@@ -211,12 +201,9 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override bool WorldHitscanPreFired(WorldEvent _event)
 	{
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
 		bool result;
 		
-		while (effect = GZC_Effect(it.next()))
+		foreach(effect : active)
 		{
 			if (effect.life > effect.duration) continue;
 			bool value = effect.onWorldHitscanPreFired(_event);
@@ -239,9 +226,6 @@ class GZC_EventHandler : StaticEventHandler
 		{
 			Cvar.getCvar("GZC_PurePlayer").setBool(false);
 		}
-		
-		player.giveInventory('GZC_GameTracker', 1);
-		tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
 	}
 	
 	override void CheckReplacement(ReplaceEvent _event)
@@ -291,11 +275,10 @@ class GZC_EventHandler : StaticEventHandler
 				if (index != -1)
 				{
 					let player = players[0].mo;
-					let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
 					
 					player.giveInventory(cname, 1);
 					let effect = GZC_Effect(player.FindInventory(cname));
-					tracker.addEffectToHistory(effect.getClass());
+					addEffectToHistory(effect.getClass());
 					effect.onOpen();
 					
 					if (!effect.verify())
@@ -332,16 +315,23 @@ class GZC_EventHandler : StaticEventHandler
 		if (effectcount >= limit && limit != 0) return;
 	
 		let player = players[0].mo;
-		let tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
 	
 		double timerrate = calculateTimeRate();
-		if (player.countInv('GZC_TimerRunsOnKills')) timerrate = 0;
-		
-		tracker.time += timerrate;
-		
-		if (tracker.time >= tracker.timelimit)
+
+		foreach (effect : active)
 		{
-			tracker.time -= tracker.timelimit;
+			if (effect is 'GZC_TimerRunsOnKills')
+			{
+				timerrate = 0;
+				break;
+			}
+		}
+		
+		time += timerrate;
+		
+		if (time >= timelimit)
+		{
+			time -= timelimit;
 			giveEffect();
 		}
 	}
@@ -353,7 +343,15 @@ class GZC_EventHandler : StaticEventHandler
 		let player = players[0].mo;
 		
 		double effectrate = calculateEffectRate();
-		if (player.countInv('GZC_TimerRunsOnKills')) effectrate = 0;
+		
+		foreach (effect : active)
+		{
+			if (effect is 'GZC_TimerRunsOnKills')
+			{
+				effectrate = 0;
+				break;
+			}
+		}
 		
 		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
 		GZC_Effect effect;
@@ -422,9 +420,6 @@ class GZC_EventHandler : StaticEventHandler
 	
 	void giveEffect(Bool _awarded = false)
 	{
-		let player = players[0].mo;
-		if (!tracker) tracker = GZC_GameTracker(player.FindInventory('GZC_GameTracker'));
-	
 		int safety = 0;
 	
 		while (true)
@@ -437,30 +432,66 @@ class GZC_EventHandler : StaticEventHandler
 			}
 			
 			let effect = effects[random[GZ_Chaos](0, effects.size() - 1)];
-			
-			if (tracker.history.size() != 0)
+			console.printf("Attempting to add: " .. effect.getClassName());
+
+			if (history.size() != 0)
 			{
-				 if(tracker.history.find(effect) != tracker.history.size()) continue;
+				console.printf("Checking history...");
+				bool match = false;
+				foreach (prev : history)
+				{
+					if (prev == effect)
+					{
+						match = true;
+						break;
+					}
+				}
+				if (match) continue;
 			}
 			
-			if (player.countInv(effect)) continue;
-			
-			player.giveInventory(effect, 1);
-			let invEffect = GZC_Effect(player.FindInventory(effect));
-		
-			if (!invEffect.verify())
+			if (active.size() != 0)
 			{
-				invEffect.destroy();
+				console.printf("Checking active...");
+				bool match = false;
+				foreach (eff : active)
+				{
+					console.printf(" -> Comparing " .. eff.getClassName());
+					if (eff.getClassName() == effect.getClassName())
+					{
+						match = true;
+						break;
+					}
+				}
+				if (match) 
+				{
+					console.printf(" -> Matched, trying new effect...");
+					continue;
+				}
+			}
+			
+			let rolled = GZC_Effect(new(effect));
+			rolled.init();
+			
+			console.printf("Verifying...");
+			if (!rolled.verify())
+			{
+				rolled.destroy();
+				console.printf("Verification failed, trying new effect...");
 				continue;
 			}
 			
-			invEffect.onOpen();
-			
-			tracker.addEffectToHistory(effect);
-			invEffect.awarded = _awarded;
+			addEffectToHistory(effect);
+			active.push(rolled);
+			rolled.awarded = _awarded;
 			
 			break;
 		}
+	}
+	
+	void addEffectToHistory(Class<GZC_Effect> _effect)
+	{
+		history.insert(0, _effect);
+		history.resize(Cvar.getCvar('GZC_MemoryBuffer').getInt());
 	}
 	
 	void updateSeed()

@@ -6,13 +6,20 @@ Class OptionMenuGZChaosSettings: OptionMenu
 		{
 			foreach (effect : GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).effects)
 			{
-				let def = GZC_Effect(getDefaultByType(effect));
+				/*let def = GZC_Effect(new(effect));
+				def.init();
 		
-				if (def.ignore) continue;
+				if (def.ignore)
+				{
+					def.destroy();
+					continue;
+				}
 		
 				GZC_EffectOptionItemMenu item = GZC_EffectOptionItemMenu(new('GZC_EffectOptionItemMenu'));
 				item.create(def.getClassName(), def.title, '');
 				_desc.mItems.push(item);
+				
+				def.destroy();*/
 			}
 		}
 		
