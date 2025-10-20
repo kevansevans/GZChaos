@@ -432,11 +432,9 @@ class GZC_EventHandler : StaticEventHandler
 			}
 			
 			let effect = effects[random[GZ_Chaos](0, effects.size() - 1)];
-			console.printf("Attempting to add: " .. effect.getClassName());
 
 			if (history.size() != 0)
 			{
-				console.printf("Checking history...");
 				bool match = false;
 				foreach (prev : history)
 				{
@@ -451,11 +449,9 @@ class GZC_EventHandler : StaticEventHandler
 			
 			if (active.size() != 0)
 			{
-				console.printf("Checking active...");
 				bool match = false;
 				foreach (eff : active)
 				{
-					console.printf(" -> Comparing " .. eff.getClassName());
 					if (eff.getClassName() == effect.getClassName())
 					{
 						match = true;
@@ -464,7 +460,6 @@ class GZC_EventHandler : StaticEventHandler
 				}
 				if (match) 
 				{
-					console.printf(" -> Matched, trying new effect...");
 					continue;
 				}
 			}
@@ -472,11 +467,9 @@ class GZC_EventHandler : StaticEventHandler
 			let rolled = GZC_Effect(new(effect));
 			rolled.init();
 			
-			console.printf("Verifying...");
 			if (!rolled.verify())
 			{
 				rolled.destroy();
-				console.printf("Verification failed, trying new effect...");
 				continue;
 			}
 			

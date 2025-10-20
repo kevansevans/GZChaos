@@ -1,9 +1,9 @@
 class GZC_GoodHeadphones : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Noise Canceling Headphones";
-		GZC_Effect.duration 35 * 60 * 5;
+		title = "Noise Canceling Headphones";
+		duration = 35 * 60 * 5;
 	}
 	
 	override void onOpen()
@@ -48,10 +48,10 @@ class GZC_GoodHeadphones : GZC_Effect
 
 Class GZC_DigDugWalking : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "DIG DUG";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "DIG DUG";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onOpen()
@@ -84,10 +84,10 @@ Class GZC_DigDugWalking : GZC_Effect
 
 Class GZC_RandomActorSoundPitch : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Smack my pitch up";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Smack my pitch up";
+		duration = 35 * 60 * 3;
 	}
 
 	double randomvalue;
@@ -114,10 +114,10 @@ Class GZC_RandomActorSoundPitch : GZC_Effect
 
 Class GZC_TheEddsAreComing : GZC_Effect //More like GZC_Eddffect, hue hue hue
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "The Edds Are Coming!";
-		GZC_Effect.duration 35 * 60 * 5;
+		title = "The Edds Are Coming!";
+		duration = 35 * 60 * 5;
 	}
 
 	override void onOpen()
@@ -181,10 +181,10 @@ Class GZC_TheEddsAreComing : GZC_Effect //More like GZC_Eddffect, hue hue hue
 
 Class GZC_QuipItGood : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Quip it Good";
-		GZC_Effect.duration 35 * 60 * 5;
+		title = "Quip it Good";
+		duration = 35 * 60 * 5;
 	}
 
 	override void onWorldThingDied(WorldEvent _event)
@@ -200,11 +200,10 @@ Class GZC_QuipItGood : GZC_Effect
 
 Class GZC_WhipCrack : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Johnny Test";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		title = "Johnny Test";
+		duration = 35 * 60;
 	}
 	
 	Array<int> buttons;
@@ -239,10 +238,10 @@ Class GZC_WhipCrack : GZC_Effect
 
 Class GZC_SetMusicToCursedMidi : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cursed music";
-		GZC_Effect.duration 35 * 30 * 5;
+		title = "Cursed music";
+		duration = 35 * 30 * 5;
 	}
 	
 	int rng;
@@ -307,11 +306,11 @@ Class GZC_FakeNotification : GZC_Effect
 	int ticcount;
 	int interval;
 	
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Nothing.";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.type GZC_Instant;
+		title = "Nothing.";
+		duration = 35 * 60;
+		type = GZC_Instant;
 	}
 	
 	override void onWorldTick()
@@ -324,7 +323,11 @@ Class GZC_FakeNotification : GZC_Effect
 		}
 		if (gametic - ticcount == 35 * interval)
 		{
-			owner.A_StartSound("disc/ord", CHAN_AUTO, 0, 1, ATTN_NONE);
+			foreach (iplayer : players)
+			{
+				if (!iplayer.mo) continue;
+				iplayer.mo.A_StartSound("disc/ord", CHAN_AUTO, 0, 1, ATTN_NONE);
+			}
 			title = "Nothing?";
 		}
 	}
