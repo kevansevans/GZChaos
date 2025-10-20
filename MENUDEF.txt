@@ -1,7 +1,7 @@
 AddOptionMenu "OptionsMenu"
 {
 	Submenu "GZChaos: Main Options", "GZCMenuMain"
-	Submenu "GZChaos: Toggle Effects", "GZCMenuEffects"
+	//Submenu "GZChaos: Toggle Effects", "GZCMenuEffects"
 }
 
 OptionMenu "GZCMenuEffects"
@@ -31,7 +31,7 @@ OptionMenu "GZCMenuMain"
 	StaticText "Gameplay settings"
 	Slider "Effect frequency (Seconds)", "GZC_TimerDuration", 20, 180, 5, 0
 	ScaleSlider "Max rolled effects", "GZC_MaxEffects", 0, 15, 1, "Infinite"
-	ScaleSlider "Max effect duration (minutes)", "GZC_MaxEffectDuration", 0, 5, 1, "Default"
+	Slider "Effect duration scale", "GZC_EffectDurationScale", 0.1, 5, 0.1, 1
 	Slider "Repeat effect buffer", "GZC_MemoryBuffer", 0, 100, 1, 0
 	
 	StaticText " "
