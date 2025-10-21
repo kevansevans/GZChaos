@@ -1,10 +1,10 @@
 class GZC_SavingNotAllowed : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Quicksaves add effects";
-		GZC_Effect.duration 35 * 60 * 5;
-		GZC_Effect.type GZC_Timed;
+		title = "Quicksaves add effects";
+		duration = 35 * 60 * 5;
+		type = GZC_Timed;
 	}
 	
 	override void OnWorldTick()
@@ -19,11 +19,11 @@ class GZC_SavingNotAllowed : GZC_Effect
 
 class GZC_TheImmortalSnail : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "The immortal snail";
-		GZC_Effect.duration 35 * 60 * 10;
-		GZC_Effect.type GZC_Timed;
+		title = "The immortal snail";
+		duration = 35 * 60 * 10;
+		type = GZC_Timed;
 	}
 
 	override void onOpen()
@@ -56,11 +56,11 @@ class GZC_TheImmortalSnail : GZC_Effect
 
 Class GZC_RandomProjectileVel : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Set random projectile velocity";
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.type GZC_Instant;
+		title = "Set random projectile velocity";
+		duration = 35 * 30;
+		type = GZC_Instant;
 	}
 	
 	override bool verify()
@@ -94,11 +94,11 @@ Class GZC_RandomProjectileVel : GZC_Effect
 
 Class GZC_SpawnFriendlyMonster : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Spawn companion monster";
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.type GZC_Instant;
+		title = "Spawn companion monster";
+		duration = 35 * 30;
+		type = GZC_Instant;
 	}
 	
 	Actor friend;
@@ -144,11 +144,11 @@ Class GZC_SpawnFriendlyMonster : GZC_Effect
 
 Class GZC_AutoSave : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Autosave";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.type GZC_Instant;
+		title = "Autosave";
+		duration = 35 * 60 * 3;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -159,10 +159,10 @@ Class GZC_AutoSave : GZC_Effect
 
 Class GZC_RearView : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Rear View Mirror";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Rear View Mirror";
+		duration = 35 * 60 * 3;
 	}
 	
 	GZC_Camera camera;
@@ -210,7 +210,7 @@ Class GZC_RearView : GZC_Effect
 
 Class GZC_Camera : Actor
 {
-	Default
+	default
 	{
 		+NoGravity;
 	}
@@ -218,10 +218,10 @@ Class GZC_Camera : Actor
 
 Class GZC_MacroMissiles : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Macro-Missiles";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Macro-Missiles";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onOpen()
@@ -271,10 +271,10 @@ Class GZC_MacroMissiles : GZC_Effect
 
 Class GZC_MicroMissiles : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Micro-Missiles";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Micro-Missiles";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onOpen()
@@ -324,10 +324,10 @@ Class GZC_MicroMissiles : GZC_Effect
 
 Class GZC_DetonateAllBarrels : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Detonate All Barrels";
-		GZC_Effect.duration 35 * 60;
+		title = "Detonate All Barrels";
+		duration = 35 * 60;
 	}
 
 	override void onOpen()
@@ -344,11 +344,11 @@ Class GZC_DetonateAllBarrels : GZC_Effect
 
 Class GZC_CompanionImpEvent : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Companion Imp";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.type GZC_Instant;
+		title = "Companion Imp";
+		duration = 35 * 60;
+		type = GZC_Instant;
 	}
 	
 	GZC_CompanionImp companion;
@@ -413,10 +413,10 @@ Class GZC_CompanionImp : DoomImp
 
 Class GZC_BouncyProjectiles : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Bouncy! Bouncy! Bouncy!"; //Insyncopated style!
-		GZC_Effect.duration 35 * 60 * 4;
+		title = "Bouncy! Bouncy! Bouncy!"; //Insyncopated style!
+		duration = 35 * 60 * 4;
 	}
 
 	override void onOpen()
@@ -474,11 +474,11 @@ Class GZC_BouncyProjectiles : GZC_Effect
 
 Class GZC_JitterSkull : GZC_RoomClearEvent
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "The Ghoul's Forest";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.ignore false;
+		title = "The Ghoul's Forest";
+		duration = 35 * 60;
+		ignore = false;
 	}
 
 	Array<ActorTracker> pointers;
@@ -559,11 +559,11 @@ Class GZC_JitterSkull : GZC_RoomClearEvent
 
 Class GZC_ContainmentBreach : GZC_RoomClearEvent
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Containment Breach";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Containment Breach";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	Array<ActorTracker> pointers;
@@ -635,11 +635,11 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 
 Class GZC_ChaosDevice : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Chaos Device";
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.type GZC_Instant;
+		title = "Chaos Device";
+		duration = 35 * 30;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -659,10 +659,10 @@ Class GZC_ChaosDevice : GZC_Effect
 
 Class GZC_ShuffleAmmoTypes : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Shuffled ammo pool";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Shuffled ammo pool";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onOpen()
@@ -770,10 +770,10 @@ Class GZC_ShuffleAmmoTypes : GZC_Effect
 
 Class GZC_LimpProjectiles : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Limp enemy projectiles";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Limp enemy projectiles";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -786,16 +786,18 @@ Class GZC_LimpProjectiles : GZC_Effect
 
 Class GZC_JupiterGravity : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Jupiter Gravity";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Jupiter Gravity";
+		duration = 35 * 60 * 3;
 	}
 
 	override bool verify()
 	{
-		let player = players[0].mo;
-		if (player.findInventory("GZC_MoonGravity")) return false;
+		ThinkerIterator it = ThinkerIterator.create("GZC_MoonGravity");
+		Thinker effect = it.next();
+		
+		if (effect) return false;
 		
 		return super.verify();
 	}
@@ -847,16 +849,18 @@ Class GZC_JupiterGravity : GZC_Effect
 
 Class GZC_MoonGravity : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Moon Gravity";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Moon Gravity";
+		duration = 35 * 60 * 3;
 	}
 
 	override bool verify()
 	{
-		let player = players[0].mo;
-		if (player.findInventory("GZC_JupiterGravity")) return false;
+		ThinkerIterator it = ThinkerIterator.create("GZC_JupiterGravity");
+		Thinker effect = it.next();
+		
+		if (effect) return false;
 		
 		return super.verify();
 	}
@@ -908,10 +912,10 @@ Class GZC_MoonGravity : GZC_Effect
 
 Class GZC_FartingMonsters : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Farting Monsters";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Farting Monsters";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldTick()
@@ -946,10 +950,10 @@ Class GZC_FartingMonsters : GZC_Effect
 
 Class GZC_FartingItems : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Farting items";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Farting items";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldTick()
@@ -985,10 +989,10 @@ Class GZC_FartingItems : GZC_Effect
 
 Class GZC_FartingPlayer : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Farting player";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Farting player";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldTick()
@@ -1020,11 +1024,11 @@ Class GZC_FartingPlayer : GZC_Effect
 
 Class GZC_FastProjectiles : GZC_ProjectileModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Fast projectiles";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Fast projectiles";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -1059,11 +1063,11 @@ Class GZC_FastProjectiles : GZC_ProjectileModifier
 Class GZC_SlowProjectiles : GZC_ProjectileModifier
 {
 
-	default
+	override void init()
 	{
-		GZC_Effect.title "Slow projectiles";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Slow projectiles";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -1097,11 +1101,11 @@ Class GZC_SlowProjectiles : GZC_ProjectileModifier
 
 Class GZC_ExtraSlowProjectiles : GZC_ProjectileModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Slower projectiles";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Slower projectiles";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -1135,11 +1139,11 @@ Class GZC_ExtraSlowProjectiles : GZC_ProjectileModifier
 
 Class GZC_PainfullySlowProjectiles : GZC_ProjectileModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Painfully slow projectiles";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Painfully slow projectiles";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -1172,10 +1176,10 @@ Class GZC_PainfullySlowProjectiles : GZC_ProjectileModifier
 
 Class GZC_ExplodingBulletPuffs : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "All bullet puffs explode";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "All bullet puffs explode";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -1187,10 +1191,10 @@ Class GZC_ExplodingBulletPuffs : GZC_Effect
 
 Class GZC_SeekerProjectiles : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "All projectiles seek player";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "All projectiles seek player";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldTick()
@@ -1238,10 +1242,10 @@ Class GZC_FakeLagCrash : GZC_Effect
 	int delay;
 	bool disabled;
 	
-	default
+	override void init()
 	{
-		GZC_Effect.title "Fake crash";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Fake crash";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onOpen()
@@ -1275,10 +1279,10 @@ Class GZC_FakeLagCrash : GZC_Effect
 
 Class GZC_RestartLevel : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Restarting level";
-		GZC_Effect.duration 35 * 10;
+		title = "Restarting level";
+		duration = 35 * 10;
 	}
 	
 	override void onClose()
