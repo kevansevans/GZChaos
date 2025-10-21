@@ -153,6 +153,16 @@ Class GZC_DuplicatingBarrels : GZC_Effect
 	Array<ExplosiveBarrel> barrels;
 	Array<Int> parents;
 	int lowend;
+	
+	override bool verify()
+	{
+		ThinkerIterator it = ThinkerIterator.create("ExplosiveBarrel");
+		Actor mo = it.next();
+		
+		if (mo) return super.verify();
+		
+		return false;
+	}
 
 	override void onWorldTick()
 	{
