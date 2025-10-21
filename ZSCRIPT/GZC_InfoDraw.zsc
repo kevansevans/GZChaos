@@ -33,7 +33,7 @@ class GZC_InfoDraw : StaticEventHandler
 		let event = GZC_EventHandler(StaticEventHandler.find("GZC_EventHandler"));
 		foreach (e : event.active)
 		{
-			if (e is 'GZC_HideEffects')
+			if (e is 'GZC_HideEffects' && e.life < e.duration)
 			{
 				drawEffectToScreen(e, 0, xscale, yscale);
 				return;
