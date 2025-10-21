@@ -1,11 +1,11 @@
 class GZC_Shrooms : GZC_ShaderEffect
 {
 	//Based on an actual shroom trip I had!
-	default
+	override void init()
 	{
-		GZC_Effect.title "Vibin on the cybin";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.ignore false;
+		title = "Vibin on the cybin";
+		duration = 35 * 60;
+		ignore = false;
 	}
 	
 	override void onOpen()
@@ -26,11 +26,11 @@ class GZC_Shrooms : GZC_ShaderEffect
 
 class GZC_MSDOSMode : GZC_ShaderEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "MS-DOS";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.ignore false;
+		title = "MS-DOS";
+		duration = 35 * 60;
+		ignore = false;
 	}
 	
 	override void onOpen()
@@ -47,11 +47,11 @@ class GZC_MSDOSMode : GZC_ShaderEffect
 
 class GZC_GameboyMode : GZC_ShaderEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Doom for the Gameboy";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.ignore false;
+		title = "Doom for the Gameboy";
+		duration = 35 * 60;
+		ignore = false;
 	}
 	
 	override void onOpen()
@@ -72,11 +72,11 @@ class GZC_GameboyMode : GZC_ShaderEffect
 
 class GZC_YouNeedGlasses : GZC_ShaderEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "You need glasses";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.ignore false;
+		title = "You need glasses";
+		duration = 35 * 60;
+		ignore = false;
 	}
 	
 	override void onOpen()
@@ -97,11 +97,11 @@ class GZC_YouNeedGlasses : GZC_ShaderEffect
 
 class GZC_LiquidQuake : GZC_ShaderEffect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title '*slime';
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.ignore false;
+		title = '*slime';
+		duration = 35 * 60;
+		ignore = false;
 	}
 	
 	override void onOpen()
