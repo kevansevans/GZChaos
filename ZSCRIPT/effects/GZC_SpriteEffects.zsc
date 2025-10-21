@@ -1,9 +1,9 @@
 class GZC_IttyWeaponSprites : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "What is this? A gun for ants?";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "What is this? A gun for ants?";
+		duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldTick()
@@ -43,10 +43,10 @@ class GZC_IttyWeaponSprites : GZC_Effect
 
 class GZC_NoDepthPerception : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "No Depth Perception";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "No Depth Perception";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldTick()
@@ -67,8 +67,6 @@ class GZC_NoDepthPerception : GZC_Effect
 		ThinkerIterator it = ThinkerIterator.create("Actor");
 		Actor mo;
 		
-		if (!owner) return;
-		
 		while (mo = Actor(it.next()))
 		{
 			let def = getDefaultByType(mo.getClass());
@@ -80,15 +78,18 @@ class GZC_NoDepthPerception : GZC_Effect
 
 Class GZC_FloorSprites : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "The Crusher";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "The Crusher";
+		duration = 35 * 60 * 3;
 	}
 	
 	override bool verify()
 	{
-		if (players[0].mo.countInv('GZC_WallSprites')) return false;
+		ThinkerIterator it = ThinkerIterator.create('GZC_WallSprites');
+		Thinker effect = it.next();
+		
+		if (effect) return false;
 		
 		return Super.verify();
 	}
@@ -140,15 +141,18 @@ Class GZC_FloorSprites : GZC_Effect
 
 Class GZC_WallSprites : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Flatworld";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Flatworld";
+		duration = 35 * 60 * 3;
 	}
 	
 	override bool verify()
 	{
-		if (players[0].mo.countInv('GZC_FloorSprites')) return false;
+		ThinkerIterator it = ThinkerIterator.create('GZC_FloorSprites');
+		Thinker effect = it.next();
+		
+		if (effect) return false;
 		
 		return Super.verify();
 	}
@@ -200,10 +204,10 @@ Class GZC_WallSprites : GZC_Effect
 
 class GZC_MissingWad : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "!";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "!";
+		duration = 35 * 60 * 3;
 	}
 	
 	void applyeffect(Actor mo)
@@ -265,10 +269,10 @@ class GZC_MissingWad : GZC_Effect
 
 class GZC_RainbowBlood : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Rainbow Blood";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Rainbow Blood";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -283,10 +287,10 @@ class GZC_RainbowBlood : GZC_Effect
 
 class GZC_TallWeaponSprites : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Tall and thin weapon sprites";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Tall and thin weapon sprites";
+		duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldTick()
@@ -329,10 +333,10 @@ class GZC_TallWeaponSprites : GZC_Effect
 
 class GZC_WideWeaponSprites : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Wide and stout weapon sprites";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Wide and stout weapon sprites";
+		duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldTick()
@@ -374,10 +378,10 @@ class GZC_WideWeaponSprites : GZC_Effect
 
 class GZC_SuperNintendoDoom : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Doom for the SNES";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Doom for the SNES";
+		duration = 35 * 60 * 2;
 	}
 	
 	override void onWorldTick()
@@ -407,10 +411,10 @@ class GZC_SuperNintendoDoom : GZC_Effect
 
 class GZC_SpinningActors : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "On A Roll";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "On A Roll";
+		duration = 35 * 60 * 2;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -469,10 +473,10 @@ class GZC_SpinningActors : GZC_Effect
 
 class GZC_WideMonsters : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Wide Monster Sprites";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Wide Monster Sprites";
+		duration = 35 * 60 * 2;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -516,10 +520,10 @@ class GZC_WideMonsters : GZC_Effect
 
 class GZC_TallMonsters : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Tall Monster Sprites";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Tall Monster Sprites";
+		duration = 35 * 60 * 2;
 	}
 	
 	void applyeffect(Actor _mo)
