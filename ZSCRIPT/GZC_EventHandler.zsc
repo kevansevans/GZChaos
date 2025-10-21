@@ -56,7 +56,6 @@ class GZC_EventHandler : StaticEventHandler
 		
 		active.clear();
 		history.clear();
-		classnames.clear();
 		
 		time = 0;
 		
@@ -282,10 +281,10 @@ class GZC_EventHandler : StaticEventHandler
 				{
 					let player = players[0].mo;
 					
-					player.giveInventory(cname, 1);
-					let effect = GZC_Effect(player.FindInventory(cname));
-					addEffectToHistory(effect.getClass());
+					let effect = GZC_Effect(new(cname));
+					effect.init();
 					effect.onOpen();
+					active.push(effect);
 					
 					if (!effect.verify())
 					{
@@ -437,7 +436,7 @@ class GZC_EventHandler : StaticEventHandler
 			
 			let effect = effects[random[GZ_Chaos](0, effects.size() - 1)];
 
-			if (history.size() != 0)
+			if (history.size() != 0 && _awarded == false)
 			{
 				bool match = false;
 				foreach (prev : history)
