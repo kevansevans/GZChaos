@@ -204,7 +204,7 @@ class GZC_SwapFiringMode : GZC_Effect
 		checkPlayerFire();
 	}
 	
-	play void checkPlayerFire() const
+	play void checkPlayerFire() Unsafe(const)
 	{
 		foreach (iplayer : players)
 		{
@@ -216,12 +216,12 @@ class GZC_SwapFiringMode : GZC_Effect
 		}
 	}
 	
-	play void setFlag(Int _flag) const
+	play void setFlag(Int _flag) Unsafe(const)
 	{
 		buttons |= _flag;
 	}
 	
-	play void unsetFlag(Int _flag) const
+	play void unsetFlag(Int _flag) Unsafe(const)
 	{	
 		buttons &= ~(_flag);
 	}
