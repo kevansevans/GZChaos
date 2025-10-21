@@ -1,9 +1,9 @@
 Class GZC_PickupsCanDie : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Pickups Can Die";
-		GZC_Effect.duration 35 * 30 * 3;
+		title = "Pickups Can Die";
+		duration = 35 * 30 * 3;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -56,10 +56,10 @@ Class GZC_PickupsCanDie : GZC_Effect
 
 Class GZC_WanderingPickups : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Wandering items";
-		GZC_Effect.duration 35 * 30 * 3;
+		title = "Wandering items";
+		duration = 35 * 30 * 3;
 	}
 
 	override void onWorldTick()
@@ -84,11 +84,11 @@ Class GZC_WanderingPickups : GZC_Effect
 
 Class GZC_UpgradeToMegasphere : GZC_HealthPickupModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cheap as dirt health";
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.ignore false;
+		title = "Cheap as dirt health";
+		duration = 35 * 30;
+		ignore = false;
 	}
 
 	Array<String> classes;
@@ -127,11 +127,11 @@ Class GZC_UpgradeToMegasphere : GZC_HealthPickupModifier
 
 Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Health surplus";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.ignore false;
+		title = "Health surplus";
+		duration = 35 * 60;
+		ignore = false;
 	}
 
 	Array<String> classes;
@@ -171,11 +171,11 @@ Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
 
 Class GZC_UpgradeToMedikit : GZC_HealthPickupModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Health stimulus";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Health stimulus";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	Array<String> classes;
@@ -214,11 +214,11 @@ Class GZC_UpgradeToMedikit : GZC_HealthPickupModifier
 
 Class GZC_UpgradeToStimpack : GZC_HealthPickupModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Health boost";
-		GZC_Effect.duration 35 * 60 * 5;
-		GZC_Effect.ignore false;
+		title = "Health boost";
+		duration = 35 * 60 * 5;
+		ignore = false;
 	}
 
 	Array<String> classes;
@@ -257,11 +257,11 @@ Class GZC_UpgradeToStimpack : GZC_HealthPickupModifier
 
 Class GZC_DuplicatePickups : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Duplicate all items";
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.type GZC_Instant;
+		title = "Duplicate all items";
+		duration = 35 * 30;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -274,7 +274,6 @@ Class GZC_DuplicatePickups : GZC_Effect
 		
 		while (mo = Inventory(it.next()))
 		{
-			if (mo is "GZC_BaseItem") continue;
 			if (mo.owner) continue;
 			items.push(mo);
 		}
@@ -289,10 +288,10 @@ Class GZC_DuplicatePickups : GZC_Effect
 
 Class GZC_ShuffleItemsAround : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Shuffle Items";
-		GZC_Effect.duration 35 * 5;
+		title = "Shuffle Items";
+		duration = 35 * 5;
 	}
 
 	override void onWorldTick()
@@ -331,10 +330,10 @@ Class GZC_ShuffleItemsAround : GZC_Effect
 
 Class GZC_ShrinkPickups : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "What is this? A pickup for ants?";
-		GZC_Effect.duration 35 * 3 * 60;
+		title = "What is this? A pickup for ants?";
+		duration = 35 * 3 * 60;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -387,11 +386,11 @@ Class GZC_ShrinkPickups : GZC_Effect
 
 Class GZC_ReplaceHealthWithBonuses : GZC_HealthPickupModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Health Famine";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "Health Famine";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	Array<String> classes;
@@ -430,11 +429,11 @@ Class GZC_ReplaceHealthWithBonuses : GZC_HealthPickupModifier
 
 Class GZC_ReplaceMedikitWithStimpack : GZC_HealthPickupModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Health Recession";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Health Recession";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	Array<String> classes;
@@ -475,11 +474,11 @@ Class GZC_ReplaceMedikitWithStimpack : GZC_HealthPickupModifier
 
 Class GZC_DestroyAllHealth : GZC_HealthPickupModifier
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Health Extinction";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.ignore false;
+		title = "Health Extinction";
+		duration = 35 * 60;
+		ignore = false;
 	}
 
 	Array<String> classes;
