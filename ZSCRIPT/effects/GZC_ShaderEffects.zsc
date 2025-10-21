@@ -4,6 +4,7 @@ class GZC_Shrooms : GZC_ShaderEffect
 	override void init()
 	{
 		title = "Vibin on the cybin";
+		desc = "Turns on a psychedelic shader";
 		duration = 35 * 60;
 		ignore = false;
 	}
@@ -29,6 +30,7 @@ class GZC_MSDOSMode : GZC_ShaderEffect
 	override void init()
 	{
 		title = "MS-DOS";
+		desc = "Tuens on a shader that imitates the MS-DOS resolution";
 		duration = 35 * 60;
 		ignore = false;
 	}
@@ -50,6 +52,7 @@ class GZC_GameboyMode : GZC_ShaderEffect
 	override void init()
 	{
 		title = "Doom for the Gameboy";
+		desc = "Turns on a shader that converts all color into the GB's color palette";
 		duration = 35 * 60;
 		ignore = false;
 	}
@@ -75,6 +78,7 @@ class GZC_YouNeedGlasses : GZC_ShaderEffect
 	override void init()
 	{
 		title = "You need glasses";
+		desc = "Turns on a shader that makes everything blurry";
 		duration = 35 * 60;
 		ignore = false;
 	}
@@ -100,6 +104,7 @@ class GZC_LiquidQuake : GZC_ShaderEffect
 	override void init()
 	{
 		title = '*slime';
+		desc = "Turns on a shader that imitates Quake's liquid animation";
 		duration = 35 * 60;
 		ignore = false;
 	}

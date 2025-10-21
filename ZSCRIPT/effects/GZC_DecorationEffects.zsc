@@ -3,6 +3,7 @@ Class GZC_HostileDecorations : GZC_Effect
 	override void init()
 	{
 		title = "Hostile decorations";
+		desc = "Decorations will randomly shoot random projectiles at you";
 		duration = 35 * 60 * 5;
 	}
 
@@ -93,6 +94,7 @@ Class GZC_ParanoidOfBarrels : GZC_Effect
 	override void init()
 	{
 		title = "Did that barrel just move?";
+		desc = "Barrels will move closer to you when you're not looking. Don't let them get too close!";
 		duration = 35 * 60 * 5;
 	}
 	
@@ -147,6 +149,7 @@ Class GZC_DuplicatingBarrels : GZC_Effect
 	override void init()
 	{
 		title = "Barrels duplicate like rabbits";
+		desc = "All barrels on the map will start duplicating";
 		duration = 35 * 30;
 	}
 
@@ -157,7 +160,7 @@ Class GZC_DuplicatingBarrels : GZC_Effect
 	override bool verify()
 	{
 		ThinkerIterator it = ThinkerIterator.create("ExplosiveBarrel");
-		Actor mo = it.next();
+		Thinker mo = it.next();
 		
 		if (mo) return super.verify();
 		

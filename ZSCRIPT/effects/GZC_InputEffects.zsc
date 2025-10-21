@@ -3,6 +3,7 @@ class GZC_NoStrafing : GZC_Effect
 	override void init()
 	{
 		title = "Disable strafing";
+		desc = "Left and right strafing input disabled";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -20,6 +21,7 @@ class GZC_NoStrafingLeft : GZC_Effect
 	override void init()
 	{
 		title = "Disable strafing left";
+		desc = "Left strafing input disabled";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -37,6 +39,7 @@ class GZC_NoStrafingRight : GZC_Effect
 	override void init()
 	{
 		title = "Disable strafing right";
+		desc = "Right strafing input disabled";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -54,6 +57,7 @@ class GZC_NoForwardBackwards : GZC_Effect
 	override void init()
 	{
 		title = "Disable forward/backward";
+		desc = "Forward and backward input disabled";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -71,6 +75,7 @@ class GZC_NoForward : GZC_Effect
 	override void init()
 	{
 		title = "Disable moving forward";
+		desc = "Forward input disabled";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -88,6 +93,7 @@ class GZC_NoBackwards : GZC_Effect
 	override void init()
 	{
 		title = "Disable moving backward";
+		desc = "Backward movement disabled";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -105,6 +111,7 @@ class GZC_NoWeaponScrolling : GZC_Effect
 	override void init()
 	{
 		title = "No weapon scrolling";
+		desc = "Next and Previous weapon input disabled";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -122,6 +129,7 @@ class GZC_NoJumping : GZC_Effect
 	override void init()
 	{
 		title = "Disabled jumping";
+		desc = "Jumping input disabled (if map allows it)";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -146,6 +154,7 @@ class GZC_NoCrouching : GZC_Effect
 	override void init()
 	{
 		title = "Disabled crouching";
+		desc = "Crouching input disabled (if map allows it)";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -170,6 +179,7 @@ class GZC_SwapFiringMode : GZC_Effect
 	override void init()
 	{
 		title = "Swapped firing input";
+		desc = "Forces primary fire to perform alt fire, and alt fire to perform primary fire";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -232,6 +242,7 @@ class GZC_InvertedMouselook : GZC_Effect
 	override void init()
 	{
 		title = "Inverted Mouselook";
+		desc = "Inverts pitch input with freelook (if map allows it)";
 		duration = 35 * 60 * 2;
 	}
 	

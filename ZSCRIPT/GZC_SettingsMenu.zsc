@@ -6,20 +6,23 @@ Class OptionMenuGZChaosSettings: OptionMenu
 		{
 			foreach (effect : GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).effects)
 			{
-				string title, tip;
+				string title, desc;
 				Bool ignore;
 			
-				[title, tip, ignore] = getEffectInfo(effect);
+				[title, desc, ignore] = getEffectInfo(effect);
 		
 				if (ignore) continue;
 		
 				GZC_EffectOptionItemMenu item = GZC_EffectOptionItemMenu(new('GZC_EffectOptionItemMenu'));
 				item.create(effect.getClassName(), title, '');
+				item.effectdesc = desc;
 				_desc.mItems.push(item);
 			}
 		}
 		
 		Super.Init(_parent, _desc);
+		
+		DrawTooltips = true;
 	}
 	
 	play string, string, bool getEffectInfo(Class<GZC_Effect> _effect) const
@@ -27,15 +30,22 @@ Class OptionMenuGZChaosSettings: OptionMenu
 		let effect = GZC_Effect(new(_effect));
 		effect.init();
 		
-		string title, tip;
+		string title, desc;
 		bool ignore;
 		
 		title = effect.title;
-		tip = effect.tip;
+		desc = effect.desc;
 		ignore = effect.ignore;
 		
 		effect.destroy();
-		return title, tip, ignore;
+		return title, desc, ignore;
+	}
+	
+	override void UpdateTooltip(string tooltip)
+	{
+		int val = mDesc.mSelectedItem;
+		let item = GZC_EffectOptionItemMenu(mDesc.mItems[val]);
+		mCurrentToolTip = item.effectDesc;
 	}
 }
 
@@ -45,6 +55,7 @@ class GZC_EffectOptionItemMenu : OptionMenuItemOption
 	
 	string classname;
 	string setting;
+	string effectdesc;
 
 	void create(String _classname, String _setting, Name _values)
 	{

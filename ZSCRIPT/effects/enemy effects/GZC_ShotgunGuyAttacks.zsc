@@ -17,6 +17,7 @@ class GZC_ShotgunGuyRepeater : GZC_Effect
 	override void init()
 	{
 		title = "Shotgunners repeat fire";
+		desc = title;
 		duration = 35 * 60 * 3;
 	}
 	
@@ -57,6 +58,7 @@ class GZC_ShotgunGuyFireBullets : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Shotgunners Fire Bullets";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -78,6 +80,7 @@ class GZC_SuperShotgunGuy : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Super Shotgunners";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -99,6 +102,7 @@ class GZC_ShotgunGuyFireImpBalls : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Shotgunners shoot fireballs";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -120,6 +124,7 @@ class GZC_ShotgunGuyFireBaronBalls : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Shotgunners shoot Baron Balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -141,6 +146,7 @@ class GZC_ShotgunGuyFirePlasma : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Shotgunners shoot Plasma";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -162,6 +168,7 @@ class GZC_ShotgunGuyFireMissile : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Shotgunners shoot Missiles";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -183,6 +190,7 @@ class GZC_ShotgunGuyFireRockets : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Shotgunners shoot Missiles";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -204,6 +212,7 @@ class GZC_ShotgunGuyFireCacoballs : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Shotgunners shoot Caco-balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -225,6 +234,7 @@ class GZC_ShotgunGuyFireLostSouls : GZC_ShotgunGuyAttackEffect
 	override void init()
 	{
 		title = "Shotgunners shoot Lost Souls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}

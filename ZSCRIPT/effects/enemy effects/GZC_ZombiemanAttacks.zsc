@@ -17,6 +17,7 @@ class GZC_ZombiemanRepeater : GZC_Effect
 	override void init()
 	{
 		title = "Zombiemen repeat fire";
+		desc = title;
 		duration = 35 * 60 * 3;
 	}
 	
@@ -57,6 +58,7 @@ class GZC_ZombiemenFireShotguns : GZC_ZombiemanAttackEffect
 	override void init()
 	{
 		title = "Zombiemen fire shotguns";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -78,6 +80,7 @@ class GZC_ZombiemenFireFireballs : GZC_ZombiemanAttackEffect
 	override void init()
 	{
 		title = "Zombiemen shoot fireballs";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -98,6 +101,7 @@ class GZC_ZombiemenFireBaronballs : GZC_ZombiemanAttackEffect
 	override void init()
 	{
 		title = "Zombiemen fire Baron balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -118,6 +122,7 @@ class GZC_ZombiemanFirePlasma : GZC_ZombiemanAttackEffect
 	override void init()
 	{
 		title = "Zombiemen fire plasma";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -138,6 +143,7 @@ class GZC_ZombiemanFireMissiles : GZC_ZombiemanAttackEffect
 	override void init()
 	{
 		title = "Zombiemen fire missiles";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -158,6 +164,7 @@ class GZC_ZombiemanFireRockets : GZC_ZombiemanAttackEffect
 	override void init()
 	{
 		title = "Zombiemen fire rockets";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -178,6 +185,7 @@ class GZC_ZombiemanFireCacoballs : GZC_ZombiemanAttackEffect
 	override void init()
 	{
 		title = "Zombiemen fire Caco-balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -198,6 +206,7 @@ class GZC_ZombiemanFireLostSouls : GZC_ZombiemanAttackEffect
 	override void init()
 	{
 		title = "Zombiemen fire Lost Souls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}

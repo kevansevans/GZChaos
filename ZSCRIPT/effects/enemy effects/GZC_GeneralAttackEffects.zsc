@@ -3,6 +3,7 @@ class GZC_ArmedWithBFG : GZC_Effect
 	override void init()
 	{
 		title = "Armed # monsters with the BFG9000";
+		desc = "Up to 10 enemies are randomly chosen to be armed with a BFG";
 		duration = 35 * 60 * 5;
 	}
 	
@@ -87,6 +88,7 @@ class GZC_ArmedWithRailgun : GZC_Effect
 	override void init()
 	{
 		title = "Armed # monsters with a railgun";
+		desc = "Up to 10 enemies are randomly chosen to be armed with a railgun";
 		duration = 35 * 60 * 5;
 	}
 	

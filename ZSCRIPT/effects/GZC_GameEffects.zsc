@@ -3,6 +3,7 @@ class GZC_SavingNotAllowed : GZC_Effect
 	override void init()
 	{
 		title = "Quicksaves add effects";
+		desc = "Saving will add a random effect";
 		duration = 35 * 60 * 5;
 		type = GZC_Timed;
 	}
@@ -22,6 +23,7 @@ class GZC_TheImmortalSnail : GZC_Effect
 	override void init()
 	{
 		title = "The immortal snail";
+		desc = "You become invulnerable. A snail is hunting you down. If it catches you, it kills you";
 		duration = 35 * 60 * 10;
 		type = GZC_Timed;
 	}
@@ -59,6 +61,7 @@ Class GZC_RandomProjectileVel : GZC_Effect
 	override void init()
 	{
 		title = "Set random projectile velocity";
+		desc = "All projectiles get flung in a random direction";
 		duration = 35 * 30;
 		type = GZC_Instant;
 	}
@@ -97,6 +100,7 @@ Class GZC_SpawnFriendlyMonster : GZC_Effect
 	override void init()
 	{
 		title = "Spawn companion monster";
+		desc = "Spawns a friendly monster for you";
 		duration = 35 * 30;
 		type = GZC_Instant;
 	}
@@ -147,6 +151,7 @@ Class GZC_AutoSave : GZC_Effect
 	override void init()
 	{
 		title = "Autosave";
+		desc = "Makes an autosave then and there";
 		duration = 35 * 60 * 3;
 		type = GZC_Instant;
 	}
@@ -162,6 +167,7 @@ Class GZC_RearView : GZC_Effect
 	override void init()
 	{
 		title = "Rear View Mirror";
+		desc = "Lets you see behind you";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -221,6 +227,7 @@ Class GZC_MacroMissiles : GZC_Effect
 	override void init()
 	{
 		title = "Macro-Missiles";
+		desc = "All projectiles are made larger";
 		duration = 35 * 60 * 3;
 	}
 
@@ -274,6 +281,7 @@ Class GZC_MicroMissiles : GZC_Effect
 	override void init()
 	{
 		title = "Micro-Missiles";
+		desc = "All projectiles are made smaller";
 		duration = 35 * 60 * 3;
 	}
 
@@ -327,6 +335,7 @@ Class GZC_DetonateAllBarrels : GZC_Effect
 	override void init()
 	{
 		title = "Detonate All Barrels";
+		desc = "All barrels on map are detonated";
 		duration = 35 * 60;
 	}
 
@@ -347,6 +356,7 @@ Class GZC_CompanionImpEvent : GZC_Effect
 	override void init()
 	{
 		title = "Companion Imp";
+		desc = "Spawns a companion imp to keep you company";
 		duration = 35 * 60;
 		type = GZC_Instant;
 	}
@@ -416,6 +426,7 @@ Class GZC_BouncyProjectiles : GZC_Effect
 	override void init()
 	{
 		title = "Bouncy! Bouncy! Bouncy!"; //Insyncopated style!
+		desc = "All projectiles bounce on map geometry";
 		duration = 35 * 60 * 4;
 	}
 
@@ -477,6 +488,7 @@ Class GZC_JitterSkull : GZC_RoomClearEvent
 	override void init()
 	{
 		title = "The Ghoul's Forest";
+		desc = "Clears all enemies on map and spawns in Jitterskull";
 		duration = 35 * 60;
 		ignore = false;
 	}
@@ -562,6 +574,7 @@ Class GZC_ContainmentBreach : GZC_RoomClearEvent
 	override void init()
 	{
 		title = "Containment Breach";
+		desc = "Clears all enemies on map and spawns SCP-173";
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -638,6 +651,7 @@ Class GZC_ChaosDevice : GZC_Effect
 	override void init()
 	{
 		title = "Chaos Device";
+		desc = "Teleports player back to the start of the map";
 		duration = 35 * 30;
 		type = GZC_Instant;
 	}
@@ -662,6 +676,7 @@ Class GZC_ShuffleAmmoTypes : GZC_Effect
 	override void init()
 	{
 		title = "Shuffled ammo pool";
+		desc = "All guns have their ammo types shuffled around";
 		duration = 35 * 60 * 3;
 	}
 
@@ -773,6 +788,7 @@ Class GZC_LimpProjectiles : GZC_Effect
 	override void init()
 	{
 		title = "Limp enemy projectiles";
+		desc = "Enemy projectiles are subject to gravity";
 		duration = 35 * 60 * 3;
 	}
 
@@ -789,6 +805,7 @@ Class GZC_JupiterGravity : GZC_Effect
 	override void init()
 	{
 		title = "Jupiter Gravity";
+		desc = "Gravity is increased 10x";
 		duration = 35 * 60 * 3;
 	}
 
@@ -852,6 +869,7 @@ Class GZC_MoonGravity : GZC_Effect
 	override void init()
 	{
 		title = "Moon Gravity";
+		desc = "Enables low gravity";
 		duration = 35 * 60 * 3;
 	}
 
@@ -915,6 +933,7 @@ Class GZC_FartingMonsters : GZC_Effect
 	override void init()
 	{
 		title = "Farting Monsters";
+		desc = "Monsters become flatulent";
 		duration = 35 * 60 * 3;
 	}
 
@@ -953,6 +972,7 @@ Class GZC_FartingItems : GZC_Effect
 	override void init()
 	{
 		title = "Farting items";
+		desc = "Pickups become flatulent";
 		duration = 35 * 60 * 3;
 	}
 
@@ -992,6 +1012,7 @@ Class GZC_FartingPlayer : GZC_Effect
 	override void init()
 	{
 		title = "Farting player";
+		desc = "Player becomes flatulent";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1027,6 +1048,7 @@ Class GZC_FastProjectiles : GZC_ProjectileModifier
 	override void init()
 	{
 		title = "Fast projectiles";
+		desc = "Projectile speeds are increased by 50%";
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -1066,6 +1088,7 @@ Class GZC_SlowProjectiles : GZC_ProjectileModifier
 	override void init()
 	{
 		title = "Slow projectiles";
+		desc = "Projectile speeds are reduced by 50%";
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -1104,6 +1127,7 @@ Class GZC_ExtraSlowProjectiles : GZC_ProjectileModifier
 	override void init()
 	{
 		title = "Slower projectiles";
+		desc = "Projectile speeds are reduced by 75%";
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -1142,6 +1166,7 @@ Class GZC_PainfullySlowProjectiles : GZC_ProjectileModifier
 	override void init()
 	{
 		title = "Painfully slow projectiles";
+		desc = "Projectile speeds are reduced by 99%";
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -1179,6 +1204,7 @@ Class GZC_ExplodingBulletPuffs : GZC_Effect
 	override void init()
 	{
 		title = "All bullet puffs explode";
+		desc = "Bullet puffs explode. Not hit scans, not blood.";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -1194,6 +1220,7 @@ Class GZC_SeekerProjectiles : GZC_Effect
 	override void init()
 	{
 		title = "All projectiles seek player";
+		desc = "Hope you're good at juking";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1245,6 +1272,7 @@ Class GZC_FakeLagCrash : GZC_Effect
 	override void init()
 	{
 		title = "Fake crash";
+		desc = "Lags the game so hard you might think it's crashed";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -1282,6 +1310,7 @@ Class GZC_RestartLevel : GZC_Effect
 	override void init()
 	{
 		title = "Restarting level";
+		desc = "1/3rd chance of exiting into the exact same level";
 		duration = 35 * 10;
 	}
 	

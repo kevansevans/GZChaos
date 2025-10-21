@@ -3,6 +3,7 @@ class GZC_HideTimer : GZC_Effect
 	override void init()
 	{
 		title = "Hidden Timer";
+		desc = "Hides timer";
 		Duration = 35 * 60 * random(1, 3);
 	}
 }
@@ -12,6 +13,7 @@ class GZC_HideEffects : GZC_Effect
 	override void init()
 	{
 		title = "Hidden effects";
+		desc = "Hides effects";
 		Duration = 35 * 60 * random(1, 3);
 	}
 }
@@ -21,6 +23,7 @@ class GZC_RollRandomEffects : GZC_Effect
 	override void init()
 	{
 		title = "Roll # effects";
+		desc = "Adds a random amount of effects";
 		type = GZC_Instant;
 		duration = 35 * 5;
 	}
@@ -48,6 +51,7 @@ class GZC_Nothing : GZC_Effect
 	override void init()
 	{
 		title = "Nothing.";
+		desc = "Nothing.";
 		type = GZC_Instant;
 	}
 }
@@ -57,6 +61,7 @@ class GZC_AutoPong : GZC_Effect
 	override void init()
 	{
 		title = "Pong";
+		desc = "A game of pong is drawn on screen";
 		Duration = 35 * 60 * 2;
 	}
 	

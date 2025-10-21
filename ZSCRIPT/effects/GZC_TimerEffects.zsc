@@ -4,6 +4,7 @@ class GZC_InconsistentEffectSpeed : GZC_EffectModifier
 	{
 		ignore = false;
 		title = "??? effect speed";
+		desc = "Effect duration is randomized every second";
 		duration = 35 * 30 * 3;
 		value = 0.5;
 	}
@@ -22,6 +23,7 @@ class GZC_HalfEffectSpeed : GZC_EffectModifier
 	{
 		ignore = false;
 		title = "0.5x effect speed";
+		desc = "Effect duration reduced by half";
 		duration = 35 * 30 * 3;
 		value = 0.5;
 	}
@@ -33,6 +35,7 @@ class GZC_DoubleEffectSpeed : GZC_EffectModifier
 	{
 		ignore = false;
 		title = "2x effect speed";
+		desc = "Effect duration is reduced in half";
 		duration = 35 * 60 * 6;
 		value = 2;
 	}
@@ -44,6 +47,7 @@ class GZC_InconsistentTimerSpeed : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "??? timer speed";
+		desc = "Roll timer speed is randomized every second";
 		duration = 35 * 30 * 3;
 		value = 0.5;
 	}
@@ -62,6 +66,7 @@ class GZC_ZeroTimerSpeed : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "Pause timer";
+		desc = "Roll timer speed is paused. Take a break.";
 		duration = 35 * 60 * 3;
 		value = 0;
 	}
@@ -73,6 +78,7 @@ class GZC_TenthTimerSpeed : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "0.1x Timer Speed";
+		desc = "Role timer is reduced by 90%";
 		duration = 35 * 60 * 3;
 		value = 0.1;
 	}
@@ -84,6 +90,7 @@ class GZC_ThirdTimerSpeed : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "0.3x Timer Speed";
+		desc = "Roll timer speed is reduced by 60%";
 		duration = 35 * 60 * 3;
 		value = 0.3;
 	}
@@ -95,6 +102,7 @@ class GZC_HalfTimerSpeed : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "0.5x Timer Speed";
+		desc = "Roll timer speed is reduced by 50%";
 		duration = 35 * 60 * 3;
 		value = 0.5;
 	}
@@ -106,6 +114,7 @@ class GZC_QuarterTimerSpeed : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "0.25x Timer Speed";
+		desc = "Roll timer speed is reduced by 75%";
 		duration = 35 * 60 * 3;
 		value = 0.25;
 	}
@@ -117,6 +126,7 @@ class GZC_DoubleTimerSpeed :GZC_TimerEffect
 	{
 		ignore = false;
 		title = "2x Timer Speed";
+		desc = "Roll timer speed is doubled";
 		duration = 35 * 60 * 3;
 		value = 2;
 	}
@@ -128,6 +138,7 @@ class GZC_TripleTimerSpeed : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "3x Timer Speed";
+		desc = "Roll timer speed is tripled";
 		duration = 35 * 60 * 3;
 		value = 3;
 	}
@@ -139,6 +150,7 @@ class GZC_QuadTimerSpeed : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "4x Timer Speed";
+		desc = "Roll timer speed is quadrupled";
 		duration = 35 * 60 * 3;
 		value = 4;
 	}
@@ -150,6 +162,7 @@ class GZC_FastTimerToHealth : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "More health = Faster Timer";
+		desc = "Roll timer speed is faster the more health player has";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -178,6 +191,7 @@ class GZC_SlowTimerToHealth : GZC_TimerEffect
 	{
 		ignore = false;
 		title = "More health = Slower Timer";
+		desc = "Roll timer speed is slower the more health the player has";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -206,6 +220,7 @@ class GZC_TimerRunsOnKills : GZC_Effect
 	{
 		ignore = false;
 		title = "1 kill = 1 second";
+		desc = "The roll timer and all effects will advance by 1 second every kill. They will remain frozen otherwise.";
 		duration = 35 * 90;
 	}
 	
@@ -232,6 +247,7 @@ Class GZC_ResetEffectDuration : GZC_EffectEffect
 	{
 		ignore = false;
 		title = "Reset all effects";
+		desc = "All active effects have their timers restored";
 		type = GZC_Instant;
 	}
 	
@@ -256,6 +272,7 @@ class GZC_ShuffleEffectLife : GZC_EffectEffect
 	{
 		ignore = false;
 		title = "Randomize all effect progression";
+		desc = "All effects will have their duration set to a random value";
 		type = GZC_Instant;
 	}
 	
@@ -282,6 +299,7 @@ class GZC_SubtractTimeFromEffects : GZC_EffectEffect
 		ignore = false;
 		type = GZC_Instant;
 		title = "Remove # seconds from effects";
+		desc = "All active effects will have their timers reduced by 5 to 30 seconds";
 	}
 	
 	override void onOpen()
@@ -311,6 +329,7 @@ class GZC_AddTimeFromEffects : GZC_EffectEffect
 		ignore = false;
 		type = GZC_Instant;
 		title = "Add # seconds to effects";
+		desc = "All active effects will have their durations extended by 5 to 30 seconds";
 	}
 	
 	override void onOpen()
@@ -336,7 +355,8 @@ class GZC_KillsReduce : GZC_Effect
 {
 	override void init()
 	{
-		title = "Kills reduce effect progression";
+		title = "Kills extend effect duration";
+		desc = "Kills will extend effect duration depending on dying thing's default health";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -362,7 +382,8 @@ class GZC_KillsIncrease : GZC_Effect
 {
 	override void init()
 	{
-		title = "Kills increase effect progression";
+		title = "Kills reduce effect duration";
+		desc = "Kills will reduce effect duration depending on dying thing's default health";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -387,6 +408,7 @@ class GZC_KillsAccelerate : GZC_Effect
 	override void init()
 	{
 		title = "Kills accelerate timer";
+		desc = "Kills will accelerate roll timer depending on dying things default health";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -402,6 +424,7 @@ class GZC_KillsDecelerate : GZC_Effect
 	override void init()
 	{
 		title = "Kills decelerate timer";
+		desc = "Kills will reduce roll timer depending on dying things health";
 		duration = 35 * 60 * 3;
 	}
 	

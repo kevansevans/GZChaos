@@ -3,6 +3,7 @@ class GZC_LineActionsAddEffects : GZC_Effect
 	override void init()
 	{
 		title = "Line actions randomly add effects";
+		desc = "Line actions have a 1/10 chance of adding an effect on activation";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -25,6 +26,7 @@ Class GZC_AbstractHell : GZC_TextureSwapEffect
 	override void init()
 	{
 		title = "It's an abstract kind of hell";
+		desc = "Replaces all map textures with random assets";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -113,6 +115,7 @@ Class GZC_ShootToActivate : GZC_Effect
 	override void init()
 	{
 		title = "Shoot to activate";
+		desc = "All lines that require pressing use on now require being damaged instead";
 		duration = 35 * 60 * 3;
 	}
 
@@ -154,6 +157,7 @@ Class GZC_LockedIn : GZC_Effect
 	override void init()
 	{
 		title = "There is no escape...";
+		desc = "All exit actions are completely disabled";
 		duration = 35 * 60;
 	}
 
@@ -175,6 +179,7 @@ Class GZC_FaultySwitches : GZC_Effect
 	override void init()
 	{
 		title = "Faulty Doors and Switches";
+		desc = "All line actions that require pressing use on have only a 1/3rd chance of working";
 		duration = 35 * 60 * 3;
 	}
 
@@ -196,6 +201,7 @@ Class GZC_KryptoniteFog : GZC_Effect
 	override void init()
 	{
 		title = "Superman 64";
+		desc = "Covers the world with a kryptonian fog";
 		duration = 35 * 60 * 3;
 	}
 
@@ -244,6 +250,7 @@ Class GZC_MurderInTheDark : GZC_Effect
 	override void init()
 	{
 		title = "Murder In The Dark";
+		desc = "Drastically lowers the light levels of all sectors";
 		duration = 35 * 60 * 3;
 	}
 
@@ -290,6 +297,7 @@ Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
 	override void init()
 	{
 		title = "Please install Counter Strike";
+		desc = "Replaces all textures with an iconic checkered texture";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -355,6 +363,7 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 	override void init()
 	{
 		title = "MyFirstMap.wad";
+		desc = "Replaces all textures in a map to look like someone's very first map";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -427,6 +436,7 @@ Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 	override void init()
 	{
 		title = "Everyone's favorite texture";
+		desc = "Replaces all textures with an iconic hell themed texture";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -492,6 +502,7 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 	override void init()
 	{
 		title = "Doom Alpha 0.2";
+		desc = "Jules sucks. Tom is king.";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -559,6 +570,7 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 	override void init()
 	{
 		title = "I suck at making maps";
+		desc = "Replaces all textures with the iconic Doom 64 dev texture";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -624,6 +636,7 @@ Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 	override void init()
 	{
 		title = "Testing... 1, 2, 3, testing...";
+		desc = "Replaces all textures with GZDoom's missing texture";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -695,6 +708,7 @@ Class GZC_DiscoSkybox : GZC_Effect
 	override void init()
 	{
 		title = "Disco Skybox";
+		desc = "The skybox gets set to random assets";
 		duration = 35 * 60;
 	}
 	
@@ -738,6 +752,7 @@ Class GZC_SuperSecretsEverywhere : GZC_Effect
 	override void init()
 	{
 		title = "Everything is a secret";
+		desc = "All items and all sectors are flagged as secret";
 		duration = 35 * 60;
 		type = GZC_Instant;
 	}
@@ -769,6 +784,7 @@ Class GZC_IncreasedSectorFriction : GZC_Effect
 	override void init()
 	{
 		title = "Increased Sector Friction";
+		desc = "Increases experienced friction between 2x and 10x";
 		duration = 35 * 60 * 3;
 	}
 
@@ -813,6 +829,7 @@ Class GZC_FaultyAutomap : GZC_Effect
 	override void init()
 	{
 		title = "Disabled Automap";
+		desc = "Automap machine broken";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -830,6 +847,7 @@ Class GZC_TheFloorIsLava : GZC_Effect
 	override void init()
 	{
 		title = "The floor is lava!";
+		desc = "Permanently converts currently occupied sector into a damaging lava sector";
 		duration = 35 * 10;
 		type = GZC_Instant;
 	}
@@ -854,6 +872,7 @@ Class GZC_TheFloorIsNukage : GZC_Effect
 	override void init()
 	{
 		title = "The floor is nukage!";
+		desc = "Permanently converts currently occupied sector into damaging nukage sector";
 		duration = 35 * 10;
 		type = GZC_Instant;
 	}
@@ -877,6 +896,7 @@ Class GZC_TheFloorIsSludge : GZC_Effect
 	override void init()
 	{
 		title = "The floor is sludge!";
+		desc = "Permanently converts currently occupied sector into damaging slime sector";
 		duration = 35 * 10;
 		type = GZC_Instant;
 	}
@@ -900,6 +920,7 @@ Class GZC_ShuffleKeyTextures : GZC_Effect
 	override void init()
 	{
 		title = "Shuffle key color textures";
+		desc = "Finds and replaces key textures with different key textures";
 		duration = 35 * 5;
 	}
 
@@ -954,6 +975,7 @@ Class GZC_MisalignAllTextures : GZC_Effect
 	override void init()
 	{
 		title = "Misalign textures";
+		desc = "Misaligns textures randomly";
 		duration = 35 * 30;
 		type = GZC_Instant;
 	}

@@ -3,6 +3,7 @@ Class GZC_PickupsCanDie : GZC_Effect
 	override void init()
 	{
 		title = "Pickups Can Die";
+		desc = "Pickups can take damage and die";
 		duration = 35 * 30 * 3;
 	}
 	
@@ -59,6 +60,7 @@ Class GZC_WanderingPickups : GZC_Effect
 	override void init()
 	{
 		title = "Wandering items";
+		desc = "Items begin moving without purpose";
 		duration = 35 * 30 * 3;
 	}
 
@@ -87,6 +89,7 @@ Class GZC_UpgradeToMegasphere : GZC_HealthPickupModifier
 	override void init()
 	{
 		title = "Cheap as dirt health";
+		desc = "All health items are replaced with Megaspheres temporarily";
 		duration = 35 * 30;
 		ignore = false;
 	}
@@ -130,6 +133,7 @@ Class GZC_UpgradeToSoulsphere : GZC_HealthPickupModifier
 	override void init()
 	{
 		title = "Health surplus";
+		desc = "replaces all health items below a soulsphere with soulspheres temporarily";
 		duration = 35 * 60;
 		ignore = false;
 	}
@@ -174,6 +178,7 @@ Class GZC_UpgradeToMedikit : GZC_HealthPickupModifier
 	override void init()
 	{
 		title = "Health stimulus";
+		desc = "replaces all health items below a medikit with medikits temporarily";
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -217,6 +222,7 @@ Class GZC_UpgradeToStimpack : GZC_HealthPickupModifier
 	override void init()
 	{
 		title = "Health boost";
+		desc = "replaces all health items below a stimpack with stimpacks temporarily";
 		duration = 35 * 60 * 5;
 		ignore = false;
 	}
@@ -260,6 +266,7 @@ Class GZC_DuplicatePickups : GZC_Effect
 	override void init()
 	{
 		title = "Duplicate all items";
+		desc = "All inventory items on map get duplicated";
 		duration = 35 * 30;
 		type = GZC_Instant;
 	}
@@ -291,6 +298,7 @@ Class GZC_ShuffleItemsAround : GZC_Effect
 	override void init()
 	{
 		title = "Shuffle Items";
+		desc = "All non-critical items get shuffled around";
 		duration = 35 * 5;
 	}
 
@@ -333,6 +341,7 @@ Class GZC_ShrinkPickups : GZC_Effect
 	override void init()
 	{
 		title = "What is this? A pickup for ants?";
+		desc = "All items on map are shrunk temporarily";
 		duration = 35 * 3 * 60;
 	}
 	
@@ -389,6 +398,7 @@ Class GZC_ReplaceHealthWithBonuses : GZC_HealthPickupModifier
 	override void init()
 	{
 		title = "Health Famine";
+		desc = "Removes all health items aside from health bonuses temporarily";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -432,6 +442,7 @@ Class GZC_ReplaceMedikitWithStimpack : GZC_HealthPickupModifier
 	override void init()
 	{
 		title = "Health Recession";
+		desc = "Replaces all medipacks with stimpacks temporarily";
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -477,6 +488,7 @@ Class GZC_DestroyAllHealth : GZC_HealthPickupModifier
 	override void init()
 	{
 		title = "Health Extinction";
+		desc = "Removes all health items from map temporarily";
 		duration = 35 * 60;
 		ignore = false;
 	}

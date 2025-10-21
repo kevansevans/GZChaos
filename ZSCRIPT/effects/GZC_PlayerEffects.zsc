@@ -23,6 +23,7 @@ Class GZC_IncreaseCurrentVelocity : GZC_Effect
 	override void init()
 	{
 		title = "Increase current velocity";
+		desc = "Player's current speed is increased by a random factor between 2x and 4x";
 		duration = 35 * 30;
 		type = GZC_Instant;
 	}
@@ -46,6 +47,7 @@ Class GZC_KillsTeleportPlayer : GZC_Effect
 	override void init()
 	{
 		title = "Kills teleport player";
+		desc = "Player gets teleported to the exact location of a kill";
 		duration = 35 * 60;
 	}
 	
@@ -67,6 +69,7 @@ Class GZC_PlayerRandomVel : GZC_Effect
 	override void init()
 	{
 		title = "Set random player velocity";
+		desc = "Players velocity is changed to a random direction";
 		duration = 35 * 30;
 		type = GZC_Instant;
 	}
@@ -93,6 +96,7 @@ Class GZC_DiabolistCurse : GZC_Effect
 	override void init()
 	{
 		title = "Diabolist Curse";
+		desc = "Player constantly spawns a trail of delayed explosions and must keep moving.";
 		duration = 35 * 60;
 	}
 	
@@ -185,6 +189,7 @@ Class GZC_YouAreTheHorror : GZC_Effect
 	override void init()
 	{
 		title = "You are the horror";
+		desc = "Applies the frightened tag to all enemies";
 		duration = 35 * 60 * 3;
 	}
 
@@ -216,6 +221,7 @@ Class GZC_LeadFeet : GZC_Effect
 	override void init()
 	{
 		title = "Get the lead out!";
+		desc = "Player is frozen in place for 5 seconds";
 		duration = 35 * 5;
 	}
 
@@ -255,6 +261,7 @@ class GZC_TopDownView : GZC_Effect
 	override void init()
 	{
 		title = "Um ackshually...";
+		desc = "DiD yOu KnOw DoOm Is AcKsHuAlLy A tWo DiMeNsTiOnAl GaMe? (Forces players perspective to a top down view)";
 		duration = 35 * 60;
 	}
 	
@@ -329,6 +336,7 @@ class GZC_Regeneration : GZC_Effect
 	override void init()
 	{
 		title = "Health Regeneration";
+		desc = "Player recovers health slowly";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -351,6 +359,7 @@ Class GZC_ShootingNotAllowed : GZC_Effect
 	override void init()
 	{
 		title = "No Shooting Allowed";
+		desc = "Shooting causes self damage. Be careful!";
 		duration = 35 * 5;
 	}
 
@@ -375,6 +384,7 @@ Class GZC_GyroscopicCamera : GZC_Effect
 	override void init()
 	{
 		title = "Gyroscopic camera roll";
+		desc = "Rotates the cameras roll at the exact same speed as the earths rotation";
 		duration = 35 * 60 * 60;
 	}
 
@@ -407,7 +417,8 @@ Class GZC_PlayerIsAGhost : GZC_Effect
 	override void init()
 	{
 		title = "Walk through actors";
-		duration = 35 * 60 * 3;
+		desc = "Player cannot interact physically with any actor";
+		duration = 35 * 60 * 1;
 	}
 
 	override void onOpen()
@@ -438,6 +449,7 @@ Class GZC_NotQuiteInvulnerability : GZC_Effect
 	override void init()
 	{
 		title = "Not quite invulnerability...";
+		desc = "Sets player health to 999";
 		duration = 35 * 60;
 		type = GZC_Instant;
 	}
@@ -458,6 +470,7 @@ Class GZC_EarthquakeMode : GZC_Effect
 	override void init()
 	{
 		title = "Earthquake!";
+		desc = "Shakes the camera violently";
 		duration = 35 * 60;
 	}
 
@@ -477,6 +490,7 @@ Class GZC_AggressiveWeaponBobbing : GZC_Effect
 	override void init()
 	{
 		title = "Whacky Wavey Inflatable Doomguy";
+		desc = "Hud sprite moves all over the place";
 		duration = 35 * 60 * 3;
 	}
 
@@ -511,6 +525,7 @@ Class GZC_DoomThreeNightmare : GZC_Effect
 	override void init()
 	{
 		title = "Doom 3 Nightmare";
+		desc = "Player's health is constantly drained unless it's lower than 25";
 		duration = 35 * 60 * 3;
 	}
 
@@ -537,6 +552,7 @@ Class GZC_Aimbot : GZC_Effect
 	override void init()
 	{
 		title = "Aimbot";
+		desc = "Player is forced to aim at closest visible enemy";
 		duration = 35 * 90;
 	}
 
@@ -594,6 +610,7 @@ Class GZC_ReducedFieldOfView : GZC_Effect
 	override void init()
 	{
 		title = "Reduced FOV";
+		desc = "Player FOV obnoxiously reduced";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -637,6 +654,7 @@ Class GZC_QuakeFOV : GZC_Effect
 	override void init()
 	{
 		title = "Quake PRO";
+		desc = "Player FOV obnoxiously increased";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -680,6 +698,7 @@ Class GZC_ThirdPerson : GZC_Effect
 	override void init()
 	{
 		title = "Chase Cam";
+		desc = "Player is forced into third person";
 		duration = 35 * 60 * 3;
 		netmode = GZC_SinglePlayerOnly;
 	}
@@ -730,6 +749,7 @@ Class GZC_DrowsyDooming : GZC_Effect
 	override void init()
 	{
 		title = "Drowsy Dooming";
+		desc = "Player will slowly fall asleep if they idle for too long";
 		duration = 35 * 60 * 2;
 	}
 
@@ -772,6 +792,7 @@ Class GZC_ShrunkTheDoomguy : GZC_Effect
 	override void init()
 	{
 		title = "Honey, I shrunk the Doomguy!";
+		desc = "Player is shrunk";
 		duration = 35 * 60 * 3;
 	}
 
@@ -822,6 +843,7 @@ Class GZC_MorphIntoDog : GZC_MorphEffect
 	override void init()
 	{
 		title = "Dog mode!";
+		desc = "Player is transformed into a powerful being";
 		duration = 35 * 60 * 2;
 		ignore = false;
 		netmode = GZC_SinglePlayerOnly;
@@ -855,6 +877,7 @@ Class GZC_MorphIntoChicken : GZC_MorphEffect
 	override void init()
 	{
 		title = "cockadoodledoo!";
+		desc = "Player is transformed into a chicken";
 		duration = 35 * 60 * 2;
 		ignore = false;
 		netmode = GZC_SinglePlayerOnly;
@@ -878,6 +901,7 @@ Class GZC_DoubleRunning : GZC_Effect
 	override void init()
 	{
 		title = "Give it the gas!";
+		desc = "Player speed is increased";
 		duration = 35 * 60 * 2;
 	}
 
@@ -917,6 +941,7 @@ Class GZC_DisableRunning : GZC_Effect
 	override void init()
 	{
 		title = "No need to rush";
+		desc = "Running is disabled";
 		duration = 35 * 60 * 2;
 	}
 
@@ -952,6 +977,7 @@ Class GZC_StartRecording : GZC_Effect
 	override void init()
 	{
 		title = "Recording";
+		desc = "Records player movement for 30 seconds, then rewinds it";
 		duration = 35 * 15;
 		netmode = GZC_SinglePlayerOnly;
 	}
@@ -1032,6 +1058,7 @@ Class GZC_ScardeyItems : GZC_Effect
 	override void init()
 	{
 		title = "Pickups are scared of player";
+		desc = "Items are pushed away from the player";
 		duration = 35 * 60 * 2;
 	}
 
@@ -1063,6 +1090,7 @@ Class GZC_RightJoyconDrift : GZC_Effect
 	override void init()
 	{
 		title = "Right Joycon drift";
+		desc = "Freelook begins drifting at a random angle";
 		duration = 35 * 60 * 2;
 	}
 
@@ -1101,6 +1129,7 @@ Class GZC_LeftJoyconDrift : GZC_Effect
 	override void init()
 	{
 		title = "Left Joycon drift";
+		desc = "Player movement begins drifitng at a random angle";
 		duration = 35 * 60 * 2;
 	}
 
@@ -1135,6 +1164,7 @@ Class GZC_GameEndPlayer : GZC_Effect
 	override void init()
 	{
 		title = "Player commits suicide";
+		desc = "Kills the player";
 		duration = 35;
 		netmode = GZC_SinglePlayerOnly;
 	}
@@ -1165,6 +1195,7 @@ Class GZC_FakeEndPlayer : GZC_Effect
 	override void init()
 	{
 		title = "Player fakes suicide";
+		desc = "Performs a fake suicide";
 		duration = 35;
 		netmode = GZC_SinglePlayerOnly;
 	}
@@ -1199,6 +1230,7 @@ Class GZC_CantStopFiring : GZC_Effect
 	override void init()
 	{
 		title = "Can't stop shooting!";
+		desc = "Player constantly fires";
 		duration = 35 * 60;
 	}
 
@@ -1220,6 +1252,7 @@ Class GZC_NoPlayerFriction : GZC_Effect
 	override void init()
 	{
 		title = "Disabled player friction";
+		desc = "Player no longer experiences friction";
 		duration = (35 * 60 * 2) + (35 * 30);
 	}
 
@@ -1247,6 +1280,7 @@ Class GZC_FallDamage : GZC_Effect
 	override void init()
 	{
 		title = "Player takes fall damage";
+		desc = "Watch your step";
 		duration = (35 * 60 * 2) + (35 * 30);
 	}
 
@@ -1274,6 +1308,7 @@ Class GZC_TeleportPlayer : GZC_Effect
 	override void init()
 	{
 		title = "Teleport to random sector";
+		desc = "Lets hope it doesn't put you somewhere inconvenient";
 		duration = 35 * 90;
 		type = GZC_Instant;
 	}

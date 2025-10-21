@@ -3,6 +3,7 @@ class GZC_IttyWeaponSprites : GZC_Effect
 	override void init()
 	{
 		title = "What is this? A gun for ants?";
+		desc = "Makes hud sprites extra tiny";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -46,6 +47,7 @@ class GZC_NoDepthPerception : GZC_Effect
 	override void init()
 	{
 		title = "No Depth Perception";
+		desc = "Sprites are scaled so it's difficult to tell how far away they are";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -81,6 +83,7 @@ Class GZC_FloorSprites : GZC_Effect
 	override void init()
 	{
 		title = "The Crusher";
+		desc = "All sprites become floor sprites";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -144,6 +147,7 @@ Class GZC_WallSprites : GZC_Effect
 	override void init()
 	{
 		title = "Flatworld";
+		desc = "All sprites become cardboard cutouts";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -207,6 +211,7 @@ class GZC_MissingWad : GZC_Effect
 	override void init()
 	{
 		title = "!";
+		desc = "!";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -272,6 +277,7 @@ class GZC_RainbowBlood : GZC_Effect
 	override void init()
 	{
 		title = "Rainbow Blood";
+		desc = "Blood colors are randomized";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -290,6 +296,7 @@ class GZC_TallWeaponSprites : GZC_Effect
 	override void init()
 	{
 		title = "Tall and thin weapon sprites";
+		desc = "Weapon sprites become tall and thin";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -336,6 +343,7 @@ class GZC_WideWeaponSprites : GZC_Effect
 	override void init()
 	{
 		title = "Wide and stout weapon sprites";
+		desc = "Weapon sprites become wide and stout";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -381,6 +389,7 @@ class GZC_SuperNintendoDoom : GZC_Effect
 	override void init()
 	{
 		title = "Doom for the SNES";
+		desc = "All enemies are drawn constantly facing the player";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -414,6 +423,7 @@ class GZC_SpinningActors : GZC_Effect
 	override void init()
 	{
 		title = "On A Roll";
+		desc = "All sprites begin to roll";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -476,6 +486,7 @@ class GZC_WideMonsters : GZC_Effect
 	override void init()
 	{
 		title = "Wide Monster Sprites";
+		desc = "Enemies sprites are widened. Not their hitboxes.";
 		duration = 35 * 60 * 2;
 	}
 	
@@ -523,6 +534,7 @@ class GZC_TallMonsters : GZC_Effect
 	override void init()
 	{
 		title = "Tall Monster Sprites";
+		desc = "Enemy sprites are made taller. Not their hitboxes.";
 		duration = 35 * 60 * 2;
 	}
 	

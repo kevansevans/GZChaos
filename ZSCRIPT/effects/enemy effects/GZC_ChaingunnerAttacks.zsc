@@ -17,6 +17,7 @@ class GZC_ChaingunnerFireImpBalls : GZC_ChaingunnerAttackEffect
 	override void init()
 	{
 		title = "Chaingunners shoot fireballs";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -38,6 +39,7 @@ class GZC_ChaingunnerFireBaronBalls : GZC_ChaingunnerAttackEffect
 	override void init()
 	{
 		title = "Chaingunners shoot Baron Balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -59,6 +61,7 @@ class GZC_ChaingunnerFirePlasma : GZC_ChaingunnerAttackEffect
 	override void init()
 	{
 		title = "Chaingunners shoot Plasma";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -80,6 +83,7 @@ class GZC_ChaingunnerFireMissile : GZC_ChaingunnerAttackEffect
 	override void init()
 	{
 		title = "Chaingunners shoot Missiles";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -100,7 +104,8 @@ class GZC_ChaingunnerFireRockets : GZC_ChaingunnerAttackEffect
 {
 	override void init()
 	{
-		title = "Chaingunners shoot Missiles";
+		title = "Chaingunners shoot Rockets";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -122,6 +127,7 @@ class GZC_ChaingunnerFireCacoballs : GZC_ChaingunnerAttackEffect
 	override void init()
 	{
 		title = "Chaingunners shoot Caco-balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -143,6 +149,7 @@ class GZC_ChaingunnerFireLostSouls : GZC_ChaingunnerAttackEffect
 	override void init()
 	{
 		title = "Chaingunners shoot Lost Souls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}

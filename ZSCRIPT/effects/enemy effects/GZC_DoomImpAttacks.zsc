@@ -17,6 +17,7 @@ class GZC_DoomImpRepeater : GZC_Effect
 	override void init()
 	{
 		title = "Imps repeat fire";
+		desc = title;
 		duration = 35 * 60 * 3;
 	}
 	
@@ -54,6 +55,7 @@ class GZC_DoomImpFireBullets : GZC_DoomImpAttackEffect
 	override void init()
 	{
 		title = "Imps fire bullets";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -76,6 +78,7 @@ class GZC_DoomImpFireShotgun : GZC_DoomImpAttackEffect
 	override void init()
 	{
 		title = "Imps fire shotguns";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -98,6 +101,7 @@ class GZC_DoomImpFireBaronBalls : GZC_DoomImpAttackEffect
 	override void init()
 	{
 		title = "Imps fire Baron Balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -120,6 +124,7 @@ class GZC_DoomImpFirePlasma : GZC_DoomImpAttackEffect
 	override void init()
 	{
 		title = "Imps fire plasma";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -142,6 +147,7 @@ class GZC_DoomImpFireMissiles : GZC_DoomImpAttackEffect
 	override void init()
 	{
 		title = "Imps fire missiles";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -164,6 +170,7 @@ class GZC_DoomImpFireRockets : GZC_DoomImpAttackEffect
 	override void init()
 	{
 		title = "Imps fire Rockets";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -186,6 +193,7 @@ class GZC_DoomImpFireCacoballs : GZC_DoomImpAttackEffect
 	override void init()
 	{
 		title = "Imps fire Caco-balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -208,6 +216,7 @@ class GZC_DoomImpFireLostSouls : GZC_DoomImpAttackEffect
 	override void init()
 	{
 		title = "Imps fire Lost Souls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}

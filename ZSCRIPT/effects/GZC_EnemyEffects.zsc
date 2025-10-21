@@ -3,6 +3,7 @@ Class GZC_BarrelsOfNotSoMuchFun : GZC_Effect
 	override void init()
 	{
 		title = "Barrels of not so much fun";
+		desc = "Replaces all enemies with empty barrels that just sit there";
 		duration = 35 * 10;
 	}
 
@@ -26,6 +27,7 @@ class GZC_GiantEnemies : GZC_Effect
 	override void init()
 	{
 		title = "Giant enemies";
+		desc = "Makes all enemies on map huge! With huge guts!";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -85,6 +87,7 @@ Class GZC_ZeroEnemySpeed : GZC_EnemySpeedEffect
 	override void init()
 	{
 		title = "0x Speed Monsters";
+		desc = "Sets all enemy speeds to zero";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -142,6 +145,7 @@ Class GZC_FriendlyArchviles : GZC_Effect
 	override void init()
 	{
 		title = "Friendly Archviles";
+		desc = "Arcvhviles are set to friendly, and all resurrections will be friendly as well";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -199,6 +203,7 @@ Class GZC_NoFunAllowed : GZC_Effect
 	override void init()
 	{
 		title = "No fun allowed";
+		desc = "Kills every enemy";
 		duration = 35 * 60 * 5;
 		type = GZC_Instant;
 	}
@@ -229,6 +234,7 @@ Class GZC_ZergRush : GZC_Effect
 	override void init()
 	{
 		title = "Zerg rush";
+		desc = "Spawns hundreds of imp trites around the player";
 		duration = 35 * 60;
 		type = GZC_Instant;
 	}
@@ -288,6 +294,7 @@ Class GZC_PlutoniaExperience : GZC_Effect
 	override void init()
 	{
 		title = "The Plutonia Experience";
+		desc = "Temporatily turns all enemies into chaingunners";
 		duration = 35 * 30;
 	}
 	
@@ -336,6 +343,7 @@ Class GZC_ElementOfPain : GZC_Effect
 	override void init()
 	{
 		title = "Element Of Pain";
+		desc = "Temporarily turns all enemies into Pain Elementals";
 		duration = 35 * 30;
 	}
 	
@@ -385,6 +393,7 @@ Class GZC_MegaHurts : GZC_Effect
 	override void init()
 	{
 		title = "200 Mega Hurts";
+		desc = "Temporarily turns all enemies into Archviles";
 		duration = 35 * 30;
 	}
 
@@ -433,6 +442,7 @@ Class GZC_DiminifiedDamage : GZC_Effect
 	override void init()
 	{
 		title = "Diminified Damage";
+		desc = "Enemies shrink when they take damage";
 		duration = 35 * 60 * 3;
 	}
 
@@ -467,6 +477,7 @@ Class GZC_EmbiggeningDamage : GZC_Effect
 	override void init()
 	{
 		title = "Embiggening Damage";
+		desc = "Enemies enlarge when they take damage";
 		duration = 35 * 60 * 3;
 	}
 
@@ -501,6 +512,7 @@ Class GZC_Mitosis : GZC_Effect
 	override void init()
 	{
 		title = "Mitosis";
+		desc = "All alive enemies split in half";
 		duration = 35;
 		type = GZC_Instant;
 	}
@@ -561,6 +573,7 @@ Class GZC_RubberEnemies : GZC_Effect
 	override void init()
 	{
 		title = "Projectiles bounce off enemies";
+		desc = "Projectiles bounce off of enemies";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -616,6 +629,7 @@ Class GZC_UnfriendlyFire : GZC_Effect
 	override void init()
 	{
 		title = "(un)Friendly Fire";
+		desc = "Same species of monsters can infight regardless of their attack type";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -672,6 +686,7 @@ Class GZC_NoSplashDamage : GZC_Effect
 	override void init()
 	{
 		title = "Ineffective Splash Damage";
+		desc = "All enemies gain immunity to splash damage";
 		duration = 35 * 60 * 3;
 	}
 
@@ -729,6 +744,7 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 	override void init()
 	{
 		title = "??? Speed Monsters";
+		desc = "All enemies have their movement speed randomized bewteeen -2x and 2x";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -786,6 +802,7 @@ Class GZC_NegativeEnemySpeed : GZC_EnemySpeedEffect
 	override void init()
 	{
 		title = "-1x Speed Monsters";
+		desc = "All enemies have their speed inverted";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -843,6 +860,7 @@ Class GZC_HalfEnemySpeed : GZC_EnemySpeedEffect
 	override void init()
 	{
 		title = "1/2 Speed Monsters";
+		desc = "All enemies have their movement cut in half";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -886,6 +904,7 @@ Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
 	override void init()
 	{
 		title = "2x Speed Monsters";
+		desc = "All enemies have their speed doubled";
 		duration = 35 * 60 * 2;
 		ignore = false;
 	}
@@ -929,6 +948,7 @@ Class GZC_AAAAAHHHHH : GZC_Effect
 	override void init()
 	{
 		title = "AAAAAHHHHH";
+		desc = "All enemies are replaced with suicide bombers for 10 seconds";
 		duration = 35 * 5;
 	}
 
@@ -967,6 +987,7 @@ Class GZC_BarrelsOFun : GZC_Effect
 	override void init()
 	{
 		title = "Barrels o' fun";
+		desc = "All enemies are converted into explosive barrels for 10 seconds";
 		duration = 35 * 10;
 	}
 
@@ -990,6 +1011,7 @@ Class GZC_OneTicMonsters : GZC_Effect
 	override void init()
 	{
 		title = "SV_Fastmonsters 1";
+		desc = "All enemies have their tic durationm set to 1";
 		duration = 35 * 60;
 	}
 
@@ -1012,6 +1034,7 @@ Class GZC_FastMonsters : GZC_Effect
 	override void init()
 	{
 		title = "Nightmare Monsters";
+		desc = "All enemies are set to fast";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -1075,6 +1098,7 @@ Class GZC_NotTheBees : GZC_Effect
 	override void init()
 	{
 		title = "Not the bees!";
+		desc = "Bees will spawn when the player kills an enemy";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1103,6 +1127,7 @@ Class GZC_ShuffleMonsters : GZC_Effect
 	override void init()
 	{
 		title = "Shuffle Monsters";
+		desc = "All monsters get shuffled around";
 		duration = 35 * 5;
 	}
 
@@ -1149,6 +1174,7 @@ Class GZC_NoMoreInfighting : GZC_Effect
 	override void init()
 	{
 		title = "Disable infighting";
+		desc = "All enemies are completely incapable of infighting";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -1205,6 +1231,7 @@ Class GZC_ExplosionOnDeath : GZC_Effect
 	override void init()
 	{
 		title = "Explosive Deaths";
+		desc = "All enemies explode on death";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1250,6 +1277,7 @@ Class GZC_RussianDollEnemies : GZC_Effect
 	override void init()
 	{
 		title = "Matryoshka";
+		desc = "Enemies will spawn a slightly smaller and slightly weaker version of themselves upon death";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -1280,6 +1308,7 @@ Class GZC_AggressiveMissileMore : GZC_Effect
 	override void init()
 	{
 		title = "Aggressive Enemies";
+		desc = "Enemy aggression is quadrupled";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1336,6 +1365,7 @@ Class GZC_YouveBeenStruck : GZC_Effect
 	override void init()
 	{
 		title = "Cyberfuck";
+		desc = "Spawns a cyberdemon in front of the player's face to fire a single rocket";
 		duration = 35 * 30;
 		type = GZC_Instant;
 	}
@@ -1362,6 +1392,7 @@ Class GZC_BetaSkulls : GZC_Effect
 	override void init()
 	{
 		title = "Beta Lost Souls";
+		desc = "Lost souls adopt their beta behavior and looks";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1424,6 +1455,7 @@ Class GZC_FullPainChances : GZC_Effect
 	override void init()
 	{
 		title = "Enemies always flinch";
+		desc = "All enemies will go to their pain state when taking damage";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1489,6 +1521,7 @@ Class GZC_ZeroPainChances : GZC_Effect
 	override void init()
 	{
 		title = "Enemies never flinch";
+		desc = "All enemies are immune from going into their pain state";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -1555,6 +1588,7 @@ Class GZC_InverseFlyingRules : GZC_Effect
 	override void init()
 	{
 		title = "Inverted flying rules";
+		desc = "Flying monsters become grounded, and grounded monsters gain the ability to fly";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1614,6 +1648,7 @@ Class GZC_AllMonstersWakeUp : GZC_Effect
 	override void init()
 	{
 		title = "All monsters wake up";
+		desc = "Achoo!";
 		duration = 35 * 60;
 		type = GZC_Instant;
 	}
@@ -1643,6 +1678,7 @@ Class GZC_ArachnotronGrowthSpurt : GZC_Effect
 	override void init()
 	{
 		title = "Arachnotron Growth Spurt";
+		desc = "All arachnotrons on map become Spider Masterminds";
 		duration = 35 * 60;
 		type = GZC_Instant;
 	}
@@ -1683,6 +1719,7 @@ Class GZC_FrictionlessEnemies : GZC_Effect
 	override void init()
 	{
 		title = "Enemies have no friction";
+		desc = "Enemies no longer experience friction";
 		duration = (35 * 60 * 2) + (35 * 30);
 	}
 
@@ -1746,6 +1783,7 @@ Class GZC_AnkleBiterEnemies : GZC_Effect
 	override void init()
 	{
 		title = "Ankle Biters";
+		desc = "All enemies are shrunk";
 		duration = 35 * 60 * 2;
 	}
 
@@ -1807,6 +1845,7 @@ Class GZC_StatueEnemies : GZC_Effect
 	override void init()
 	{
 		title = "Statue enemies";
+		desc = "All enemies become inanimate and pushable";
 		duration = 35 * 30;
 	}
 
@@ -1876,6 +1915,7 @@ Class GZC_StealthMonsters : GZC_Effect
 	override void init()
 	{
 		title = "Stealth Monsters";
+		desc = "All enemies become stealthy";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1934,6 +1974,7 @@ Class GZC_NightmareRespawns : GZC_Effect
 	override void init()
 	{
 		title = "Respawning monsters";
+		desc = "All enemies begin respawning";
 		duration = 35 * 60 * 3;
 	}
 
@@ -1998,6 +2039,7 @@ Class GZC_SpawnGreatGodImp : GZC_Effect
 	override void init()
 	{
 		title = "The Great God Imp";
+		desc = "One imp on map is chosen to be blessed and becomes The Great God Imp, which will hunt down the player";
 		duration = 35 * 60;
 	}
 

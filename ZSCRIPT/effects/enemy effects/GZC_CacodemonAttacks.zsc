@@ -17,6 +17,7 @@ class GZC_CacodemonRepeater : GZC_Effect
 	override void init()
 	{
 		title = "Cacodemons repeat fire";
+		desc = title;
 		duration = 35 * 60 * 3;
 	}
 	
@@ -54,6 +55,7 @@ class GZC_CacodemonFireBullets : GZC_CacodemonAttackEffect
 	override void init()
 	{
 		title = "Cacodemon fire bullets";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -76,6 +78,7 @@ class GZC_CacodemonFireShotgun : GZC_CacodemonAttackEffect
 	override void init()
 	{
 		title = "Cacodemon fire shotguns";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -98,6 +101,7 @@ class GZC_CacodemonFireBaronBalls : GZC_CacodemonAttackEffect
 	override void init()
 	{
 		title = "Cacodemon fire Baron Balls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -119,6 +123,7 @@ class GZC_CacodemonFirePlasma : GZC_CacodemonAttackEffect
 	override void init()
 	{
 		title = "Cacodemon fire plasma";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -141,6 +146,7 @@ class GZC_CacodemonFireMissiles : GZC_CacodemonAttackEffect
 	override void init()
 	{
 		title = "Cacodemon fire missiles";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -163,6 +169,7 @@ class GZC_CacodemonFireRockets : GZC_CacodemonAttackEffect
 	override void init()
 	{
 		title = "Cacodemon fire Rockets";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -184,6 +191,7 @@ class GZC_CacodemonShootFireballs : GZC_CacodemonAttackEffect
 	override void init()
 	{
 		title = "Cacodemon shoot fireballs";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}
@@ -205,6 +213,7 @@ class GZC_CacodemonFireLostSouls : GZC_CacodemonAttackEffect
 	override void init()
 	{
 		title = "Cacodemon fire Lost Souls";
+		desc = title;
 		duration = 35 * 60 * 3;
 		ignore = false;
 	}

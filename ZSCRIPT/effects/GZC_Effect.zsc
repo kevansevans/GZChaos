@@ -27,7 +27,7 @@ Class GZC_Effect : Thinker
 	bool ignore;
 	int duration;
 	string title;
-	string tip;
+	string desc;
 	double value;
 	GZC_EffectType type;
 	GZC_NetMode NetMode;
@@ -46,6 +46,7 @@ Class GZC_Effect : Thinker
 		type = GZC_Timed;
 		duration = 35 * 30;
 		title = "GZC_UnamedEffect";
+		desc = "No Description provided";
 		gamecomp = GZC_Any;
 		NetMode = GZC_Neutral;
 		
@@ -233,6 +234,7 @@ class GZC_TestEffect : GZC_Effect
 	override void init()
 	{
 		title = "Test effect";
+		desc = "This is a test effect :D";
 	}
 }
 

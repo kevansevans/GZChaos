@@ -3,6 +3,7 @@ class GZC_GoodHeadphones : GZC_Effect
 	override void init()
 	{
 		title = "Noise Canceling Headphones";
+		desc = "Mutes all sounds except for music";
 		duration = 35 * 60 * 5;
 	}
 	
@@ -51,6 +52,7 @@ Class GZC_DigDugWalking : GZC_Effect
 	override void init()
 	{
 		title = "DIG DUG";
+		desc = "Plays a nostalgic ditty when moving";
 		duration = 35 * 60 * 3;
 	}
 	
@@ -87,6 +89,7 @@ Class GZC_RandomActorSoundPitch : GZC_Effect
 	override void init()
 	{
 		title = "Smack my pitch up";
+		desc = "Every sound played has a randomized pitch";
 		duration = 35 * 60 * 3;
 	}
 
@@ -117,6 +120,7 @@ Class GZC_TheEddsAreComing : GZC_Effect //More like GZC_Eddffect, hue hue hue
 	override void init()
 	{
 		title = "The Edds Are Coming!";
+		desc = "Punctuates game actions like a particular cartoon";
 		duration = 35 * 60 * 5;
 	}
 
@@ -184,6 +188,7 @@ Class GZC_QuipItGood : GZC_Effect
 	override void init()
 	{
 		title = "Quip it Good";
+		desc = "Plays a quip on every kill";
 		duration = 35 * 60 * 5;
 	}
 
@@ -203,6 +208,7 @@ Class GZC_WhipCrack : GZC_Effect
 	override void init()
 	{
 		title = "Johnny Test";
+		desc = "Excessively plays whipcrack sounds";
 		duration = 35 * 60;
 	}
 	
@@ -242,6 +248,7 @@ Class GZC_SetMusicToCursedMidi : GZC_Effect
 	override void init()
 	{
 		title = "Cursed music";
+		desc = "Yo pass the aux cord";
 		duration = 35 * 30 * 5;
 	}
 	
@@ -310,6 +317,7 @@ Class GZC_FakeNotification : GZC_Effect
 	override void init()
 	{
 		title = "Nothing.";
+		desc = "Did you hear that?";
 		duration = 35 * 60;
 		type = GZC_Instant;
 	}

@@ -3,6 +3,7 @@ class GZC_Doom64Knockback : GZC_Effect
 	override void init()
 	{
 		title = "Doom 64 Knockback";
+		desc = "All weapons experience knockback";
 		Duration = 35 * 60 * 2;
 	}
 	
@@ -31,6 +32,7 @@ class GZC_Doom64KnockbackEnemies : GZC_Effect
 	override void init()
 	{
 		title = "Doom 64 Knockback for monsters";
+		desc = "All enemies experience knockback";
 		Duration = 35 * 60 * 2;
 	}
 	
@@ -59,6 +61,7 @@ class GZC_NegativeDoom64Knockback : GZC_Effect
 	override void init()
 	{
 		title = "Negative Doom 64 Knockback";
+		desc = "All weapons experience inverted knockback";
 		Duration = 35 * 60 * 2;
 	}
 	
@@ -87,6 +90,7 @@ class GZC_NegativeDoom64KnockbackEnemies : GZC_Effect
 	override void init()
 	{
 		title = "Negative Doom 64 Knockback for monsters";
+		desc = "All enemies experience inverted knockback";
 		Duration = 35 * 60 * 2;
 	}
 	
@@ -115,6 +119,7 @@ class GZC_InconsistentDoom64Knockback : GZC_Effect
 	override void init()
 	{
 		title = "Inconsistent Doom 64 Knockback";
+		desc = "All weapons experience random knockback values";
 		Duration = 35 * 60 * 2;
 	}
 	
@@ -145,6 +150,7 @@ class GZC_FreezeTag : GZC_Effect
 	override void init()
 	{
 		title = "Freeze tag";
+		desc = "All kills result in freezing the target solid";
 		Duration = 35 * 60 * 2;
 	}
 	
@@ -176,6 +182,7 @@ class GZC_AllAttacksPlasma : GZC_Effect
 	override void init()
 	{
 		title = "All attacks are plasma";
+		desc = "Ah, the sweet sugary kiss of heavy ordinance";
 		Duration = 35 * 60 * 2;
 	}
 	
@@ -211,6 +218,7 @@ class GZC_GunshotsAddEffects : GZC_Effect
 	override void init()
 	{
 		title = "Player gunshots randomly add effects";
+		desc = "All player gunshots have a 1/50 chance of adding an effect";
 		Duration = 35 * 60 * 3;
 	}
 	
@@ -235,6 +243,7 @@ class GZC_ProjectilesAddEffects : GZC_Effect
 	override void init()
 	{
 		title = "Player projectiles randomly add effects";
+		desc = "All player projectiles have a 1/30 chance of adding an effect";
 		Duration = 35 * 60 * 3;
 	}
 
