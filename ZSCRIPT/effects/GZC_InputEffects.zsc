@@ -1,9 +1,9 @@
 class GZC_NoStrafing : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disable strafing";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Disable strafing";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool onInputProcess(InputEvent _event)
@@ -17,10 +17,10 @@ class GZC_NoStrafing : GZC_Effect
 
 class GZC_NoStrafingLeft : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disable strafing left";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Disable strafing left";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool onInputProcess(InputEvent _event)
@@ -34,10 +34,10 @@ class GZC_NoStrafingLeft : GZC_Effect
 
 class GZC_NoStrafingRight : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disable strafing right";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Disable strafing right";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool onInputProcess(InputEvent _event)
@@ -51,10 +51,10 @@ class GZC_NoStrafingRight : GZC_Effect
 
 class GZC_NoForwardBackwards : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disable forward/backward";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Disable forward/backward";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool onInputProcess(InputEvent _event)
@@ -68,10 +68,10 @@ class GZC_NoForwardBackwards : GZC_Effect
 
 class GZC_NoForward : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disable moving forward";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Disable moving forward";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool onInputProcess(InputEvent _event)
@@ -85,10 +85,10 @@ class GZC_NoForward : GZC_Effect
 
 class GZC_NoBackwards : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disable moving backward";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Disable moving backward";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool onInputProcess(InputEvent _event)
@@ -102,10 +102,10 @@ class GZC_NoBackwards : GZC_Effect
 
 class GZC_NoWeaponScrolling : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "No weapon scrolling";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "No weapon scrolling";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool onInputProcess(InputEvent _event)
@@ -119,10 +119,10 @@ class GZC_NoWeaponScrolling : GZC_Effect
 
 class GZC_NoJumping : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disabled jumping";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Disabled jumping";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool verify()
@@ -143,10 +143,10 @@ class GZC_NoJumping : GZC_Effect
 
 class GZC_NoCrouching : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disabled crouching";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Disabled crouching";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool verify()
@@ -167,10 +167,10 @@ class GZC_NoCrouching : GZC_Effect
 
 class GZC_SwapFiringMode : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Swapped firing input";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Swapped firing input";
+		duration = 35 * 60 * 2;
 	}
 	
 	int buttons;
@@ -229,10 +229,10 @@ class GZC_SwapFiringMode : GZC_Effect
 
 class GZC_InvertedMouselook : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Inverted Mouselook";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Inverted Mouselook";
+		duration = 35 * 60 * 2;
 	}
 	
 	override bool verify()
@@ -267,10 +267,10 @@ class GZC_InvertedMouselook : GZC_Effect
 	//203 left
 	//205 right
 
-	default
+	override void init()
 	{
-		GZC_Effect.title "Keyboard only!";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Keyboard only!";
+		duration = 35 * 60 * 2;
 	}
 	
 	int buttons;
