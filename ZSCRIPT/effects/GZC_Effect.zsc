@@ -27,6 +27,7 @@ Class GZC_Effect : Thinker
 	bool ignore;
 	int duration;
 	string title;
+	string tip;
 	double value;
 	GZC_EffectType type;
 	GZC_NetMode NetMode;
