@@ -1,9 +1,9 @@
 /*class GZC_WeightyAmmo : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Overencumbered";
-		GZC_effect.Duration 35 * 30 * 3;
+		title = "Overencumbered";
+		duration = 35 * 30 * 3;
 	}
 	
 	override void onWorldTick()
@@ -20,11 +20,11 @@
 
 Class GZC_IncreaseCurrentVelocity : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Increase current velocity";
-		GZC_effect.Duration 35 * 30;
-		GZC_Effect.Type GZC_Instant;
+		title = "Increase current velocity";
+		duration = 35 * 30;
+		type = GZC_Instant;
 	}
 	
 	override void onOpen()
@@ -43,10 +43,10 @@ Class GZC_IncreaseCurrentVelocity : GZC_Effect
 }
 Class GZC_KillsTeleportPlayer : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Kills teleport player";
-		GZC_Effect.duration 35 * 60;
+		title = "Kills teleport player";
+		duration = 35 * 60;
 	}
 	
 	override void onWorldThingDied(WorldEvent _event)
@@ -64,11 +64,11 @@ Class GZC_KillsTeleportPlayer : GZC_Effect
 
 Class GZC_PlayerRandomVel : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Set random player velocity";
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.type GZC_Instant;
+		title = "Set random player velocity";
+		duration = 35 * 30;
+		type = GZC_Instant;
 	}
 	
 	override void onOpen()
@@ -90,10 +90,10 @@ Class GZC_PlayerRandomVel : GZC_Effect
 //Thank you tango for permission
 Class GZC_DiabolistCurse : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Diabolist Curse";
-		GZC_Effect.duration 35 * 60;
+		title = "Diabolist Curse";
+		duration = 35 * 60;
 	}
 	
 	override void onOpen()
@@ -123,7 +123,7 @@ Class GZC_DiabolistCurse : GZC_Effect
 
 class GZC_DiabolistFireSingle : Actor
 {
-	default
+	Default
 	{
 		+NoInteraction;
 	}
@@ -142,7 +142,7 @@ class GZC_DiabolistFireSingle : Actor
 
 class GZC_DiabolistExplosionSingle : Actor
 {
-	default
+	Default
 	{
 		Height 16;
 		Radius 8;
@@ -163,7 +163,7 @@ class GZC_DiabolistExplosionSingle : Actor
 
 Class GZC_DiabolistFireDust : Actor
 {
-	default
+	Default
 	{
 		+NoInteraction;
 		+Missile;
@@ -182,10 +182,10 @@ Class GZC_DiabolistFireDust : Actor
 
 Class GZC_YouAreTheHorror : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "You are the horror";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "You are the horror";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onOpen()
@@ -213,10 +213,10 @@ Class GZC_YouAreTheHorror : GZC_Effect
 
 Class GZC_LeadFeet : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Get the lead out!";
-		GZC_Effect.duration 35 * 5;
+		title = "Get the lead out!";
+		duration = 35 * 5;
 	}
 
 	override void onOpen()
@@ -252,10 +252,10 @@ Class GZC_LeadFeet : GZC_Effect
 
 class GZC_TopDownView : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Um ackshually...";
-		GZC_Effect.duration 35 * 60;
+		title = "Um ackshually...";
+		duration = 35 * 60;
 	}
 	
 	Array<Actor> cameras;
@@ -326,10 +326,10 @@ class GZC_TopDownView : GZC_Effect
 
 class GZC_Regeneration : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.title "Health Regeneration";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Health Regeneration";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldTick()
@@ -348,10 +348,10 @@ class GZC_Regeneration : GZC_Effect
 
 Class GZC_ShootingNotAllowed : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "No Shooting Allowed";
-		GZC_Effect.duration 35 * 5;
+		title = "No Shooting Allowed";
+		duration = 35 * 5;
 	}
 
 	override void onWorldTick()
@@ -372,10 +372,10 @@ Class GZC_ShootingNotAllowed : GZC_Effect
 
 Class GZC_GyroscopicCamera : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Gyroscopic camera roll";
-		GZC_Effect.duration 35 * 60 * 60;
+		title = "Gyroscopic camera roll";
+		duration = 35 * 60 * 60;
 	}
 
 	override void onWorldTick()
@@ -404,10 +404,10 @@ Class GZC_GyroscopicCamera : GZC_Effect
 
 Class GZC_PlayerIsAGhost : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Walk through actors";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Walk through actors";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onOpen()
@@ -435,11 +435,11 @@ Class GZC_PlayerIsAGhost : GZC_Effect
 
 Class GZC_NotQuiteInvulnerability : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Not quite invulnerability...";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.type GZC_Instant;
+		title = "Not quite invulnerability...";
+		duration = 35 * 60;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -455,10 +455,10 @@ Class GZC_NotQuiteInvulnerability : GZC_Effect
 
 Class GZC_EarthquakeMode : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Earthquake!";
-		GZC_Effect.duration 35 * 60;
+		title = "Earthquake!";
+		duration = 35 * 60;
 	}
 
 	override void onWorldTick()
@@ -474,10 +474,10 @@ Class GZC_EarthquakeMode : GZC_Effect
 
 Class GZC_AggressiveWeaponBobbing : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Whacky Wavey Inflatable Doomguy";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Whacky Wavey Inflatable Doomguy";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldTick()
@@ -508,10 +508,10 @@ Class GZC_AggressiveWeaponBobbing : GZC_Effect
 
 Class GZC_DoomThreeNightmare : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Doom 3 Nightmare";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Doom 3 Nightmare";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldTick()
@@ -534,10 +534,10 @@ Class GZC_DoomThreeNightmare : GZC_Effect
 
 Class GZC_Aimbot : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Aimbot";
-		GZC_Effect.duration 35 * 90;
+		title = "Aimbot";
+		duration = 35 * 90;
 	}
 
 	double distance;
@@ -591,18 +591,20 @@ Class GZC_Aimbot : GZC_Effect
 
 Class GZC_ReducedFieldOfView : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Reduced FOV";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Reduced FOV";
+		duration = 35 * 60 * 3;
 	}
 	
 	Array<Int> fovs;
 	
 	override bool verify()
 	{
-		let player = players[0].mo;
-		if (player.findInventory('GZC_QuakeFOV')) return false;
+		ThinkerIterator it = ThinkerIterator.create('GZC_QuakeFOV');
+		Thinker effect = it.next();
+		
+		if (effect) return false;
 		
 		return super.verify();
 	}
@@ -632,18 +634,20 @@ Class GZC_ReducedFieldOfView : GZC_Effect
 
 Class GZC_QuakeFOV : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Quake PRO";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Quake PRO";
+		duration = 35 * 60 * 3;
 	}
 	
 	Array<Int> fovs;
 	
 	override bool verify()
 	{
-		let player = players[0].mo;
-		if (player.findInventory('GZC_ReducedFieldOfView')) return false;
+		ThinkerIterator it = ThinkerIterator.create('GZC_ReducedFieldOfView');
+		Thinker effect = it.next();
+		
+		if (effect) return false;
 		
 		return super.verify();
 	}
@@ -673,11 +677,11 @@ Class GZC_QuakeFOV : GZC_Effect
 
 Class GZC_ThirdPerson : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Chase Cam";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		title = "Chase Cam";
+		duration = 35 * 60 * 3;
+		netmode = GZC_SinglePlayerOnly;
 	}
 	
 	Actor ChaseCam;
@@ -723,10 +727,10 @@ Class GZC_ThirdPerson : GZC_Effect
 
 Class GZC_DrowsyDooming : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Drowsy Dooming";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Drowsy Dooming";
+		duration = 35 * 60 * 2;
 	}
 
 	Array<int> prevHealth;
@@ -765,10 +769,10 @@ Class GZC_DrowsyDooming : GZC_Effect
 
 Class GZC_ShrunkTheDoomguy : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Honey, I shrunk the Doomguy!";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Honey, I shrunk the Doomguy!";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onOpen()
@@ -815,12 +819,12 @@ Class GZC_ShrunkTheDoomguy : GZC_Effect
 
 Class GZC_MorphIntoDog : GZC_MorphEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Dog mode!";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		title = "Dog mode!";
+		duration = 35 * 60 * 2;
+		ignore = false;
+		netmode = GZC_SinglePlayerOnly;
 	}
 	
 	override void onOpen()
@@ -848,12 +852,12 @@ Class GZC_MorphIntoDog : GZC_MorphEffect
 
 Class GZC_MorphIntoChicken : GZC_MorphEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "cockadoodledoo!";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		title = "cockadoodledoo!";
+		duration = 35 * 60 * 2;
+		ignore = false;
+		netmode = GZC_SinglePlayerOnly;
 	}
 
 	override void onOpen()
@@ -871,10 +875,10 @@ Class GZC_MorphIntoChicken : GZC_MorphEffect
 
 Class GZC_DoubleRunning : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Give it the gas!";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Give it the gas!";
+		duration = 35 * 60 * 2;
 	}
 
 	override void onOpen()
@@ -910,10 +914,10 @@ Class GZC_DoubleRunning : GZC_Effect
 
 Class GZC_DisableRunning : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "No need to rush";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "No need to rush";
+		duration = 35 * 60 * 2;
 	}
 
 	override void onOpen()
@@ -945,11 +949,11 @@ Class GZC_DisableRunning : GZC_Effect
 
 Class GZC_StartRecording : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Recording";
-		GZC_Effect.duration 35 * 15;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		title = "Recording";
+		duration = 35 * 15;
+		netmode = GZC_SinglePlayerOnly;
 	}
 
 	//stupid gzdoom not letting me use vector3's in an array
@@ -1025,10 +1029,10 @@ Class GZC_StartRecording : GZC_Effect
 
 Class GZC_ScardeyItems : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Pickups are scared of player";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Pickups are scared of player";
+		duration = 35 * 60 * 2;
 	}
 
 	override void onWorldTick()
@@ -1056,10 +1060,10 @@ Class GZC_ScardeyItems : GZC_Effect
 
 Class GZC_RightJoyconDrift : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Right Joycon drift";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Right Joycon drift";
+		duration = 35 * 60 * 2;
 	}
 
 	double drift;
@@ -1094,10 +1098,10 @@ Class GZC_RightJoyconDrift : GZC_Effect
 
 Class GZC_LeftJoyconDrift : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Left Joycon drift";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Left Joycon drift";
+		duration = 35 * 60 * 2;
 	}
 
 	double drift;
@@ -1128,11 +1132,11 @@ Class GZC_LeftJoyconDrift : GZC_Effect
 
 Class GZC_GameEndPlayer : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Player commits suicide";
-		GZC_Effect.duration 35;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		title = "Player commits suicide";
+		duration = 35;
+		netmode = GZC_SinglePlayerOnly;
 	}
 	
 	bool screm;
@@ -1158,11 +1162,11 @@ Class GZC_GameEndPlayer : GZC_Effect
 
 Class GZC_FakeEndPlayer : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Player fakes suicide";
-		GZC_Effect.duration 35;
-		GZC_Effect.NetMode GZC_SinglePlayerOnly;
+		title = "Player fakes suicide";
+		duration = 35;
+		netmode = GZC_SinglePlayerOnly;
 	}
 	
 	bool screm;
@@ -1192,10 +1196,10 @@ Class GZC_FakeEndPlayer : GZC_Effect
 
 Class GZC_CantStopFiring : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Can't stop shooting!";
-		GZC_Effect.duration 35 * 60;
+		title = "Can't stop shooting!";
+		duration = 35 * 60;
 	}
 
 	override void onWorldTick()
@@ -1213,10 +1217,10 @@ Class GZC_CantStopFiring : GZC_Effect
 
 Class GZC_NoPlayerFriction : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disabled player friction";
-		GZC_Effect.duration (35 * 60 * 2) + (35 * 30);
+		title = "Disabled player friction";
+		duration = (35 * 60 * 2) + (35 * 30);
 	}
 
 	override void onOpen()
@@ -1240,10 +1244,10 @@ Class GZC_NoPlayerFriction : GZC_Effect
 
 Class GZC_FallDamage : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Player takes fall damage";
-		GZC_Effect.duration (35 * 60 * 2) + (35 * 30);
+		title = "Player takes fall damage";
+		duration = (35 * 60 * 2) + (35 * 30);
 	}
 
 	override void onOpen()
@@ -1267,11 +1271,11 @@ Class GZC_FallDamage : GZC_Effect
 
 Class GZC_TeleportPlayer : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Teleport to random sector";
-		GZC_Effect.duration 35 * 90;
-		GZC_Effect.type GZC_Instant;
+		title = "Teleport to random sector";
+		duration = 35 * 90;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
