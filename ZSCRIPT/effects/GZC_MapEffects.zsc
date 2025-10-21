@@ -1,9 +1,9 @@
 class GZC_LineActionsAddEffects : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Line actions randomly add effects";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Line actions randomly add effects";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldLinePreActivated(WorldEvent _event)
@@ -22,11 +22,11 @@ class GZC_LineActionsAddEffects : GZC_Effect
 
 Class GZC_AbstractHell : GZC_TextureSwapEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "It's an abstract kind of hell";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "It's an abstract kind of hell";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 	
 	Array<String> textures;
@@ -60,7 +60,7 @@ Class GZC_AbstractHell : GZC_TextureSwapEffect
 	
 	override void onClose()
 	{
-		resetMap();
+		resetMapVisuals();
 	}
 	
 	void applyeffect()
@@ -110,10 +110,10 @@ Class GZC_AbstractHell : GZC_TextureSwapEffect
 
 Class GZC_ShootToActivate : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Shoot to activate";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Shoot to activate";
+		duration = 35 * 60 * 3;
 	}
 
 	Array<Line> lines;
@@ -151,10 +151,10 @@ Class GZC_ShootToActivate : GZC_Effect
 
 Class GZC_LockedIn : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "There is no escape...";
-		GZC_Effect.duration 35 * 60;
+		title = "There is no escape...";
+		duration = 35 * 60;
 	}
 
 	override void onWorldLinePreActivated(WorldEvent event)
@@ -172,10 +172,10 @@ Class GZC_LockedIn : GZC_Effect
 
 Class GZC_FaultySwitches : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Faulty Doors and Switches";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Faulty Doors and Switches";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldLinePreActivated(WorldEvent event)
@@ -193,10 +193,10 @@ Class GZC_FaultySwitches : GZC_Effect
 
 Class GZC_KryptoniteFog : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Superman 64";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Superman 64";
+		duration = 35 * 60 * 3;
 	}
 
 	Array<int> foglevels;
@@ -241,10 +241,10 @@ Class GZC_KryptoniteFog : GZC_Effect
 
 Class GZC_MurderInTheDark : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Murder In The Dark";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Murder In The Dark";
+		duration = 35 * 60 * 3;
 	}
 
 	Array<Int> lights;
@@ -287,11 +287,11 @@ Class GZC_MurderInTheDark : GZC_Effect
 
 Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Please install Counter Strike";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "Please install Counter Strike";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	override void onOpen()
@@ -308,7 +308,7 @@ Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
 	
 	override void onClose()
 	{
-		resetMap();
+		resetMapVisuals();
 	}
 	
 	void applyeffect()
@@ -352,11 +352,11 @@ Class GZC_SetAllWallsToSourceMissing : GZC_TextureSwapEffect
 
 Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "MyFirstMap.wad";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "MyFirstMap.wad";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	override void onOpen()
@@ -373,7 +373,7 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 	
 	override void onClose()
 	{
-		resetMap();
+		resetMapVisuals();
 	}
 
 	void applyeffect()
@@ -424,11 +424,11 @@ Class GZC_SetAllWallsToStartan : GZC_TextureSwapEffect
 
 Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Everyone's favorite texture";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "Everyone's favorite texture";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 	
 	override void onOpen()
@@ -445,7 +445,7 @@ Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 	
 	override void onClose()
 	{
-		resetMap();
+		resetMapVisuals();
 	}
 
 	void applyeffect()
@@ -489,11 +489,11 @@ Class GZC_SetAllWallsToFireblu : GZC_TextureSwapEffect
 
 Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Doom Alpha 0.2";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "Doom Alpha 0.2";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	override void onOpen()
@@ -510,7 +510,7 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 	
 	override void onClose()
 	{
-		resetMap();
+		resetMapVisuals();
 	}
 
 	void applyeffect()
@@ -556,11 +556,11 @@ Class GZC_SetAllWallsToAlpha : GZC_TextureSwapEffect
 
 Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "I suck at making maps";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "I suck at making maps";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	override void onOpen()
@@ -577,7 +577,7 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 	
 	override void onClose()
 	{
-		resetMap();
+		resetMapVisuals();
 	}
 
 	void applyeffect()
@@ -621,11 +621,11 @@ Class GZC_SetAllWallsToISuck : GZC_TextureSwapEffect
 
 Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Testing... 1, 2, 3, testing...";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "Testing... 1, 2, 3, testing...";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	override void onOpen()
@@ -642,7 +642,7 @@ Class GZC_SetAllWallsToNoFlat : GZC_TextureSwapEffect
 	
 	override void onClose()
 	{
-		resetMap();
+		resetMapVisuals();
 	}
 
 	void applyeffect()
@@ -692,10 +692,10 @@ Class GZC_DiscoSkybox : GZC_Effect
 	Array<TextureID> textures;
 	int interval;
 	
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disco Skybox";
-		GZC_Effect.duration 35 * 60;
+		title = "Disco Skybox";
+		duration = 35 * 60;
 	}
 	
 	override void onOpen()
@@ -735,11 +735,11 @@ Class GZC_DiscoSkybox : GZC_Effect
 
 Class GZC_SuperSecretsEverywhere : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Everything is a secret";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.type GZC_Instant;
+		title = "Everything is a secret";
+		duration = 35 * 60;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -766,10 +766,10 @@ Class GZC_SuperSecretsEverywhere : GZC_Effect
 
 Class GZC_IncreasedSectorFriction : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Increased Sector Friction";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Increased Sector Friction";
+		duration = 35 * 60 * 3;
 	}
 
 	Array<Sector> applied;
@@ -810,10 +810,10 @@ Class GZC_IncreasedSectorFriction : GZC_Effect
 
 Class GZC_FaultyAutomap : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disabled Automap";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Disabled Automap";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void DrawEffect(RenderEvent _event)
@@ -827,11 +827,11 @@ Class GZC_FaultyAutomap : GZC_Effect
 
 Class GZC_TheFloorIsLava : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "The floor is lava!";
-		GZC_Effect.duration 35 * 10;
-		GZC_Effect.type GZC_Instant;
+		title = "The floor is lava!";
+		duration = 35 * 10;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -851,11 +851,11 @@ Class GZC_TheFloorIsLava : GZC_Effect
 
 Class GZC_TheFloorIsNukage : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "The floor is nukage!";
-		GZC_Effect.duration 35 * 10;
-		GZC_Effect.type GZC_Instant;
+		title = "The floor is nukage!";
+		duration = 35 * 10;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -874,11 +874,11 @@ Class GZC_TheFloorIsNukage : GZC_Effect
 
 Class GZC_TheFloorIsSludge : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "The floor is sludge!";
-		GZC_Effect.duration 35 * 10;
-		GZC_Effect.type GZC_Instant;
+		title = "The floor is sludge!";
+		duration = 35 * 10;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -897,10 +897,10 @@ Class GZC_TheFloorIsSludge : GZC_Effect
 
 Class GZC_ShuffleKeyTextures : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Shuffle key color textures";
-		GZC_Effect.duration 35 * 5;
+		title = "Shuffle key color textures";
+		duration = 35 * 5;
 	}
 
 	override void onWorldTick()
@@ -951,11 +951,11 @@ Class GZC_ShuffleKeyTextures : GZC_Effect
 
 Class GZC_MisalignAllTextures : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Misalign textures";
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.type GZC_Instant;
+		title = "Misalign textures";
+		duration = 35 * 30;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
