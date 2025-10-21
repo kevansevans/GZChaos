@@ -1,8 +1,8 @@
 class GZC_DoomImpAttackEffect : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 	
 	override bool verify()
@@ -14,10 +14,10 @@ class GZC_DoomImpAttackEffect : GZC_Effect
 
 class GZC_DoomImpRepeater : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps repeat fire";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Imps repeat fire";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -51,11 +51,11 @@ class GZC_DoomImpRepeater : GZC_Effect
 
 class GZC_DoomImpFireBullets : GZC_DoomImpAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps fire bullets";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Imps fire bullets";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -73,11 +73,11 @@ class GZC_DoomImpFireBullets : GZC_DoomImpAttackEffect
 
 class GZC_DoomImpFireShotgun : GZC_DoomImpAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps fire shotguns";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Imps fire shotguns";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -95,11 +95,11 @@ class GZC_DoomImpFireShotgun : GZC_DoomImpAttackEffect
 
 class GZC_DoomImpFireBaronBalls : GZC_DoomImpAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps fire Baron Balls";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Imps fire Baron Balls";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -117,11 +117,11 @@ class GZC_DoomImpFireBaronBalls : GZC_DoomImpAttackEffect
 
 class GZC_DoomImpFirePlasma : GZC_DoomImpAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps fire plasma";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Imps fire plasma";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -139,11 +139,11 @@ class GZC_DoomImpFirePlasma : GZC_DoomImpAttackEffect
 
 class GZC_DoomImpFireMissiles : GZC_DoomImpAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps fire missiles";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Imps fire missiles";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -161,11 +161,11 @@ class GZC_DoomImpFireMissiles : GZC_DoomImpAttackEffect
 
 class GZC_DoomImpFireRockets : GZC_DoomImpAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps fire Rockets";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Imps fire Rockets";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -183,11 +183,11 @@ class GZC_DoomImpFireRockets : GZC_DoomImpAttackEffect
 
 class GZC_DoomImpFireCacoballs : GZC_DoomImpAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps fire Caco-balls";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Imps fire Caco-balls";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -205,11 +205,11 @@ class GZC_DoomImpFireCacoballs : GZC_DoomImpAttackEffect
 
 class GZC_DoomImpFireLostSouls : GZC_DoomImpAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Imps fire Lost Souls";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Imps fire Lost Souls";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)

@@ -1,8 +1,8 @@
 class GZC_PainElementalAttackEffect : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 	
 	override bool verify()
@@ -36,11 +36,11 @@ class GZC_PainElementalAttackEffect : GZC_Effect
 		double otherradius = GetDefaultByType(_type).radius;
 		double prestep = 4 + (_grumpy.radius + otherradius) * 1.5;
 
-		Vector2 move = AngleToVector(_grumpy.angle, prestep);
+		Vector2 move = _grumpy.target.AngleToVector(_grumpy.angle, prestep);
 		Vector3 spawnpos = _grumpy.pos + (0, 0, 8);
 		Vector3 destpos = spawnpos + move;
 
-		Actor other = Spawn(_type, destpos, ALLOW_REPLACE);
+		Actor other = _grumpy.Spawn(_type, destpos, ALLOW_REPLACE);
 		other.master = _grumpy;
 		
 		if (other is "LostSoul") other.A_SkullAttack();
@@ -53,10 +53,10 @@ class GZC_PainElementalAttackEffect : GZC_Effect
 
 class GZC_PainElementalRepeater : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Pain Elementals repeat attack";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Pain Elementals repeat attack";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -91,11 +91,11 @@ class GZC_PainElementalRepeater : GZC_Effect
 
 class GZC_PainElementalPukesEnemies : GZC_PainElementalAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Pain Elementals puke random enemies";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Pain Elementals puke random enemies";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	Array<Class<Actor> > monsters;
@@ -115,7 +115,7 @@ class GZC_PainElementalPukesEnemies : GZC_PainElementalAttackEffect
 			if (!def.bIsMonster) continue;
 			if (def.bStealth) continue;
 			
-			if (def is "GZC_JitterSkull") continue;
+			if (def.getClassName() == "GZC_JitterSkull") continue;
 			
 			let spr = def.spawnstate.getSpriteTexture(0);
 			let sprname = TexMan.getName(spr);
@@ -144,11 +144,11 @@ class GZC_PainElementalPukesEnemies : GZC_PainElementalAttackEffect
 
 class GZC_PainElementalPukesBarrels : GZC_PainElementalAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Pain Elementals puke Explosive Barrels";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Pain Elementals puke Explosive Barrels";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)

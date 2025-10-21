@@ -1,9 +1,9 @@
 class GZC_ArmedWithBFG : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Armed # monsters with the BFG9000";
-		GZC_Effect.duration 35 * 60 * 5;
+		title = "Armed # monsters with the BFG9000";
+		duration = 35 * 60 * 5;
 	}
 	
 	Array<Actor> chosen;
@@ -84,10 +84,10 @@ class GZC_ArmedWithBFG : GZC_Effect
 
 class GZC_ArmedWithRailgun : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Armed # monsters with a railgun";
-		GZC_Effect.duration 35 * 60 * 5;
+		title = "Armed # monsters with a railgun";
+		duration = 35 * 60 * 5;
 	}
 	
 	Array<Actor> chosen;

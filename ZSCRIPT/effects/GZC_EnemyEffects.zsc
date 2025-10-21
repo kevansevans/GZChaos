@@ -1,9 +1,9 @@
 Class GZC_BarrelsOfNotSoMuchFun : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Barrels of not so much fun";
-		GZC_Effect.duration 35 * 10;
+		title = "Barrels of not so much fun";
+		duration = 35 * 10;
 	}
 
 	override void onOpen()
@@ -23,10 +23,10 @@ Class GZC_BarrelsOfNotSoMuchFun : GZC_Effect
 
 class GZC_GiantEnemies : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Giant enemies";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Giant enemies";
+		duration = 35 * 60 * 3;
 	}
 	
 	double scale;
@@ -82,11 +82,11 @@ class GZC_GiantEnemies : GZC_Effect
 
 Class GZC_ZeroEnemySpeed : GZC_EnemySpeedEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "0x Speed Monsters";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "0x Speed Monsters";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	void applyeffect(Actor _mo)
@@ -139,10 +139,10 @@ Class GZC_ZeroEnemySpeed : GZC_EnemySpeedEffect
 
 Class GZC_FriendlyArchviles : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Friendly Archviles";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Friendly Archviles";
+		duration = 35 * 60 * 3;
 	}
 	
 	override bool verify()
@@ -196,11 +196,11 @@ Class GZC_FriendlyArchviles : GZC_Effect
 
 Class GZC_NoFunAllowed : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "No fun allowed";
-		GZC_Effect.duration 35 * 60 * 5;
-		GZC_Effect.type GZC_Instant;
+		title = "No fun allowed";
+		duration = 35 * 60 * 5;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -226,11 +226,11 @@ Class GZC_NoFunAllowed : GZC_Effect
 
 Class GZC_ZergRush : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zerg rush";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.type GZC_Instant;
+		title = "Zerg rush";
+		duration = 35 * 60;
+		type = GZC_Instant;
 	}
 
 	Actor camera;
@@ -285,10 +285,10 @@ Class GZC_ZergRush : GZC_Effect
 
 Class GZC_PlutoniaExperience : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "The Plutonia Experience";
-		GZC_Effect.duration 35 * 30;
+		title = "The Plutonia Experience";
+		duration = 35 * 30;
 	}
 	
 	void applyeffect()
@@ -333,10 +333,10 @@ Class GZC_PlutoniaExperience : GZC_Effect
 
 Class GZC_ElementOfPain : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Element Of Pain";
-		GZC_Effect.duration 35 * 30;
+		title = "Element Of Pain";
+		duration = 35 * 30;
 	}
 	
 	void iterate()
@@ -382,10 +382,10 @@ Class GZC_ElementOfPain : GZC_Effect
 
 Class GZC_MegaHurts : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "200 Mega Hurts";
-		GZC_Effect.duration 35 * 30;
+		title = "200 Mega Hurts";
+		duration = 35 * 30;
 	}
 
 	void iterate()
@@ -430,10 +430,10 @@ Class GZC_MegaHurts : GZC_Effect
 
 Class GZC_DiminifiedDamage : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Diminified Damage";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Diminified Damage";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldThingDamaged(WorldEvent _event)
@@ -464,10 +464,10 @@ Class GZC_DiminifiedDamage : GZC_Effect
 
 Class GZC_EmbiggeningDamage : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Embiggening Damage";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Embiggening Damage";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldThingDamaged(WorldEvent _event)
@@ -498,11 +498,11 @@ Class GZC_EmbiggeningDamage : GZC_Effect
 
 Class GZC_Mitosis : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Mitosis";
-		GZC_Effect.duration 35;
-		GZC_Effect.type GZC_Instant;
+		title = "Mitosis";
+		duration = 35;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -558,10 +558,10 @@ Class GZC_Mitosis : GZC_Effect
 
 Class GZC_RubberEnemies : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Projectiles bounce off enemies";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Projectiles bounce off enemies";
+		duration = 35 * 60 * 3;
 	}
 	
 	void iterate()
@@ -613,10 +613,10 @@ Class GZC_RubberEnemies : GZC_Effect
 
 Class GZC_UnfriendlyFire : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "(un)Friendly Fire";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "(un)Friendly Fire";
+		duration = 35 * 60 * 3;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -669,10 +669,10 @@ Class GZC_UnfriendlyFire : GZC_Effect
 
 Class GZC_NoSplashDamage : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Ineffective Splash Damage";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Ineffective Splash Damage";
+		duration = 35 * 60 * 3;
 	}
 
 	void applyeffect(Actor mo)
@@ -726,11 +726,11 @@ Class GZC_NoSplashDamage : GZC_Effect
 
 Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "??? Speed Monsters";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "??? Speed Monsters";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -783,11 +783,11 @@ Class GZC_RandomEnemySpeed : GZC_EnemySpeedEffect
 
 Class GZC_NegativeEnemySpeed : GZC_EnemySpeedEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "-1x Speed Monsters";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "-1x Speed Monsters";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	void applyeffect(Actor _mo)
@@ -840,11 +840,11 @@ Class GZC_NegativeEnemySpeed : GZC_EnemySpeedEffect
 
 Class GZC_HalfEnemySpeed : GZC_EnemySpeedEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "1/2 Speed Monsters";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "1/2 Speed Monsters";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	void applyeffect(Actor _mo)
@@ -883,11 +883,11 @@ Class GZC_HalfEnemySpeed : GZC_EnemySpeedEffect
 
 Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "2x Speed Monsters";
-		GZC_Effect.duration 35 * 60 * 2;
-		GZC_Effect.ignore false;
+		title = "2x Speed Monsters";
+		duration = 35 * 60 * 2;
+		ignore = false;
 	}
 
 	void applyeffect(Actor _mo)
@@ -926,10 +926,10 @@ Class GZC_DoubleEnemySpeed : GZC_EnemySpeedEffect
 
 Class GZC_AAAAAHHHHH : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "AAAAAHHHHH";
-		GZC_Effect.duration 35 * 5;
+		title = "AAAAAHHHHH";
+		duration = 35 * 5;
 	}
 
 	override void onOpen()
@@ -964,10 +964,10 @@ Class GZC_AAAAAHHHHH : GZC_Effect
 
 Class GZC_BarrelsOFun : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Barrels o' fun";
-		GZC_Effect.duration 35 * 10;
+		title = "Barrels o' fun";
+		duration = 35 * 10;
 	}
 
 	override void onOpen()
@@ -987,10 +987,10 @@ Class GZC_BarrelsOFun : GZC_Effect
 
 Class GZC_OneTicMonsters : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "SV_Fastmonsters 1";
-		GZC_Effect.duration 35 * 60;
+		title = "SV_Fastmonsters 1";
+		duration = 35 * 60;
 	}
 
 	override void onWorldTick()
@@ -1009,10 +1009,10 @@ Class GZC_OneTicMonsters : GZC_Effect
 
 Class GZC_FastMonsters : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Nightmare Monsters";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Nightmare Monsters";
+		duration = 35 * 60 * 3;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -1072,10 +1072,10 @@ Class GZC_FastMonsters : GZC_Effect
 
 Class GZC_NotTheBees : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Not the bees!";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Not the bees!";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldThingDied(WorldEvent _event)
@@ -1100,10 +1100,10 @@ Class GZC_NotTheBees : GZC_Effect
 
 Class GZC_ShuffleMonsters : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Shuffle Monsters";
-		GZC_Effect.duration 35 * 5;
+		title = "Shuffle Monsters";
+		duration = 35 * 5;
 	}
 
 	Array<Actor> monsters;
@@ -1146,10 +1146,10 @@ Class GZC_ShuffleMonsters : GZC_Effect
 
 Class GZC_NoMoreInfighting : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Disable infighting";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Disable infighting";
+		duration = 35 * 60 * 3;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -1202,10 +1202,10 @@ Class GZC_NoMoreInfighting : GZC_Effect
 
 Class GZC_ExplosionOnDeath : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Explosive Deaths";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Explosive Deaths";
+		duration = 35 * 60 * 3;
 	}
 
 	override void onWorldThingDied(WorldEvent _event)
@@ -1221,7 +1221,7 @@ Class GZC_ExplosionOnDeath : GZC_Effect
 
 Class Kablooie : Actor
 {
-	default
+	Default
 	{
 		-RocketTrail;
 		+NoGravity;
@@ -1247,10 +1247,10 @@ Class GZC_RussianDollEnemies : GZC_Effect
 {
 	double scalefactor;
 	
-	default
+	override void init()
 	{
-		GZC_Effect.title "Matryoshka";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Matryoshka";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onOpen()
@@ -1277,10 +1277,10 @@ Class GZC_RussianDollEnemies : GZC_Effect
 
 Class GZC_AggressiveMissileMore : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Aggressive Enemies";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Aggressive Enemies";
+		duration = 35 * 60 * 3;
 	}
 
 	void applyeffect(Actor _mo)
@@ -1333,11 +1333,11 @@ Class GZC_AggressiveMissileMore : GZC_Effect
 
 Class GZC_YouveBeenStruck : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cyberfuck";
-		GZC_Effect.duration 35 * 30;
-		GZC_Effect.type GZC_Instant;
+		title = "Cyberfuck";
+		duration = 35 * 30;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -1359,10 +1359,10 @@ Class GZC_YouveBeenStruck : GZC_Effect
 
 Class GZC_BetaSkulls : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Beta Lost Souls";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Beta Lost Souls";
+		duration = 35 * 60 * 3;
 	}
 
 	override bool verify()
@@ -1421,10 +1421,10 @@ Class GZC_BetaSkulls : GZC_Effect
 
 Class GZC_FullPainChances : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Enemies always flinch";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Enemies always flinch";
+		duration = 35 * 60 * 3;
 	}
 
 	void applyeffect(Actor _mo)
@@ -1475,8 +1475,10 @@ Class GZC_FullPainChances : GZC_Effect
 	
 	override bool verify()
 	{
-		let player = players[0].mo;
-		if (player.findInventory('GZC_ZeroPainChances')) return false;
+		ThinkerIterator it = ThinkerIterator.create('GZC_ZeroPainChances');
+		Thinker effect = it.next();
+		
+		if (effect) return false;
 		
 		return super.verify();
 	}
@@ -1484,10 +1486,10 @@ Class GZC_FullPainChances : GZC_Effect
 
 Class GZC_ZeroPainChances : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Enemies never flinch";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Enemies never flinch";
+		duration = 35 * 60 * 3;
 	}
 	
 	void applyeffect(Actor _mo)
@@ -1539,8 +1541,10 @@ Class GZC_ZeroPainChances : GZC_Effect
 	
 	override bool verify()
 	{
-		let player = players[0].mo;
-		if (player.findInventory('GZC_FullPainChances')) return false;
+		ThinkerIterator it = ThinkerIterator.create('GZC_FullPainChances');
+		Thinker effect = it.next();
+		
+		if (effect) return false;
 		
 		return super.verify();
 	}
@@ -1548,10 +1552,10 @@ Class GZC_ZeroPainChances : GZC_Effect
 
 Class GZC_InverseFlyingRules : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Inverted flying rules";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Inverted flying rules";
+		duration = 35 * 60 * 3;
 	}
 
 	void applyeffect(Actor _mo)
@@ -1607,11 +1611,11 @@ Class GZC_InverseFlyingRules : GZC_Effect
 
 Class GZC_AllMonstersWakeUp : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "All monsters wake up";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.type GZC_Instant;
+		title = "All monsters wake up";
+		duration = 35 * 60;
+		type = GZC_Instant;
 	}
 
 	override void onOpen()
@@ -1636,11 +1640,11 @@ Class GZC_AllMonstersWakeUp : GZC_Effect
 
 Class GZC_ArachnotronGrowthSpurt : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Arachnotron Growth Spurt";
-		GZC_Effect.duration 35 * 60;
-		GZC_Effect.type GZC_Instant;
+		title = "Arachnotron Growth Spurt";
+		duration = 35 * 60;
+		type = GZC_Instant;
 	}
 	
 	override bool verify()
@@ -1676,10 +1680,10 @@ Class GZC_ArachnotronGrowthSpurt : GZC_Effect
 
 Class GZC_FrictionlessEnemies : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Enemies have no friction";
-		GZC_Effect.duration (35 * 60 * 2) + (35 * 30);
+		title = "Enemies have no friction";
+		duration = (35 * 60 * 2) + (35 * 30);
 	}
 
 	void applyeffect(Actor _mo)
@@ -1739,10 +1743,10 @@ Class GZC_FrictionlessEnemies : GZC_Effect
 
 Class GZC_AnkleBiterEnemies : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Ankle Biters";
-		GZC_Effect.duration 35 * 60 * 2;
+		title = "Ankle Biters";
+		duration = 35 * 60 * 2;
 	}
 
 	void applyeffect(Actor _mo)
@@ -1800,10 +1804,10 @@ Class GZC_AnkleBiterEnemies : GZC_Effect
 
 Class GZC_StatueEnemies : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Statue enemies";
-		GZC_Effect.duration 35 * 30;
+		title = "Statue enemies";
+		duration = 35 * 30;
 	}
 
 	void iterate()
@@ -1869,10 +1873,10 @@ Class GZC_StatueEnemies : GZC_Effect
 
 Class GZC_StealthMonsters : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Stealth Monsters";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Stealth Monsters";
+		duration = 35 * 60 * 3;
 	}
 
 	void applyeffect(Actor _mo)
@@ -1927,10 +1931,10 @@ Class GZC_StealthMonsters : GZC_Effect
 
 Class GZC_NightmareRespawns : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Respawning monsters";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Respawning monsters";
+		duration = 35 * 60 * 3;
 	}
 
 	override bool verify()
@@ -1991,10 +1995,10 @@ Class GZC_NightmareRespawns : GZC_Effect
 
 Class GZC_SpawnGreatGodImp : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "The Great God Imp";
-		GZC_Effect.duration 35 * 60;
+		title = "The Great God Imp";
+		duration = 35 * 60;
 	}
 
 	Array<DoomImp> imps;

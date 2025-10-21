@@ -1,8 +1,8 @@
 class GZC_ZombiemanAttackEffect : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 	
 	override bool verify()
@@ -14,10 +14,10 @@ class GZC_ZombiemanAttackEffect : GZC_Effect
 
 class GZC_ZombiemanRepeater : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen repeat fire";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Zombiemen repeat fire";
+		duration = 35 * 60 * 3;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -54,11 +54,11 @@ class GZC_ZombiemanRepeater : GZC_Effect
 
 class GZC_ZombiemenFireShotguns : GZC_ZombiemanAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen fire shotguns";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Zombiemen fire shotguns";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -75,11 +75,11 @@ class GZC_ZombiemenFireShotguns : GZC_ZombiemanAttackEffect
 
 class GZC_ZombiemenFireFireballs : GZC_ZombiemanAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen shoot fireballs";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Zombiemen shoot fireballs";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -95,11 +95,11 @@ class GZC_ZombiemenFireFireballs : GZC_ZombiemanAttackEffect
 
 class GZC_ZombiemenFireBaronballs : GZC_ZombiemanAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen fire Baron balls";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Zombiemen fire Baron balls";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -115,11 +115,11 @@ class GZC_ZombiemenFireBaronballs : GZC_ZombiemanAttackEffect
 
 class GZC_ZombiemanFirePlasma : GZC_ZombiemanAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen fire plasma";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Zombiemen fire plasma";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -135,11 +135,11 @@ class GZC_ZombiemanFirePlasma : GZC_ZombiemanAttackEffect
 
 class GZC_ZombiemanFireMissiles : GZC_ZombiemanAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen fire missiles";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Zombiemen fire missiles";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -155,11 +155,11 @@ class GZC_ZombiemanFireMissiles : GZC_ZombiemanAttackEffect
 
 class GZC_ZombiemanFireRockets : GZC_ZombiemanAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen fire rockets";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Zombiemen fire rockets";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -175,11 +175,11 @@ class GZC_ZombiemanFireRockets : GZC_ZombiemanAttackEffect
 
 class GZC_ZombiemanFireCacoballs : GZC_ZombiemanAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen fire Caco-balls";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Zombiemen fire Caco-balls";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)
@@ -195,11 +195,11 @@ class GZC_ZombiemanFireCacoballs : GZC_ZombiemanAttackEffect
 
 class GZC_ZombiemanFireLostSouls : GZC_ZombiemanAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Zombiemen fire Lost Souls";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Zombiemen fire Lost Souls";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 	
 	override bool onWorldHitscanPreFired(WorldEvent _event)

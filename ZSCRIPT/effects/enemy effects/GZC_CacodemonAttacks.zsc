@@ -1,8 +1,8 @@
 class GZC_CacodemonAttackEffect : GZC_Effect
 {
-	Default
+	override void init()
 	{
-		GZC_Effect.ignore true;
+		ignore = true;
 	}
 	
 	override bool verify()
@@ -14,10 +14,10 @@ class GZC_CacodemonAttackEffect : GZC_Effect
 
 class GZC_CacodemonRepeater : GZC_Effect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemons repeat fire";
-		GZC_Effect.duration 35 * 60 * 3;
+		title = "Cacodemons repeat fire";
+		duration = 35 * 60 * 3;
 	}
 	
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -51,11 +51,11 @@ class GZC_CacodemonRepeater : GZC_Effect
 
 class GZC_CacodemonFireBullets : GZC_CacodemonAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemon fire bullets";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Cacodemon fire bullets";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -73,11 +73,11 @@ class GZC_CacodemonFireBullets : GZC_CacodemonAttackEffect
 
 class GZC_CacodemonFireShotgun : GZC_CacodemonAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemon fire shotguns";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Cacodemon fire shotguns";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -95,11 +95,11 @@ class GZC_CacodemonFireShotgun : GZC_CacodemonAttackEffect
 
 class GZC_CacodemonFireBaronBalls : GZC_CacodemonAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemon fire Baron Balls";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Cacodemon fire Baron Balls";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -116,11 +116,11 @@ class GZC_CacodemonFireBaronBalls : GZC_CacodemonAttackEffect
 
 class GZC_CacodemonFirePlasma : GZC_CacodemonAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemon fire plasma";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Cacodemon fire plasma";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -138,11 +138,11 @@ class GZC_CacodemonFirePlasma : GZC_CacodemonAttackEffect
 
 class GZC_CacodemonFireMissiles : GZC_CacodemonAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemon fire missiles";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Cacodemon fire missiles";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -160,11 +160,11 @@ class GZC_CacodemonFireMissiles : GZC_CacodemonAttackEffect
 
 class GZC_CacodemonFireRockets : GZC_CacodemonAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemon fire Rockets";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Cacodemon fire Rockets";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -181,11 +181,11 @@ class GZC_CacodemonFireRockets : GZC_CacodemonAttackEffect
 
 class GZC_CacodemonShootFireballs : GZC_CacodemonAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemon shoot fireballs";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Cacodemon shoot fireballs";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
@@ -202,11 +202,11 @@ class GZC_CacodemonShootFireballs : GZC_CacodemonAttackEffect
 
 class GZC_CacodemonFireLostSouls : GZC_CacodemonAttackEffect
 {
-	default
+	override void init()
 	{
-		GZC_Effect.title "Cacodemon fire Lost Souls";
-		GZC_Effect.duration 35 * 60 * 3;
-		GZC_Effect.ignore false;
+		title = "Cacodemon fire Lost Souls";
+		duration = 35 * 60 * 3;
+		ignore = false;
 	}
 
 	override void onWorldThingSpawn(WorldEvent _event)
