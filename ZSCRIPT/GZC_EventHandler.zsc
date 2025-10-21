@@ -196,6 +196,7 @@ class GZC_EventHandler : StaticEventHandler
 				
 				foreach(effect : active)
 				{
+					if (!effect) continue;
 					if (effect.life > effect.duration) continue;
 					effect.onUiTick();
 				}
