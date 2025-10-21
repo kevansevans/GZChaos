@@ -22,6 +22,7 @@ class GZC_RollRandomEffects : GZC_Effect
 	{
 		title = "Roll # effects";
 		type = GZC_Instant;
+		duration = 35 * 5;
 	}
 	
 	override void onOpen()
