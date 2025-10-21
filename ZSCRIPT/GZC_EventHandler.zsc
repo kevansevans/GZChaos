@@ -377,6 +377,7 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		foreach (effect : active)
 		{
+			if (!effect) continue;
 			if (effect.deleteme)
 			{
 				active.delete(active.find(effect), 1);
