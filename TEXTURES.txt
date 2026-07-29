@@ -1,2 +1,175 @@
 sprite SNAIL0, 16, 16
 {}
+
+Texture ZC_DOOM00, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM00, 0, 0
+}
+
+Texture ZC_DOOM01, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM01, 0, 0
+}
+
+Texture ZC_DOOM02, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM02, 0, 0
+}
+
+Texture ZC_DOOM03, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM03, 0, 0
+}
+
+Texture ZC_DOOM04, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM04, 0, 0
+}
+
+Texture ZC_DOOM05, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM05, 0, 0
+}
+
+Texture ZC_DOOM06, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM06, 0, 0
+}
+
+Texture ZC_DOOM07, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM07, 0, 0
+}
+
+Texture ZC_DOOM08, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM08, 0, 0
+}
+
+Texture ZC_DOOM09, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM09, 0, 0
+}
+
+Texture ZC_DOOM10, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM10, 0, 0
+}
+Texture ZC_DOOM11, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM11, 0, 0
+}
+Texture ZC_DOOM12, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM01, 0, 0
+}
+Texture ZC_DOOM01, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM12, 0, 0
+}
+Texture ZC_DOOM13, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM13, 0, 0
+}
+Texture ZC_DOOM14, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM14, 0, 0
+}
+Texture ZC_DOOM15, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM15, 0, 0
+}
+Texture ZC_DOOM16, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM16, 0, 0
+}
+Texture ZC_DOOM17, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM17, 0, 0
+}
+Texture ZC_DOOM18, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM18, 0, 0
+}
+Texture ZC_DOOM19, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM19, 0, 0
+}
+Texture ZC_DOOM20, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM20, 0, 0
+}
+Texture ZC_DOOM21, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM21, 0, 0
+}
+Texture ZC_DOOM22, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM22, 0, 0
+}
+Texture ZC_DOOM23, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM23, 0, 0
+}
+Texture ZC_DOOM24, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM24, 0, 0
+}
+Texture ZC_DOOM25, 369, 180
+{
+	XScale 3
+	YScale 3
+	Patch M_DOOM25, 0, 0
+}
