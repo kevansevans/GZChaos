@@ -18,6 +18,34 @@
 	}
 }*/
 
+class GZC_NightVision : GZC_Effect
+{
+	override void init()
+	{
+		title = "Night vision";
+		desc = "Forces UZDoom's night vision mode";
+		duration = 35 * 60 * 3;
+	}
+	
+	override void onOpen()
+	{
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			iplayer.SetFullBrightMode(FBMODE_NIGHTVISION, true);
+		}
+	}
+	
+	override void onClose()
+	{
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			iplayer.SetFullBrightMode(FBMODE_Default, false);
+		}
+	}
+}
+
 Class GZC_IncreaseCurrentVelocity : GZC_Effect
 {
 	override void init()
