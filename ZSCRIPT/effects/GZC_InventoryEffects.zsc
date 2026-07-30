@@ -1,3 +1,35 @@
+class GZC_LootSplosion : GZC_Effect
+{
+	override void init()
+	{
+		title = "Lootsplosion";
+		desc = "Dramatically multiplies the amout of drops an enemy gives";
+		duration = 35 * 60 * 10;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		let items = _event.thing.getDropItems();
+		int rnd = random(10, 50);
+		while (true)
+		{
+			for (int i = 0; i < rnd; ++i)
+			{
+				let spitem = Actor.spawn(items.name, _event.thing.pos);
+				spitem.vel.x = frandom(-10, 10);
+				spitem.vel.y = frandom(-10, 10);
+				spitem.vel.z = frandom(5, 20);
+			}
+			if (items.next)
+			{
+				items = items.next;
+				continue;
+			}
+			break;
+		}
+	}
+}
+
 Class GZC_FeelingGenerous : GZC_Effect
 {
 	override void init()
