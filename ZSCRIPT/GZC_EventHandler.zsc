@@ -149,6 +149,15 @@ class GZC_EventHandler : StaticEventHandler
 		}
 	}
 	
+	override void WorldThingDamaged(WorldEvent _event)
+	{
+		foreach(effect : active)
+		{
+			if (effect.life > effect.duration) continue;
+			effect.onWorldThingDamaged(_event);
+		}
+	}
+	
 	override void WorldLinePreActivated(WorldEvent _event)
 	{
 		foreach(effect : active)
