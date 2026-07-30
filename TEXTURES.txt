@@ -171,5 +171,5 @@ Texture ZC_DOOM25, 369, 180
 {
 	XScale 3
 	YScale 3
-	Patch M_DOOM25, 0, 0
+	Patch BOOTLOGO, 0, 0
 }
