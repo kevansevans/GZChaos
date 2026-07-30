@@ -18,6 +18,34 @@
 	}
 }*/
 
+class GZC_NoTarget : GZC_Effect
+{
+	override void init()
+	{
+		title = "No Target";
+		desc = "Enables No Target cheat on player";
+		duration = 35 * 60 * 5;
+	}
+	
+	override void onOpen()
+	{
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			iplayer.cheats |= CF_NoTarget;
+		}
+	}
+	
+	override void onClose()
+	{
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			iplayer.cheats &= ~(CF_NoTarget);
+		}
+	}
+}
+
 class GZC_NightVision : GZC_Effect
 {
 	override void init()
