@@ -1,3 +1,143 @@
+Class GZC_HalveEnemyHealth : GZC_Effect
+{
+	override void init()
+	{
+		title = "0.5x enemy health";
+		desc = "Reduces all enemy health by half";
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.health *= 0.5;
+		}
+	}
+}
+
+Class GZC_DecimateEnemyHealth : GZC_Effect
+{
+	override void init()
+	{
+		title = "0.1x enemy health";
+		desc = "Decimates all enemy health";
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.health *= 0.1;
+		}
+	}
+}
+
+Class GZC_DoubleEnemyHealth : GZC_Effect
+{
+	override void init()
+	{
+		title = "2x enemy health";
+		desc = "Reduces all enemy health by half";
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.health *= 2;
+		}
+	}
+}
+
+Class GZC_TripleEnemyHealth : GZC_Effect
+{
+	override void init()
+	{
+		title = "3x enemy health";
+		desc = "Reduces all enemy health by half";
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.health *= 3;
+		}
+	}
+}
+
+Class GZC_RandomEnemyHealth : GZC_Effect
+{
+	override void init()
+	{
+		title = "???x enemy health";
+		desc = "Picks a random value between 0.1x and 4x and multiplies all enemy health by that value";
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		double rnd = frandom(0.1, 4.0);
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.health *= rnd;
+		}
+	}
+}
+
+Class GZC_ShuffleEnemyHealth : GZC_Effect
+{
+	override void init()
+	{
+		title = "Random enemy health";
+		desc = "All enemies individually have their health randomized by 0.1x to 4.0";
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			
+			mo.health *= frandom(0.1, 4.0);
+		}
+	}
+}
+
 Class GZC_BarrelsOfNotSoMuchFun : GZC_Effect
 {
 	override void init()

@@ -1,3 +1,23 @@
+/*class GZC_TalkingPoopy : GZC_Effect
+{
+	override void init()
+	{
+		title = "Trash talking enemies";
+		desc = "Enemies talk poopy about your lame ass gamer skillz, you room temperature IQ troglodyte";
+		duration = 35 * 60 * 10;
+	}
+	
+	override void onWorldThingDied(WorldEvent _event)
+	{
+		let player = players[consoleplayer].mo;
+		player.A_StartSound("misc/chat");
+		
+		let poopnames = {""};
+		let pooptalk = {""};
+		
+		console.printfex(PRINT_CHAT, '' .. poopnames[random(0, poopnames.size() - 1)] .. ': ' .. pooptalk[random(0, pooptalk.size() - 1)]);
+	}
+}*/
 
 class GZC_Vampirism : GZC_Effect
 {
