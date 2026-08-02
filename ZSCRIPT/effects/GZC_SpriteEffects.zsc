@@ -1,3 +1,37 @@
+
+class GZC_MirrorSprites : GZC_Effect
+{
+	override void init()
+	{
+		title = "Mirrored sprites";
+		desc = "Flips sprites on their x axis visually";
+		duration = 35 * 60 * 3;
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.bxflip = !mo.bxflip;
+		}	
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.bxflip = def.bxflip;
+		}	
+	}
+}
+
 class GZC_IttyWeaponSprites : GZC_Effect
 {
 	override void init()

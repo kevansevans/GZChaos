@@ -3,7 +3,7 @@ class GZC_EnemiesNeedGlasses : GZC_Effect
 	override void init()
 	{
 		title = "Enemies need glasses";
-		desc = "Dramatically reduces enemy aim towards players";
+		desc = "Dramatically reduces enemy aim towards players when they attempt an attack";
 		duration = 35 * 60 * 3;
 	}
 	
