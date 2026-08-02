@@ -44,6 +44,7 @@ class GZC_InfoDraw : StaticEventHandler
 		int index = 0;
 		foreach (effect : drawlist)
 		{
+			if (!effect) continue;
 			drawEffectToScreen(effect, index, xscale, yscale);
 			++index;
 		}
@@ -61,7 +62,7 @@ class GZC_InfoDraw : StaticEventHandler
 		
 		if (150 + ((60 * (index + 1)) * yscale) > Screen.getHeight() - 150 + (120 * yscale))
 		{
-			Screen.DrawText(BIGFONT, fontcolor, 20 * xscale, yoffset, "And " .. GZC_Effect.getEffectCount() - index .. " more!", DTA_ScaleX, xscale, DTA_ScaleY, yscale);
+			Screen.DrawText(BIGFONT, fontcolor, 20 * xscale, yoffset, "And " .. GZC_EventHandler.getEffectCount() - index .. " more!", DTA_ScaleX, xscale, DTA_ScaleY, yscale);
 			return;
 		}
 		

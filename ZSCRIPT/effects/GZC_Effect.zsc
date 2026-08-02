@@ -22,7 +22,7 @@ enum GZC_GameComp
 	GZC_Chex
 }
 
-Class GZC_Effect : Thinker
+Class GZC_Effect : Object play
 {
 	bool ignore;
 	int duration;
@@ -62,21 +62,6 @@ Class GZC_Effect : Thinker
 	{
 		let cvarseed = Cvar.getCvar('GZC_ActiveSeed');
 		return cvarseed.getInt();
-	}
-	
-	clearscope static int getEffectCount()
-	{
-		int count = 0;
-		
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
-		{
-			++count;
-		}
-		
-		return count;
 	}
 	
 	play void adjustTimer(Double _amount)
@@ -304,7 +289,7 @@ Class GZC_EffectEffect : GZC_Effect
 	
 	override bool verify()
 	{
-		int count = GZC_Effect.getEffectCount();
+		int count = GZC_EventHandler.getEffectCount();
 		if (count <= 1) return false;
 	
 		return Super.verify();

@@ -37,7 +37,8 @@ class GZC_EventHandler : StaticEventHandler
 			def.destroy();
 		}
 		
-		console.printf(classnames.size() .. " Effects registered");
+		string effectcount = "\c[Purple]" .. classnames.size() .. " Effects registered";
+		console.printfex(PRINT_NONOTIFY, effectcount);
 		
 		//Active seed will launch with -1 if this isn't first set
 		let cvarseed = Cvar.getCvar('GZC_ActiveSeed');
@@ -109,11 +110,9 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldThingDied(WorldEvent _event)
 	{
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach (effect : active)
 		{
+			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
 			effect.onWorldThingDied(_event);
 		}
@@ -124,17 +123,16 @@ class GZC_EventHandler : StaticEventHandler
 		updateSeed();
 		
 		GZC_ShaderEffect.DisableShaders();
-		ThinkerIterator sh = ThinkerIterator.create('GZC_ShaderEffect');
-		GZC_ShaderEffect se;
-		while (se = GZC_ShaderEffect(sh.next())) se.onOpen();
-	
+		foreach (effect : active)
+		{
+			if (effect is 'GZC_ShaderEffect') effect.onOpen();
+		}
+			
 		if (_event.isSaveGame) return; //Only call onWorldLoad when it's a new map
 	
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach (effect : active)
 		{
+			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
 			effect.onWorldLoad(_event);
 		}
@@ -144,6 +142,7 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		foreach(effect : active)
 		{
+			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
 			effect.onWorldThingSpawn(_event);
 		}
@@ -153,6 +152,7 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		foreach(effect : active)
 		{
+			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
 			effect.onWorldThingDamaged(_event);
 		}
@@ -162,6 +162,7 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		foreach(effect : active)
 		{
+			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
 			effect.onWorldLinePreActivated(_event);
 		}
@@ -172,6 +173,7 @@ class GZC_EventHandler : StaticEventHandler
 		
 		foreach(effect : active)
 		{
+			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
 			effect.drawEffect(_event);
 		}
@@ -220,6 +222,7 @@ class GZC_EventHandler : StaticEventHandler
 		
 		foreach(effect : active)
 		{
+			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
 			bool value = effect.onWorldHitscanPreFired(_event);
 			if (value) result = value;
@@ -310,21 +313,25 @@ class GZC_EventHandler : StaticEventHandler
 	
 	void tickEvents()
 	{
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach (effect : active)
 		{
+			if (!effect) continue;
 			if (effect.closed) continue;
 			effect.onWorldTick();
 		}
+	}
+	
+	clearscope static int getEffectCount() 
+	{
+		let event = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
+		return event.active.size();
 	}
 	
 	void advanceMainTimer()
 	{
 		if (Cvar.getCvar("gzc_pausemaintimer").getBool()) return;
 		
-		int effectcount = GZC_Effect.getEffectCount();
+		int effectcount = GZC_EventHandler.getEffectCount();
 		int limit = Cvar.getCvar('GZC_MaxEffects').getInt();
 		
 		if (effectcount >= limit && limit != 0) return;
@@ -368,11 +375,9 @@ class GZC_EventHandler : StaticEventHandler
 			}
 		}
 		
-		ThinkerIterator it = ThinkerIterator.create("GZC_Effect");
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		foreach (effect : active)
 		{
+			if (!effect) continue;
 			effect.advanceEffect(effectrate);
 			if (effect.closed) continue;
 			if (effect.life >= effect.duration)
@@ -402,11 +407,9 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		double rate = 1.0;
 		
-		ThinkerIterator it = ThinkerIterator.create("GZC_TimerEffect");
-		GZC_TimerEffect effect;
-		
-		while (effect = GZC_TimerEffect(it.next()))
+		foreach (effect : active)
 		{
+			if (!effect) continue;
 			if (effect.ignore) continue;
 			if (effect.closed) continue;
 			rate *= effect.value;
@@ -419,11 +422,12 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		double rate = 1.0;
 		
-		ThinkerIterator it = ThinkerIterator.create("GZC_EffectModifier");
-		GZC_EffectModifier effect;
-		
-		while (effect = GZC_EffectModifier(it.next()))
+		foreach (effect : active)
 		{
+			if (!effect) continue;
+			
+			if (!(effect is "GZC_EffectModifier")) continue;
+			
 			if (effect.ignore) continue;
 			if (effect.closed) continue;
 			rate *= effect.value;
