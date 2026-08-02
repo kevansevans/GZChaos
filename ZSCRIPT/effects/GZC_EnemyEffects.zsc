@@ -1,3 +1,38 @@
+class GZC_EnemiesNeedGlasses : GZC_Effect
+{
+	override void init()
+	{
+		title = "Enemies need glasses";
+		desc = "Dramatically reduces enemy aim towards players";
+		duration = 35 * 60 * 3;
+	}
+	
+	//Despite this affecting the player in code, this is an enemy effect.
+	//This basically gives the player a blursphere on steroids
+	override void onOpen()
+	{
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			iplayer.mo.bShadow = true;
+			iplayer.mo.ShadowPenaltyFactor = 3.0;
+		}
+	}
+	
+	override void onClose()
+	{
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			
+			let def = getDefaultByType(iplayer.mo.getClass());
+			
+			iplayer.mo.bShadow = def.bShadow;
+			iplayer.mo.ShadowPenaltyFactor = def.ShadowPenaltyFactor;
+		}
+	}
+}
+
 Class GZC_HalveEnemyHealth : GZC_Effect
 {
 	override void init()
