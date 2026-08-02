@@ -1,4 +1,37 @@
 
+class GZC_TopsyTurvySprites : GZC_Effect
+{
+	override void init()
+	{
+		title = "Topsy turvey sprites";
+		desc = "Flips sprites on their y axis visually";
+		duration = 35 * 60 * 3;
+	}
+	
+	override void onOpen()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			mo.byflip = !mo.byflip;
+		}	
+	}
+	
+	override void onClose()
+	{
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			let def = getDefaultByType(mo.getClass());
+			mo.byflip = def.byflip;
+		}	
+	}
+}
+
 class GZC_MirrorSprites : GZC_Effect
 {
 	override void init()
