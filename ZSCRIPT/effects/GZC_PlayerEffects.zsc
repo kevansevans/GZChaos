@@ -18,6 +18,36 @@
 	}
 }*/
 
+class GZC_RubberGlue : GZC_Effect
+{
+	override void init()
+	{
+		title = "I'm rubber, you're glue";
+		desc = "Projectiles reflect off the player";
+		duration = 35 * 60 * 3;
+	}
+	
+	override void onOpen()
+	{
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			iplayer.mo.bReflective = true;
+			iplayer.mo.bMirrorReflect = true;
+		}
+	}
+	
+	override void onClose()
+	{
+		foreach (iplayer : players)
+		{
+			if (!iplayer.mo) continue;
+			iplayer.mo.bReflective = false;
+			iplayer.mo.bMirrorReflect = false;
+		}
+	}
+}
+
 class GZC_Flying : GZC_Effect
 {
 	override void init()
