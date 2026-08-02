@@ -8,7 +8,7 @@ void main()
 
     float scale = PI;
 	float timescale = (float(iTime) / 100.);
-    uv += vec2(sin(timescale + uv.y * scale),cos(timescale + uv.x * scale)) * 0.1;
+    uv += vec2(sin(timescale + uv.y * scale),cos(timescale + uv.x * scale)) * 0.025;
     vec4 col = texture(InputTexture, uv);
 
     FragColor = col;
