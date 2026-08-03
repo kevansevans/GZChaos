@@ -410,6 +410,9 @@ class GZC_EventHandler : StaticEventHandler
 		foreach (effect : active)
 		{
 			if (!effect) continue;
+			
+			if (!(effect is 'GZC_TimerEffect')) continue;
+			
 			if (effect.ignore) continue;
 			if (effect.closed) continue;
 			rate *= effect.value;
