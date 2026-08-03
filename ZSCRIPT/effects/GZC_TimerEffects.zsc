@@ -229,10 +229,8 @@ class GZC_TimerRunsOnKills : GZC_Effect
 		double timerate = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler')).calculateTimeRate();
 		adjustTimer(35.0 * timerate);
 		
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		let event = GZC_EventHandler(StaticEVentHandler.find('GZC_EventHandler'));
+		foreach (effect : event.active)
 		{
 			if (effect.type != GZC_Timed) continue;
 			
@@ -253,10 +251,8 @@ Class GZC_ResetEffectDuration : GZC_EffectEffect
 	
 	override void onOpen()
 	{
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		let event = GZC_EventHandler(StaticEVentHandler.find('GZC_EventHandler'));
+		foreach (effect : event.active)
 		{
 			if (effect.getClassName() == self.getClassName()) continue;
 			if (effect.life > effect.duration) continue;
@@ -278,10 +274,8 @@ class GZC_ShuffleEffectLife : GZC_EffectEffect
 	
 	override void onOpen()
 	{
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		let event = GZC_EventHandler(StaticEVentHandler.find('GZC_EventHandler'));
+		foreach (effect : event.active)
 		{
 			if (effect.getClassName() == self.getClassName()) continue;
 			if (effect.type != GZC_Timed) continue;
@@ -307,10 +301,8 @@ class GZC_SubtractTimeFromEffects : GZC_EffectEffect
 		int seconds = random(5, 30);
 		title = "Remove " .. seconds .. " seconds from effects";
 	
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		let event = GZC_EventHandler(StaticEVentHandler.find('GZC_EventHandler'));
+		foreach (effect : event.active)
 		{
 			if (effect.getClassName() == self.getClassName()) continue;
 			if (effect.type != GZC_Timed) continue;
@@ -337,10 +329,8 @@ class GZC_AddTimeFromEffects : GZC_EffectEffect
 		int seconds = random(5, 30);
 		title = "Add " .. seconds .. " seconds to effects";
 	
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		let event = GZC_EventHandler(StaticEVentHandler.find('GZC_EventHandler'));
+		foreach (effect : event.active)
 		{
 			if (effect.getClassName() == self.getClassName()) continue;
 			if (effect.type != GZC_Timed) continue;
@@ -365,10 +355,8 @@ class GZC_KillsReduce : GZC_Effect
 		let def = getDefaultByType(_event.thing.getClass());
 		int rate = 35 * max(1, int(def.health / 35));
 		
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		let event = GZC_EventHandler(StaticEVentHandler.find('GZC_EventHandler'));
+		foreach (effect : event.active)
 		{
 			if (effect.life > effect.duration) continue;
 			
@@ -392,10 +380,8 @@ class GZC_KillsIncrease : GZC_Effect
 		let def = getDefaultByType(_event.thing.getClass());
 		int rate = 35 * max(1, int(def.health / 35));
 		
-		ThinkerIterator it = ThinkerIterator.create('GZC_Effect');
-		GZC_Effect effect;
-		
-		while (effect = GZC_Effect(it.next()))
+		let event = GZC_EventHandler(StaticEVentHandler.find('GZC_EventHandler'));
+		foreach (effect : event.active)
 		{
 			if (effect.life > effect.duration) continue;
 			effect.life += rate;
