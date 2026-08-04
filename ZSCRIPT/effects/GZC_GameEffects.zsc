@@ -445,6 +445,7 @@ Class GZC_CompanionImp : DoomImp
 		if (gametic % (35 * 10) != 0) return;
 		
 		let player = self.master;
+		if (!player) player = GZC_Effect.getRandomPlayer();
 		if (self.distance3D(player) > 1024 || !(player.isVisible(self, true) && self.isVisible(player, true)))
 		{
 			Self.SetOrigin(player.pos, false);

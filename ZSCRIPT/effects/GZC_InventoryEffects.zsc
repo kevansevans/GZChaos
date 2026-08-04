@@ -10,6 +10,7 @@ class GZC_LootSplosion : GZC_Effect
 	override void onWorldThingDied(WorldEvent _event)
 	{
 		let items = _event.thing.getDropItems();
+		if (!items) return;
 		int rnd = random(10, 50);
 		while (true)
 		{
