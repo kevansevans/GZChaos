@@ -1,3 +1,67 @@
+class GZC_StickyKeys : GZC_Effect
+{
+	String rbind;
+	bool decrement;
+	
+	override void init()
+	{
+		title = "Sticky keys";
+		desc = "A random bind is \"jammed\" and needs to be pressed repeatedly to unjam";
+		duration = random(10, 30);
+		
+		Array<String> binds = {'+use', '+back', '+forward', '+moveleft', '+moveright', '+attack', '+altattack', '+speed'};
+		Array<String> probebinds = {'+jump', '+crouch', '+reload'}; //binds the player might not have bound, effect is kinda useless if the player doesn't use these ever
+		foreach (pbind : probebinds)
+		{
+			int a, b;
+			[a, b] = Bindings.getKeysForCommand(pbind);
+			if (a || b) binds.push(pbind);
+		}
+		
+		rbind = binds[random(0, binds.size() - 1)];
+		title = "Press " .. rbind.mid(1, rbind.length()) .. " " .. int(duration - life) .. ' times to unstick...';
+	}
+	
+	override void advanceEffect(Double _amount)
+	{
+		if (decrement)
+		{
+			++life;
+			if (life < duration) 
+			{
+				decrement = false;
+				title = "Press " .. rbind.mid(1, rbind.length()) .. " " .. int(duration - life) .. ' times to unstick...';
+			}
+		}
+		
+		if (life >= duration + (35 * 15))
+		{
+			deleteme = true;
+		}
+	}
+	
+	override bool onInputProcess(InputEvent _event)
+	{
+		if (deleteme) return false;
+		if (_event.type == InputEvent.Type_KeyDown)
+		{
+			let bind = Bindings.getBinding(_event.KeyScan);
+			if (bind ~== rbind) 
+			{
+				decrlife();
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	play void decrlife() unsafe(const)
+	{
+		decrement = true;
+	}
+}
+
 class GZC_NoStrafing : GZC_Effect
 {
 	override void init()
