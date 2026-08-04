@@ -1,4 +1,4 @@
-Class BEE : Actor
+Class BEE : GZC_ChaosMonster
 {
 	Default
 	{

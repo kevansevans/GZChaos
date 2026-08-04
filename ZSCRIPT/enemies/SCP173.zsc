@@ -1,4 +1,4 @@
-Class SCP173 : Actor
+Class SCP173 : GZC_ChaosMonster
 {
 	Default
 	{

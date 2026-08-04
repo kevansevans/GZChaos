@@ -1,3 +1,52 @@
+class GZC_ReplaceRandomEnemies : GZC_Effect
+{
+	override void init()
+	{
+		title = "Replace random enemies";
+		desc = "All enemies on the map have a 50% chance of getting replaced with some other enemy";
+	}
+	
+	override void onOpen()
+	{
+		Array<class<Actor> > vmons;
+		vmons.clear();
+		
+		foreach (atype : AllActorClasses)
+		{
+			let def = getDefaultByType(atype);
+			
+			if (!def.bIsMonster) continue;
+			if (def is 'GZC_ChaosMonster') continue;
+			
+			
+			vmons.push(atype);
+		}
+		
+		ThinkerIterator it = ThinkerIterator.create("Actor");
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (mo.bIsMonster && mo.health > 0 && random(0, 1))
+			{
+				let def = getDefaultByType(mo.getClass());
+				let ract = Actor.spawn(vmons[random(0, vmons.size() - 1)], mo.pos);
+				
+				ract.args[0] = mo.args[0];
+				ract.args[1] = mo.args[1];
+				ract.args[2] = mo.args[2];
+				ract.args[3] = mo.args[3];
+				ract.args[4] = mo.args[4];
+				ract.health *= double(mo.health) / double(def.health);
+				ract.angle = mo.angle;
+				ract.pitch = mo.pitch;
+				ract.roll = mo.roll;
+				ract.target = mo.target;
+			}
+		}
+	}
+}
+
 class GZC_DyingEnemiesAddEffects : GZC_Effect
 {
 	override void init()

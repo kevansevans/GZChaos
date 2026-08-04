@@ -1,5 +1,5 @@
 //Jitterskull from Ghoul's Forest 3
-Class Jitterskull : Actor
+Class Jitterskull : GZC_ChaosMonster
 {
 	Default
 	{

@@ -3,6 +3,7 @@ Class GZC_Cyberfuck : Cyberdemon
 	Default
 	{
 		-CountKill;
+		-IsMonster;
 		+NoGravity;
 		
 		Obituary "%o was struck by...";
