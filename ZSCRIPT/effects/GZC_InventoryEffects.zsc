@@ -7,26 +7,73 @@ class GZC_LootSplosion : GZC_Effect
 		duration = 35 * 60 * 10;
 	}
 	
+	Array<name> items;
+	Array<name> monsters;
+	override void onOpen()
+	{
+		items.clear();
+		
+		foreach (cls : AllActorClasses)
+		{
+			let def = getDefaultByType(cls);
+			if (!def.spawnstate.ValidateSpriteFrame() || !TexMan.getName(def.spawnstate.getSpriteTexture(0)).indexOf("TNT1")) continue;
+		
+			if (cls is "Inventory") 
+			{
+				items.push(cls.getClassName());
+			}
+			if (def.bIsMonster)
+			{
+				monsters.push(cls.getClassName());
+			}
+		}
+	}
+	
 	override void onWorldThingDied(WorldEvent _event)
 	{
-		let items = _event.thing.getDropItems();
-		if (!items) return;
-		int rnd = random(10, 50);
-		while (true)
+		int rnd = random(3, 5);
+		int prevroll = -1;
+		
+		while (rnd--)
 		{
-			for (int i = 0; i < rnd; ++i)
+			int rndindex = random(0, items.size() - 1);
+			if (rndindex == prevroll) continue;
+			
+			prevroll = rndindex;
+			spawnitem(_event.thing.pos, items[rndindex]);
+		}
+		
+		let ditems = _event.thing.getDropItems();
+		if (ditems) 
+		{
+			while (true)
 			{
-				let spitem = Actor.spawn(items.name, _event.thing.pos);
-				spitem.vel.x = frandom(-10, 10);
-				spitem.vel.y = frandom(-10, 10);
-				spitem.vel.z = frandom(5, 20);
+				spawnitem(_event.thing.pos, ditems.name);
+			
+				if (ditems.next)
+				{
+					ditems = ditems.next;
+					continue;
+				}
+				break;
 			}
-			if (items.next)
-			{
-				items = items.next;
-				continue;
-			}
-			break;
+		}
+		
+		if (!random(0, 99))
+		{
+			spawnitem(_event.thing.pos, monsters[random(0, monsters.size() - 1)]);
+		}
+	}
+	
+	void spawnitem(Vector3 _pos, Name _item, Int _override = -1)
+	{
+		int rnd = _override == -1 ? random(10, 15) : _override;
+		for (int i = 0; i < rnd; ++i)
+		{
+			let spitem = Actor.spawn(_item, _pos);
+			spitem.vel.x = frandom(-10, 10);
+			spitem.vel.y = frandom(-10, 10);
+			spitem.vel.z = frandom(5, 20);
 		}
 	}
 }
