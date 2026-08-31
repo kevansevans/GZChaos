@@ -214,12 +214,21 @@ Class GZC_Effect : Object play
 	}
 }
 
-class GZC_TestEffect : GZC_Effect
+class GZC_EffectInfo : Object
 {
-	override void init()
+	name effectname;
+	int life;
+	bool awarded;
+	
+	static GZC_Effectinfo create(GZC_Effect _effect)
 	{
-		title = "Test effect";
-		desc = "This is a test effect :D";
+		let info = new('GZC_EffectInfo');
+		
+		info.effectname = _effect.getClassName();
+		info.life = _effect.life;
+		info.awarded = _effect.awarded;
+		
+		return info;
 	}
 }
 

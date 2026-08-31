@@ -65,6 +65,8 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldTick()
 	{
+		if (gameaction == GA_Savegame || gameaction == GA_Autosave) cacheEffects();
+	
 		switch (gamestate)
 		{
 			case GS_TitleLevel:
@@ -122,6 +124,9 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		updateSeed();
 		
+		if (!_event.isSaveGame) cacheEffects();
+		else if (_event.isSaveGame) reloadEffects();
+		
 		GZC_ShaderEffect.DisableShaders();
 		foreach (effect : active)
 		{
@@ -136,6 +141,32 @@ class GZC_EventHandler : StaticEventHandler
 			if (effect.life > effect.duration) continue;
 			effect.onWorldLoad(_event);
 		}
+	}
+	
+	Array<GZC_EffectInfo> effectcache;
+	Array<Class<GZC_Effect> > historycopy;
+	void cacheEffects()
+	{
+		effectcache.clear();
+		
+		foreach (effect : active)
+		{
+			if (effect.deleteme) continue;
+			effectcache.push(GZC_EffectInfo.create(effect));
+		}
+		
+		history.copy(historycopy);
+		console.printf('Cached effects');
+	}
+	
+	void reloadEffects()
+	{
+		foreach (effect : active) effect.destroy();
+		active.clear();
+		history.copy(history);
+		
+		foreach (ieffect : effectcache) reloadEffect(ieffect);
+		console.printf('loaded effects');
 	}
 	
 	override void WorldThingSpawned(WorldEvent _event)
@@ -503,6 +534,16 @@ class GZC_EventHandler : StaticEventHandler
 			
 			break;
 		}
+	}
+	
+	void reloadEffect(GZC_EffectInfo _info)
+	{
+		let effect = GZC_Effect(new(_info.effectname));
+		effect.life = _info.life;
+		effect.awarded = _info.awarded;
+		
+		active.push(effect);
+		effect.init();
 	}
 	
 	void addEffectToHistory(Class<GZC_Effect> _effect)
