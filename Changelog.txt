@@ -1,17 +1,20 @@
 
-GZChaos 1.5
+UZChaos 1.5
 
 General Changes
-	- GZDoom 4.15 required
-	- Multiplayer support!
-		- This includes an added verifcation for effects that can only work
-		exclusively in single player or multiplayer.
+	- We're now UZChaos!
+	- UZDoom 5.0 required
+	- Refactored effect backend, significantly more stable.
+	- Multiplayer tolerance! I cannot promise this is perfect since it's really
+	difficult to coordinate with someone to test this, but y'all can try.
 	- Made toggling effects on and off in the options much more clear what state they're in
-	- Fixed "Can't have shit in detroit" from taking away critical GZChaos
+	- Effects in the toggle menu now come with a tool tip describing what they do
+	- Fixed "Can't have shit in detroit" from taking away critical UZChaos
 	tracking items.
 	- Fixed a bunch of monster attack effects from not properly verifying if it can be rolled
 	- Fixed a handful of major crashes that took the whole engine down with no error log
 	- Effects that are awarded because of an effect (IE roll for more effects) will now render with blue text to help distinguish them
+	- Reduced intensity of *Slime effect
 	
 New Effects
 	- ??? Effect Speed
@@ -21,6 +24,27 @@ New Effects
 	- Player gunshots randomly add effects
 	- Player projectiles randomly add effects
 	- Line actions randomly add effects
+	- Nightvision
+	- NoTarget
+	- I believe I can fly
+	- Lootsplosion
+	- 0.5x enemy health
+	- 0.1x enemy health
+	- 2x enemy health
+	- 3x enemy health
+	- ???x enemy health
+	- Random enemy health
+	- Enemies need glasses
+	- Topsy turvey sprites
+	- Mirrored sprites
+	- Hokey pokey sprites
+	- I'm rubber, you're glue
+	- Sticky keys
+	- All attacks are plasma
+	- Player gunshots randomly add effects
+	- Player projectiles randomly add effects
+	- Dying enemies randomly add effects
+	- Replace random enemies
 
 GZChaos 1.4
 

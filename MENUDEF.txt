@@ -19,7 +19,7 @@ OptionMenu "GZCMenuMain"
 {
 	Class "OptionMenuGZChaosMenu"
 	
-	Title "---GZChaos Options---"
+	Title "---UZChaos Options---"
 	
 	StaticText "Cosmetic options"
 	GZCBarTimer "Timer texture", "GZC_TimerBarClassName", ""
