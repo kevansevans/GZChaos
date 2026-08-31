@@ -489,6 +489,8 @@ Class GZC_GiveRandomInventory : GZC_Effect
 		
 		foreach(thing : AllActorClasses)
 		{
+			let def = getDefaultByType(thing);
+			if (!def.spawnstate.ValidateSpriteFrame() || !TexMan.getName(def.spawnstate.getSpriteTexture(0)).indexOf("TNT1")) continue;
 			if (thing is "inventory") items.push(thing);
 		}
 		
@@ -525,6 +527,8 @@ Class GZC_GiveRandomWeapon : GZC_Effect
 		
 		foreach(thing : AllActorClasses)
 		{
+			let def = getDefaultByType(thing);
+			if (!def.spawnstate.ValidateSpriteFrame() || !TexMan.getName(def.spawnstate.getSpriteTexture(0)).indexOf("TNT1")) continue;
 			if (thing is "weapon") items.push(thing);
 		}
 		

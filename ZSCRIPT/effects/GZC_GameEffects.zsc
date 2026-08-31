@@ -155,6 +155,7 @@ Class GZC_SpawnFriendlyMonster : GZC_Effect
 		foreach (type : AllActorClasses)
 		{
 			let def = getDefaultByType(type);
+			if (!def.spawnstate.ValidateSpriteFrame() || !TexMan.getName(def.spawnstate.getSpriteTexture(0)).indexOf("TNT1")) continue;
 			if (!def.bIsMonster) continue;
 			monsters.push(type);
 		}
