@@ -1,3 +1,57 @@
+class GZC_HurtFloorsHurtActors : GZC_Effect
+{
+	override void init()
+	{
+		duration = 35 * 60 * 5;
+		title = "Hurt floors hurt monsters";
+		desc = "All monsters will receive damage from floors";
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			if (!mo.cursector.damageamount) continue;
+			if (gametic % mo.cursector.damageinterval != 0) continue;
+			
+			mo.A_DamageSelf(mo.cursector.damageamount, mo.cursector.damagetype);
+			mo.A_Pain();
+		}
+	}
+}
+
+class GZC_HurtFloorsHealActors : GZC_Effect
+{
+	override void init()
+	{
+		duration = 35 * 60 * 2;
+		title = "Hurt floors heal monsters";
+		desc = "All monsters will receive health from floors";
+	}
+
+	override void onWorldTick()
+	{
+		ThinkerIterator it = ThinkerIterator.create('Actor');
+		Actor mo;
+		
+		while (mo = Actor(it.next()))
+		{
+			if (!mo.bIsMonster) continue;
+			if (mo.health <= 0) continue;
+			if (!mo.cursector.damageamount) continue;
+			if (gametic % mo.cursector.damageinterval != 0) continue;
+			
+			mo.health += mo.cursector.damageamount;
+			if (mo.health > mo.spawnhealth) mo.health = mo.spawnhealth;
+		}
+	}
+}
+
 class GZC_LineActionsAddEffects : GZC_Effect
 {
 	override void init()
