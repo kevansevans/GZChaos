@@ -47,7 +47,40 @@ class GZC_HurtFloorsHealActors : GZC_Effect
 			if (gametic % mo.cursector.damageinterval != 0) continue;
 			
 			mo.health += mo.cursector.damageamount;
-			if (mo.health > mo.spawnhealth) mo.health = mo.spawnhealth;
+			if (mo.health > mo.spawnhealth()) mo.health = mo.spawnhealth();
+		}
+	}
+}
+
+class GZC_HurtFloorsHealPlayer : GZC_Effect
+{
+	override void init()
+	{
+		duration = 35 * 60 * 5;
+		title = "Hurt floors heal player";
+		desc = "Inverts damage of hurt floors into healing floors";
+	}
+	
+	//Map<Sector, int> orgvalues;
+	
+	override void onOpen()
+	{
+		foreach (sec : level.sectors)
+		{
+			if (!sec.damageamount) continue;
+			
+			//orgvalues[sec] = sec.damageamount;
+			sec.damageamount *= -1;
+		}
+	}
+	
+	override void onClose()
+	{
+		foreach (sec : level.sectors)
+		{
+			if (!sec.damageamount) continue;
+			
+			sec.damageamount *= -1;
 		}
 	}
 }
