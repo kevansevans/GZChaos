@@ -1,7 +1,7 @@
 AddOptionMenu "OptionsMenu"
 {
-	Submenu "GZChaos: Main Options", "GZCMenuMain"
-	Submenu "GZChaos: Toggle Effects", "GZCMenuEffects"
+	Submenu "UZChaos: Main Options", "GZCMenuMain"
+	Submenu "UZChaos: Toggle Effects", "GZCMenuEffects"
 }
 
 OptionMenu "GZCMenuEffects"

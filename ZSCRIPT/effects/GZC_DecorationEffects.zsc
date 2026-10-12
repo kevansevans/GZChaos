@@ -3,7 +3,7 @@ Class GZC_HostileDecorations : GZC_Effect
 	override void init()
 	{
 		title = "Hostile decorations";
-		desc = "Decorations will randomly shoot random projectiles at you";
+		desc = "Decorations will randomly shoot random projectiles at you.";
 		duration = 35 * 60 * 5;
 	}
 
@@ -149,7 +149,7 @@ Class GZC_DuplicatingBarrels : GZC_Effect
 	override void init()
 	{
 		title = "Barrels duplicate like rabbits";
-		desc = "All barrels on the map will start duplicating";
+		desc = "All barrels on the map will start duplicating.";
 		duration = 35 * 30;
 	}
 
