@@ -152,6 +152,19 @@ Class GZC_DoubleAmmo : GZC_Effect
 		desc = "Ammunition costs are doubled";
 		duration = 35 * 60 * 3;
 	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_InfiniteAmmo');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		return super.verify();
+	}
 
 	override void onWorldTick()
 	{
@@ -197,6 +210,19 @@ Class GZC_InfiniteAmmo : GZC_Effect
 		title = "sv_infiniteammo 1";
 		desc = "Infinite ammo";
 		duration = 35 * 60 * 3;
+	}
+	
+	override bool verify()
+	{
+		let player = players[consoleplayer].mo;
+		
+		int count = 0;
+		ThinkerIterator it = ThinkerIterator.create('GZC_DoubleAmmo');
+		actor item;
+		while (item = Actor(it.next())) ++count;
+		if (count > 1) return false;
+		
+		return super.verify();
 	}
 
 	override void onWorldTick()
