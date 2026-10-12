@@ -39,6 +39,91 @@ class GZC_CoreThinker : Thinker
 	
 	override void Tick()
 	{
-		//No super!
+		//No super! Empty method on purpose just in case STAT_Static doesn't eliminate a Thinker's tick function
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Effect functions
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	void worldThingDied(WorldEvent _event)
+	{
+		foreach (effect : active)
+		{
+			if (!effect) continue;
+			if (effect.life > effect.duration) continue;
+			effect.onWorldThingDied(_event);
+		}
+	}
+	
+	void worldThingSpawned(WorldEvent _event)
+	{
+		foreach(effect : active)
+		{
+			if (!effect) continue;
+			if (effect.life > effect.duration) continue;
+			effect.onWorldThingSpawn(_event);
+		}
+	}
+	
+	void worldThingDamaged(WorldEvent _event)
+	{
+		foreach(effect : active)
+		{
+			if (!effect) continue;
+			if (effect.life > effect.duration) continue;
+			effect.onWorldThingDamaged(_event);
+		}
+	}
+	
+	void worldLinePreActivated(WorldEvent _event)
+	{
+		foreach(effect : active)
+		{
+			if (!effect) continue;
+			if (effect.life > effect.duration) continue;
+			effect.onWorldLinePreActivated(_event);
+		}
+	}
+	
+	bool WorldHitscanPreFired(WorldEvent _event)
+	{
+		bool result;
+		
+		foreach(effect : active)
+		{
+			if (!effect) continue;
+			if (effect.life > effect.duration) continue;
+			bool value = effect.onWorldHitscanPreFired(_event);
+			if (value) result = value;
+		}
+		
+		return result;
+	}
+	
+	ui bool InputProcess(InputEvent _event)
+	{
+		bool result = false;
+		
+		foreach(effect : active)
+		{
+			if (effect.life > effect.duration) continue;
+			bool value = effect.onInputProcess(_event);
+			if (value) result = true;
+		}
+		
+		let bind = Bindings.GetBinding(_event.keyscan);
+		
+		return result;
+	}
+	
+	ui void RenderOverlay(RenderEvent _event)
+	{
+		foreach(effect : active)
+		{
+			if (!effect) continue;
+			if (effect.life > effect.duration) continue;
+			effect.drawEffect(_event);
+		}
 	}
 }

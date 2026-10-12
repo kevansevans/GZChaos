@@ -111,7 +111,8 @@ class GZC_EventHandler : StaticEventHandler
 	override void WorldLoaded(WorldEvent _event)
 	{
 		updateSeed();
-		if (!core) core = GZC_CoreThinker.get();
+		if (!core && !_event.isSaveGame) core = GZC_CoreThinker.create();
+		else core = GZC_CoreThinker.gety();
 		
 		GZC_ShaderEffect.DisableShaders();
 		foreach (effect : core.active)
@@ -132,79 +133,43 @@ class GZC_EventHandler : StaticEventHandler
 	override void WorldThingDied(WorldEvent _event)
 	{
 		if (!core) return;
-	
-		foreach (effect : core.active)
-		{
-			if (!effect) continue;
-			if (effect.life > effect.duration) continue;
-			effect.onWorldThingDied(_event);
-		}
+		core.worldThingDied(_event);
 	}
 	
 	override void WorldThingSpawned(WorldEvent _event)
 	{
 		if (!core) return;
-	
-		foreach(effect : core.active)
-		{
-			if (!effect) continue;
-			if (effect.life > effect.duration) continue;
-			effect.onWorldThingSpawn(_event);
-		}
+		core.WorldThingSpawned(_event);
 	}
 	
 	override void WorldThingDamaged(WorldEvent _event)
 	{
 		if (!core) return;
-	
-		foreach(effect : core.active)
-		{
-			if (!effect) continue;
-			if (effect.life > effect.duration) continue;
-			effect.onWorldThingDamaged(_event);
-		}
+		core.WorldThingDamaged(_event);
 	}
 	
 	override void WorldLinePreActivated(WorldEvent _event)
 	{
 		if (!core) return;
-	
-		foreach(effect : core.active)
-		{
-			if (!effect) continue;
-			if (effect.life > effect.duration) continue;
-			effect.onWorldLinePreActivated(_event);
-		}
+		core.WorldLinePreActivated(_event);
 	}
 	
 	override void RenderOverlay(RenderEvent _event)
 	{
 		if (!core) return;
-		
-		foreach(effect : core.active)
-		{
-			if (!effect) continue;
-			if (effect.life > effect.duration) continue;
-			effect.drawEffect(_event);
-		}
-	
+		core.RenderOverlay(_event);
 	}
 	
 	override bool InputProcess(InputEvent _event)
 	{
-		bool result = false;
 		if (!core) return false;
-		
-		foreach(effect : core.active)
-		{
-			if (effect.life > effect.duration) continue;
-			bool value = effect.onInputProcess(_event);
-			if (value) result = true;
-		}
-		
-		let bind = Bindings.GetBinding(_event.keyscan);
-		
-		return result;
+		return core.InputProcess(_event);
+	}
+	
+	override bool WorldHitscanPreFired(WorldEvent _event)
+	{
+		if (!core) return false;
+		return core.WorldHitscanPreFired(_event);
 	}
 	
 	override void uiTick()
@@ -227,22 +192,6 @@ class GZC_EventHandler : StaticEventHandler
 		}
 	}
 	
-	override bool WorldHitscanPreFired(WorldEvent _event)
-	{
-		bool result;
-		if (!core) return false;
-		
-		foreach(effect : core.active)
-		{
-			if (!effect) continue;
-			if (effect.life > effect.duration) continue;
-			bool value = effect.onWorldHitscanPreFired(_event);
-			if (value) result = value;
-		}
-		
-		return result;
-	}
-	
 	//Purity checkers. If any mods are found, this disables incompatible effects
 	//from being rolled.
 	
@@ -255,38 +204,6 @@ class GZC_EventHandler : StaticEventHandler
 		if (!(player is 'GZC_PlayerClass'))
 		{
 			Cvar.getCvar("GZC_PurePlayer").setBool(false);
-		}
-	}
-	
-	override void CheckReplacement(ReplaceEvent _event)
-	{
-		if (_event.replacement)
-		{
-			if (_event.replacee is "weapon")
-			{
-				if (!(_event.replacement is "GZC_ChaosWeapon"))
-				{
-					Cvar.getCvar("GZC_PureWeapons").setBool(false);
-				}
-			}
-			else if (_event.replacee is "PlayerPawn")
-			{
-				if (!(_event.replacement is "GZC_PlayerClass"))
-				{
-					Cvar.getCvar("GZC_PurePlayer").setBool(false);
-				}
-			}
-			else
-			{
-				let def = getDefaultByType(_event.replacee);
-				if (def.painchance) //Hacky check, but default decorations don't have a painchance
-				{
-					if (!(_event.replacement is "GZC_ChaosMonster"))
-					{
-						Cvar.getCvar("GZC_PureActors").setBool(false);
-					}
-				}
-			}
 		}
 	}
 	
