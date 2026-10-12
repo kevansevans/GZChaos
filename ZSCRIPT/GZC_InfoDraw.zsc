@@ -30,8 +30,10 @@ class GZC_InfoDraw : StaticEventHandler
 		Array<GZC_Effect> drawlist;
 		drawlist.clear();
 		
-		let event = GZC_EventHandler(StaticEventHandler.find("GZC_EventHandler"));
-		foreach (e : event.active)
+		let core = GZC_CoreThinker.get();
+		if (!core) return;
+		
+		foreach (e : core.active)
 		{
 			if (e is 'GZC_HideEffects' && e.life < e.duration)
 			{
@@ -62,7 +64,7 @@ class GZC_InfoDraw : StaticEventHandler
 		
 		if (150 + ((60 * (index + 1)) * yscale) > Screen.getHeight() - 150 + (120 * yscale))
 		{
-			Screen.DrawText(BIGFONT, fontcolor, 20 * xscale, yoffset, "And " .. GZC_EventHandler.getEffectCount() - index .. " more!", DTA_ScaleX, xscale, DTA_ScaleY, yscale);
+			Screen.DrawText(BIGFONT, fontcolor, 20 * xscale, yoffset, "And " .. GZC_CoreThinker.getActiveEffectCount() - index .. " more!", DTA_ScaleX, xscale, DTA_ScaleY, yscale);
 			return;
 		}
 		
@@ -125,11 +127,13 @@ Class GZC_TimerDisplay : EventHandler
 	override void RenderUnderlay(RenderEvent event)
 	{
 		if (gamestate != GS_Level) return;
-	
 		if (Cvar.getCvar("GZC_HideEverything", players[consoleplayer]).getBool()) return;
 	
 		let event = GZC_EventHandler(StaticEventHandler.find("GZC_EventHandler"));
-		foreach (effect : event.active)
+		let core = GZC_CoreThinker.get();
+		if (!core) return;
+		
+		foreach (effect : core.active)
 		{
 			if (effect is 'GZC_HideTimer' && effect.life < effect.duration) return;
 		}

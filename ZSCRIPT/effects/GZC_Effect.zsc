@@ -22,7 +22,7 @@ enum GZC_GameComp
 	GZC_Chex
 }
 
-Class GZC_Effect : Object play
+Class GZC_Effect : Thinker
 {
 	bool ignore;
 	int duration;
@@ -38,6 +38,11 @@ Class GZC_Effect : Object play
 	bool deleteme;
 	bool awarded;
 	GZC_GameComp gamecomp;
+	
+	override void PostBeginPlay()
+	{
+		self.changeStatNum(STAT_STATIC);
+	}
 	
 	virtual void init()
 	{
@@ -298,7 +303,7 @@ Class GZC_EffectEffect : GZC_Effect
 	
 	override bool verify()
 	{
-		int count = GZC_EventHandler.getEffectCount();
+		int count = GZC_CoreThinker.getActiveEffectCount();
 		if (count <= 1) return false;
 	
 		return Super.verify();

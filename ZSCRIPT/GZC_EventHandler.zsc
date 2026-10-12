@@ -2,20 +2,18 @@ class GZC_EventHandler : StaticEventHandler
 {
 	Dictionary EffectProperties;
 	Array<Class<GZC_Effect> > effects;
-	Array<Class<GZC_Effect> > history;
-	Array<GZC_Effect> active;
 	Array<String> classnames;
 	
 	double time;
 	double timelimit;
+	
+	GZC_CoreThinker core;
 	
 	override void OnRegister()
 	{
 		console.printf("Let's make some noise");
 	
 		effects.clear();
-		active.clear();
-		history.clear();
 		classnames.clear();
 		
 		foreach (classtype : AllClasses)
@@ -46,6 +44,8 @@ class GZC_EventHandler : StaticEventHandler
 		cvarseed.setInt(rng);
 		
 		EffectProperties = Dictionary.fromString(Cvar.getCvar("GZC_EffectProperties").getString());
+		
+		if (!core) core = GZC_CoreThinker.create();
 	}
 
 	override void NewGame()
@@ -55,8 +55,8 @@ class GZC_EventHandler : StaticEventHandler
 		let debug = Cvar.getCvar('GZC_LastRolledEffect');
 		debug.setString("none");
 		
-		active.clear();
-		history.clear();
+		if (!core) core = GZC_CoreThinker.create();
+		else core = GZC_CoreThinker.get();
 		
 		time = 0;
 		
@@ -65,8 +65,6 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldTick()
 	{
-		if (gameaction == GA_Savegame || gameaction == GA_Autosave) cacheEffects();
-	
 		switch (gamestate)
 		{
 			case GS_TitleLevel:
@@ -110,32 +108,20 @@ class GZC_EventHandler : StaticEventHandler
 		return false;
 	}
 	
-	override void WorldThingDied(WorldEvent _event)
-	{
-		foreach (effect : active)
-		{
-			if (!effect) continue;
-			if (effect.life > effect.duration) continue;
-			effect.onWorldThingDied(_event);
-		}
-	}
-	
 	override void WorldLoaded(WorldEvent _event)
 	{
 		updateSeed();
-		
-		if (!_event.isSaveGame) cacheEffects();
-		else if (_event.isSaveGame) reloadEffects();
+		if (!core) core = GZC_CoreThinker.get();
 		
 		GZC_ShaderEffect.DisableShaders();
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (effect is 'GZC_ShaderEffect') effect.onOpen();
 		}
 			
 		if (_event.isSaveGame) return; //Only call onWorldLoad when it's a new map
 	
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
@@ -143,35 +129,23 @@ class GZC_EventHandler : StaticEventHandler
 		}
 	}
 	
-	Array<GZC_EffectInfo> effectcache;
-	Array<Class<GZC_Effect> > historycopy;
-	void cacheEffects()
+	override void WorldThingDied(WorldEvent _event)
 	{
-		effectcache.clear();
-		
-		foreach (effect : active)
-		{
-			if (effect.deleteme) continue;
-			effectcache.push(GZC_EffectInfo.create(effect));
-		}
-		
-		history.copy(historycopy);
-		console.printf('Cached effects');
-	}
+		if (!core) return;
 	
-	void reloadEffects()
-	{
-		foreach (effect : active) effect.destroy();
-		active.clear();
-		history.copy(history);
-		
-		foreach (ieffect : effectcache) reloadEffect(ieffect);
-		console.printf('loaded effects');
+		foreach (effect : core.active)
+		{
+			if (!effect) continue;
+			if (effect.life > effect.duration) continue;
+			effect.onWorldThingDied(_event);
+		}
 	}
 	
 	override void WorldThingSpawned(WorldEvent _event)
 	{
-		foreach(effect : active)
+		if (!core) return;
+	
+		foreach(effect : core.active)
 		{
 			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
@@ -181,7 +155,9 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldThingDamaged(WorldEvent _event)
 	{
-		foreach(effect : active)
+		if (!core) return;
+	
+		foreach(effect : core.active)
 		{
 			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
@@ -191,7 +167,9 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void WorldLinePreActivated(WorldEvent _event)
 	{
-		foreach(effect : active)
+		if (!core) return;
+	
+		foreach(effect : core.active)
 		{
 			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
@@ -201,8 +179,9 @@ class GZC_EventHandler : StaticEventHandler
 	
 	override void RenderOverlay(RenderEvent _event)
 	{
+		if (!core) return;
 		
-		foreach(effect : active)
+		foreach(effect : core.active)
 		{
 			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
@@ -214,8 +193,9 @@ class GZC_EventHandler : StaticEventHandler
 	override bool InputProcess(InputEvent _event)
 	{
 		bool result = false;
+		if (!core) return false;
 		
-		foreach(effect : active)
+		foreach(effect : core.active)
 		{
 			if (effect.life > effect.duration) continue;
 			bool value = effect.onInputProcess(_event);
@@ -236,7 +216,7 @@ class GZC_EventHandler : StaticEventHandler
 				return;
 			case GS_Level:
 				
-				foreach(effect : active)
+				foreach(effect : core.active)
 				{
 					if (!effect) continue;
 					if (effect.life > effect.duration) continue;
@@ -250,8 +230,9 @@ class GZC_EventHandler : StaticEventHandler
 	override bool WorldHitscanPreFired(WorldEvent _event)
 	{
 		bool result;
+		if (!core) return false;
 		
-		foreach(effect : active)
+		foreach(effect : core.active)
 		{
 			if (!effect) continue;
 			if (effect.life > effect.duration) continue;
@@ -328,7 +309,7 @@ class GZC_EventHandler : StaticEventHandler
 					let effect = GZC_Effect(new(cname));
 					effect.init();
 					effect.onOpen();
-					active.push(effect);
+					core.active.push(effect);
 					
 					if (!effect.verify())
 					{
@@ -344,7 +325,7 @@ class GZC_EventHandler : StaticEventHandler
 	
 	void tickEvents()
 	{
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (!effect) continue;
 			if (effect.closed) continue;
@@ -352,17 +333,14 @@ class GZC_EventHandler : StaticEventHandler
 		}
 	}
 	
-	clearscope static int getEffectCount() 
-	{
-		let event = GZC_EventHandler(StaticEventHandler.find('GZC_EventHandler'));
-		return event.active.size();
-	}
-	
 	void advanceMainTimer()
 	{
 		if (Cvar.getCvar("gzc_pausemaintimer").getBool()) return;
 		
-		int effectcount = GZC_EventHandler.getEffectCount();
+		let core = GZC_CoreThinker.get();
+		if (!core) return;
+		
+		int effectcount = GZC_CoreThinker.getActiveEffectCount();
 		int limit = Cvar.getCvar('GZC_MaxEffects').getInt();
 		
 		if (effectcount >= limit && limit != 0) return;
@@ -371,7 +349,7 @@ class GZC_EventHandler : StaticEventHandler
 	
 		double timerrate = calculateTimeRate();
 
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (effect is 'GZC_TimerRunsOnKills')
 			{
@@ -397,7 +375,7 @@ class GZC_EventHandler : StaticEventHandler
 		
 		double effectrate = calculateEffectRate();
 		
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (effect is 'GZC_TimerRunsOnKills')
 			{
@@ -406,7 +384,7 @@ class GZC_EventHandler : StaticEventHandler
 			}
 		}
 		
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (!effect) continue;
 			effect.advanceEffect(effectrate);
@@ -421,24 +399,24 @@ class GZC_EventHandler : StaticEventHandler
 	
 	void clearDeadEffects()
 	{
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (!effect) continue;
 			if (effect.deleteme)
 			{
-				active.delete(active.find(effect), 1);
+				core.active.delete(core.active.find(effect), 1);
 				effect.destroy();
 			}
 		}
 		
-		active.shrinkToFit();
+		core.active.shrinkToFit();
 	}
 	
 	double calculateTimeRate()
 	{
 		double rate = 1.0;
 		
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (!effect) continue;
 			
@@ -456,7 +434,7 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		double rate = 1.0;
 		
-		foreach (effect : active)
+		foreach (effect : core.active)
 		{
 			if (!effect) continue;
 			
@@ -485,10 +463,10 @@ class GZC_EventHandler : StaticEventHandler
 			
 			let effect = effects[random[GZ_Chaos](0, effects.size() - 1)];
 
-			if (history.size() != 0 && _awarded == false)
+			if (core.history.size() != 0 && _awarded == false)
 			{
 				bool match = false;
-				foreach (prev : history)
+				foreach (prev : core.history)
 				{
 					if (prev == effect)
 					{
@@ -499,10 +477,10 @@ class GZC_EventHandler : StaticEventHandler
 				if (match) continue;
 			}
 			
-			if (active.size() != 0)
+			if (core.active.size() != 0)
 			{
 				bool match = false;
-				foreach (eff : active)
+				foreach (eff : core.active)
 				{
 					if (eff.getClassName() == effect.getClassName())
 					{
@@ -526,7 +504,7 @@ class GZC_EventHandler : StaticEventHandler
 			}
 			
 			addEffectToHistory(effect);
-			active.push(rolled);
+			core.active.push(rolled);
 			
 			rolled.awarded = _awarded;
 			rolled.duration *= Cvar.getCvar("GZC_EffectDurationScale").getFloat();
@@ -542,14 +520,14 @@ class GZC_EventHandler : StaticEventHandler
 		effect.life = _info.life;
 		effect.awarded = _info.awarded;
 		
-		active.push(effect);
+		core.active.push(effect);
 		effect.init();
 	}
 	
 	void addEffectToHistory(Class<GZC_Effect> _effect)
 	{
-		history.insert(0, _effect);
-		history.resize(Cvar.getCvar('GZC_MemoryBuffer').getInt());
+		core.history.insert(0, _effect);
+		core.history.resize(Cvar.getCvar('GZC_MemoryBuffer').getInt());
 	}
 	
 	void updateSeed()

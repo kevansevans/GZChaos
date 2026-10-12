@@ -48,6 +48,7 @@ version "5.0.0"
 
 #include "ZSCRIPT/morphs/DogMode.zsc"
 
+#include "ZSCRIPT/GZC_CoreThinker.zsc"
 #include "ZSCRIPT/GZC_EventHandler.zsc"
 #include "ZSCRIPT/GZC_InfoDraw.zsc"
 #include "ZSCRIPT/GZC_OptionsMenu.zsc"

@@ -1,0 +1,44 @@
+class GZC_CoreThinker : Thinker
+{
+	Array<Class<GZC_Effect> > history;
+	Array<GZC_Effect> active;
+
+	static GZC_CoreThinker create()
+	{
+		console.printf("AAAAAHHHHH");
+		let ct = new('GZC_CoreThinker');
+		ct.active.clear();
+		ct.history.clear();
+		return ct;
+	}
+
+	clearscope static GZC_CoreThinker get()
+	{
+		ThinkerIterator it = ThinkerIterator.create('GZC_CoreThinker', STAT_Static);
+		GZC_CoreThinker ct;
+		
+		while (ct = GZC_CoreThinker(it.next()))
+		{
+			if (ct) break;
+			else throwAbortException("Core Thinker has not been created! If you're seeing this, tell kev!");
+		}
+		
+		return ct;
+	}
+	
+	clearscope static int getActiveEffectCount()
+	{
+		let ct = GZC_CoreThinker.get();
+		return ct.active.size();
+	}
+
+	override void PostBeginPlay()
+	{
+		ChangeStatNum(STAT_STATIC);
+	}
+	
+	override void Tick()
+	{
+		//No super!
+	}
+}
