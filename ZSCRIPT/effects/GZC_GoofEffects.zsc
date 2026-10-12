@@ -1,0 +1,40 @@
+class GZC_BadToTheBone : GZC_Effect
+{
+	override void init()
+	{
+		title = "Holy shit a skeleton!";
+		desc = "DA NA NA NA!";
+		duration = 35 * 30;
+		type = GZC_Instant;
+	}
+	
+	vector2 scratio;
+	bool xmirrored;
+	bool ymirrored;
+	
+	override void OnOpen()
+	{
+		scratio.x = Screen.getWidth() / 498.0;
+		scratio.y = Screen.getHeight() / 281.0;
+		xmirrored = random(0, 1) == 1 ? true : false;
+		ymirrored = random(0, 1) == 1 ? true : false;
+	
+		foreach (pinfo : players)
+		{
+			if (!pinfo || !pinfo.mo) continue;
+			pinfo.mo.A_StartSound("boner/riff", Chan_Auto);
+		}
+	}
+	
+	ui int frame;
+	
+	override void drawEffect(RenderEvent _event)
+	{
+		int speedratio = 4;
+		if (frame++ > (30 * speedratio)) return;
+		let tname = "SKEL" .. String.Format("%04d", int(frame / speedratio));
+		let cframe = TexMan.checkForTexture(tname);
+		
+		Screen.drawTexture(cframe, false, 0, 0, DTA_ScaleX, scratio.x, DTA_ScaleY, scratio.y, DTA_FlipX, xmirrored, DTA_FlipY, ymirrored);
+	}
+}

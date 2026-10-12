@@ -825,7 +825,7 @@ Class GZC_ShuffleAmmoTypes : GZC_Effect
 	}
 }
 
-Class GZC_LimpProjectiles : GZC_Effect
+Class GZC_LimpEnemyProjectiles : GZC_Effect
 {
 	override void init()
 	{
@@ -837,6 +837,25 @@ Class GZC_LimpProjectiles : GZC_Effect
 	override void onWorldThingSpawn(WorldEvent _event)
 	{
 		if (!_event.thing) return;
+		if (_event.thing.target is "PlayerPawn") return;
+		if (!_event.thing.bMissile) return;
+		_event.thing.bNoGravity = false;
+	}
+}
+
+Class GZC_LimpPlayerProjectiles : GZC_Effect
+{
+	override void init()
+	{
+		title = "Limp player projectiles";
+		desc = "Playerprojectiles are subject to gravity";
+		duration = 35 * 60 * 3;
+	}
+
+	override void onWorldThingSpawn(WorldEvent _event)
+	{
+		if (!_event.thing) return;
+		if (!(_event.thing.target is "PlayerPawn")) return;
 		if (!_event.thing.bMissile) return;
 		_event.thing.bNoGravity = false;
 	}

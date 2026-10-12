@@ -122,3 +122,4 @@ diabolist/plumeexplode dsplumxp
 $limit diabolist/plumeexplode 4
 
 Josh/Belch "Sounds/JELCH.ogg"
+boner/riff "Sounds/boneriff.ogg"
