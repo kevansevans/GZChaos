@@ -820,6 +820,7 @@ Class GZC_ThirdPerson : GZC_Effect
 	}
 	
 	Actor ChaseCam;
+	Actor pshadow;
 	
 	void camerainit()
 	{
@@ -829,6 +830,8 @@ Class GZC_ThirdPerson : GZC_Effect
 		chasecam.bNoGravity = true;
 		chasecam.target = player;
 		player.SetCamera(chasecam);
+		
+		pshadow = Actor.spawn('Actor');
 	}
 	
 	override void onOpen()
@@ -849,8 +852,10 @@ Class GZC_ThirdPerson : GZC_Effect
 		FLineTraceData shot;
 		player.LineTrace(player.angle, -64, player.pitch, 0, player.viewheight, 0, 0, shot);
 		
+		pshadow.setOrigin(player.pos, true);
+		
 		chasecam.setOrigin(shot.HitLocation, true);
-		chasecam.A_FaceTarget();
+		chasecam.A_Face(pshadow);
 	}
 	
 	override void onClose()

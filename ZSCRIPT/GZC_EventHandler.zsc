@@ -112,7 +112,7 @@ class GZC_EventHandler : StaticEventHandler
 	{
 		updateSeed();
 		if (!core && !_event.isSaveGame) core = GZC_CoreThinker.create();
-		else core = GZC_CoreThinker.gety();
+		else core = GZC_CoreThinker.get();
 		
 		GZC_ShaderEffect.DisableShaders();
 		foreach (effect : core.active)
