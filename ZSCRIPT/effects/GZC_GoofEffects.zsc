@@ -4,7 +4,7 @@ class GZC_BadToTheBone : GZC_Effect
 	{
 		title = "Holy shit a skeleton!";
 		desc = "DA NA NA NA!";
-		duration = 35 * 30 * 10;
+		duration = 35 * 60 * 10;
 	}
 	
 	int thresh;
