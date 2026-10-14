@@ -15,6 +15,9 @@ General Changes
 	- Fixed a handful of major crashes that took the whole engine down with no error log
 	- Effects that are awarded because of an effect (IE roll for more effects) will now render with blue text to help distinguish them
 	- Reduced intensity of *Slime effect
+	- SV_InfiniteAmmo 1 and SV_InfiniteAmmo -1 cannot roll together
+	- Effect info display better respects message scale
+	- Limp enemy projectiles only effects non-player projectiles
 	
 New Effects
 	- ??? Effect Speed
@@ -45,6 +48,11 @@ New Effects
 	- Player projectiles randomly add effects
 	- Dying enemies randomly add effects
 	- Replace random enemies
+	- Hurt floors hurt monsters
+	- Hurt floors heal monsters
+	- Hurt floors heal player
+	- Limp Player Projectiles
+	- Holy shit a skeleton!
 
 GZChaos 1.4
 

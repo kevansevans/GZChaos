@@ -5,7 +5,6 @@ class GZC_CoreThinker : Thinker
 
 	static GZC_CoreThinker create()
 	{
-		console.printf("AAAAAHHHHH");
 		let ct = new('GZC_CoreThinker');
 		ct.active.clear();
 		ct.history.clear();
